@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router": "^5.1.5",
     "prettier": "^2.0.4"
   }
 }
