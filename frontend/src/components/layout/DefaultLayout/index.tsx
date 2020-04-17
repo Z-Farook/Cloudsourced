@@ -2,17 +2,19 @@ import React from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 
+import { Layout } from "antd";
+
 interface IProps {}
 
 const DefaultLayout: React.FC<IProps> = (props) => {
   return (
-    <>
-      <Header/>
-      <section>
+    <Layout>
+      <Header />
+      <Layout.Content style={{ backgroundColor: "white" }}>
         {props.children}
-      </section>
-      <Footer/>
-    </>
+      </Layout.Content>
+      <Footer />
+    </Layout>
   );
 };
 
