@@ -1,13 +1,18 @@
 import React from "react";
-import { Route, BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 interface IProps {}
 
 const MainRouter: React.FC<IProps> = (props) => {
   return (
     <Router>
-      <Route path="/" exact component={LandingPage} />
+      <Switch>
+        <Route path="/" exact component={LandingPage} />
+
+        <Route component={NotFoundPage} />
+      </Switch>
     </Router>
   );
 };
