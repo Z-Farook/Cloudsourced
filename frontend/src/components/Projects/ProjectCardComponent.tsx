@@ -4,16 +4,18 @@ import React from "react";
 import { Card, Avatar } from "antd";
 import {SettingOutlined, EditOutlined, EllipsisOutlined, MoreOutlined, HeartFilled, ShareAltOutlined, DownOutlined} from '@ant-design/icons';
 import Meta from "antd/lib/card/Meta";
-interface IProps {}
+import { ProjectCard } from "../../interfaces/ProjectCard";
+interface IProps {data:ProjectCard}
 
-const ProjectCardComponent: React.FC<IProps> = (props) => {
+const ProjectCardComponent: React.FC<IProps> = (props: {data: ProjectCard}) => {
+
   return (
  <Card
     style={{ width: 300 }}
     cover={
       <img
         alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+        src={props.data.imageSource}
       />
     }
     actions={[
@@ -21,14 +23,14 @@ const ProjectCardComponent: React.FC<IProps> = (props) => {
       <ShareAltOutlined key="share" />,
       <DownOutlined key="ellipsis" />,
     ]}
-    title="Projectname"
+    title={props.data.title}
     extra={<MoreOutlined />}
     
   >
     <Meta
       avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-      title="Typescript"
-      description="This is the description of a project."
+      title={props.data.language}
+      description={props.data.description}
     />
   </Card>
   );
