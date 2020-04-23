@@ -2,7 +2,7 @@ import React from "react";
 
 
 import { Card, Avatar } from "antd";
-import {SettingOutlined, EditOutlined, EllipsisOutlined, MoreOutlined, HeartFilled, ShareAltOutlined, DownOutlined} from '@ant-design/icons';
+import {MoreOutlined, HeartFilled, ShareAltOutlined, DownOutlined} from '@ant-design/icons';
 import Meta from "antd/lib/card/Meta";
 import { ProjectCard } from "../../interfaces/ProjectCard";
 interface IProps {data:ProjectCard}
