@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class Service<Entity, P extends JpaRepository<Entity, Long>> implements  ServiceInterface<Entity> {
@@ -11,8 +12,8 @@ public class Service<Entity, P extends JpaRepository<Entity, Long>> implements  
     public final P repository;
 
     @Override
-    public Entity getOneById(Long id) {
-        return repository.getOne(id);
+    public Optional<Entity> getOneById(Long id) {
+        return repository.findById(id);
     }
 
     @Override
@@ -32,7 +33,10 @@ public class Service<Entity, P extends JpaRepository<Entity, Long>> implements  
 
     @Override
     public void delete(Long id) {
-        repository.delete(getOneById(id));
+        if(getOneById(id).isPresent()){
+            repository.delete(getOneById(id).get());
+        }
+
     }
 
 }

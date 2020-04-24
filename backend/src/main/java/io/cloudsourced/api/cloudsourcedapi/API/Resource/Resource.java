@@ -6,28 +6,30 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class Resource<Entity, S extends Service<Entity, P>, P extends JpaRepository<Entity, Long>> implements ResourceInterface<Entity>{
 
     public final S service;
 
-    @GetMapping("byId")
+    @GetMapping("{id}")
     @Override
-    public Entity getOneById(@PathVariable Long id) {
+    public Optional<Entity> getOneById(@PathVariable Long id) {
         return service.getOneById(id);
     }
 
-    @PostMapping("new")
+    @PostMapping("")
     @Override
-    public Entity createNew(Entity entity) {
+    public Entity createNew(@RequestBody Entity entity) {
         return service.save(entity);
     }
 
     @Override
-    @GetMapping("getAll")
+    @GetMapping("")
     public List<Entity> All() {
         return service.getAll();
     }
