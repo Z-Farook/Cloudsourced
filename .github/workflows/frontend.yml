@@ -6,10 +6,10 @@ name: Frontend
 on:
   push:
     paths: 
-      - "frontend/"
+      - "frontend/**"
   pull_request:
     paths: 
-      - "frontend/"
+      - "frontend/**"
 
 jobs:
   build:
