@@ -1,4 +1,13 @@
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.hibernate.ddl-auto=create
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/app
 spring.datasource.username=root
-spring.datasource.password=MySecret
+spring.datasource.password=mysecret
+
+
+### spring.jpa.hibernate.ddl-auto=update
+### or
+### spring.jpa.hibernate.ddl-auto=create
+### Updates updates the database if neded, create makes the database tables, dropping previous data.
