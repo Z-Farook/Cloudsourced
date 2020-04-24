@@ -6,10 +6,10 @@ name: Backend
 on:
   push:
     paths: 
-      - "backend/"
+      - "backend/**"
   pull_request:
     paths: 
-      - "backend/"
+      - "backend/**"
 
 jobs:
   build:
