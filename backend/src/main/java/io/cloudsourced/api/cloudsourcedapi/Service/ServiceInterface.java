@@ -1,6 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
-        import java.util.List;
+import java.util.List;
 
 public interface ServiceInterface<Entity> {
     public Entity getOneById(Long id);

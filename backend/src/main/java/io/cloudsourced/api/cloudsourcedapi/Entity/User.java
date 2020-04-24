@@ -8,7 +8,9 @@ import javax.persistence.*;
 @Data
 @Table(name="tbl_user")
 public class User {
-    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
 
 }
