@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./index.scss";
 import { Card, Avatar } from "antd";
 import {
   MoreOutlined,
@@ -14,15 +14,22 @@ export interface IProps {
   imageSource: string;
   language: string;
   description: string;
+  avatarSource: string;
 }
 
 const ProjectCard: React.FC<IProps> = (props) => {
-  const { description, imageSource, language, title } = props;
+  const { description, imageSource, language, title, avatarSource } = props;
 
   return (
     <Card
       style={{ width: 300 }}
-      cover={<img alt="example" src={imageSource} />}
+      cover={
+        <img
+          alt="example"
+          style={{ width: "calc(100% - 2px)", height: "175px", margin: "auto" }}
+          src={imageSource}
+        />
+      }
       actions={[
         <HeartFilled key="favorite" />,
         <ShareAltOutlined key="share" />,
@@ -32,9 +39,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
       extra={<MoreOutlined />}
     >
       <Meta
-        avatar={
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        }
+        avatar={<Avatar src={avatarSource} />}
         title={language}
         description={description}
       />

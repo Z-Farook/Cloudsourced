@@ -13,7 +13,7 @@ const DefaultLayout: React.FC<IProps> = (props) => {
       <Layout.Content style={{ backgroundColor: "white" }}>
         {props.children}
       </Layout.Content>
-      <Footer />
+      {/* <Footer /> */}
     </Layout>
   );
 };

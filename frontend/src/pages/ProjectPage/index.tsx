@@ -1,28 +1,29 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography } from "antd";
-import ProjectCard, {
-  IProps as IProjectCardProps,
-} from "../ProjectPage/ProjectCard";
-
+import { Typography, Row, Col } from "antd";
+import ProjectCard from "../ProjectPage/ProjectCard";
+import { projectMocks } from "../ProjectPage/projectMocks";
+import "./index.scss";
 interface IProps extends RouteComponentProps {}
 
 const ProjectPage: React.FC<IProps> = (props) => {
-  const mockdata: IProjectCardProps = {
-    title: "Project",
-    imageSource:
-      "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
-    language: "Typescript",
-    description: "project description here.",
-  };
-
   return (
     <DefaultLayout>
       <div style={{ padding: 20 }}>
         <Typography.Title>Projecten</Typography.Title>
       </div>
-      <ProjectCard {...mockdata}></ProjectCard>
+      <div className="Grid">
+        <Row justify="center" gutter={[24, 24]}>
+          {projectMocks.map((v) => {
+            return (
+              <Col>
+                <ProjectCard {...v}></ProjectCard>
+              </Col>
+            );
+          })}
+        </Row>
+      </div>
     </DefaultLayout>
   );
 };
