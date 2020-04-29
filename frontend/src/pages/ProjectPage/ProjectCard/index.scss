@@ -1,0 +1,12 @@
+.ant-card-meta-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+.image {
+  width: calc(100% - 2px) !important;
+  height: 175px;
+  margin: auto;
+}

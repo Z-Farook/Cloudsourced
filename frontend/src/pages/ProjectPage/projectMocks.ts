@@ -1,13 +1,10 @@
 export const projectMocks = [
   {
     title: "CloutSourced",
-    imageSource:
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+    imageSource: "",
     language: "Typescript",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesettin",
-    avatarSource:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+    description: "",
+    avatarSource: "",
   },
   {
     title: "Codezi",

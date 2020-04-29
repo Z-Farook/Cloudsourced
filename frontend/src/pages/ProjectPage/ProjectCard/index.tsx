@@ -22,12 +22,16 @@ const ProjectCard: React.FC<IProps> = (props) => {
 
   return (
     <Card
-      style={{ width: 300 }}
+      style={{ width: 300, height: 420 }}
       cover={
         <img
           alt="example"
-          style={{ width: "calc(100% - 2px)", height: "175px", margin: "auto" }}
-          src={imageSource}
+          className="image"
+          src={
+            imageSource
+              ? imageSource
+              : "https://source.unsplash.com/400x300/?code,pc"
+          }
         />
       }
       actions={[
@@ -39,9 +43,21 @@ const ProjectCard: React.FC<IProps> = (props) => {
       extra={<MoreOutlined />}
     >
       <Meta
-        avatar={<Avatar src={avatarSource} />}
+        avatar={
+          <Avatar
+            src={
+              avatarSource
+                ? avatarSource
+                : "https://source.unsplash.com/100x100/?person,avatar"
+            }
+          />
+        }
         title={language}
-        description={description}
+        description={
+          description
+            ? description
+            : "This project has no description ask the project owner for more details."
+        }
       />
     </Card>
   );
