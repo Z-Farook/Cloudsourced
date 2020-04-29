@@ -1,4 +1,6 @@
-export const projectMocks = [
+import { IProps as IProjectCardProps } from "./ProjectCard";
+
+export const projectMocks: Array<IProjectCardProps> = [
   {
     title: "CloutSourced",
     imageSource: "",
