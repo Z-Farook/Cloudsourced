@@ -10,7 +10,9 @@ const DefaultLayout: React.FC<IProps> = (props) => {
   return (
     <Layout>
       <Header />
-      <Layout.Content style={{ backgroundColor: "white" }}>
+      <Layout.Content
+        style={{ backgroundColor: "white"}}
+      >
         {props.children}
       </Layout.Content>
       <Footer />

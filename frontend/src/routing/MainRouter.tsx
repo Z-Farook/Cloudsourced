@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
+import ProjectDetailPage from "../pages/ProjectDetailPage";
 
 interface IProps {}
 
@@ -16,6 +17,7 @@ const MainRouter: React.FC<IProps> = (props) => {
       <Switch>
         <Route exact path="/" component={() => <Redirect to="/home" />} />
         <Route exact path="/home" component={HomePage} />
+        <Route exact path="/project" component={ProjectDetailPage} />
 
         <Route component={NotFoundPage} />
       </Switch>
