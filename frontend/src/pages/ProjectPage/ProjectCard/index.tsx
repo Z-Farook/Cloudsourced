@@ -1,12 +1,7 @@
 import React from "react";
 import "./index.scss";
 import { Card, Avatar } from "antd";
-import {
-  MoreOutlined,
-  HeartFilled,
-  ShareAltOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
+import { MoreOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 
 export interface IProps {
