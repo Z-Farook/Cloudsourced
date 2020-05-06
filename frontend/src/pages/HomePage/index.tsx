@@ -1,16 +1,14 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography } from "antd";
+import { Typography, PageHeader } from "antd";
 
 interface IProps extends RouteComponentProps {}
 
 const HomePage: React.FC<IProps> = (props) => {
   return (
     <DefaultLayout>
-      <div style={{ padding: 20 }}>
-        <Typography.Title>Home</Typography.Title>
-      </div>
+      <PageHeader className="site-page-header" title="Home"></PageHeader>
     </DefaultLayout>
   );
 };

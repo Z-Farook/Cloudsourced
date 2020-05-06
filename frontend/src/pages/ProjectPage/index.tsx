@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, Row, Col } from "antd";
+import { Typography, Row, Col, PageHeader } from "antd";
 import ProjectCard from "../ProjectPage/ProjectCard";
 import { projectMocks } from "../ProjectPage/projectMocks";
 interface IProps extends RouteComponentProps {}
@@ -9,9 +9,7 @@ interface IProps extends RouteComponentProps {}
 const ProjectPage: React.FC<IProps> = (props) => {
   return (
     <DefaultLayout>
-      <div style={{ padding: 20 }}>
-        <Typography.Title>Projecten</Typography.Title>
-      </div>
+      <PageHeader className="site-page-header" title="Projects"></PageHeader>
       <div className="Grid" style={{ padding: 20 }}>
         <Row justify="center" gutter={[24, 24]}>
           {projectMocks.map((v, i) => {

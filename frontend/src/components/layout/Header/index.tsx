@@ -17,7 +17,7 @@ export const menuItemUrls: Record<EMenuItem, string> = {
 export const menuItemTexts: Record<EMenuItem, string> = {
   [EMenuItem.Home]: "Home",
   [EMenuItem.Projects]: "Projects",
-  [EMenuItem.UserProjects]: "My Projects",
+  [EMenuItem.UserProjects]: "Me",
 };
 
 interface IProps extends RouteComponentProps {}

@@ -1,23 +1,28 @@
 import React from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, Row, Col } from "antd";
+import { Typography, Row, Col, Button, PageHeader } from "antd";
 import ProjectCard from "../ProjectPage/ProjectCard";
 import { myProjectMocks } from "./myProjectMocks";
-import AddProjectCard from "./AddProjectCard";
 interface IProps extends RouteComponentProps {}
 
 const UserProjectsPage: React.FC<IProps> = (props) => {
   return (
     <DefaultLayout>
-      <div style={{ padding: 20 }}>
-        <Typography.Title>Mijn Projecten</Typography.Title>
-      </div>
+      <PageHeader
+        className="site-page-header"
+        title="My projects"
+        extra={[
+          <Button
+            type="primary"
+            onClick={() => props.history.push("/user/project/create")}
+          >
+            Add Project
+          </Button>,
+        ]}
+      ></PageHeader>
       <div className="Grid" style={{ padding: 20 }}>
         <Row justify="center" gutter={[24, 24]}>
-          <Col xl={5} lg={6} md={8} sm={12} xs={24} key={0}>
-            <AddProjectCard></AddProjectCard>
-          </Col>
           {myProjectMocks.map((v, i) => {
             return (
               <Col xl={5} lg={6} md={8} sm={12} xs={24} key={i}>
@@ -31,4 +36,4 @@ const UserProjectsPage: React.FC<IProps> = (props) => {
   );
 };
 
-export default UserProjectsPage;
+export default withRouter(UserProjectsPage);
