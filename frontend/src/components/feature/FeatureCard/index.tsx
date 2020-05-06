@@ -4,7 +4,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 interface IData {
-  naam: string;
+  name: string;
   description: string;
   codeLanguage: string;
   codePreview: string;
@@ -16,9 +16,9 @@ interface IProps {
 
 const FeatureCard: React.FC<IProps> = (props) => {
   const { children, data } = props;
-  const { description, naam, codePreview, codeLanguage } = data;
+  const { description, name, codePreview, codeLanguage } = data;
   return (
-    <Card title={naam}>
+    <Card title={name}>
       <p>{description}</p>
       <SyntaxHighlighter language={codeLanguage} style={docco}>
         {codePreview}
