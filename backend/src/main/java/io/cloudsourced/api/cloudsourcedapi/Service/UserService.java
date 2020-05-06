@@ -1,7 +1,10 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
+
+import java.util.List;
 
 @org.springframework.stereotype.Service
 public class UserService extends Service<User, UserRepository>{
@@ -9,4 +12,6 @@ public class UserService extends Service<User, UserRepository>{
     public UserService(UserRepository repository) {
         super(repository);
     }
+
+
 }
