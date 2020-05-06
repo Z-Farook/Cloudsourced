@@ -1,9 +1,10 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, Row, Col, Button, PageHeader } from "antd";
+import { Row, Col, Button, PageHeader } from "antd";
 import ProjectCard from "../ProjectPage/ProjectCard";
 import { myProjectMocks } from "./myProjectMocks";
+import { PlusOutlined } from "@ant-design/icons";
 interface IProps extends RouteComponentProps {}
 
 const UserProjectsPage: React.FC<IProps> = (props) => {
@@ -15,9 +16,10 @@ const UserProjectsPage: React.FC<IProps> = (props) => {
         extra={[
           <Button
             type="primary"
+            shape="circle"
             onClick={() => props.history.push("/user/project/create")}
           >
-            Add Project
+            <PlusOutlined />
           </Button>,
         ]}
       ></PageHeader>

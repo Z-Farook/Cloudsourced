@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, PageHeader } from "antd";
+import { PageHeader } from "antd";
 
 interface IProps extends RouteComponentProps {}
 

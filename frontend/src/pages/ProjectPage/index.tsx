@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, Row, Col, PageHeader } from "antd";
+import { Row, Col, PageHeader } from "antd";
 import ProjectCard from "../ProjectPage/ProjectCard";
 import { projectMocks } from "../ProjectPage/projectMocks";
 interface IProps extends RouteComponentProps {}
