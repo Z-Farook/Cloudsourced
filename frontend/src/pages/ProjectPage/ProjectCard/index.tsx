@@ -22,7 +22,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
 
   return (
     <Card
-      style={{ width: 300, height: 420 }}
+      style={{ width: "100%" }}
       cover={
         <img
           alt="example"
@@ -34,11 +34,13 @@ const ProjectCard: React.FC<IProps> = (props) => {
           }
         />
       }
-      actions={[
-        <HeartFilled key="favorite" />,
-        <ShareAltOutlined key="share" />,
-        <DownOutlined key="ellipsis" />,
-      ]}
+      // actions={
+      //   [
+      //     <HeartFilled key="favorite" />,
+      //     <ShareAltOutlined key="share" />,
+      //     <DownOutlined key="ellipsis" />,
+      //   ]
+      // }
       title={title}
       extra={<MoreOutlined />}
     >
