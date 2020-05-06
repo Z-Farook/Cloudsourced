@@ -15,9 +15,9 @@ const ProjectPage: React.FC<IProps> = (props) => {
       </div>
       <div className="Grid">
         <Row justify="center" gutter={[24, 24]}>
-          {projectMocks.map((v) => {
+          {projectMocks.map((v, i) => {
             return (
-              <Col>
+              <Col key={i}>
                 <ProjectCard {...v}></ProjectCard>
               </Col>
             );
