@@ -67,17 +67,22 @@ const LoginForm: React.FC<IProps> = (props) => {
       <div style={{ padding: 50 }}>
         {feature.state === EState.Loading ? (
           <Spin />
-        ) : (
+        ) : feature.state === EState.Loaded ? (
           <div>
-            <Title level={2}>{feature.name}</Title>
-            <Paragraph strong>Points: {feature.points}</Paragraph>
-            <Paragraph>{feature.description}</Paragraph>
-            <SyntaxHighlighter language={feature.codeLanguage} style={docco}>
-              {feature.codePreview}
+            <Title level={2}>{feature.data!.name}</Title>
+            <Paragraph strong>Points: {feature.data!.points}</Paragraph>
+            <Paragraph>{feature.data!.description}</Paragraph>
+            <SyntaxHighlighter
+              language={feature.data!.codeLanguage}
+              style={docco}
+            >
+              {feature.data!.codePreview}
             </SyntaxHighlighter>
 
             <Button style={{ marginTop: 10 }}>Provide implementation</Button>
           </div>
+        ) : (
+          <div>Whoops!</div>
         )}
       </div>
     </DefaultLayout>

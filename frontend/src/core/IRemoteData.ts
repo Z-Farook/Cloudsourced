@@ -1,5 +1,4 @@
 export enum EState {
-  Idle,
   Loading,
   Loaded,
   Error,
@@ -14,14 +13,6 @@ interface IRemoteData<T, TErrorCode> {
   data: T | null;
   state: EState;
 }
-
-const fromIdle = <T, TErrorCode>(): IRemoteData<T, TErrorCode> => {
-  return {
-    data: null,
-    error: null,
-    state: EState.Idle,
-  };
-};
 
 const fromLoading = <T, TErrorCode>(): IRemoteData<T, TErrorCode> => {
   return {
@@ -51,6 +42,6 @@ const fromError = <T, TErrorCode>(
   };
 };
 
-export { fromIdle, fromLoading, fromLoaded, fromError };
+export { fromLoading, fromLoaded, fromError };
 
 export default IRemoteData;
