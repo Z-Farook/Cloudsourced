@@ -9,6 +9,7 @@ import {
   Row,
   Col,
 } from "antd";
+import { FieldData } from "rc-field-form/lib/interface";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { UploadOutlined } from "@ant-design/icons";
 import ProjectCard from "../ProjectPage/ProjectCard";
@@ -25,7 +26,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
     description: "",
     avatarSource: "",
   });
-  const onFinish = (values: any) => {
+  const onFinish = (values: Array<FieldData>) => {
     console.log("Success:", values);
   };
 
@@ -63,6 +64,15 @@ const CreateProjectPage: React.FC<IProps> = () => {
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
+                onFieldsChange={(e: Array<FieldData>) =>
+                  setState({
+                    title: e[0].value,
+                    imageSource: "",
+                    language: e[1].value,
+                    description: e[2].value,
+                    avatarSource: "",
+                  })
+                }
               >
                 <Form.Item
                   label="Projectname"
@@ -71,17 +81,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
                     { required: true, message: "Please add a projectname!" },
                   ]}
                 >
-                  <Input
-                    onChange={(e) =>
-                      setState({
-                        title: e.target.value,
-                        imageSource: state.imageSource,
-                        language: state.language,
-                        description: state.description,
-                        avatarSource: state.avatarSource,
-                      })
-                    }
-                  />
+                  <Input />
                 </Form.Item>
 
                 <Form.Item
@@ -92,18 +92,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
                     { required: true, message: "Please select a language!" },
                   ]}
                 >
-                  <Select
-                    placeholder="Please select a language"
-                    onChange={(e) =>
-                      setState({
-                        title: state.title,
-                        imageSource: state.imageSource,
-                        language: e.toString(),
-                        description: state.description,
-                        avatarSource: state.avatarSource,
-                      })
-                    }
-                  >
+                  <Select placeholder="Please select a language">
                     <Option value="Typescript">Typescript</Option>
                     <Option value="C#">C#</Option>
                   </Select>
@@ -115,17 +104,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
                     { required: true, message: "Please add a description!" },
                   ]}
                 >
-                  <Input
-                    onChange={(e) =>
-                      setState({
-                        title: state.title,
-                        imageSource: state.imageSource,
-                        language: state.language,
-                        description: e.target.value,
-                        avatarSource: state.avatarSource,
-                      })
-                    }
-                  />
+                  <Input />
                 </Form.Item>
                 <Form.Item
                   name="upload"
