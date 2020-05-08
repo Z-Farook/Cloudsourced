@@ -9,7 +9,7 @@ import {
   Row,
   Col,
 } from "antd";
-import { FieldData } from "rc-field-form/lib/interface";
+import { FieldData, Store } from "rc-field-form/lib/interface";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { UploadOutlined } from "@ant-design/icons";
 import ProjectCard from "../ProjectPage/ProjectCard";
@@ -18,21 +18,40 @@ interface IProps {}
 
 const { Option } = Select;
 
+interface IValues {
+  title: string;
+  imageSrc: string;
+  language: string;
+  description: string;
+}
+
 const CreateProjectPage: React.FC<IProps> = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<IValues>({
     title: "",
-    imageSource: "",
+    imageSrc: "",
     language: "",
     description: "",
-    avatarSource: "",
   });
-  const onFinish = (values: Array<FieldData>) => {
-    console.log("Success:", values);
+  const onFinish = (store: Store) => {
+    const result = store as IValues;
+    console.log("Success:", result);
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+
+  const onFieldsChange = (fields: FieldData[]) => {
+    const initial: Partial<IValues> = {};
+    const result = fields.reduce<Partial<IValues>>((acc, curr) => {
+      const key = curr.name as keyof IValues;
+      acc[key] = curr.value;
+      return acc;
+    }, initial) as IValues;
+
+    setState(result);
+  };
+
   const layout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 12 },
@@ -64,19 +83,11 @@ const CreateProjectPage: React.FC<IProps> = () => {
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                onFieldsChange={(e: Array<FieldData>) =>
-                  setState({
-                    title: e[0].value,
-                    imageSource: "",
-                    language: e[1].value,
-                    description: e[2].value,
-                    avatarSource: "",
-                  })
-                }
+                onFieldsChange={onFieldsChange}
               >
                 <Form.Item
                   label="Projectname"
-                  name="projectname"
+                  name="title"
                   rules={[
                     { required: true, message: "Please add a projectname!" },
                   ]}
@@ -126,8 +137,13 @@ const CreateProjectPage: React.FC<IProps> = () => {
                 </Form.Item>
               </Form>
             </Col>
+            <code>{JSON.stringify(state)}</code>
             <Col xl={5} lg={6} md={6} sm={12} xs={8}>
-              <ProjectCard {...state}></ProjectCard>
+              <ProjectCard
+                {...state}
+                avatarSource=""
+                imageSource={state.imageSrc}
+              ></ProjectCard>
             </Col>
           </Row>
         </div>
