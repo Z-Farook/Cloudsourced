@@ -1,10 +1,11 @@
 import * as React from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { useEffect, useMemo, useState } from "react";
-import { Button, Card, Spin, Typography } from "antd";
+import { Button, Spin, Typography } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import IRemoteData, { EState, fromLoaded } from "../../../core/IRemoteData";
 
 const { Title, Paragraph } = Typography;
 
@@ -25,13 +26,14 @@ interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
-  const [feature, setFeature] = useState<IMockFeature | null>({
-    name: "Basic login form",
-    points: 100,
-    description:
-      "We want a login form that takes an email and a password, with validation and the ability to submit the form.",
-    codeLanguage: "tsx",
-    codePreview: `interface IProps {
+  const [feature, setFeature] = useState<IRemoteData<IMockFeature, null>>(
+    fromLoaded({
+      name: "Basic login form",
+      points: 100,
+      description:
+        "We want a login form that takes an email and a password, with validation and the ability to submit the form.",
+      codeLanguage: "tsx",
+      codePreview: `interface IProps {
   // These fields can be filled so they need to be used as default values
   emailAddress?: string;
   password?: string;
@@ -43,7 +45,8 @@ const LoginForm: React.FC<IProps> = (props) => {
       // Please implement
    );
 };`,
-  });
+    })
+  );
 
   const { projectId, featureId } = useMemo(() => {
     return {
@@ -62,7 +65,7 @@ const LoginForm: React.FC<IProps> = (props) => {
       {/*<div>Feature ID: {featureId}</div>*/}
 
       <div style={{ padding: 50 }}>
-        {feature === null ? (
+        {feature.state === EState.Loading ? (
           <Spin />
         ) : (
           <div>
