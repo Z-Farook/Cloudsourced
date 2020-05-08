@@ -42,16 +42,19 @@ const CreateProjectPage: React.FC<IProps> = () => {
   };
 
   const onFieldsChange = (fields: FieldData[]) => {
+    console.log(fields);
     const initial: Partial<IValues> = {};
     const result = fields.reduce<Partial<IValues>>((acc, curr) => {
       const key = curr.name as keyof IValues;
       acc[key] = curr.value;
       return acc;
     }, initial) as IValues;
-
     setState(result);
   };
-
+  const onFormValueChange = (changedValues: Store, values: Store) => {
+    const result = values as IValues;
+    setState(result);
+  };
   const layout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 12 },
@@ -83,7 +86,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                onFieldsChange={onFieldsChange}
+                onValuesChange={onFormValueChange}
               >
                 <Form.Item
                   label="Projectname"
@@ -96,8 +99,8 @@ const CreateProjectPage: React.FC<IProps> = () => {
                 </Form.Item>
 
                 <Form.Item
-                  name="select"
-                  label="Select"
+                  name="language"
+                  label="Language"
                   hasFeedback
                   rules={[
                     { required: true, message: "Please select a language!" },
@@ -137,7 +140,6 @@ const CreateProjectPage: React.FC<IProps> = () => {
                 </Form.Item>
               </Form>
             </Col>
-            <code>{JSON.stringify(state)}</code>
             <Col xl={5} lg={6} md={6} sm={12} xs={8}>
               <ProjectCard
                 {...state}
