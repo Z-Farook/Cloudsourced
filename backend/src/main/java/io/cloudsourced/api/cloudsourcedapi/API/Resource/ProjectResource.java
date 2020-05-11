@@ -26,7 +26,7 @@ public class ProjectResource extends Resource<Project, ProjectService, ProjectRe
         return service.saveProject(project);
     }
 
-    // This function is for development purposes only and needs to go when we can get the user from the session
+    // TODO: This function is for development purposes only and needs to go when we can get the user from the session
     @PostMapping("{id}")
     public Project addWithUser(@PathVariable Long id, @RequestBody Project project) {
         return service.saveWithUser(id, project);
