@@ -18,15 +18,15 @@ public class ProjectService extends Service<Project, ProjectRepository>{
         this.userService = userService;
     }
 
-    public Project findByName(String name) {
-        Optional<Project> result = repository.findTopByName(name);
-        if (result.isPresent()){
-            return result.get();
-        }
-
-        return null;
+    public List<Project> searchProjectName(String name) {
+        return repository.findByNameContainsIgnoreCase(name);
     }
 
+    public Project saveProject(Project project) {
+        return repository.save(project);
+    }
+
+    // This function is for development purposes only and needs to go when we can get the user from the session
     public Project saveWithUser(Long id, Project project) {
         User user = userService.getOneById(id).get();
 
