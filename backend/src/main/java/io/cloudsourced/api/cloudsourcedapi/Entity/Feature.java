@@ -14,4 +14,6 @@ public class Feature {
     private String description;
     private String codePreview;
     private String codeLanguage;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Project project;
 }
