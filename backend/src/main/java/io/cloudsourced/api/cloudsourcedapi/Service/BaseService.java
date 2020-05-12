@@ -1,10 +1,10 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.Default.Exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implements Service<Entity> {
@@ -12,8 +12,8 @@ public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implemen
     public final P repository;
 
     @Override
-    public Optional<Entity> getOneById(Long id) {
-        return repository.findById(id);
+    public Entity getOneById(Long id) {
+        return repository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -33,10 +33,7 @@ public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implemen
 
     @Override
     public void delete(Long id) {
-        if(getOneById(id).isPresent()){
-            repository.delete(getOneById(id).get());
-        }
-
+            repository.delete(getOneById(id));
     }
 
 }

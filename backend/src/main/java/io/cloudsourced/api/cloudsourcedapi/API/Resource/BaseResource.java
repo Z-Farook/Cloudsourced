@@ -15,7 +15,7 @@ public class BaseResource<Entity, S extends BaseService<Entity, P>, P extends Jp
 
     @GetMapping("/{id}")
     @Override
-    public Optional<Entity> getOneById(@PathVariable Long id) {
+    public Entity getOneById(@PathVariable Long id) {
         return service.getOneById(id);
     }
 
