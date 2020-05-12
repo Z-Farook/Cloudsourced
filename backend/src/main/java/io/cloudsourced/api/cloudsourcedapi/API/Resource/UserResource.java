@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user/")
-public class UserResource extends Resource<User, UserService, UserRepository>{
+public class UserResource extends BaseResource<User, UserService, UserRepository> {
 
     public UserResource(UserService service) {
         super(service);
