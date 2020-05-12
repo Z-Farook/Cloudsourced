@@ -13,7 +13,7 @@ public class BaseResource<Entity, S extends BaseService<Entity, P>, P extends Jp
 
     public final S service;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @Override
     public Optional<Entity> getOneById(@PathVariable Long id) {
         return service.getOneById(id);
@@ -31,7 +31,7 @@ public class BaseResource<Entity, S extends BaseService<Entity, P>, P extends Jp
         return service.getAll();
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @Override
     public void delete(@PathVariable Long id) {
         service.delete(id);
