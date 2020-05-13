@@ -14,6 +14,7 @@ import DefaultLayout from "../../components/layout/DefaultLayout";
 import { UploadOutlined } from "@ant-design/icons";
 import ProjectCard from "../ProjectPage/ProjectCard";
 import { IProps as IProjectCardProps } from "../ProjectPage/ProjectCard";
+import Title from "antd/lib/typography/Title";
 interface IProps {}
 
 const { Option } = Select;
@@ -67,19 +68,21 @@ const CreateProjectPage: React.FC<IProps> = () => {
     if (Array.isArray(e)) {
       return e;
     }
+    // state.imageSrc = e.fileList[0].thumbUrl.toString();
     return e && e.fileList;
   };
 
   return (
     <DefaultLayout>
-      <PageHeader
+      {/* <PageHeader
         className="site-page-header"
         title="Create a new project"
-      ></PageHeader>
-      <div>
+      ></PageHeader> */}
+      <div style={{ backgroundColor: "#f5f5f5" }}>
         <div className="Grid" style={{ padding: 20 }}>
           <Row justify="center" gutter={[24, 24]}>
-            <Col xl={12} lg={12} md={12} sm={24} xs={24}>
+            <Col xl={12} lg={12} md={24} sm={24} xs={24}>
+              <Title>Create a new project</Title>
               <Form
                 {...layout}
                 name="basic"
@@ -89,18 +92,16 @@ const CreateProjectPage: React.FC<IProps> = () => {
                 onValuesChange={onFormValueChange}
               >
                 <Form.Item
-                  label="Projectname"
                   name="title"
                   rules={[
                     { required: true, message: "Please add a projectname!" },
                   ]}
                 >
-                  <Input />
+                  <Input placeholder="Projectname" />
                 </Form.Item>
 
                 <Form.Item
                   name="language"
-                  label="Language"
                   hasFeedback
                   rules={[
                     { required: true, message: "Please select a language!" },
@@ -112,35 +113,33 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   </Select>
                 </Form.Item>
                 <Form.Item
-                  label="Description"
                   name="description"
                   rules={[
                     { required: true, message: "Please add a description!" },
                   ]}
                 >
-                  <Input />
+                  <Input placeholder="Description" />
                 </Form.Item>
                 <Form.Item
                   name="upload"
-                  label="Project Image"
                   valuePropName="fileList"
                   getValueFromEvent={normFile}
                 >
-                  <Upload name="logo" action="/upload.do" listType="picture">
+                  <Upload name="logo" listType="picture">
                     <Button>
                       <UploadOutlined /> Click to upload
                     </Button>
                   </Upload>
                 </Form.Item>
 
-                <Form.Item {...tailLayout}>
-                  <Button type="primary" htmlType="submit">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" block>
                     Submit
                   </Button>
                 </Form.Item>
               </Form>
             </Col>
-            <Col xl={5} lg={6} md={6} sm={12} xs={8}>
+            <Col xl={5} lg={6} md={12} sm={20} xs={24}>
               <ProjectCard
                 {...state}
                 avatarSource=""
