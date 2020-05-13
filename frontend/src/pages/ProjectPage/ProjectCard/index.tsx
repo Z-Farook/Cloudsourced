@@ -3,32 +3,20 @@ import "./index.scss";
 import { Card, Avatar } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
+import { Project } from "cloudsourced-api";
 
 export interface IProps {
-  title: string;
-  imageSource: string;
-  language: string;
-  description: string;
-  avatarSource: string;
+  project: Project;
 }
 
 const ProjectCard: React.FC<IProps> = (props) => {
-  const { description, imageSource, language, title, avatarSource } = props;
+  const { project } = props;
+  const { description, id, image, name, user } = project;
 
   return (
     <Card
       style={{ width: "100%" }}
-      cover={
-        <img
-          alt="example"
-          className="image"
-          src={
-            imageSource
-              ? imageSource
-              : "https://source.unsplash.com/400x300/?code,pc"
-          }
-        />
-      }
+      cover={<img alt="example" className="image" src={image} />}
       // actions={
       //   [
       //     <HeartFilled key="favorite" />,
@@ -36,20 +24,14 @@ const ProjectCard: React.FC<IProps> = (props) => {
       //     <DownOutlined key="ellipsis" />,
       //   ]
       // }
-      title={title}
+      title={name}
       extra={<MoreOutlined />}
     >
       <Meta
         avatar={
-          <Avatar
-            src={
-              avatarSource
-                ? avatarSource
-                : "https://source.unsplash.com/100x100/?person,avatar"
-            }
-          />
+          <Avatar src={"https://source.unsplash.com/100x100/?person,avatar"} />
         }
-        title={language}
+        title="TODO"
         description={
           description
             ? description
