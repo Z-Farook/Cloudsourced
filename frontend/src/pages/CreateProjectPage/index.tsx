@@ -42,16 +42,6 @@ const CreateProjectPage: React.FC<IProps> = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const onFieldsChange = (fields: FieldData[]) => {
-    console.log(fields);
-    const initial: Partial<IValues> = {};
-    const result = fields.reduce<Partial<IValues>>((acc, curr) => {
-      const key = curr.name as keyof IValues;
-      acc[key] = curr.value;
-      return acc;
-    }, initial) as IValues;
-    setState(result);
-  };
   const onFormValueChange = (changedValues: Store, values: Store) => {
     const result = values as IValues;
     setState(result);
@@ -60,24 +50,33 @@ const CreateProjectPage: React.FC<IProps> = () => {
     labelCol: { span: 6 },
     wrapperCol: { span: 12 },
   };
-  const tailLayout = {
-    wrapperCol: { offset: 6, span: 12 },
-  };
+
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    // state.imageSrc = e.fileList[0].thumbUrl.toString();
+    state.imageSrc = e.file.thumbUrl;
+    setState({
+      imageSrc: e.file.thumbUrl,
+      title: state.title,
+      description: state.description,
+      language: state.language,
+    });
+
     return e && e.fileList;
   };
 
+  const getBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+  const handleImage = async (file: any) => {
+    const image = await getBase64(file);
+    console.log(image);
+  };
   return (
     <DefaultLayout>
-      {/* <PageHeader
-        className="site-page-header"
-        title="Create a new project"
-      ></PageHeader> */}
       <div style={{ backgroundColor: "#f5f5f5" }}>
         <div className="Grid" style={{ padding: 20 }}>
           <Row justify="center" gutter={[24, 24]}>
@@ -125,7 +124,11 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   valuePropName="fileList"
                   getValueFromEvent={normFile}
                 >
-                  <Upload name="logo" listType="picture">
+                  <Upload
+                    name="logo"
+                    listType="picture"
+                    // onPreview={handleImage}
+                  >
                     <Button>
                       <UploadOutlined /> Click to upload
                     </Button>
