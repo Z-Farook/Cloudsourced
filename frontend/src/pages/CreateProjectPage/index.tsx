@@ -17,12 +17,10 @@ interface IValues {
 }
 
 const CreateProjectPage: React.FC<IProps> = () => {
-  const [state, setState] = useState<IValues>({
-    title: "",
-    imageSrc: "",
-    language: "",
-    description: "",
-  });
+  const [title, setTitle] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
+  const [language, setLanguage] = useState("");
+  const [description, setDescription] = useState("");
   const onFinish = (store: Store) => {
     const result = store as IValues;
     console.log("Success:", result);
@@ -33,8 +31,9 @@ const CreateProjectPage: React.FC<IProps> = () => {
   };
 
   const onFormValueChange = (changedValues: Store, values: Store) => {
-    const result = values as IValues;
-    setState(result);
+    setDescription(values.description);
+    setLanguage(values.language);
+    setTitle(values.title);
   };
   const layout = {
     labelCol: { span: 6 },
@@ -42,14 +41,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
   };
 
   const normFile = (e: any) => {
-    state.imageSrc = e.file.thumbUrl;
-    setState({
-      imageSrc: e.file.thumbUrl,
-      title: state.title,
-      description: state.description,
-      language: state.language,
-    });
-
+    setImageSrc(e.file.thumbUrl);
     return e && e.fileList;
   };
 
@@ -102,11 +94,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   valuePropName="fileList"
                   getValueFromEvent={normFile}
                 >
-                  <Upload
-                    name="logo"
-                    listType="picture"
-                    // onPreview={handleImage}
-                  >
+                  <Upload name="logo" listType="picture">
                     <Button>
                       <UploadOutlined /> Click to upload
                     </Button>
@@ -122,9 +110,11 @@ const CreateProjectPage: React.FC<IProps> = () => {
             </Col>
             <Col xl={5} lg={6} md={12} sm={20} xs={24}>
               <ProjectCard
-                {...state}
+                title={title}
+                description={description}
+                language={language}
                 avatarSource=""
-                imageSource={state.imageSrc}
+                imageSource={imageSrc}
               ></ProjectCard>
             </Col>
           </Row>
