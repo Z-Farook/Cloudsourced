@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../Header";
-import Footer from "../Footer";
+// import Footer from "../Footer";
 
 import { Layout } from "antd";
 
@@ -13,7 +13,7 @@ const DefaultLayout: React.FC<IProps> = (props) => {
       <Layout.Content style={{ backgroundColor: "white" }}>
         {props.children}
       </Layout.Content>
-      <Footer />
+      {/* <Footer /> */}
     </Layout>
   );
 };
