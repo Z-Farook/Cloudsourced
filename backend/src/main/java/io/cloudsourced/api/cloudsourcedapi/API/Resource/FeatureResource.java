@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/feature/")
-public class FeatureResource extends Resource<Feature, FeatureService, FeatureRepository>{
+@RequestMapping("/feature")
+public class FeatureResource extends BaseResource<Feature, FeatureService, FeatureRepository>{
 
     public FeatureResource(FeatureService service) {
         super(service);
