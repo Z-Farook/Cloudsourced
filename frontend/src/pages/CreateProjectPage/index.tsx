@@ -53,15 +53,6 @@ const CreateProjectPage: React.FC<IProps> = () => {
     return e && e.fileList;
   };
 
-  const getBase64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
   return (
     <DefaultLayout>
       <div style={{ backgroundColor: "#f5f5f5" }}>
