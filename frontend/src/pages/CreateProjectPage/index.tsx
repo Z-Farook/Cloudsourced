@@ -1,19 +1,9 @@
 import React, { useState } from "react";
-import {
-  PageHeader,
-  Form,
-  Input,
-  Button,
-  Upload,
-  Select,
-  Row,
-  Col,
-} from "antd";
-import { FieldData, Store } from "rc-field-form/lib/interface";
+import { Form, Input, Button, Upload, Select, Row, Col } from "antd";
+import { Store } from "rc-field-form/lib/interface";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { UploadOutlined } from "@ant-design/icons";
 import ProjectCard from "../ProjectPage/ProjectCard";
-import { IProps as IProjectCardProps } from "../ProjectPage/ProjectCard";
 import Title from "antd/lib/typography/Title";
 interface IProps {}
 
@@ -71,10 +61,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
       reader.onerror = (error) => reject(error);
     });
   };
-  const handleImage = async (file: any) => {
-    const image = await getBase64(file);
-    console.log(image);
-  };
+
   return (
     <DefaultLayout>
       <div style={{ backgroundColor: "#f5f5f5" }}>
