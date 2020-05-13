@@ -8,6 +8,7 @@ import {
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ProjectPage from "../pages/ProjectPage";
+import FeaturePage from "../pages/ProjectPage/FeaturePage";
 
 import UserProjectsPage from "../pages/UserProjects";
 import CreateProjectPage from "../pages/CreateProjectPage";
@@ -25,7 +26,11 @@ const MainRouter: React.FC<IProps> = (props) => {
         <Route
           exact
           path="/user/project/create"
-          component={CreateProjectPage}
+          component={CreateProjectPage} />
+        <Route
+          exact
+          path="/projects/:projectId/features/:featureId"
+          component={FeaturePage}
         />
         <Route component={NotFoundPage} />
       </Switch>
