@@ -22,11 +22,4 @@ public class UserResource extends BaseResource<User,UserDTO, UserService, UserRe
         super(service, mapper);
     }
 
-    @GetMapping("/test/{id}")
-    public UserDTO test(@PathVariable Long id){
-
-        User u = service.getOneById(id);
-        return UserMapper.INSTANCE.entityToDTO(u);
-    }
-
 }
