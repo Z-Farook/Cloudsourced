@@ -15,15 +15,12 @@ public class TransactionService extends BaseService<Transaction, TransactionRepo
 
     public User getUserById(Long transactionId) {
         Optional<Transaction> transaction = repository.findById(transactionId);
-//        when the transaction doesn't exist
         if (!transaction.isPresent()) {
             throw new NotFoundException("Transaction id is not found: " + transactionId);
         }
-//        when the transaction doesn't have any user in it
         if (null == transaction.get().getUser()) {
             throw new NotFoundException("Transaction id: " + transactionId + " does not have any user");
         }
-        // Lambok getter *getUser()*
         return transaction.get().getUser();
     }
 }
