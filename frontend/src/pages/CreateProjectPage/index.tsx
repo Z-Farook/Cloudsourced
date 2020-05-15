@@ -1,31 +1,22 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Upload, Select, Row, Col } from "antd";
+import React from "react";
+import { Form, Input, Button, Select, Row, Col } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { UploadOutlined } from "@ant-design/icons";
 import ProjectCard from "../ProjectPage/ProjectCard";
 import Title from "antd/lib/typography/Title";
 interface IProps {}
 
-const { Option } = Select;
-
-interface IValues {
-  title: string;
-  imageSrc: string;
-  language: string;
-  description: string;
-}
 type Inputs = {
   example: string;
   exampleRequired: string;
 };
 const CreateProjectPage: React.FC<IProps> = () => {
-  const { control, handleSubmit, register, errors } = useForm<Inputs>();
+  const { control, handleSubmit, errors } = useForm<Inputs>();
 
-  const normFile = (e: any) => {
-    // setImageSrc(e.file.thumbUrl);
-    return e && e.fileList;
-  };
+  // const normFile = (e: any) => {
+  //   // setImageSrc(e.file.thumbUrl);
+  //   return e && e.fileList;
+  // };
 
   return (
     <DefaultLayout>
