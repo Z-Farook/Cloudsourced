@@ -26,7 +26,7 @@ interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
-  const [feature, setFeature] = useState<IRemoteData<IMockFeature, null>>(
+  const [feature] = useState<IRemoteData<IMockFeature, null>>(
     fromLoaded({
       name: "Basic login form",
       points: 100,

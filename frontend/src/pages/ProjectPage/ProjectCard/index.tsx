@@ -11,7 +11,7 @@ export interface IProps {
 
 const ProjectCard: React.FC<IProps> = (props) => {
   const { project } = props;
-  const { description, id, image, name, user } = project;
+  const { description, image, name } = project;
 
   return (
     <Card

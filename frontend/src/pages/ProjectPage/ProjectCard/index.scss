@@ -2,6 +2,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: 66px;
+  min-height: 66px;
 }
 .image {
   max-width: calc(100% - 2px);
