@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Upload, Select, Row, Col } from "antd";
-import { Store } from "rc-field-form/lib/interface";
+import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { UploadOutlined } from "@ant-design/icons";
 import ProjectCard from "../ProjectPage/ProjectCard";
@@ -15,33 +15,15 @@ interface IValues {
   language: string;
   description: string;
 }
-
+type Inputs = {
+  example: string;
+  exampleRequired: string;
+};
 const CreateProjectPage: React.FC<IProps> = () => {
-  const [title, setTitle] = useState("");
-  const [imageSrc, setImageSrc] = useState("");
-  const [language, setLanguage] = useState("");
-  const [description, setDescription] = useState("");
-  const onFinish = (store: Store) => {
-    const result = store as IValues;
-    console.log("Success:", result);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  const onFormValueChange = (changedValues: Store, values: Store) => {
-    setDescription(values.description);
-    setLanguage(values.language);
-    setTitle(values.title);
-  };
-  const layout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 12 },
-  };
+  const { control, handleSubmit, register, errors } = useForm<Inputs>();
 
   const normFile = (e: any) => {
-    setImageSrc(e.file.thumbUrl);
+    // setImageSrc(e.file.thumbUrl);
     return e && e.fileList;
   };
 
@@ -52,69 +34,64 @@ const CreateProjectPage: React.FC<IProps> = () => {
           <Row justify="center" gutter={[24, 24]}>
             <Col xl={12} lg={12} md={24} sm={24} xs={24}>
               <Title>Create a new project</Title>
-              <Form
-                {...layout}
-                name="basic"
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                onValuesChange={onFormValueChange}
-              >
-                <Form.Item
-                  name="title"
-                  rules={[
-                    { required: true, message: "Please add a projectname!" },
-                  ]}
-                >
-                  <Input placeholder="Projectname" />
-                </Form.Item>
 
-                <Form.Item
+              <Form>
+                <Controller
+                  as={Input}
+                  name="projectName"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="projectName"
+                  message="A project name is required"
+                />
+                <Controller
+                  as={Select}
                   name="language"
-                  hasFeedback
-                  rules={[
-                    { required: true, message: "Please select a language!" },
-                  ]}
-                >
-                  <Select placeholder="Please select a language">
-                    <Option value="Typescript">Typescript</Option>
-                    <Option value="C#">C#</Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="language"
+                  message="A language is required"
+                />
+                <Controller
+                  as={Input}
                   name="description"
-                  rules={[
-                    { required: true, message: "Please add a description!" },
-                  ]}
-                >
-                  <Input placeholder="Description" />
-                </Form.Item>
-                <Form.Item
-                  name="upload"
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
-                >
-                  <Upload name="logo" listType="picture">
-                    <Button>
-                      <UploadOutlined /> Click to upload
-                    </Button>
-                  </Upload>
-                </Form.Item>
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                />
+                <ErrorMessage
+                  errors={errors}
+                  name="description"
+                  message="A description is required"
+                />
 
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" block>
-                    Submit
-                  </Button>
-                </Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  block
+                  onClick={handleSubmit((data) => console.log(data))}
+                >
+                  Submit
+                </Button>
               </Form>
             </Col>
             <Col xl={5} lg={6} md={12} sm={20} xs={24}>
               <ProjectCard
-                title={title}
-                description={description}
-                language={language}
-                avatarSource=""
-                imageSource={imageSrc}
+                project={{
+                  description: "",
+                  id: -1,
+                  image: "",
+                  name: "",
+                  user: { name: "", id: -1 },
+                }}
               ></ProjectCard>
             </Col>
           </Row>
