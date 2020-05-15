@@ -1,22 +1,20 @@
-import React from "react";
-import { Form, Input, Button, Select, Row, Col } from "antd";
+import React, { useState, ChangeEvent } from "react";
+import { Form, Input, Button, Row, Col, Upload } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import ProjectCard from "../ProjectPage/ProjectCard";
 import Title from "antd/lib/typography/Title";
+import { UploadOutlined } from "@ant-design/icons";
+
 interface IProps {}
 
 type Inputs = {
-  example: string;
-  exampleRequired: string;
+  projectName: string;
+  description: string;
 };
+
 const CreateProjectPage: React.FC<IProps> = () => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
-
-  // const normFile = (e: any) => {
-  //   // setImageSrc(e.file.thumbUrl);
-  //   return e && e.fileList;
-  // };
 
   return (
     <DefaultLayout>
@@ -32,6 +30,7 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   name="projectName"
                   control={control}
                   defaultValue=""
+                  placeholder="Project name"
                   rules={{ required: true }}
                 />
                 <ErrorMessage
@@ -39,21 +38,11 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   name="projectName"
                   message="A project name is required"
                 />
-                <Controller
-                  as={Select}
-                  name="language"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: true }}
-                />
-                <ErrorMessage
-                  errors={errors}
-                  name="language"
-                  message="A language is required"
-                />
+
                 <Controller
                   as={Input}
                   name="description"
+                  placeholder="Description"
                   control={control}
                   defaultValue=""
                   rules={{ required: true }}
@@ -73,17 +62,6 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   Submit
                 </Button>
               </Form>
-            </Col>
-            <Col xl={5} lg={6} md={12} sm={20} xs={24}>
-              <ProjectCard
-                project={{
-                  description: "",
-                  id: -1,
-                  image: "",
-                  name: "",
-                  user: { name: "", id: -1 },
-                }}
-              ></ProjectCard>
             </Col>
           </Row>
         </div>
