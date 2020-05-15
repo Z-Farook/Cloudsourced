@@ -11,7 +11,7 @@ export enum EMenuItem {
 export const menuItemUrls: Record<EMenuItem, string> = {
   [EMenuItem.Home]: "/home",
   [EMenuItem.Projects]: "/projects",
-  [EMenuItem.UserProjects]: "/user/projects",
+  [EMenuItem.UserProjects]: "/account",
 };
 
 export const menuItemTexts: Record<EMenuItem, string> = {
