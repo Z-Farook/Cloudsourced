@@ -25,7 +25,7 @@
     "cloudsourced-api": "file:./gen/api"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "open \"https://youtu.be/8o-MEwIzqcM?t=353\"; start \"https://youtu.be/8o-MEwIzqcM?t=353\"; react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

@@ -26,7 +26,8 @@ const MainRouter: React.FC<IProps> = (props) => {
         <Route
           exact
           path="/user/project/create"
-          component={CreateProjectPage} />
+          component={CreateProjectPage}
+        />
         <Route
           exact
           path="/projects/:projectId/features/:featureId"
