@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/project/")
-public class ProjectResource extends Resource<Project, ProjectService, ProjectRepository>{
+public class ProjectResource extends BaseResource<Project, ProjectService, ProjectRepository>{
 
     public ProjectResource(ProjectService service) {
         super(service);
@@ -18,7 +18,6 @@ public class ProjectResource extends Resource<Project, ProjectService, ProjectRe
 
     @GetMapping("search/{name}")
     public List<Project> searchProjectName(@PathVariable String name) {
-
         return service.searchProjectName(name);
     }
 
