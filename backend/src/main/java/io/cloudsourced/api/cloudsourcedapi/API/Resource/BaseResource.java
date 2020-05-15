@@ -18,10 +18,7 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
     @GetMapping("{id}")
     @Override
     public DTO getOneById(@PathVariable Long id) {
-
         return mapper.entityToDTO(service.getOneById(id));
-        //return service.getOneById(id);
-        //return null;
     }
 
     @PostMapping("")
