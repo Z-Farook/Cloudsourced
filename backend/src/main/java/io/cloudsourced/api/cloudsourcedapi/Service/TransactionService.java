@@ -12,15 +12,4 @@ public class TransactionService extends BaseService<Transaction, TransactionRepo
     public TransactionService(TransactionRepository repository) {
         super(repository);
     }
-
-    public User getUserById(Long transactionId) {
-        Optional<Transaction> transaction = repository.findById(transactionId);
-        if (!transaction.isPresent()) {
-            throw new NotFoundException("Transaction id is not found: " + transactionId);
-        }
-        if (null == transaction.get().getUser()) {
-            throw new NotFoundException("Transaction id: " + transactionId + " does not have any user");
-        }
-        return transaction.get().getUser();
-    }
 }

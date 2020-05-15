@@ -13,10 +13,4 @@ public class TransactionResource extends BaseResource<Transaction, TransactionSe
     public TransactionResource(TransactionService service) {
         super(service);
     }
-
-    @GetMapping("/user/{id}")
-    public User findUserByTransactionId(@PathVariable Long id) {
-        return this.service.getUserById(id);
-    }
-
 }
