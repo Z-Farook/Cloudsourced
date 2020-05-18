@@ -19,6 +19,14 @@ export interface IProps extends RouteComponentProps<IRouterParams> {
   avatarSource: string;
 }
 
+interface IFeature extends RouteComponentProps {
+  name: string;
+  points: number;
+  description: string;
+  codeLanguage: string;
+  codePreview: string;
+}
+
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const projectId = parseInt(props.match.params.projectId);
   const { title, description, imageSource } = projectMocks[projectId];
@@ -80,7 +88,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 >
                   Features
               </Divider>
-            <FeatureCard {...data}></FeatureCard>
+            <FeatureCard {...props}></FeatureCard>
           </Col>
         </Row>
       </div>
