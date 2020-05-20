@@ -1,5 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.API.Resource;
 
+
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.UserMapper;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.UserMapperImpl;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.UserDTO;
@@ -21,5 +22,7 @@ public class UserResource extends BaseResource<User,UserDTO, UserService, UserRe
     public UserResource(UserService service, UserMapper mapper) {
         super(service, mapper);
     }
+
+
 
 }

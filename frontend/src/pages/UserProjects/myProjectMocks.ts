@@ -1,6 +1,6 @@
-import { IProps as IProjectCardProps } from "./ProjectCard";
+import { IProps as IProjectCardProps } from "../ProjectPage/ProjectCard";
 
-// export const projectMocks: Array<IProjectCardProps> = [
+// export const myProjectMocks: Array<IProjectCardProps> = [
 //   {
 //     title: "CloutSourced",
 //     imageSource: "",
@@ -77,25 +77,5 @@ import { IProps as IProjectCardProps } from "./ProjectCard";
 //       "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain ",
 //     avatarSource:
 //       "https://images.unsplash.com/photo-1544890225-2f3faec4cd60?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-//   },
-//   {
-//     title: "Vetted",
-//     imageSource:
-//       "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-//     language: "Typescript",
-//     description:
-//       "m, and expound the actual teachings of the great explorer of the truth, the ",
-//     avatarSource:
-//       "https://images.unsplash.com/photo-1553710846-a739f3a2b037?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-//   },
-//   {
-//     title: "Artificial",
-//     imageSource:
-//       "https://images.unsplash.com/photo-1537498425277-c283d32ef9db?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-//     language: "Python",
-//     description:
-//       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti at",
-//     avatarSource:
-//       "https://images.unsplash.com/photo-1521175776577-f8e0c1e5ecb7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
 //   },
 // ];

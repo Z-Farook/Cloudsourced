@@ -5,16 +5,19 @@ import { RouteComponentProps, withRouter } from "react-router";
 export enum EMenuItem {
   Home,
   Projects,
+  UserProjects,
 }
 
 export const menuItemUrls: Record<EMenuItem, string> = {
   [EMenuItem.Home]: "/home",
   [EMenuItem.Projects]: "/projects",
+  [EMenuItem.UserProjects]: "/user/projects",
 };
 
 export const menuItemTexts: Record<EMenuItem, string> = {
   [EMenuItem.Home]: "Home",
   [EMenuItem.Projects]: "Projects",
+  [EMenuItem.UserProjects]: "Account",
 };
 
 interface IProps extends RouteComponentProps {}
