@@ -4,17 +4,15 @@ import { Card, Avatar } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
+import { Project } from "cloudsourced-api";
 
 export interface IProps {
-  title: string;
-  imageSource: string;
-  language: string;
-  description: string;
-  avatarSource: string;
+  project: Project;
 }
 
 const ProjectCard: React.FC<IProps> = (props) => {
-  const { description, imageSource, language, title, avatarSource } = props;
+  const { project } = props;
+  const { description, image, name } = project;
 
   return (
     <Link to="/projects/1">
@@ -60,6 +58,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
         />
       </Card>
     </Link>
+
   );
 };
 
