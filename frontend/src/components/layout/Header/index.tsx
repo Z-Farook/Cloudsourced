@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Menu, Typography, Layout } from "antd";
+import { Menu, Typography } from "antd";
 import { RouteComponentProps, withRouter } from "react-router";
 import { DownOutlined } from "@ant-design/icons";
 

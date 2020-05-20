@@ -18,7 +18,7 @@ export interface IProps extends RouteComponentProps<IRouterParams> {
   avatarSource: string;
 }
 
-interface IFeature extends RouteComponentProps {
+interface IFeature {
   name: string;
   points: number;
   description: string;
