@@ -21,7 +21,7 @@ type Inputs = {
 const CreateProjectPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
 
-  const handleProject = async (data: any) => {
+  const handleProject = async (data: Inputs) => {
     const params: AddWithUserUsingPOSTRequest = {
       id: 1,
       project: {
@@ -32,10 +32,12 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       },
     };
 
-    const result = await new ProjectResourceApi().addWithUserUsingPOST(params);
-    if (result) {
-      props.history.push("/projects");
-    }
+    await new ProjectResourceApi()
+      .addWithUserUsingPOST(params)
+      .then(() => props.history.push("/projects"))
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <DefaultLayout>
