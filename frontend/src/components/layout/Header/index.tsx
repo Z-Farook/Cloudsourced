@@ -1,23 +1,21 @@
 import React, { useMemo } from "react";
-import { Col, Menu, Row, Typography } from "antd";
+import { Menu, Typography, Layout } from "antd";
 import { RouteComponentProps, withRouter } from "react-router";
+import { DownOutlined } from "@ant-design/icons";
 
 export enum EMenuItem {
   Home,
   Projects,
-  UserProjects,
 }
 
 export const menuItemUrls: Record<EMenuItem, string> = {
   [EMenuItem.Home]: "/home",
   [EMenuItem.Projects]: "/projects",
-  [EMenuItem.UserProjects]: "/account",
 };
 
 export const menuItemTexts: Record<EMenuItem, string> = {
   [EMenuItem.Home]: "Home",
   [EMenuItem.Projects]: "Projects",
-  [EMenuItem.UserProjects]: "Account",
 };
 
 interface IProps extends RouteComponentProps {}
@@ -37,40 +35,59 @@ const Header: React.FC<IProps> = (props) => {
   }, [props.location.pathname]);
 
   return (
-    <Row
+    <div
       style={{
         display: "flex",
-        backgroundColor: "white",
+        alignItems: "center",
+        paddingLeft: 30,
+        paddingRight: 10,
+        backgroundColor: "#001529",
       }}
     >
-      <Col
-        span={3}
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          display: "flex",
-        }}
-      >
-        <Typography.Title level={4} style={{ margin: 0 }}>
+      {/*<Layout.Header style={{ display: "flex", alignItems: "center" }}>*/}
+      <div className="logo">
+        <Typography.Title level={4} style={{ margin: 0, color: "white" }}>
           CloudSourced
         </Typography.Title>
-      </Col>
-      <Col span={21}>
-        <Menu theme="light" mode="horizontal" selectedKeys={selectedKeys}>
-          {Object.keys(EMenuItem).map((key) => {
-            const enumEntry = Number(key) as EMenuItem;
-            return (
-              <Menu.Item
-                key={key}
-                onClick={() => props.history.push(menuItemUrls[enumEntry])}
-              >
-                {menuItemTexts[enumEntry]}
-              </Menu.Item>
-            );
-          })}
-        </Menu>
-      </Col>
-    </Row>
+      </div>
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        style={{ marginLeft: 30, display: "flex", width: "100%" }}
+        selectedKeys={selectedKeys}
+      >
+        {Object.keys(EMenuItem).map((key) => {
+          const enumEntry = Number(key) as EMenuItem;
+          return (
+            <Menu.Item
+              key={key}
+              onClick={() => props.history.push(menuItemUrls[enumEntry])}
+            >
+              {menuItemTexts[enumEntry]}
+            </Menu.Item>
+          );
+        })}
+        <div style={{ flex: 1 }} />
+        <Menu.SubMenu
+          title={
+            <span style={{ display: "flex", alignItems: "center" }}>
+              <span>Account</span>
+              <span style={{ marginLeft: 5 }}>
+                <DownOutlined />
+              </span>
+            </span>
+          }
+        >
+          <Menu.Item onClick={() => props.history.push("/account/login")}>
+            Login
+          </Menu.Item>
+          <Menu.Item onClick={() => props.history.push("/account/register")}>
+            Register
+          </Menu.Item>
+        </Menu.SubMenu>
+      </Menu>
+      {/*</Layout.Header>*/}
+    </div>
   );
 };
 
