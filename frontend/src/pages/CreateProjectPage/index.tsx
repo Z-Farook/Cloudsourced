@@ -1,5 +1,5 @@
-import React from "react";
-import { Input, Button, Row, Col } from "antd";
+import React, { useState } from "react";
+import { Input, Button, Row, Col, message } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 
@@ -20,7 +20,6 @@ type Inputs = {
 
 const CreateProjectPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
-
   const handleProject = async (data: Inputs) => {
     const params: AddWithUserUsingPOSTRequest = {
       id: 1,
@@ -31,13 +30,29 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         image: "https://source.unsplash.com/500x500/?coding,pc",
       },
     };
-
+    message.loading({ content: "Saving project...", key: "updatableKey" });
     await new ProjectResourceApi()
+
       .addWithUserUsingPOST(params)
-      .then(() => props.history.push("/projects"))
+      .then(() => {
+        message.success({
+          content: "Project is created succesfully!",
+          key: "updatableKey",
+          duration: 2,
+        });
+        props.history.push("/projects");
+      })
       .catch((error) => {
-        console.log(error);
+        errorMessage();
       });
+  };
+
+  const errorMessage = () => {
+    message.error({
+      content: "Something went wrong",
+      key: "updatableKey",
+      duration: 2,
+    });
   };
   return (
     <DefaultLayout>
