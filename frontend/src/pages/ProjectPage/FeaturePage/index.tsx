@@ -17,7 +17,7 @@ interface IRouteParams {
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 // These are temporary mock models and data
-interface IMockFeature {
+export interface IMockFeature {
   name: string;
   description: string;
   codePreview: string;
