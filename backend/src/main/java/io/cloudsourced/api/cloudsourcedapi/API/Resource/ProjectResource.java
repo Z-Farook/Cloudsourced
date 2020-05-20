@@ -9,14 +9,14 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/project/")
+@RequestMapping("/project")
 public class ProjectResource extends BaseResource<Project, ProjectService, ProjectRepository>{
 
     public ProjectResource(ProjectService service) {
         super(service);
     }
 
-    @GetMapping("search/{name}")
+    @GetMapping("/search/{name}")
     public List<Project> searchProjectName(@PathVariable String name) {
         return service.searchProjectName(name);
     }
@@ -26,7 +26,7 @@ public class ProjectResource extends BaseResource<Project, ProjectService, Proje
     }
 
     // TODO: This function is for development purposes only and needs to go when we can get the user from the session
-    @PostMapping("{id}")
+    @PostMapping("/{id}")
     public Project addWithUser(@PathVariable Long id, @RequestBody Project project) {
         return service.saveWithUser(id, project);
     }
