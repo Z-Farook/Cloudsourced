@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
+import ProjectDetailPage from "../pages/ProjectDetailPage";
 import ProjectPage from "../pages/ProjectPage";
 import FeaturePage from "../pages/ProjectPage/FeaturePage";
 
@@ -27,6 +28,11 @@ const MainRouter: React.FC<IProps> = (props) => {
           exact
           path="/user/project/create"
           component={CreateProjectPage}
+        />
+        <Route
+          exact
+          path="/projects/:projectId"
+          component={ProjectDetailPage}
         />
         <Route
           exact
