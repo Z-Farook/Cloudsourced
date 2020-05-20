@@ -22,11 +22,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
           <img
             alt="example"
             className="image"
-            src={
-              imageSource
-                ? imageSource
-                : "https://source.unsplash.com/400x300/?code,pc"
-            }
+            src={image ? image : "https://source.unsplash.com/400x300/?code,pc"}
           />
         }
         // actions={
@@ -36,20 +32,16 @@ const ProjectCard: React.FC<IProps> = (props) => {
         //     <DownOutlined key="ellipsis" />,
         //   ]
         // }
-        title={title}
+        title={name}
         extra={<MoreOutlined />}
       >
         <Meta
           avatar={
             <Avatar
-              src={
-                avatarSource
-                  ? avatarSource
-                  : "https://source.unsplash.com/100x100/?person,avatar"
-              }
+              src={"https://source.unsplash.com/100x100/?person,avatar"}
             />
           }
-          title={language}
+          title={"language"}
           description={
             description
               ? description
@@ -58,7 +50,6 @@ const ProjectCard: React.FC<IProps> = (props) => {
         />
       </Card>
     </Link>
-
   );
 };
 
