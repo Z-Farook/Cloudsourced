@@ -6,7 +6,7 @@ import { Row, Button, PageHeader } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 interface IProps extends RouteComponentProps {}
 
-const UserProjectsPage: React.FC<IProps> = (props) => {
+const AccountPage: React.FC<IProps> = (props) => {
   return (
     <DefaultLayout>
       <PageHeader
@@ -21,7 +21,7 @@ const UserProjectsPage: React.FC<IProps> = (props) => {
             <PlusOutlined />
           </Button>,
         ]}
-      ></PageHeader>
+      />
       <div className="Grid" style={{ padding: 20 }}>
         <Row justify="center" gutter={[24, 24]}>
           {/* {myProjectMocks.map((v, i) => {
@@ -37,4 +37,4 @@ const UserProjectsPage: React.FC<IProps> = (props) => {
   );
 };
 
-export default withRouter(UserProjectsPage);
+export default withRouter(AccountPage);
