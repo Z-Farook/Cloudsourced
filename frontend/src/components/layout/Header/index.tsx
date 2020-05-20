@@ -78,10 +78,10 @@ const Header: React.FC<IProps> = (props) => {
             </span>
           }
         >
-          <Menu.Item onClick={() => props.history.push("/account/login")}>
+          <Menu.Item onClick={() => props.history.push("/auth/login")}>
             Login
           </Menu.Item>
-          <Menu.Item onClick={() => props.history.push("/account/register")}>
+          <Menu.Item onClick={() => props.history.push("/auth/register")}>
             Register
           </Menu.Item>
         </Menu.SubMenu>
