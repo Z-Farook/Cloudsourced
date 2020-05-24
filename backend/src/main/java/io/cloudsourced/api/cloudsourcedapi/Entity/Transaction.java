@@ -6,14 +6,12 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
 @Data
-@Table(name="tbl_project")
-public class Project extends BaseEntity{
+@Entity
+@Table(name = "tbl_transation")
+public class Transaction extends BaseEntity{
 
-    private String name;
-    private String description;
-    private String image;
+    private long points;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 }
