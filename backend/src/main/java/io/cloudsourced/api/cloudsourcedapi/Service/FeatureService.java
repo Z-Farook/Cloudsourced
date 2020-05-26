@@ -3,6 +3,10 @@ package io.cloudsourced.api.cloudsourcedapi.Service;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.FeatureRepository;
+import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class FeatureService extends BaseService<Feature, FeatureRepository> {
@@ -14,7 +18,15 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
 
     public Feature addFeatureToProject(Long id, Feature feature) {
         Project project = projectService.getOneById(id);
-        feature.setProject(project);
-        return repository.save(feature);
+
+        List<Feature> features = project.getFeatures();
+        features.add(feature);
+        project.setFeatures(features);
+
+        return projectService.save(project).getFeatures().stream()
+                .filter(x -> x.getId()
+                .equals(id))
+                .collect(Collectors.toList())
+                .get(0);
     }
 }

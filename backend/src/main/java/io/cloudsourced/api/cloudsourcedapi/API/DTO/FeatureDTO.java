@@ -9,5 +9,4 @@ public class FeatureDTO {
     private String description;
     private String codePreview;
     private String codeLanguage;
-    private ProjectDTO project;
 }
