@@ -67,7 +67,7 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
         <div className="Grid" style={{ padding: 20 }}>
           <Row justify="center" gutter={[24, 24]}>
             <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-              <Title>Create a new project</Title>
+              <Title>Create a new feature</Title>
 
               <Form {...layout} onFinish={handleSubmit}>
                 <Form.Item
