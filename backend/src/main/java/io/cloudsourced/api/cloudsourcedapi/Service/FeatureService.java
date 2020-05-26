@@ -23,6 +23,7 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
         features.add(feature);
         project.setFeatures(features);
 
+        projectService.save(project);
         return feature;
     }
 }
