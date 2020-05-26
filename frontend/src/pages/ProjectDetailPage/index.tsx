@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, Row, Col, Divider } from "antd";
+import { Typography, Row, Col, Divider, Spin } from "antd";
 
-import { projectMock } from "./projectMock";
 import FeatureCard from "../../components/feature/FeatureCard";
+import IRemoteData, {
+  fromLoaded,
+  fromLoading,
+  EState,
+} from "../../core/IRemoteData";
+import {
+  Project,
+  ProjectResourceApi,
+  GetOneByIdUsingGET1Request,
+} from "cloudsourced-api";
 
 interface IRouterParams {
   projectId: string;
@@ -27,70 +36,76 @@ interface IFeature extends RouteComponentProps {
 }
 
 const ProjectDetailPage: React.FC<IProps> = (props) => {
-  // const projectId = parseInt(props.match.params.projectId);
-  const { title, description, imageSource } = projectMock;
+  let projectName, description, image;
+  const projectId = parseInt(props.match.params.projectId);
 
-  // const data = {
-  //   name: "Basic login form",
-  //   points: 100,
-  //   description:
-  //     "We want a login form that takes an email and a password, with validation and the ability to submit the form.",
-  //   codeLanguage: "tsx",
-  //   codePreview: `interface IProps {
-  //       // These fields can be filled so they need to be used as default values
-  //       emailAddress?: string;
-  //       password?: string;
-  //       onSubmit: (emailAddress: string, password: String) => Promise<void>;
-  //     }
+  const projectIdRequest: GetOneByIdUsingGET1Request = { id: projectId };
 
-  //     const LoginForm: React.FC<IProps> = (props) => {
-  //       return (
-  //           // Please implement
-  //       );
-  //     };`,
-  // };
+  const [project, setProject] = useState<IRemoteData<Project, null>>(
+    fromLoading()
+  );
+
+  useEffect(() => {
+    (async () => {
+      const result = await new ProjectResourceApi().getOneByIdUsingGET1(
+        projectIdRequest
+      );
+      console.log(result);
+      setProject(fromLoaded(result));
+    })();
+  }, []);
+
+  if (project.state === EState.Loaded) {
+    description = project.data!.description;
+    image = project.data!.image;
+    projectName = project.data!.name;
+  }
 
   // TODO: make pretty
   return (
     <DefaultLayout>
-      <div style={{ padding: 20 }}>
-        <Typography.Title>{title}</Typography.Title>
-        <Row>
-          <Col span={12} offset={6}>
-            <Row>
-              <Col span={12}>
-                <img
-                  alt="example"
-                  className="image"
-                  src={
-                    imageSource
-                      ? imageSource
-                      : "https://source.unsplash.com/400x300/?code,pc"
-                  }
-                />
-              </Col>
-              <Col span={12}>
-                <Divider
-                  orientation="left"
-                  style={{ color: "#333", fontWeight: "normal" }}
-                >
-                  Description
-                </Divider>
-                {description}
-              </Col>
-            </Row>
+      {project.state === EState.Loading ? (
+        <Spin />
+      ) : (
+        <div style={{ padding: 20 }}>
+          <Typography.Title>{projectName}</Typography.Title>
+          <Row>
+            <Col span={12} offset={6}>
+              <Row>
+                <Col span={12}>
+                  <img
+                    alt="example"
+                    className="image"
+                    src={
+                      image
+                        ? image
+                        : "https://source.unsplash.com/400x300/?code,pc"
+                    }
+                  />
+                </Col>
+                <Col span={12}>
+                  <Divider
+                    orientation="left"
+                    style={{ color: "#333", fontWeight: "normal" }}
+                  >
+                    Description
+                  </Divider>
+                  {description}
+                </Col>
+              </Row>
 
-            {/* TODO: map through project features */}
-            <Divider
-              orientation="left"
-              style={{ color: "#333", fontWeight: "normal" }}
-            >
-              Features
-            </Divider>
-            <FeatureCard {...props}></FeatureCard>
-          </Col>
-        </Row>
-      </div>
+              {/* TODO: map through project features */}
+              <Divider
+                orientation="left"
+                style={{ color: "#333", fontWeight: "normal" }}
+              >
+                Features
+              </Divider>
+              <FeatureCard {...props}></FeatureCard>
+            </Col>
+          </Row>
+        </div>
+      )}
     </DefaultLayout>
   );
 };

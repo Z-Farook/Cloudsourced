@@ -12,10 +12,10 @@ export interface IProps {
 
 const ProjectCard: React.FC<IProps> = (props) => {
   const { project } = props;
-  const { description, image, name } = project;
+  const { description, image, name, id } = project;
 
   return (
-    <Link to="/projects/1">
+    <Link to={`/projects/${id}`}>
       <Card
         style={{ width: "100%" }}
         cover={
