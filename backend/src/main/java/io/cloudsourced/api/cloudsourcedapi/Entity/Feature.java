@@ -15,6 +15,4 @@ public class Feature extends BaseEntity {
     private String description;
     private String codePreview;
     private String codeLanguage;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Project project;
 }

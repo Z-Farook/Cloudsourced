@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class TransactionDTO {
-    public Long id;
-    public Long points;
+    private Long id;
+    private Long points;
 }

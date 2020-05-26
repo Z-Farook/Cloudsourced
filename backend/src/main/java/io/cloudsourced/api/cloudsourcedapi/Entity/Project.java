@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -14,6 +15,8 @@ public class Project extends BaseEntity{
     private String name;
     private String description;
     private String image;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Feature> features;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 }
