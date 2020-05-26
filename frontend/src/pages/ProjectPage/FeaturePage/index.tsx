@@ -17,7 +17,7 @@ interface IRouteParams {
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 // These are temporary mock models and data
-interface IMockFeature {
+export interface IMockFeature {
   name: string;
   description: string;
   codePreview: string;
@@ -26,7 +26,7 @@ interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
-  const [feature, setFeature] = useState<IRemoteData<IMockFeature, null>>(
+  const [feature] = useState<IRemoteData<IMockFeature, null>>(
     fromLoaded({
       name: "Basic login form",
       points: 100,

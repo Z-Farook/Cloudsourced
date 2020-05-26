@@ -8,10 +8,12 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name="tbl_user")
-public class User extends BaseEntity{
+@Table(name="tbl_project")
+public class Project extends BaseEntity{
 
     private String name;
-    private String email;
-    private String password;
+    private String description;
+    private String image;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
 }
