@@ -40,13 +40,17 @@ const FeatureCard: React.FC<IProps> = (props) => {
   // const { description, name, codePreview, codeLanguage } = data;
 
   return (
-    <Card title={name}>
+    <Card style={{ marginBottom: "20px" }} title={name}>
       <p>{description}</p>
       <SyntaxHighlighter language={codeLanguage} style={docco}>
         {codePreview}
       </SyntaxHighlighter>
 
-      <Button onClick={() => props.history.push(`/projects/${projectId}/features/${id}`)}>
+      <Button
+        onClick={() =>
+          props.history.push(`/projects/${projectId}/features/${id}`)
+        }
+      >
         View details
       </Button>
     </Card>

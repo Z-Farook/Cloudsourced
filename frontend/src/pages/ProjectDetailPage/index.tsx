@@ -79,29 +79,28 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 </Col>
               </Row>
 
-              {project.data!.features!.length < 1 ? (
-                <Button
-                  onClick={() =>
-                    props.history.push(`/projects/${projectId}/createFeature`)
-                  }
+              {project.data!.features!.length > 0 ? (
+                <Divider
+                  orientation="left"
+                  style={{ color: "#333", fontWeight: "normal" }}
                 >
-                  Create feature
-                </Button>
+                  Features
+                </Divider>
               ) : (
-                project.data!.features!.map((v, i) => {
-                  return (
-                    <>
-                      <Divider
-                        orientation="left"
-                        style={{ color: "#333", fontWeight: "normal" }}
-                      >
-                        Features
-                      </Divider>
-                      <FeatureCard key={i} {...{ data: v }}></FeatureCard>
-                    </>
-                  );
-                })
+                ""
               )}
+
+              {project.data!.features!.map((v, i) => {
+                return <FeatureCard key={i} {...{ data: v }}></FeatureCard>;
+              })}
+
+              <Button
+                onClick={() =>
+                  props.history.push(`/projects/${projectId}/createFeature`)
+                }
+              >
+                Create feature
+              </Button>
             </Col>
           </Row>
         </div>
