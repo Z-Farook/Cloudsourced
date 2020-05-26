@@ -23,10 +23,6 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
         features.add(feature);
         project.setFeatures(features);
 
-        return projectService.save(project).getFeatures().stream()
-                .filter(x -> x.getId()
-                .equals(id))
-                .collect(Collectors.toList())
-                .get(0);
+        return feature;
     }
 }
