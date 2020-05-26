@@ -7,7 +7,7 @@ import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.factory.Mappers;
 
-@org.mapstruct.Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@org.mapstruct.Mapper(componentModel = "spring", uses = ProjectMapper.class, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface FeatureMapper extends Mapper<Feature, FeatureDTO> {
     FeatureMapper INSTANCE = Mappers.getMapper(FeatureMapper.class);
 }

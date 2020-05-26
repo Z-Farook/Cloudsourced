@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface Resource<Entity,DTO> {
     DTO getOneById(Long id);
     Entity createNew(Entity dto);
-    List<Entity> All();
+    List<DTO> All();
     void delete(Long id);
 }
 

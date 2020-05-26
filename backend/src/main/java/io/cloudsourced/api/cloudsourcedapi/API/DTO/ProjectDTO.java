@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class ProjectDTO {
-    public Long id;
-    public String name;
-    public String description;
-    public String image;
+    private Long id;
+    private String name;
+    private String description;
+    private String image;
+    private UserDTO user;
 }
