@@ -22,8 +22,7 @@ interface IRouterParams {
 export interface IProps extends RouteComponentProps<IRouterParams> {}
 
 const ProjectDetailPage: React.FC<IProps> = (props) => {
-  let projectName, description, image;
-  const projectId = parseInt(props.match.params.projectId);
+  const projectId = Number(props.match.params.projectId);
 
   const projectIdRequest: GetOneByIdUsingGET1Request = { id: projectId };
 
@@ -40,13 +39,8 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
     })();
   }, [projectIdRequest]);
 
-  if (project.state === EState.Loaded) {
-    description = project.data!.description;
-    image = project.data!.image;
-    projectName = project.data!.name;
-  }
+  const { description, image, name: projectName } = project.data! || {}
 
-  // TODO: make pretty
   return (
     <DefaultLayout>
       {project.state === EState.Loading ? (
@@ -82,7 +76,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
               {project.data!.features!.length < 1 ? (
                 <Button
                   onClick={() =>
-                    props.history.push(`/projects/${projectId}/createFeature`)
+                    props.history.push(`/projects/${projectId}/feature/add`)
                   }
                 >
                   Create feature
@@ -97,7 +91,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                       >
                         Features
                       </Divider>
-                      <FeatureCard key={i} {...{ data: v }}></FeatureCard>
+                      <FeatureCard key={i} {...{ data: v, projectId }}></FeatureCard>
                     </>
                   );
                 })

@@ -5,17 +5,14 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Feature } from "cloudsourced-api";
 
-interface IRouterParams {
-  projectId: string;
-}
-
-interface IProps extends RouteComponentProps<IRouterParams> {
+interface IProps extends RouteComponentProps {
   data: Feature;
+  projectId: Number
 }
 
 const FeatureCard: React.FC<IProps> = (props) => {
   const { id, name, description, codeLanguage, codePreview } = props.data;
-  const projectId = props.match.params.projectId;
+  const projectId = props.projectId;
 
   // const data = {
   //   name: "Basic login form",
