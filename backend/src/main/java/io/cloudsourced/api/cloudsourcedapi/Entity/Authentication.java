@@ -1,18 +1,14 @@
 package io.cloudsourced.api.cloudsourcedapi.Entity;
 
-import jdk.jfr.Enabled;
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToOne;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @EqualsAndHashCode(callSuper = true)
-@Enabled
 @Data
+@Entity
 @Table(name="tbl_feature")
 public class Authentication extends BaseEntity{
 

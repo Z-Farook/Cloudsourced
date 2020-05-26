@@ -16,4 +16,8 @@ public class User extends BaseEntity{
     private String password;
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;
+
+    public User(){
+        authentication = new Authentication();
+    }
 }
