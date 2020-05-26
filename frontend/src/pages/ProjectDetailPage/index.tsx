@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { RouteComponentProps, withRouter } from "react-router";
+import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, Row, Col, Divider, Spin } from "antd";
+import { Typography, Row, Col, Divider, Spin, Button } from "antd";
 
 import FeatureCard from "../../components/feature/FeatureCard";
 import IRemoteData, {
@@ -38,7 +38,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       );
       setProject(fromLoaded(result));
     })();
-  }, []);
+  }, [projectIdRequest]);
 
   if (project.state === EState.Loaded) {
     description = project.data!.description;
@@ -79,19 +79,29 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 </Col>
               </Row>
 
-              {project.data!.features!.map((v, i) => {
-                return (
-                  <>
-                    <Divider
-                      orientation="left"
-                      style={{ color: "#333", fontWeight: "normal" }}
-                    >
-                      Features
-                    </Divider>
-                    <FeatureCard key={i} {...{ data: v }}></FeatureCard>
-                  </>
-                );
-              })}
+              {project.data!.features!.length < 1 ? (
+                <Button
+                  onClick={() =>
+                    props.history.push(`/projects/${projectId}/createFeature`)
+                  }
+                >
+                  Create feature
+                </Button>
+              ) : (
+                project.data!.features!.map((v, i) => {
+                  return (
+                    <>
+                      <Divider
+                        orientation="left"
+                        style={{ color: "#333", fontWeight: "normal" }}
+                      >
+                        Features
+                      </Divider>
+                      <FeatureCard key={i} {...{ data: v }}></FeatureCard>
+                    </>
+                  );
+                })
+              )}
             </Col>
           </Row>
         </div>
