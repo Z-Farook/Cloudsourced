@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { Typography, Row, Col, Divider, Spin } from "antd";
 
@@ -19,21 +19,7 @@ interface IRouterParams {
   projectId: string;
 }
 
-export interface IProps extends RouteComponentProps<IRouterParams> {
-  title: string;
-  imageSource: string;
-  language: string;
-  description: string;
-  avatarSource: string;
-}
-
-interface IFeature extends RouteComponentProps {
-  name: string;
-  points: number;
-  description: string;
-  codeLanguage: string;
-  codePreview: string;
-}
+export interface IProps extends RouteComponentProps<IRouterParams> {}
 
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   let projectName, description, image;
@@ -50,7 +36,6 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       const result = await new ProjectResourceApi().getOneByIdUsingGET1(
         projectIdRequest
       );
-      console.log(result);
       setProject(fromLoaded(result));
     })();
   }, []);
@@ -94,14 +79,19 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 </Col>
               </Row>
 
-              {/* TODO: map through project features */}
-              <Divider
-                orientation="left"
-                style={{ color: "#333", fontWeight: "normal" }}
-              >
-                Features
-              </Divider>
-              <FeatureCard {...props}></FeatureCard>
+              {project.data!.features!.map((v, i) => {
+                return (
+                  <>
+                    <Divider
+                      orientation="left"
+                      style={{ color: "#333", fontWeight: "normal" }}
+                    >
+                      Features
+                    </Divider>
+                    <FeatureCard key={i} {...{ data: v }}></FeatureCard>
+                  </>
+                );
+              })}
             </Col>
           </Row>
         </div>
