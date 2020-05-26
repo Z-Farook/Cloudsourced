@@ -12,8 +12,13 @@ interface IData {
   codePreview: string;
 }
 
-interface IProps extends RouteComponentProps {
-  // data: IData;
+interface IRouterParams {
+  projectId: string;
+}
+
+
+interface IProps extends RouteComponentProps<IRouterParams> {
+
 }
 
 const FeatureCard: React.FC<IProps> = (props) => {

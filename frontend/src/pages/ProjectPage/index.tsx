@@ -19,7 +19,7 @@ const ProjectPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi().allUsingGET();
+      const result = await new ProjectResourceApi().allUsingGET1();
       console.log(result);
       setProjects(fromLoaded(result));
     })();

@@ -15,6 +15,7 @@ import AccountPage from "../pages/Account";
 import CreateProjectPage from "../pages/CreateProjectPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
+import CreateFeaturePage from "../pages/CreateFeaturePage";
 
 interface IProps {}
 
@@ -32,6 +33,11 @@ const MainRouter: React.FC<IProps> = (props) => {
           exact
           path="/user/project/create"
           component={CreateProjectPage}
+        />
+        <Route
+          exact
+          path="/projects/:projectId/createFeature"
+          component={CreateFeaturePage}
         />
         <Route
           exact
