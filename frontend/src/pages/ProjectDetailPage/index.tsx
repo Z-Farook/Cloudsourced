@@ -39,7 +39,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
     })();
   }, [projectIdRequest]);
 
-  const { description, image, name: projectName } = project.data! || {}
+  const { description, image, name: projectName } = project.data! || {};
 
   return (
     <DefaultLayout>
@@ -73,29 +73,33 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 </Col>
               </Row>
 
-              {project.data!.features!.length < 1 ? (
-                <Button
-                  onClick={() =>
-                    props.history.push(`/projects/${projectId}/feature/add`)
-                  }
+              {project.data!.features!.length > 0 ? (
+                <Divider
+                  orientation="left"
+                  style={{ color: "#333", fontWeight: "normal" }}
                 >
-                  Create feature
-                </Button>
+                  Features
+                </Divider>
               ) : (
-                project.data!.features!.map((v, i) => {
-                  return (
-                    <>
-                      <Divider
-                        orientation="left"
-                        style={{ color: "#333", fontWeight: "normal" }}
-                      >
-                        Features
-                      </Divider>
-                      <FeatureCard key={i} {...{ data: v, projectId }}></FeatureCard>
-                    </>
-                  );
-                })
+                ""
               )}
+
+              {project.data!.features!.map((v, i) => {
+                return (
+                  <FeatureCard
+                    key={i}
+                    {...{ data: v, projectId }}
+                  ></FeatureCard>
+                );
+              })}
+
+              <Button
+                onClick={() =>
+                  props.history.push(`/projects/${projectId}/feature/add`)
+                }
+              >
+                Create feature
+              </Button>
             </Col>
           </Row>
         </div>
