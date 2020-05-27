@@ -5,7 +5,8 @@ import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Button, Spin, Typography } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import IRemoteData, { EState, fromLoaded } from "../../../core/IRemoteData";
+import IRemoteData, { EState, fromLoaded, fromLoading } from "../../../core/IRemoteData";
+import { Feature, FeatureResourceApi, GetOneByIdUsingGET1Request } from "cloudsourced-api";
 
 const { Title, Paragraph } = Typography;
 
@@ -26,38 +27,27 @@ export interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
-  const [feature] = useState<IRemoteData<IMockFeature, null>>(
-    fromLoaded({
-      name: "Basic login form",
-      points: 100,
-      description:
-        "We want a login form that takes an email and a password, with validation and the ability to submit the form.",
-      codeLanguage: "tsx",
-      codePreview: `interface IProps {
-  // These fields can be filled so they need to be used as default values
-  emailAddress?: string;
-  password?: string;
-  onSubmit: (emailAddress: string, password: String) => Promise<void>;
-}
-
-const LoginForm: React.FC<IProps> = (props) => {
-   return (
-      // Please implement
-   );
-};`,
-    })
+  const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
+    fromLoading()
   );
 
-  const { projectId, featureId } = useMemo(() => {
+  const { featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
       featureId: Number(props.match.params.featureId),
     };
   }, [props.match.params]);
 
+  const featureIdRequest: GetOneByIdUsingGET1Request = { id: featureId };
+
   useEffect(() => {
-    // Ophalen feature
-  }, [projectId, featureId]);
+    (async () => {
+      const result = await new FeatureResourceApi().getOneByIdUsingGET(
+        featureIdRequest
+      );
+      setFeature(fromLoaded(result))
+    })();
+  }, [featureIdRequest]);
 
   return (
     <DefaultLayout>
@@ -70,7 +60,8 @@ const LoginForm: React.FC<IProps> = (props) => {
         ) : feature.state === EState.Loaded ? (
           <div>
             <Title level={2}>{feature.data!.name}</Title>
-            <Paragraph strong>Points: {feature.data!.points}</Paragraph>
+            {/* TODO: points */}
+            {/* <Paragraph strong>Points: {feature.data!.points}</Paragraph> */}
             <Paragraph>{feature.data!.description}</Paragraph>
             <SyntaxHighlighter
               language={feature.data!.codeLanguage}
