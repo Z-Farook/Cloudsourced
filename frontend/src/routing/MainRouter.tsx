@@ -36,7 +36,7 @@ const MainRouter: React.FC<IProps> = (props) => {
         />
         <Route
           exact
-          path="/projects/:projectId/createFeature"
+          path="/projects/:projectId/feature/add"
           component={CreateFeaturePage}
         />
         <Route

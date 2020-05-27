@@ -5,39 +5,14 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Feature } from "cloudsourced-api";
 
-interface IRouterParams {
-  projectId: string;
-}
-
-interface IProps extends RouteComponentProps<IRouterParams> {
+interface IProps extends RouteComponentProps {
   data: Feature;
+  projectId: Number;
 }
 
 const FeatureCard: React.FC<IProps> = (props) => {
   const { id, name, description, codeLanguage, codePreview } = props.data;
-  const projectId = props.match.params.projectId;
-
-  // const data = {
-  //   name: "Basic login form",
-  //   points: 100,
-  //   description:
-  //     "We want a login form that takes an email and a password, with validation and the ability to submit the form.",
-  //   codeLanguage: "tsx",
-  //   codePreview: `interface IProps {
-  //     // These fields can be filled so they need to be used as default values
-  //     emailAddress?: string;
-  //     password?: string;
-  //     onSubmit: (emailAddress: string, password: String) => Promise<void>;
-  //   }
-
-  //   const LoginForm: React.FC<IProps> = (props) => {
-  //     return (
-  //       // Please implement
-  //       );
-  //     };`,
-  // };
-
-  // const { description, name, codePreview, codeLanguage } = data;
+  const projectId = props.projectId;
 
   return (
     <Card style={{ marginBottom: "20px" }} title={name}>
