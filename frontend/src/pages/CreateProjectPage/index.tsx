@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Button, Row, Col, message } from "antd";
+import { Input, Button, Row, Col, message, Upload } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 
@@ -20,6 +20,27 @@ type Inputs = {
 
 const CreateProjectPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
+
+  const postImage = (image: string) => {
+    // POST request using fetch inside useEffect React hook
+    image = image.split("base64,")[1];
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Client-ID 2b1eae61348c066",
+      },
+      body: JSON.stringify({
+        image,
+        type: "base64",
+      }),
+    };
+    fetch("https://api.imgur.com/3/image", requestOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+
+    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  };
   const handleProject = async (data: Inputs) => {
     const params: AddWithUserUsingPOSTRequest = {
       id: 1,
@@ -46,7 +67,19 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         errorMessage();
       });
   };
+  const getBase64 = (img: Blob, callback: any) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => postImage(reader.result as string));
+    reader.readAsDataURL(img);
+  };
 
+  let imgUrl;
+
+  const uploadButton = (
+    <div>
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
   const errorMessage = () => {
     message.error({
       content: "Something went wrong",
@@ -90,7 +123,28 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   name="description"
                   message="A description is required"
                 />
-
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  onChange={(event) =>
+                    getBase64(
+                      event.file.originFileObj as Blob,
+                      (res: string) => {
+                        imgUrl = res;
+                        console.log(res);
+                      }
+                    )
+                  }
+                >
+                  {imgUrl ? (
+                    <img src={imgUrl} alt="avatar" style={{ width: "100%" }} />
+                  ) : (
+                    <img src={imgUrl} alt="avatar" style={{ width: "100%" }} />
+                  )}
+                </Upload>
                 <Button type="primary" htmlType="submit" block>
                   Submit
                 </Button>
