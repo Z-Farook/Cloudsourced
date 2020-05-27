@@ -31,7 +31,7 @@ public class ProjectServiceTests {
 
 
     @Test
-    public void searchProjectTest(){
+    public void SearchProjectTest(){
         String name = "newProject";
         Project newProject = new Project();
         newProject.setName(name);
