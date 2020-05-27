@@ -22,5 +22,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Copy temporary application.properties
+      - run: cd backend/src/main/resources && cp application.properties.example application.properties
     - name: Build with Maven
-      run: cd backend && mvn -B package --file pom.xml
+      - run: cd backend && mvn -B package --file pom.xml
