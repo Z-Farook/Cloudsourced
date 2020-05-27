@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Input, Button, Row, Col, message, Upload } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-
 import Title from "antd/lib/typography/Title";
-
 import {
   ProjectResourceApi,
   AddWithUserUsingPOSTRequest,
@@ -21,6 +19,20 @@ type Inputs = {
 const CreateProjectPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
   const [image, setImage] = useState("");
+
+  const getBase64 = (image: Blob) => {
+    const reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+      renderImage(reader.result as string);
+    });
+
+    reader.readAsDataURL(image);
+  };
+
+  const renderImage = (image: string) => {
+    setImage(image);
+  };
 
   const postImage = async (image: string): Promise<string> => {
     image = image.split("base64,")[1];
@@ -40,11 +52,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       requestOptions
     );
     const data = await response.json();
-    return data.data.link;
-  };
-
-  const renderImage = (image: string) => {
-    setImage(image);
+    return data!.data!.link;
   };
 
   const handleProject = async (data: Inputs) => {
@@ -73,16 +81,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         errorMessage();
       });
   };
-  const getBase64 = (img: Blob) => {
-    const reader = new FileReader();
-
-    reader.addEventListener("load", () => {
-      //postImage(reader.result as string);
-      renderImage(reader.result as string);
-    });
-
-    reader.readAsDataURL(img);
-  };
 
   const errorMessage = () => {
     message.error({
@@ -91,6 +89,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       duration: 2,
     });
   };
+
   return (
     <DefaultLayout>
       <div style={{ backgroundColor: "#f5f5f5" }}>
@@ -132,6 +131,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   listType="picture-card"
                   className="avatar-uploader"
                   showUploadList={false}
+                  accept=".jpg, .jpeg, .png"
                   onChange={(event) =>
                     getBase64(event.file.originFileObj as Blob)
                   }
