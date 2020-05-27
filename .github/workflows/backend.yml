@@ -25,4 +25,4 @@ jobs:
     - name: Copy temporary application.properties
       run: cd backend/src/main/resources && cp application.properties.example application.properties
     - name: Build with Maven
-      run: cd backend && mvn -B package --file pom.xml
+      run: cd backend && mvn compile # -B package --file pom.xml
