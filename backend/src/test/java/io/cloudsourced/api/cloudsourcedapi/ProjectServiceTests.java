@@ -43,9 +43,9 @@ public class ProjectServiceTests {
 
         when(projectRepository.findByNameContainsIgnoreCase(name)).thenReturn(projectList);
         List<Project> savedProjects = projectService.searchProjectName(name);
-
+        assertEquals(savedProjects.size(), 1);
         Project   foundProject = savedProjects.get(0);
         assertSame(foundProject, newProject);
-        assertEquals(savedProjects.size(), 1);
+
     }
 }
