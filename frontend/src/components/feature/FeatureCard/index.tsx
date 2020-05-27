@@ -19,8 +19,6 @@ interface IRouterParams {
 interface IProps extends RouteComponentProps<IRouterParams> {}
 
 const FeatureCard: React.FC<IProps> = (props) => {
-  // const { children, data } = props;
-
   const data = {
     name: "Basic login form",
     points: 100,
