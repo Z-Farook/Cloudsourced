@@ -16,10 +16,10 @@ public class Authentication extends BaseEntity{
     private User user;
     private String token;
     @Setter(AccessLevel.NONE)
-    private Instant ExpireDate;
+    private Instant expireDate;
 
     @PreUpdate
     protected void onUpdate() {
-        ExpireDate =  Instant.now().plus(5, ChronoUnit.MINUTES);
+        expireDate =  Instant.now().plus(5, ChronoUnit.MINUTES);
     }
 }

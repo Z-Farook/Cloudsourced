@@ -6,5 +6,5 @@ import java.time.Instant;
 @Data
 public class AuthenticationDTO {
     private String token;
-    private Instant ExpireDate;
+    private Instant expireDate;
 }
