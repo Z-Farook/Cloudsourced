@@ -6,4 +6,5 @@ import lombok.Data;
 public class TransactionDTO {
     private Long id;
     private Long points;
+    private UserDTO user;
 }

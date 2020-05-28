@@ -28,10 +28,10 @@ public class TransactionServiceTest {
         TransactionService transactionService = mock(TransactionService.class);
         //create object of transaction
         Transaction transaction = new Transaction();
-        transaction.setId(1L);
+//        transaction.setId(1L);
         transaction.setPoints(12L);
         User user = new User();
-        user.setId(1L);
+//        user.setId(1L);
         user.setName("Jhon Doe");
         transaction.setUser(user);
 
@@ -45,18 +45,18 @@ public class TransactionServiceTest {
         TransactionService transactionService = mock(TransactionService.class);
         List<Transaction> transactionList = new ArrayList<>();
         Transaction transaction1 = new Transaction();
-        transaction1.setId(1L);
+//        transaction1.setId(1L);
         transaction1.setPoints(12L);
         User user = new User();
-        user.setId(1L);
+//        user.setId(1L);
         user.setName("Jhon Doe");
         transaction1.setUser(user);
 
         Transaction transaction2 = new Transaction();
-        transaction2.setId(2L);
+//        transaction2.setId(2L);
         transaction2.setPoints(50L);
         User user1 = new User();
-        user1.setId(2L);
+//        user1.setId(2L);
         user1.setName("Alex Doe");
         transaction1.setUser(user);
 
@@ -72,10 +72,10 @@ public class TransactionServiceTest {
         TransactionService transactionService = mock(TransactionService.class);
 
         Transaction transaction = new Transaction();
-        transaction.setId(1L);
+//        transaction.setId(1L);
         transaction.setPoints(12L);
         User user = new User();
-        user.setId(1L);
+//        user.setId(1L);
         user.setName("Jhon Doe");
         transaction.setUser(user);
         when(transactionService.getOneById(anyLong())).thenReturn(transaction);
