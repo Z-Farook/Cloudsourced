@@ -1,19 +1,22 @@
 package io.cloudsourced.api.cloudsourcedapi.Entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name="tbl_project")
-public class Project {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Project extends BaseEntity{
+
     private String name;
     private String description;
     private String image;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Feature> features;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 }

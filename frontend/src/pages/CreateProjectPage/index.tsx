@@ -1,37 +1,74 @@
 import React from "react";
-import { Form, Input, Button, Select, Row, Col } from "antd";
+import { Input, Button, Row, Col, message } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import ProjectCard from "../ProjectPage/ProjectCard";
+
 import Title from "antd/lib/typography/Title";
-interface IProps {}
+
+import {
+  ProjectResourceApi,
+  AddWithUserUsingPOSTRequest,
+} from "cloudsourced-api";
+import { RouteComponentProps } from "react-router";
+
+interface IProps extends RouteComponentProps {}
 
 type Inputs = {
-  example: string;
-  exampleRequired: string;
+  projectName: string;
+  description: string;
 };
-const CreateProjectPage: React.FC<IProps> = () => {
+
+const CreateProjectPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
+  const handleProject = async (data: Inputs) => {
+    const params: AddWithUserUsingPOSTRequest = {
+      id: 1,
+      project: {
+        description: data.description,
+        user: {},
+        name: data.projectName,
+        image: "https://source.unsplash.com/500x500/?coding,pc",
+      },
+    };
+    message.loading({ content: "Saving project...", key: "updatableKey" });
+    await new ProjectResourceApi()
 
-  // const normFile = (e: any) => {
-  //   // setImageSrc(e.file.thumbUrl);
-  //   return e && e.fileList;
-  // };
+      .addWithUserUsingPOST(params)
+      .then(() => {
+        message.success({
+          content: "Project is created succesfully!",
+          key: "updatableKey",
+          duration: 2,
+        });
+        props.history.push("/projects");
+      })
+      .catch((error) => {
+        errorMessage();
+      });
+  };
 
+  const errorMessage = () => {
+    message.error({
+      content: "Something went wrong",
+      key: "updatableKey",
+      duration: 2,
+    });
+  };
   return (
     <DefaultLayout>
       <div style={{ backgroundColor: "#f5f5f5" }}>
         <div className="Grid" style={{ padding: 20 }}>
           <Row justify="center" gutter={[24, 24]}>
-            <Col xl={12} lg={12} md={24} sm={24} xs={24}>
+            <Col xl={8} lg={12} md={12} sm={24} xs={24}>
               <Title>Create a new project</Title>
 
-              <Form>
+              <form onSubmit={handleSubmit(handleProject)}>
                 <Controller
                   as={Input}
                   name="projectName"
                   control={control}
                   defaultValue=""
+                  placeholder="Project name"
                   rules={{ required: true }}
                 />
                 <ErrorMessage
@@ -39,21 +76,11 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   name="projectName"
                   message="A project name is required"
                 />
-                <Controller
-                  as={Select}
-                  name="language"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: true }}
-                />
-                <ErrorMessage
-                  errors={errors}
-                  name="language"
-                  message="A language is required"
-                />
+
                 <Controller
                   as={Input}
                   name="description"
+                  placeholder="Description"
                   control={control}
                   defaultValue=""
                   rules={{ required: true }}
@@ -64,26 +91,10 @@ const CreateProjectPage: React.FC<IProps> = () => {
                   message="A description is required"
                 />
 
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  block
-                  onClick={handleSubmit((data) => console.log(data))}
-                >
+                <Button type="primary" htmlType="submit" block>
                   Submit
                 </Button>
-              </Form>
-            </Col>
-            <Col xl={5} lg={6} md={12} sm={20} xs={24}>
-              <ProjectCard
-                project={{
-                  description: "",
-                  id: -1,
-                  image: "",
-                  name: "",
-                  user: { name: "", id: -1 },
-                }}
-              ></ProjectCard>
+              </form>
             </Col>
           </Row>
         </div>

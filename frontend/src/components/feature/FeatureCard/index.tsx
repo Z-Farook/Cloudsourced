@@ -2,30 +2,34 @@ import * as React from "react";
 import { Card, Button } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import { Feature } from "cloudsourced-api";
 
-interface IData {
-  name: string;
-  description: string;
-  codeLanguage: string;
-  codePreview: string;
-}
-
-interface IProps {
-  data: IData;
+interface IProps extends RouteComponentProps {
+  data: Feature;
+  projectId: Number;
 }
 
 const FeatureCard: React.FC<IProps> = (props) => {
-  const { children, data } = props;
-  const { description, name, codePreview, codeLanguage } = data;
+  const { id, name, description, codeLanguage, codePreview } = props.data;
+  const projectId = props.projectId;
+
   return (
-    <Card title={name}>
+    <Card style={{ marginBottom: "20px" }} title={name}>
       <p>{description}</p>
       <SyntaxHighlighter language={codeLanguage} style={docco}>
         {codePreview}
       </SyntaxHighlighter>
-      <Button>View details</Button>
+
+      <Button
+        onClick={() =>
+          props.history.push(`/projects/${projectId}/features/${id}`)
+        }
+      >
+        View details
+      </Button>
     </Card>
   );
 };
 
-export default FeatureCard;
+export default withRouter(FeatureCard);
