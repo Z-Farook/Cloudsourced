@@ -121,7 +121,6 @@ const AccountPage: React.FC<IProps> = (props) => {
 
               <Menu.Item key="4">Developers</Menu.Item>
               <Menu.Item key="5">
-                {" "}
                 <span>
                   <SettingOutlined />
                   <span>Settings</span>
@@ -134,7 +133,6 @@ const AccountPage: React.FC<IProps> = (props) => {
               <Col span={16}>
                 <Row justify="center" gutter={[24, 24]}>
                   <Col span={8}>
-                    {" "}
                     <Card>
                       <Statistic
                         title="Projects"
@@ -147,7 +145,6 @@ const AccountPage: React.FC<IProps> = (props) => {
                     </Card>
                   </Col>
                   <Col span={8}>
-                    {" "}
                     <Card>
                       <Statistic
                         title="Tasks"
@@ -160,7 +157,6 @@ const AccountPage: React.FC<IProps> = (props) => {
                     </Card>
                   </Col>
                   <Col span={8}>
-                    {" "}
                     <Card>
                       <Statistic
                         title="Points"
@@ -220,28 +216,31 @@ const AccountPage: React.FC<IProps> = (props) => {
             </Row>
             <Row justify="center" gutter={[24, 24]}>
               <Col span={8}>
-                {" "}
-                <Table
-                  pagination={false}
-                  dataSource={dataSourceTasks}
-                  columns={columns}
-                />
+                <Card>
+                  <Table
+                    pagination={false}
+                    dataSource={dataSourceTasks}
+                    columns={columns}
+                  />
+                </Card>
               </Col>
               <Col span={8}>
-                {" "}
-                <Table
-                  pagination={false}
-                  dataSource={dataSourceTasks}
-                  columns={columns}
-                />
+                <Card>
+                  <Table
+                    pagination={false}
+                    dataSource={dataSourceTasks}
+                    columns={columns}
+                  />
+                </Card>
               </Col>
               <Col span={6}>
-                {" "}
-                <Table
-                  pagination={false}
-                  dataSource={dataSourceTasks}
-                  columns={columns}
-                />
+                <Card>
+                  <Table
+                    pagination={false}
+                    dataSource={dataSourceTasks}
+                    columns={columns}
+                  />
+                </Card>
               </Col>
             </Row>
           </Col>
