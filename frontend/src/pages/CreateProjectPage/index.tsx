@@ -18,24 +18,21 @@ type Inputs = {
 
 const CreateProjectPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
 
   const getBase64 = (image: Blob) => {
     const reader = new FileReader();
 
     reader.addEventListener("load", () => {
-      renderImage(reader.result as string);
+      setImage(reader.result as string);
     });
 
     reader.readAsDataURL(image);
   };
 
-  const renderImage = (image: string) => {
-    setImage(image);
-  };
-
   const postImage = async (image: string): Promise<string> => {
     image = image.split("base64,")[1];
+    const url = "https://api.imgur.com/3/image";
     const requestOptions = {
       method: "POST",
       headers: {
@@ -47,12 +44,14 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         type: "base64",
       }),
     };
-    const response = await fetch(
-      "https://api.imgur.com/3/image",
-      requestOptions
-    );
-    const data = await response.json();
-    return data!.data!.link;
+    try {
+      const response = await fetch(url, requestOptions);
+      const data = await response.json();
+      return data!.data!.link;
+    } catch (e) {
+      errorMessage();
+      return "";
+    }
   };
 
   const handleProject = async (data: Inputs) => {
@@ -66,20 +65,20 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       },
     };
     message.loading({ content: "Saving project...", key: "updatableKey" });
-    await new ProjectResourceApi()
-
-      .addWithUserUsingPOST(params)
-      .then((response) => {
-        message.success({
-          content: "Project is created succesfully!",
-          key: "updatableKey",
-          duration: 2,
-        });
-        props.history.push("/projects/" + response.id);
-      })
-      .catch((error) => {
-        errorMessage();
+    try {
+      const response = await new ProjectResourceApi().addWithUserUsingPOST(
+        params
+      );
+      message.success({
+        content: "Project is created succesfully!",
+        key: "updatableKey",
+        duration: 2,
       });
+
+      props.history.push(`projects/${response.id}`);
+    } catch (error) {
+      errorMessage();
+    }
   };
 
   const errorMessage = () => {
