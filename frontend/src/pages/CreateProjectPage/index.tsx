@@ -18,7 +18,7 @@ type Inputs = {
 
 const CreateProjectPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors } = useForm<Inputs>();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   const getBase64 = (image: Blob) => {
     const reader = new FileReader();
