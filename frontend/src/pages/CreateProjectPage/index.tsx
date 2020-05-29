@@ -69,13 +69,13 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     await new ProjectResourceApi()
 
       .addWithUserUsingPOST(params)
-      .then(() => {
+      .then((response) => {
         message.success({
           content: "Project is created succesfully!",
           key: "updatableKey",
           duration: 2,
         });
-        props.history.push("/projects");
+        props.history.push("/projects/" + response.id);
       })
       .catch((error) => {
         errorMessage();
@@ -142,6 +142,14 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   Submit
                 </Button>
               </form>
+              <h1>
+                <br />
+                Disclaimer:
+                <br />
+                Currently adds project to user with id: 1. <br />
+                If no user exists throws error. <br /> This is fixed if
+                authentication is completed!
+              </h1>
             </Col>
           </Row>
         </div>
