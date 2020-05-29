@@ -1,7 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.Entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 

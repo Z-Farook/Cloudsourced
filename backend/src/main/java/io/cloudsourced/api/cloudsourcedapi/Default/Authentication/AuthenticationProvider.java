@@ -8,6 +8,8 @@ import io.cloudsourced.api.cloudsourcedapi.Persistence.AuthenticationRepository;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,20 +55,21 @@ public class AuthenticationProvider {
         return new UsernamePasswordAuthenticationToken(user, "", null);
     }
 
-
-
     public Authentication getAuthenticationByEmailAndPassword(String email, String password){
-        Optional<User> user = userRepository.findTopByEmailAndPassword(email, password);
+        Optional<User> user = userRepository.findTopByEmail(email);
         if(user.isPresent()){
-            Authentication authentication = user.get().getAuthentication();
-            if (authentication != null){
-                if (authentication.getExpireDate() != null && authentication.getToken() != null){
-                    if(authentication.getExpireDate().compareTo(Instant.now()) > 0){
-                        return authentication;
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if(passwordEncoder.matches(password, user.get().getPassword())){
+                Authentication authentication = user.get().getAuthentication();
+                if (authentication != null){
+                    if (authentication.getExpireDate() != null && authentication.getToken() != null){
+                        if(authentication.getExpireDate().compareTo(Instant.now()) > 0){
+                            return authentication;
+                        }
                     }
+                    return withNewToken(authentication);
                 }
             }
-            return withNewToken(authentication);
         }
         throw new NotFoundException();
     }
