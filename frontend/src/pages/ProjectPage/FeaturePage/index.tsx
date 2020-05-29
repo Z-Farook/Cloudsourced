@@ -38,16 +38,16 @@ const FeaturePage: React.FC<IProps> = (props) => {
     };
   }, [props.match.params]);
 
-  const featureIdRequest: GetOneByIdUsingGET1Request = { id: featureId };
-
   useEffect(() => {
     (async () => {
       const result = await new FeatureResourceApi().getOneByIdUsingGET(
-        featureIdRequest
+        {
+          id: featureId,
+        }
       );
       setFeature(fromLoaded(result))
     })();
-  }, [featureIdRequest]);
+  }, [featureId]);
 
   return (
     <DefaultLayout>
