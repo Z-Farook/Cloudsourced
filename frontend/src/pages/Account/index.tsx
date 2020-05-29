@@ -1,17 +1,41 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Row, Button, PageHeader, Menu, Col } from "antd";
-// import { myProjectMocks } from "./myProjectMocks";
-import {
-  PlusOutlined,
-  MailOutlined,
-  AppstoreOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import SubMenu from "antd/lib/menu/SubMenu";
-interface IProps extends RouteComponentProps {}
+import { Row, Button, PageHeader, Menu, Col, Table, Card } from "antd";
 
+import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
+
+interface IProps extends RouteComponentProps {}
+const dataSource = [
+  {
+    key: "1",
+    number: 1,
+    project: "test project",
+  },
+  {
+    key: "2",
+    number: 2,
+    project: "test project",
+  },
+  {
+    key: "3",
+    number: 3,
+    project: "test project",
+  },
+];
+
+const columns = [
+  {
+    title: "#",
+    dataIndex: "number",
+    key: "number",
+  },
+  {
+    title: "Project",
+    dataIndex: "project",
+    key: "project",
+  },
+];
 const AccountPage: React.FC<IProps> = (props) => {
   return (
     <DefaultLayout>
@@ -56,21 +80,62 @@ const AccountPage: React.FC<IProps> = (props) => {
             <Row justify="center" gutter={[24, 24]}>
               <Col span={16}>
                 <Row justify="center" gutter={[24, 24]}>
-                  <Col span={4}>blok</Col>
-                  <Col span={4}>blok</Col>
-                  <Col span={4}>blok</Col>
-                  <Col span={4}>blok</Col>
+                  <Col span={8}>
+                    {" "}
+                    <Card title="Current Projects" bordered={false}>
+                      10002
+                    </Card>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Card title="Current tasks" bordered={false}>
+                      124555
+                    </Card>
+                  </Col>
+                  <Col span={8}>
+                    {" "}
+                    <Card title="Points" bordered={false}>
+                      12324456
+                    </Card>
+                  </Col>
                 </Row>
                 <Row justify="center" gutter={[24, 24]}>
                   graph
                 </Row>
               </Col>
-              <Col span={4}>lopende lijst</Col>
+              <Col span={6}>
+                <Table
+                  pagination={false}
+                  dataSource={dataSource}
+                  columns={columns}
+                />
+              </Col>
             </Row>
             <Row justify="center" gutter={[24, 24]}>
-              <Col span={6}>blok</Col>
-              <Col span={6}>blok</Col>
-              <Col span={6}>blok</Col>
+              <Col span={8}>
+                {" "}
+                <Table
+                  pagination={false}
+                  dataSource={dataSource}
+                  columns={columns}
+                />
+              </Col>
+              <Col span={8}>
+                {" "}
+                <Table
+                  pagination={false}
+                  dataSource={dataSource}
+                  columns={columns}
+                />
+              </Col>
+              <Col span={6}>
+                {" "}
+                <Table
+                  pagination={false}
+                  dataSource={dataSource}
+                  columns={columns}
+                />
+              </Col>
             </Row>
           </Col>
         </Row>

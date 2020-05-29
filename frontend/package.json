@@ -12,6 +12,7 @@
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
     "antd": "^4.1.3",
+    "cloudsourced-api": "file:./gen/api",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -21,8 +22,7 @@
     "react-scripts": "3.4.1",
     "react-syntax-highlighter": "^12.2.1",
     "styled-components": "^5.1.0",
-    "typescript": "^3.7.5",
-    "cloudsourced-api": "file:./gen/api"
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
