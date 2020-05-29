@@ -24,7 +24,7 @@ public class AuthenticationProvider {
     private final AuthenticationRepository authenticationRepository;
     private final UserRepository userRepository;
 
-    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
     static SecureRandom rnd = new SecureRandom();
     int tokenLength = 40;
 
@@ -36,7 +36,9 @@ public class AuthenticationProvider {
     public User getUserByToken(String token){
         if(validateToken(token)){
             Optional<Authentication> authentication = authenticationRepository.findTopByToken(token);
-            return authentication.get().getUser();
+            if(authentication.isPresent()) {
+                return authentication.get().getUser();
+            }
         }
         throw new UnauthorizedException();
     }
@@ -50,7 +52,6 @@ public class AuthenticationProvider {
     }
 
     public org.springframework.security.core.Authentication getAuthentication(String token) {
-        // UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         User user = getUserByToken(token);
         return new UsernamePasswordAuthenticationToken(user, "", null);
     }
