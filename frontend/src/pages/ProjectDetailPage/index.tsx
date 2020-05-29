@@ -37,7 +37,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       );
       setProject(fromLoaded(result));
     })();
-  }, [projectIdRequest]);
+  }, []);
 
   const { description, image, name: projectName } = project.data! || {};
 
