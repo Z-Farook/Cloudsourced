@@ -16,6 +16,7 @@ import CreateProjectPage from "../pages/CreateProjectPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import CreateFeaturePage from "../pages/CreateFeaturePage";
+import FeatureImplPage from "../pages/ProjectPage/FeaturePage/FeatureImplPage";
 
 interface IProps {}
 
@@ -48,6 +49,11 @@ const MainRouter: React.FC<IProps> = (props) => {
           exact
           path="/projects/:projectId/features/:featureId"
           component={FeaturePage}
+        />
+        <Route
+          exact
+          path="/projects/:projectId/features/:featureId/impl"
+          component={FeatureImplPage}
         />
         <Route component={NotFoundPage} />
       </Switch>
