@@ -52,7 +52,7 @@ const MainRouter: React.FC<IProps> = (props) => {
         />
         <Route
           exact
-          path="/projects/:projectId/features/:featureId/impl"
+          path="/projects/:projectId/features/:featureId/implementation"
           component={FeatureImplPage}
         />
         <Route component={NotFoundPage} />
