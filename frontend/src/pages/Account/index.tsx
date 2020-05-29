@@ -11,6 +11,7 @@ import {
   Card,
   Statistic,
   Timeline,
+  Progress,
 } from "antd";
 
 import {
@@ -174,11 +175,22 @@ const AccountPage: React.FC<IProps> = (props) => {
                 </Row>
                 <Row justify="center" gutter={[24, 24]}>
                   <Col span={24}>
-                    <Table
-                      pagination={false}
-                      dataSource={dataSourceTasks}
-                      columns={columns}
-                    />
+                    <Card>
+                      <Title>Progress</Title>
+                      <br />
+                      <div>
+                        <Title level={4}>Closed projects</Title>
+                        <Progress percent={50} status="active" />
+                      </div>
+                      <div>
+                        <Title level={4}>Closed tasks</Title>
+                        <Progress percent={70} status="active" />
+                      </div>
+                      <div>
+                        <Title level={4}>Closed points</Title>
+                        <Progress percent={100} />
+                      </div>
+                    </Card>
                   </Col>
                 </Row>
               </Col>
@@ -200,7 +212,7 @@ const AccountPage: React.FC<IProps> = (props) => {
                     <Timeline.Item>
                       <p>Technical testing 1</p>
                       <p>Technical testing 2</p>
-                      <p>Technical testing 3 2015-09-01</p>
+                      <p>Technical testing 3</p>
                     </Timeline.Item>
                   </Timeline>
                 </Card>
