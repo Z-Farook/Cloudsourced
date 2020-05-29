@@ -80,7 +80,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
               style={{ marginTop: 10 }}
               onClick={() => {
                 props.history.push(
-                  `/projects/${projectId}/features/${featureId}/impl`
+                  `/projects/${projectId}/features/${featureId}/implementation`
                 );
               }}
             >
