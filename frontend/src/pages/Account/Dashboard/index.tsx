@@ -1,25 +1,9 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import {
-  Row,
-  Button,
-  PageHeader,
-  Menu,
-  Col,
-  Table,
-  Card,
-  Statistic,
-  Timeline,
-  Progress,
-} from "antd";
+import { Row, Col, Table, Card, Statistic, Timeline, Progress } from "antd";
 
-import {
-  PlusOutlined,
-  SettingOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-} from "@ant-design/icons";
+import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 
 interface IProps extends RouteComponentProps {}

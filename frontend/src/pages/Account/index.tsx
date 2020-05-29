@@ -6,29 +6,18 @@ import { Row, Button, PageHeader, Menu, Col } from "antd";
 import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
 
 import Dashboard from "./Dashboard";
+import MyProjects from "./MyProjects";
 
 interface IProps extends RouteComponentProps {}
 
 const AccountPage: React.FC<IProps> = (props) => {
-  const [menu, setMenuState] = useState<"1">();
+  const [menu, setMenuState] = useState("1");
   const handleMenuClick = (e: any) => {
     setMenuState(e.key);
   };
   return (
     <DefaultLayout>
-      <PageHeader
-        className="site-page-header"
-        title="My account"
-        extra={[
-          <Button
-            type="primary"
-            shape="circle"
-            onClick={() => props.history.push("/user/project/create")}
-          >
-            <PlusOutlined />
-          </Button>,
-        ]}
-      />
+      <PageHeader className="site-page-header" title="My account" />
       <div className="Grid" style={{ padding: 20 }}>
         <Row>
           <Col span={4}>
@@ -52,9 +41,7 @@ const AccountPage: React.FC<IProps> = (props) => {
               </Menu.Item>
             </Menu>
           </Col>
-          <Col span={20}>
-          { menu.state == "1" ? <Dashboard /> : }
-          </Col>
+          <Col span={20}>{menu == "1" ? <Dashboard /> : <MyProjects />}</Col>
         </Row>
       </div>
     </DefaultLayout>
