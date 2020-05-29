@@ -75,7 +75,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         duration: 2,
       });
       props.history.push("/projects/" + response.id);
-      //  props.history.push(`projects/${response.id}`);
     } catch (error) {
       errorMessage();
     }
