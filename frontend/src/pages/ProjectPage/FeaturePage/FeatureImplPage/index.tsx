@@ -14,6 +14,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
+import ResizeObserver from "react-resize-observer";
 
 export interface IRouterParams {
   projectId: string;
@@ -21,6 +22,11 @@ export interface IRouterParams {
 }
 
 interface IProps extends RouteComponentProps<IRouterParams> {}
+
+interface IEditorDimensions {
+  width: number;
+  height: number;
+}
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
   const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
@@ -35,6 +41,10 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
   ]);
 
   const [code, setCode] = useState("");
+  const [
+    editorDimensions,
+    setEditorDimensions,
+  ] = useState<IEditorDimensions | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -57,7 +67,14 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
   return (
     <DefaultLayout>
-      <div style={{ padding: 50 }}>
+      <div
+        style={{
+          padding: 50,
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+        }}
+      >
         {feature.state === EState.Loading ? (
           <Spin />
         ) : feature.state === EState.Loaded ? (
@@ -66,17 +83,31 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
             {/* TODO: points */}
             {/* <Paragraph strong>Points: {feature.data!.points}</Paragraph> */}
             <Paragraph>{feature.data!.description}</Paragraph>
-            <MonacoEditor
-              width="500px"
-              height="500px"
-              language={feature.data!.codeLanguage}
-              theme="vs-dark"
-              value={code}
-              options={options}
-              onChange={(x) => setCode(x)}
-              editorDidMount={() => {}}
-            />
 
+            <div style={{ flex: 1, height: 500 }}>
+              <ResizeObserver
+                onResize={(rect) =>
+                  setEditorDimensions({
+                    width: rect.width,
+                    height: rect.height,
+                  })
+                }
+              />
+              <MonacoEditor
+                width={`${
+                  editorDimensions == null ? 0 : editorDimensions.width
+                }px`}
+                height={`${
+                  editorDimensions == null ? 0 : editorDimensions.height
+                }px`}
+                language={feature.data!.codeLanguage}
+                theme="vs-dark"
+                value={code}
+                options={options}
+                onChange={(x) => setCode(x)}
+                editorDidMount={() => {}}
+              />
+            </div>
             <Button
               style={{ marginTop: 20 }}
               onClick={() => {

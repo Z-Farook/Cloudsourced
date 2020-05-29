@@ -8,9 +8,23 @@ interface IProps {}
 
 const DefaultLayout: React.FC<IProps> = (props) => {
   return (
-    <Layout>
+    <Layout
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        minHeight: "100vh",
+      }}
+    >
       <Header />
-      <Layout.Content style={{ backgroundColor: "white" }}>
+      <Layout.Content
+        style={{
+          backgroundColor: "white",
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+        }}
+      >
         {props.children}
       </Layout.Content>
       {/* <Footer /> */}
