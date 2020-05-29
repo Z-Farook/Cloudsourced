@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Button } from "antd";
+import { Button, PageHeader } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Spin, Typography } from "antd";
 import { Project, ProjectResourceApi } from "cloudsourced-api";
@@ -28,17 +28,20 @@ const MyProjects: React.FC<IProps> = (props) => {
   }, []);
 
   return (
-    <>
-      <Button
-        type="primary"
-        shape="circle"
-        onClick={() => props.history.push("/user/project/create")}
-      >
-        <PlusOutlined />
-      </Button>
-      <div style={{ padding: 20 }}>
-        <Typography.Title>My projects</Typography.Title>
-      </div>
+    <div style={{ overflow: "hidden" }}>
+      <PageHeader
+        className="site-page-header"
+        title="My projects"
+        extra={[
+          <Button
+            type="primary"
+            shape="circle"
+            onClick={() => props.history.push("/user/project/create")}
+          >
+            <PlusOutlined />
+          </Button>,
+        ]}
+      />
       {projects.state === EState.Loading ? (
         <Spin />
       ) : (
@@ -54,7 +57,7 @@ const MyProjects: React.FC<IProps> = (props) => {
           </Row>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

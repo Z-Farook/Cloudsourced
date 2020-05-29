@@ -11,9 +11,19 @@ import MyProjects from "./MyProjects";
 interface IProps extends RouteComponentProps {}
 
 const AccountPage: React.FC<IProps> = (props) => {
-  const [menu, setMenuState] = useState("1");
+  const [key, setKey] = useState("1");
   const handleMenuClick = (e: any) => {
-    setMenuState(e.key);
+    setKey(e.key);
+  };
+  const renderSwitch = (key: string) => {
+    switch (key) {
+      case "1":
+        return <Dashboard />;
+      case "2":
+        return <MyProjects />;
+      default:
+        return "Not created yet";
+    }
   };
   return (
     <DefaultLayout>
@@ -41,7 +51,7 @@ const AccountPage: React.FC<IProps> = (props) => {
               </Menu.Item>
             </Menu>
           </Col>
-          <Col span={20}>{menu == "1" ? <Dashboard /> : <MyProjects />}</Col>
+          <Col span={20}>{renderSwitch(key)}</Col>
         </Row>
       </div>
     </DefaultLayout>
