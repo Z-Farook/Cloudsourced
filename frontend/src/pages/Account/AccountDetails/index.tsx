@@ -2,6 +2,7 @@ import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Row, Col, Card, Descriptions, Button, PageHeader } from "antd";
 import Title from "antd/lib/typography/Title";
+import { EditOutlined } from "@ant-design/icons";
 
 interface IProps extends RouteComponentProps {}
 
@@ -14,14 +15,15 @@ const AccountDetails: React.FC<IProps> = (props) => {
             <PageHeader
               className="site-page-header"
               title="Personal details"
-              extra={[
-                <Button
-                  type="primary"
-                  onClick={() => props.history.push("/user/project/create")}
-                >
-                  Edit
-                </Button>,
-              ]}
+              //   extra={[
+              //     <Button
+              //       type="primary"
+              //       onClick={() => props.history.push("/user/project/create")}
+              //       icon={<EditOutlined />}
+              //     >
+              //       Edit
+              //     </Button>,
+              //   ]}
             />
             <Row>
               <Col span={4}></Col>
@@ -52,14 +54,15 @@ const AccountDetails: React.FC<IProps> = (props) => {
             <PageHeader
               className="site-page-header"
               title="Account settings"
-              extra={[
-                <Button
-                  type="primary"
-                  onClick={() => props.history.push("/user/project/create")}
-                >
-                  Edit
-                </Button>,
-              ]}
+              //   extra={[
+              //     <Button
+              //       type="primary"
+              //       onClick={() => props.history.push("/user/project/create")}
+              //       icon={<EditOutlined />}
+              //     >
+              //       Edit
+              //     </Button>,
+              //   ]}
             />
             <Row>
               <Col span={4}></Col>
