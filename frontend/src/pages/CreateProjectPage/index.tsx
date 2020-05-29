@@ -37,7 +37,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Client-ID 2b1eae61348c066",
+        Authorization: process.env.IMGUR_API_KEY!,
       },
       body: JSON.stringify({
         image,
@@ -74,8 +74,8 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         key: "updatableKey",
         duration: 2,
       });
-
-      props.history.push(`projects/${response.id}`);
+      props.history.push("/projects/" + response.id);
+      //  props.history.push(`projects/${response.id}`);
     } catch (error) {
       errorMessage();
     }
