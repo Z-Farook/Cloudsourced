@@ -5,8 +5,16 @@ import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Button, Spin, Typography } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import IRemoteData, { EState, fromLoaded, fromLoading } from "../../../core/IRemoteData";
-import { Feature, FeatureResourceApi, GetOneByIdUsingGET1Request } from "cloudsourced-api";
+import IRemoteData, {
+  EState,
+  fromLoaded,
+  fromLoading,
+} from "../../../core/IRemoteData";
+import {
+  Feature,
+  FeatureResourceApi,
+  GetOneByIdUsingGET1Request,
+} from "cloudsourced-api";
 
 const { Title, Paragraph } = Typography;
 
@@ -40,12 +48,10 @@ const FeaturePage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new FeatureResourceApi().getOneByIdUsingGET(
-        {
-          id: featureId,
-        }
-      );
-      setFeature(fromLoaded(result))
+      const result = await new FeatureResourceApi().getOneByIdUsingGET({
+        id: featureId,
+      });
+      setFeature(fromLoaded(result));
     })();
   }, [featureId]);
 
