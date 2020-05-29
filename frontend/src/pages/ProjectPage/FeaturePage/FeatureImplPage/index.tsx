@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../../components/layout/DefaultLayout";
 import MonacoEditor from "react-monaco-editor";
@@ -8,13 +8,17 @@ import IRemoteData, {
   fromLoading,
 } from "../../../../core/IRemoteData";
 import { Feature } from "../../../../../gen/api/dist/models";
-import { Button, Spin } from "antd";
+import { Button, Spin, Form } from "antd";
 import { FeatureResourceApi } from "cloudsourced-api";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
+
+const validationSchema = yup.object().shape({
+  code: yup.string().required("Code is a required field"),
+});
 
 export interface IRouterParams {
   projectId: string;
@@ -29,6 +33,16 @@ interface IEditorDimensions {
 }
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
+  const {
+    handleSubmit,
+    watch,
+    errors,
+    control,
+    setValue,
+    getValues,
+  } = useForm({ validationSchema });
+  const onSubmit = useCallback((data) => alert(JSON.stringify(data)), []);
+
   const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
     fromLoading()
   );
@@ -40,7 +54,6 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
     props.match.params.featureId,
   ]);
 
-  const [code, setCode] = useState("");
   const [
     editorDimensions,
     setEditorDimensions,
@@ -53,7 +66,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
       });
       setFeature(fromLoaded(result));
 
-      setCode(result.codePreview!);
+      setValue("code", result.codePreview!);
     })();
   }, [featureId]);
 
@@ -84,40 +97,58 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
             {/* <Paragraph strong>Points: {feature.data!.points}</Paragraph> */}
             <Paragraph>{feature.data!.description}</Paragraph>
 
-            <div style={{ flex: 1, height: 500 }}>
-              <ResizeObserver
-                onResize={(rect) =>
-                  setEditorDimensions({
-                    width: rect.width,
-                    height: rect.height,
-                  })
-                }
-              />
-              <MonacoEditor
-                width={`${
-                  editorDimensions == null ? 0 : editorDimensions.width
-                }px`}
-                height={`${
-                  editorDimensions == null ? 0 : editorDimensions.height
-                }px`}
-                language={feature.data!.codeLanguage}
-                theme="vs-dark"
-                value={code}
-                options={options}
-                onChange={(x) => setCode(x)}
-                editorDidMount={() => {}}
-              />
-            </div>
-            <Button
-              style={{ marginTop: 20 }}
-              onClick={() => {
-                // props.history.push(
-                //   `/projects/${projectId}/features/${featureId}/impl`
-                // );
+            <Form
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1,
               }}
             >
-              Submit
-            </Button>
+              <div style={{ width: "100%", height: 500 }}>
+                <ResizeObserver
+                  onResize={(rect) =>
+                    setEditorDimensions({
+                      width: rect.width,
+                      height: rect.height,
+                    })
+                  }
+                />
+                <Form.Item
+                  validateStatus={
+                    errors.code !== undefined ? "error" : undefined
+                  }
+                  help={
+                    errors.code !== undefined ? errors.code.message : undefined
+                  }
+                >
+                  <Controller
+                    name="code"
+                    control={control}
+                    as={
+                      <MonacoEditor
+                        width={`${
+                          editorDimensions == null ? 0 : editorDimensions.width
+                        }px`}
+                        height={`${
+                          editorDimensions == null ? 0 : editorDimensions.height
+                        }px`}
+                        language={feature.data!.codeLanguage}
+                        theme="vs-dark"
+                        value={getValues("code")}
+                        options={options}
+                        onChange={(x) => setValue("code", x)}
+                      />
+                    }
+                  />
+                </Form.Item>
+              </div>
+              <Button
+                style={{ marginTop: 50 }}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Submit
+              </Button>
+            </Form>
           </>
         ) : (
           <div>Whoops!</div>
