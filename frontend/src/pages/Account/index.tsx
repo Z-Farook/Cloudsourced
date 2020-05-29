@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Row, Button, PageHeader, Menu, Col } from "antd";
+import { Row, PageHeader, Menu, Col } from "antd";
 
-import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
+import { SettingOutlined } from "@ant-design/icons";
 
 import Dashboard from "./Dashboard";
 import MyProjects from "./MyProjects";
+import AccountDetails from "./AccountDetails";
 
 interface IProps extends RouteComponentProps {}
 
@@ -21,6 +22,8 @@ const AccountPage: React.FC<IProps> = (props) => {
         return <Dashboard />;
       case "2":
         return <MyProjects />;
+      case "4":
+        return <AccountDetails />;
       default:
         return "Not created yet";
     }
@@ -41,9 +44,7 @@ const AccountPage: React.FC<IProps> = (props) => {
               <Menu.Item key="1">Dashboard</Menu.Item>
               <Menu.Item key="2">Projects</Menu.Item>
               <Menu.Item key="3">Transactions</Menu.Item>
-
-              <Menu.Item key="4">Developers</Menu.Item>
-              <Menu.Item key="5">
+              <Menu.Item key="4">
                 <span>
                   <SettingOutlined />
                   <span>Settings</span>

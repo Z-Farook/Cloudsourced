@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Button, PageHeader } from "antd";
+import { Button, PageHeader, BackTop } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Spin, Typography } from "antd";
 import { Project, ProjectResourceApi } from "cloudsourced-api";
@@ -21,6 +21,8 @@ const MyProjects: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
+      //TODO
+      // get projects from current user
       const result = await new ProjectResourceApi().allUsingGET1();
       console.log(result);
       setProjects(fromLoaded(result));
@@ -54,6 +56,7 @@ const MyProjects: React.FC<IProps> = (props) => {
                 </Col>
               );
             })}
+            <BackTop />
           </Row>
         </div>
       )}
