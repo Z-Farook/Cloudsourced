@@ -24,22 +24,20 @@ export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const projectId = Number(props.match.params.projectId);
 
-  const projectIdRequest: GetOneByIdUsingGET1Request = { id: projectId };
-
   const [project, setProject] = useState<IRemoteData<Project, null>>(
     fromLoading()
   );
 
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi().getOneByIdUsingGET1(
-        projectIdRequest
-      );
+      const result = await new ProjectResourceApi().getOneByIdUsingGET1({
+        id: projectId,
+      });
       setProject(fromLoaded(result));
     })();
-  }, []);
+  }, [projectId]);
 
-  const { description, image, name: projectName } = project.data! || {};
+  const { description, image, name: projectName } = project.data || {};
 
   return (
     <DefaultLayout>
