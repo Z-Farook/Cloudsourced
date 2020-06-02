@@ -1,6 +1,5 @@
 package io.cloudsourced.api.cloudsourcedapi.Entity;
 
-import com.sun.istack.Pool;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,4 +18,12 @@ public class User extends BaseEntity{
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Implementation> implementations;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Authentication authentication;
+
+    public User(){
+        authentication = new Authentication();
+    }
+
 }
