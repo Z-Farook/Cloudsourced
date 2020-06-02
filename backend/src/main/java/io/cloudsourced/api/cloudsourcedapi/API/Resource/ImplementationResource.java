@@ -17,8 +17,8 @@ public class ImplementationResource extends BaseResource<Implementation, Impleme
     }
 
     @PostMapping("/{featureId}")
-    public Implementation addImplementationToFeature(@PathVariable Long featureId, @RequestBody Implementation implementation) {
-//        Implementation implementation = service.addImplementationToFeature(featureId, implementation);
-        return service.addImplementationToFeature(featureId, implementation);
+    public ImplementationDTO addImplementationToFeature(@PathVariable Long featureId, @RequestBody ImplementationDTO implementationDTO) {
+        Implementation implementation = mapper.DTOToEntity(implementationDTO);
+        return mapper.entityToDTO(service.addImplementationToFeature(featureId, implementation));
     }
 }
