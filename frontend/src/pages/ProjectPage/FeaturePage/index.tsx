@@ -4,16 +4,16 @@ import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Button, Spin, Typography } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import IRemoteData, {
   EState,
   fromLoaded,
-  fromLoading,
+  fromLoading
 } from "../../../core/IRemoteData";
 import {
   Feature,
   FeatureResourceApi,
-  GetOneByIdUsingGET1Request,
+  GetOneByIdUsingGET1Request
 } from "cloudsourced-api";
 
 const { Title, Paragraph } = Typography;
@@ -34,7 +34,7 @@ export interface IMockFeature {
   points: number;
 }
 
-const FeaturePage: React.FC<IProps> = (props) => {
+const FeaturePage: React.FC<IProps> = props => {
   const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
     fromLoading()
   );
@@ -42,14 +42,14 @@ const FeaturePage: React.FC<IProps> = (props) => {
   const { featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
-      featureId: Number(props.match.params.featureId),
+      featureId: Number(props.match.params.featureId)
     };
   }, [props.match.params]);
 
   useEffect(() => {
     (async () => {
       const result = await new FeatureResourceApi().getOneByIdUsingGET({
-        id: featureId,
+        id: featureId
       });
       setFeature(fromLoaded(result));
     })();

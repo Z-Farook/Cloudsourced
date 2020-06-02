@@ -3,7 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Switch,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -19,7 +19,7 @@ import CreateFeaturePage from "../pages/CreateFeaturePage";
 
 interface IProps {}
 
-const MainRouter: React.FC<IProps> = (props) => {
+const MainRouter: React.FC<IProps> = props => {
   return (
     <Router>
       <Switch>
