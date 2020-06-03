@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name="tbl_feature")
+@Table(name="tbl_authentication")
 public class Authentication extends BaseEntity{
 
     @OneToOne(cascade = CascadeType.ALL)
