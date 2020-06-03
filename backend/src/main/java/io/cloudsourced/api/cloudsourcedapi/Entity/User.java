@@ -11,8 +11,15 @@ import javax.persistence.*;
 public class User extends BaseEntity{
 
     private String name;
+    private String infix;
+    private String lastName;
+    private String[] languages;
+    private String country;
     private String email;
     private String password;
+    private String telephone;
+    private String street;
+    private String streetNumber;
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;
 
