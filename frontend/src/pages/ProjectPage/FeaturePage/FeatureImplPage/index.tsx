@@ -33,14 +33,9 @@ interface IEditorDimensions {
 }
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
-  const {
-    handleSubmit,
-    watch,
-    errors,
-    control,
-    setValue,
-    getValues,
-  } = useForm({ validationSchema });
+  const { handleSubmit, errors, control, setValue, getValues } = useForm({
+    validationSchema,
+  });
   const onSubmit = useCallback((data) => alert(JSON.stringify(data)), []);
 
   const [feature, setFeature] = useState<IRemoteData<Feature, null>>(

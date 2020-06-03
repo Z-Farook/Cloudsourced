@@ -1,8 +1,7 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Row, Col, Card, Descriptions, Button, PageHeader } from "antd";
-import Title from "antd/lib/typography/Title";
-import { EditOutlined } from "@ant-design/icons";
+import { Row, Col, Card, Descriptions, PageHeader } from "antd";
+
 
 interface IProps extends RouteComponentProps {}
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Button, PageHeader, BackTop } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { Col, Row, Spin, Typography } from "antd";
+import { Col, Row, Spin } from "antd";
 import { Project, ProjectResourceApi } from "cloudsourced-api";
 import IRemoteData, {
   EState,

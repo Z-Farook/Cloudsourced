@@ -94,9 +94,7 @@ const columnsTransactions = [
     key: "project",
   },
 ];
-const handleMenuClick = (e: any) => {
-  console.log("click ", e);
-};
+
 const Dashboard: React.FC<IProps> = (props) => {
   return (
     <>
