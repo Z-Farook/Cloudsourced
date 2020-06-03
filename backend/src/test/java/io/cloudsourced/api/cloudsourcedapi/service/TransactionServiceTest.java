@@ -77,17 +77,17 @@ public class TransactionServiceTest {
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.of(transaction));
         assertEquals(transaction, transactionService.getOneById(12L));
     }
-//     If the suggestion made in BaseService is accepted then this test case is positive
-//    @Test
-//    public void deleteById() {
-//
-//        Transaction transaction = new Transaction();
-//        transaction.setPoints(12L);
-//        User user = new User();
-//        user.setName("Jhon Doe");
-//        transaction.setUser(user);
-//
-//        transactionService.delete(anyLong());
-//        verify(transactionRepository, times(1)).deleteById(anyLong());
-//    }
+
+    @Test
+    public void deleteById() {
+
+        Transaction transaction = new Transaction();
+        transaction.setPoints(12L);
+        User user = new User();
+        user.setName("Jhon Doe");
+        transaction.setUser(user);
+
+        transactionService.delete(anyLong());
+        verify(transactionRepository, times(1)).deleteById(anyLong());
+    }
 }

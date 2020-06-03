@@ -33,13 +33,6 @@ public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implemen
 
     @Override
     public void delete(Long id) {
-            repository.delete(getOneById(id));
+        repository.deleteById(id);
     }
-
-//    In teh method above we are making one extra call to database and as we have a method called deletebyId in jpa repository
-//    by using deleteById method we can also avoid one extra database call and writing test is also easy than
-//    @Override
-//    public void delete(Long id) {
-//        repository.deleteById(id);
-//    }
 }
