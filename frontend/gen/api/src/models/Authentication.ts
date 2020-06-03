@@ -23,60 +23,67 @@ import {
 /**
  * 
  * @export
- * @interface Transaction
+ * @interface Authentication
  */
-export interface Transaction {
+export interface Authentication {
     /**
      * 
      * @type {Date}
-     * @memberof Transaction
+     * @memberof Authentication
      */
     createdAt?: Date;
     /**
      * 
+     * @type {Date}
+     * @memberof Authentication
+     */
+    expireDate?: Date;
+    /**
+     * 
      * @type {number}
-     * @memberof Transaction
+     * @memberof Authentication
      */
     id?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Transaction
+     * @type {string}
+     * @memberof Authentication
      */
-    points?: number;
+    token?: string;
     /**
      * 
      * @type {Date}
-     * @memberof Transaction
+     * @memberof Authentication
      */
     updatedAt?: Date;
     /**
      * 
      * @type {User}
-     * @memberof Transaction
+     * @memberof Authentication
      */
     user?: User;
 }
 
-export function TransactionFromJSON(json: any): Transaction {
-    return TransactionFromJSONTyped(json, false);
+export function AuthenticationFromJSON(json: any): Authentication {
+    return AuthenticationFromJSONTyped(json, false);
 }
 
-export function TransactionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Transaction {
+export function AuthenticationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Authentication {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
+        'expireDate': !exists(json, 'expireDate') ? undefined : (new Date(json['expireDate'])),
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'points': !exists(json, 'points') ? undefined : json['points'],
+        'token': !exists(json, 'token') ? undefined : json['token'],
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
         'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
-export function TransactionToJSON(value?: Transaction | null): any {
+export function AuthenticationToJSON(value?: Authentication | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -86,8 +93,9 @@ export function TransactionToJSON(value?: Transaction | null): any {
     return {
         
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
+        'expireDate': value.expireDate === undefined ? undefined : (value.expireDate.toISOString()),
         'id': value.id,
-        'points': value.points,
+        'token': value.token,
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
         'user': UserToJSON(value.user),
     };

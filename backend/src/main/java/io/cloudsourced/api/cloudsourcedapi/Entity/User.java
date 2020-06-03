@@ -13,12 +13,17 @@ import java.util.List;
 public class User extends BaseEntity{
 
     private String name;
+    private String infix;
+    private String lastName;
+    private String[] languages;
+    private String country;
     private String email;
     private String password;
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<Implementation> implementations;
-
+    private String telephone;
+    private String street;
+    private String streetNumber;
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;
 
