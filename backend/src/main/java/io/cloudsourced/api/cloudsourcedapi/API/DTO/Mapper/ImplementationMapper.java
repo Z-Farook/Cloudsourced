@@ -7,5 +7,4 @@ import org.mapstruct.factory.Mappers;
 
 @org.mapstruct.Mapper(componentModel = "spring", uses = { UserMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ImplementationMapper extends Mapper<Implementation, ImplementationDTO> {
-    ImplementationMapper INSTANCE = Mappers.getMapper(ImplementationMapper.class);
 }
