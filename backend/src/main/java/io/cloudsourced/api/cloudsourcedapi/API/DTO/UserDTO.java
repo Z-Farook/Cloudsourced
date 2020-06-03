@@ -7,5 +7,8 @@ import java.util.List;
 public class UserDTO {
     private Long id;
     private String name;
+    private String lastName;
+    private String[] languages;
+    private String Country;
     private String email;
 }

@@ -11,6 +11,9 @@ import javax.persistence.*;
 public class User extends BaseEntity{
 
     private String name;
+    private String lastName;
+    private String[] languages;
+    private String country;
     private String email;
     private String password;
     @OneToOne(cascade = CascadeType.ALL)
