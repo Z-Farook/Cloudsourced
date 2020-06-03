@@ -16,13 +16,18 @@ const AccountPage: React.FC<IProps> = (props) => {
   const handleMenuClick = (e: any) => {
     setKey(e.key);
   };
-  const renderSwitch = (key: string) => {
+  enum menu {
+    Dashboard,
+    Projects,
+    Details,
+  }
+  const renderSwitch = (key: number) => {
     switch (key) {
-      case "1":
+      case menu.Dashboard:
         return <Dashboard />;
-      case "2":
+      case menu.Projects:
         return <MyProjects />;
-      case "4":
+      case menu.Details:
         return <AccountDetails />;
       default:
         return "Not created yet";
@@ -37,14 +42,14 @@ const AccountPage: React.FC<IProps> = (props) => {
             <Menu
               onClick={handleMenuClick}
               style={{ width: 256, height: "100%" }}
-              defaultSelectedKeys={["1"]}
+              defaultSelectedKeys={[menu.Dashboard.toString()]}
               defaultOpenKeys={["sub1"]}
               mode="inline"
             >
-              <Menu.Item key="1">Dashboard</Menu.Item>
-              <Menu.Item key="2">Projects</Menu.Item>
-              <Menu.Item key="3">Transactions</Menu.Item>
-              <Menu.Item key="4">
+              <Menu.Item key={menu.Dashboard}>Dashboard</Menu.Item>
+              <Menu.Item key={menu.Projects}>Projects</Menu.Item>
+              <Menu.Item key={4}>Transactions</Menu.Item>
+              <Menu.Item key={menu.Details}>
                 <span>
                   <SettingOutlined />
                   <span>Settings</span>
@@ -52,7 +57,7 @@ const AccountPage: React.FC<IProps> = (props) => {
               </Menu.Item>
             </Menu>
           </Col>
-          <Col span={20}>{renderSwitch(key)}</Col>
+          <Col span={20}>{renderSwitch(Number(key))}</Col>
         </Row>
       </div>
     </DefaultLayout>
