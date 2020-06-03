@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  UserDTO,
+  UserDTOFromJSON,
+  UserDTOFromJSONTyped,
+  UserDTOToJSON,
+} from "./";
+
 /**
  *
  * @export
@@ -31,6 +38,12 @@ export interface TransactionDTO {
    * @memberof TransactionDTO
    */
   points?: number;
+  /**
+   *
+   * @type {UserDTO}
+   * @memberof TransactionDTO
+   */
+  user?: UserDTO;
 }
 
 export function TransactionDTOFromJSON(json: any): TransactionDTO {
@@ -47,6 +60,7 @@ export function TransactionDTOFromJSONTyped(
   return {
     id: !exists(json, "id") ? undefined : json["id"],
     points: !exists(json, "points") ? undefined : json["points"],
+    user: !exists(json, "user") ? undefined : UserDTOFromJSON(json["user"]),
   };
 }
 
@@ -60,5 +74,6 @@ export function TransactionDTOToJSON(value?: TransactionDTO | null): any {
   return {
     id: value.id,
     points: value.points,
+    user: UserDTOToJSON(value.user),
   };
 }

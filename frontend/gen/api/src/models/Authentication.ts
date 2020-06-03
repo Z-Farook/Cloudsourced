@@ -13,92 +13,80 @@
  */
 
 import { exists, mapValues } from "../runtime";
-import {
-  Authentication,
-  AuthenticationFromJSON,
-  AuthenticationFromJSONTyped,
-  AuthenticationToJSON,
-} from "./";
+import { User, UserFromJSON, UserFromJSONTyped, UserToJSON } from "./";
 
 /**
  *
  * @export
- * @interface User
+ * @interface Authentication
  */
-export interface User {
-  /**
-   *
-   * @type {Authentication}
-   * @memberof User
-   */
-  authentication?: Authentication;
+export interface Authentication {
   /**
    *
    * @type {Date}
-   * @memberof User
+   * @memberof Authentication
    */
   createdAt?: Date;
   /**
    *
-   * @type {string}
-   * @memberof User
+   * @type {Date}
+   * @memberof Authentication
    */
-  email?: string;
+  expireDate?: Date;
   /**
    *
    * @type {number}
-   * @memberof User
+   * @memberof Authentication
    */
   id?: number;
   /**
    *
    * @type {string}
-   * @memberof User
+   * @memberof Authentication
    */
-  name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
-  password?: string;
+  token?: string;
   /**
    *
    * @type {Date}
-   * @memberof User
+   * @memberof Authentication
    */
   updatedAt?: Date;
+  /**
+   *
+   * @type {User}
+   * @memberof Authentication
+   */
+  user?: User;
 }
 
-export function UserFromJSON(json: any): User {
-  return UserFromJSONTyped(json, false);
+export function AuthenticationFromJSON(json: any): Authentication {
+  return AuthenticationFromJSONTyped(json, false);
 }
 
-export function UserFromJSONTyped(
+export function AuthenticationFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): User {
+): Authentication {
   if (json === undefined || json === null) {
     return json;
   }
   return {
-    authentication: !exists(json, "authentication")
-      ? undefined
-      : AuthenticationFromJSON(json["authentication"]),
     createdAt: !exists(json, "createdAt")
       ? undefined
       : new Date(json["createdAt"]),
-    email: !exists(json, "email") ? undefined : json["email"],
+    expireDate: !exists(json, "expireDate")
+      ? undefined
+      : new Date(json["expireDate"]),
     id: !exists(json, "id") ? undefined : json["id"],
-    name: !exists(json, "name") ? undefined : json["name"],
-    password: !exists(json, "password") ? undefined : json["password"],
+    token: !exists(json, "token") ? undefined : json["token"],
     updatedAt: !exists(json, "updatedAt")
       ? undefined
       : new Date(json["updatedAt"]),
+    user: !exists(json, "user") ? undefined : UserFromJSON(json["user"]),
   };
 }
 
-export function UserToJSON(value?: User | null): any {
+export function AuthenticationToJSON(value?: Authentication | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -106,14 +94,16 @@ export function UserToJSON(value?: User | null): any {
     return null;
   }
   return {
-    authentication: AuthenticationToJSON(value.authentication),
     createdAt:
       value.createdAt === undefined ? undefined : value.createdAt.toISOString(),
-    email: value.email,
+    expireDate:
+      value.expireDate === undefined
+        ? undefined
+        : value.expireDate.toISOString(),
     id: value.id,
-    name: value.name,
-    password: value.password,
+    token: value.token,
     updatedAt:
       value.updatedAt === undefined ? undefined : value.updatedAt.toISOString(),
+    user: UserToJSON(value.user),
   };
 }

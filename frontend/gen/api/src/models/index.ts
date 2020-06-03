@@ -1,3 +1,5 @@
+export * from "./Authentication";
+export * from "./AuthenticationUserDTO";
 export * from "./Feature";
 export * from "./FeatureDTO";
 export * from "./ModelAndView";

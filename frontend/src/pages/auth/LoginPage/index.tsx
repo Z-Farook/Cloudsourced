@@ -2,6 +2,8 @@ import React from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Form, Input, Button, Checkbox, Card, Row, Col } from "antd";
+import { Store } from "antd/lib/form/interface";
+import { AuthenticationResourceApi } from "cloudsourced-api";
 
 const layout = {
   labelCol: { span: 8 },
@@ -10,6 +12,11 @@ const layout = {
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
+
+interface IValues {
+  email: string;
+  password: string;
+}
 
 interface IProps extends RouteComponentProps {}
 
@@ -24,15 +31,29 @@ const LoginPage: React.FC<IProps> = (props) => {
               {...layout}
               name="basic"
               initialValues={{ remember: true }}
-              onFinish={() => {}}
+              onFinish={async (store: Store) => {
+                const values = store as IValues;
+
+                try {
+                  const result = await new AuthenticationResourceApi().authenticateUserUsingPOST(
+                    {
+                      authenticationUserDTO: {
+                        email: values.email,
+                        password: values.password,
+                      },
+                    }
+                  );
+                  alert(result.id);
+                } catch (err) {
+                  alert(err.message);
+                }
+              }}
               onFinishFailed={() => {}}
             >
               <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  { required: true, message: "Please input your username" },
-                ]}
+                label="Email"
+                name="email"
+                rules={[{ required: true, message: "Please input your email" }]}
               >
                 <Input />
               </Form.Item>
@@ -57,7 +78,7 @@ const LoginPage: React.FC<IProps> = (props) => {
 
               <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
-                  Submit
+                  Login
                 </Button>
               </Form.Item>
             </Form>
