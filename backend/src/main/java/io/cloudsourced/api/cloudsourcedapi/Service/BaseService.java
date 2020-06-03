@@ -33,7 +33,6 @@ public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implemen
 
     @Override
     public void delete(Long id) {
-            repository.delete(getOneById(id));
+        repository.deleteById(id);
     }
-
 }
