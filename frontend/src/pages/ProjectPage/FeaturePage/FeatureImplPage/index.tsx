@@ -42,9 +42,9 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
     fromLoading()
   );
 
-  const projectId = useMemo(() => Number(props.match.params.projectId), [
-    props.match.params.projectId,
-  ]);
+  // const projectId = useMemo(() => Number(props.match.params.projectId), [
+  //   props.match.params.projectId,
+  // ]);
   const featureId = useMemo(() => Number(props.match.params.featureId), [
     props.match.params.featureId,
   ]);
@@ -61,7 +61,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
       });
       setFeature(fromLoaded(result));
 
-      setValue("code", result.codePreview!);
+      // setValue("code", result.codePreview!);
     })();
   }, [featureId]);
 
