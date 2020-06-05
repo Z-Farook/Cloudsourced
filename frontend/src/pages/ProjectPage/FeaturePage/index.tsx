@@ -10,11 +10,7 @@ import IRemoteData, {
   fromLoaded,
   fromLoading
 } from "../../../core/IRemoteData";
-import {
-  Feature,
-  FeatureResourceApi,
-  GetOneByIdUsingGET1Request
-} from "cloudsourced-api";
+import { Feature, FeatureResourceApi } from "cloudsourced-api";
 
 const { Title, Paragraph } = Typography;
 
@@ -39,7 +35,7 @@ const FeaturePage: React.FC<IProps> = props => {
     fromLoading()
   );
 
-  const { featureId } = useMemo(() => {
+  const { projectId, featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
       featureId: Number(props.match.params.featureId)
@@ -76,7 +72,16 @@ const FeaturePage: React.FC<IProps> = props => {
               {feature.data!.codePreview}
             </SyntaxHighlighter>
 
-            <Button style={{ marginTop: 10 }}>Provide implementation</Button>
+            <Button
+              style={{ marginTop: 10 }}
+              onClick={() => {
+                props.history.push(
+                  `/projects/${projectId}/features/${featureId}/implementation`
+                );
+              }}
+            >
+              Provide implementation
+            </Button>
           </div>
         ) : (
           <div>Whoops!</div>

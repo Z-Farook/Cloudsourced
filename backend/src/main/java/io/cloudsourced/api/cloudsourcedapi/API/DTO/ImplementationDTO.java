@@ -3,8 +3,8 @@ package io.cloudsourced.api.cloudsourcedapi.API.DTO;
 import lombok.Data;
 
 @Data
-public class TransactionDTO {
+public class ImplementationDTO {
     private Long id;
-    private Long points;
+    private String code;
     private UserDTO user;
 }

@@ -9,11 +9,7 @@ import IRemoteData, {
   fromLoading,
   EState,
 } from "../../core/IRemoteData";
-import {
-  Project,
-  ProjectResourceApi,
-  GetOneByIdUsingGET1Request,
-} from "cloudsourced-api";
+import { Project, ProjectResourceApi } from "cloudsourced-api";
 
 interface IRouterParams {
   projectId: string;

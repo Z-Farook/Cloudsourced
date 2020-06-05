@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -15,4 +16,6 @@ public class Feature extends BaseEntity {
     private String description;
     private String codePreview;
     private String codeLanguage;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Implementation> implementations;
 }
