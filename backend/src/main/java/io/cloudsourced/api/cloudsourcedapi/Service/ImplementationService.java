@@ -17,22 +17,16 @@ public class ImplementationService extends BaseService<Implementation, Implement
         this.userService = userService;
     }
 
-    public Implementation addImplementationToFeature(Long id, Implementation implementation) throws Exception {
+    public Implementation addImplementationToFeature(Long id, Implementation implementation) {
         Feature feature = featureService.getOneById(id);
 
         List<Implementation> implementations = feature.getImplementations();
-
-        // TODO: there must be at least one user in the database for this function to be able to be called
-        List<User> users = userService.getAll();
-        if (users.size() < 1) {
-            throw new Exception("There are no users in the database");
-        }
 
         // TODO: get the logged in user
         User user = userService.getOneById(1L);
 
         if (user.getId() == feature.getId()) {
-            throw new Exception("Hol' up.... you provided your own implementation?");
+            throw new RuntimeException("Hol up.... you provided your own implementation?");
         }
 
         implementation.setUser(user);
