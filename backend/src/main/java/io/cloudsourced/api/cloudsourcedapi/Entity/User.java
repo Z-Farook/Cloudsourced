@@ -1,8 +1,10 @@
 package io.cloudsourced.api.cloudsourcedapi.Entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -17,6 +19,8 @@ public class User extends BaseEntity{
     private String country;
     private String email;
     private String password;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Implementation> implementations;
     private String telephone;
     private String street;
     private String streetNumber;
@@ -26,4 +30,5 @@ public class User extends BaseEntity{
     public User(){
         authentication = new Authentication();
     }
+
 }
