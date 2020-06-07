@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@testing-library/jest-dom": "^4.2.4",
@@ -64,7 +65,8 @@
     "@types/yup": "^0.29.0",
     "prettier": "^2.0.4",
     "react-app-rewired": "^2.1.6",
-    "shx": "^0.3.2"
+    "shx": "^0.3.2",
+    "monaco-editor-webpack-plugin": "^1.9.0"
   },
   "jest": {
     "transformIgnorePatterns": [
