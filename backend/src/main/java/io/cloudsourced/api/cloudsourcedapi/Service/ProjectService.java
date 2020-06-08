@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
-public class ProjectService extends Service<Project, ProjectRepository>{
+public class ProjectService extends BaseService<Project, ProjectRepository>{
 
 
     private final UserService userService;
@@ -28,7 +28,7 @@ public class ProjectService extends Service<Project, ProjectRepository>{
 
     //TODO: This function is for development purposes only and needs to go when we can get the user from the session
     public Project saveWithUser(Long id, Project project) {
-        User user = userService.getOneById(id).get();
+        User user = userService.getOneById(id); //.get();
 
         project.setUser(user);
 
