@@ -10,11 +10,7 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../core/IRemoteData";
-import {
-  Feature,
-  FeatureResourceApi,
-  GetOneByIdUsingGET1Request,
-} from "cloudsourced-api";
+import { Feature, FeatureResourceApi } from "cloudsourced-api";
 
 const { Title, Paragraph } = Typography;
 
