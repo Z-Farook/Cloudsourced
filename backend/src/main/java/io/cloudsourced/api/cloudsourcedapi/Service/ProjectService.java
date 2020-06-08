@@ -30,7 +30,9 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     public Project saveWithUser(Long id, Project project) {
         User user = userService.getOneById(id); //.get();
 
-        project.setUser(user);
+        List<Project> projects = user.getProjects();
+        projects.add(project);
+        user.setProjects(projects);
 
         return repository.save(project);
     }

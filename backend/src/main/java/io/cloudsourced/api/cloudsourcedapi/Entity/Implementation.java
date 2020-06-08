@@ -11,6 +11,4 @@ import javax.persistence.*;
 @Table(name = "tbl_implementation")
 public class Implementation extends BaseEntity {
     private String code;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private User user;
 }

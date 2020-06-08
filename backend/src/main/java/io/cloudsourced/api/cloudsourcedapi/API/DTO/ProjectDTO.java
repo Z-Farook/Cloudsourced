@@ -12,5 +12,4 @@ public class ProjectDTO {
     private String description;
     private String image;
     private List<Feature> features;
-    private UserDTO user;
 }
