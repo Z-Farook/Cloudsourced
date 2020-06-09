@@ -6,18 +6,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Getter
 @Setter
-@Table(name = "tbl_implementation")
-public class Implementation extends BaseEntity {
-    private String code;
+@Table(name="tbl_review")
+public class Review extends BaseEntity {
+    private Boolean approved;
+    private String message;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Implementation implementation;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementation", fetch = FetchType.LAZY)
-    private List<Review> reviews;
 }

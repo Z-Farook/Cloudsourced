@@ -25,10 +25,6 @@ public class ImplementationService extends BaseService<Implementation, Implement
         // TODO: get the logged in user
         User user = userService.getOneById(1L);
 
-        if (user.getId() == feature.getId()) {
-            throw new RuntimeException("Hol up.... you provided your own implementation?");
-        }
-
         implementation.setUser(user);
 
         implementations.add(implementation);

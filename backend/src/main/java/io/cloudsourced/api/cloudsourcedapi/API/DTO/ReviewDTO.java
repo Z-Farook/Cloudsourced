@@ -2,12 +2,11 @@ package io.cloudsourced.api.cloudsourcedapi.API.DTO;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class ImplementationDTO {
+public class ReviewDTO {
     private Long id;
-    private String code;
+    private Boolean approved;
+    private String message;
+    private ImplementationDTO implementation;
     private UserDTO user;
-//    private List<ReviewDTO> reviews;
 }
