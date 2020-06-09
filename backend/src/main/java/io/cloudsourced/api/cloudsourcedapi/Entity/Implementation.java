@@ -10,8 +10,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "tbl_implementation")
 public class Implementation extends BaseEntity {
     private String code;
