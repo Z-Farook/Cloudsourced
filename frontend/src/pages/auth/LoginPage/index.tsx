@@ -5,7 +5,7 @@ import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
 import { AuthenticationResourceApi, Configuration } from "cloudsourced-api";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { api } from "../../../core/api";
+import { api, saveAuthentication } from "../../../core/api";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -39,11 +39,7 @@ const LoginPage: React.FC<IProps> = (props) => {
           password: values.password,
         },
       });
-      api.config = new Configuration({
-        headers: {
-          Authorization: result.token!,
-        },
-      });
+      saveAuthentication(result);
     } catch (err) {
       message.error("Email or password is incorrect.");
     }
