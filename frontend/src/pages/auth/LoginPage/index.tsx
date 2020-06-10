@@ -40,6 +40,7 @@ const LoginPage: React.FC<IProps> = (props) => {
         },
       });
       saveAuthentication(result);
+      props.history.push(`/account`);
     } catch (err) {
       message.error("Email or password is incorrect.");
     }
