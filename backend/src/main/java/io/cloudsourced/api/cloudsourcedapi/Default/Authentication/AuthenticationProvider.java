@@ -36,8 +36,12 @@ public class AuthenticationProvider {
     public User getUserByToken(String token) {
         if (validateToken(token)) {
             Optional<Authentication> authentication = authenticationRepository.findTopByToken(token);
-            if (authentication.isPresent()) {
-                return authentication.get().getUser();
+            if(authentication.isPresent()) {
+                Optional<User> user = userRepository.findTopByAuthentication(authentication.get());
+                if(user.isPresent()){
+                    return user.get();
+                }
+
             }
         }
         throw new UnauthorizedException();
@@ -53,7 +57,8 @@ public class AuthenticationProvider {
 
     public org.springframework.security.core.Authentication getAuthentication(String token) {
         User user = getUserByToken(token);
-        return new UsernamePasswordAuthenticationToken(user, "", null);
+        System.out.print(user.getPassword());
+        return new UsernamePasswordAuthenticationToken(null, user, null);
     }
 
     public Authentication getAuthenticationByEmailAndPassword(String email, String password) {
@@ -78,9 +83,8 @@ public class AuthenticationProvider {
             return authentication;
         }
 
-        throw new UnauthorizedException("AUTH_INVALID");
+        return withNewToken(authentication);
     }
-
     private Authentication withNewToken(Authentication authentication) {
         String generatedToken = generateToken();
 
