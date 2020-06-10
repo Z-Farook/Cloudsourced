@@ -2,6 +2,7 @@ package io.cloudsourced.api.cloudsourcedapi.API.Resource;
 
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.ProjectMapper;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDTO;
+import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.ProjectService;
@@ -14,8 +15,9 @@ import java.util.List;
 @RequestMapping("/project")
 public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectService, ProjectRepository, ProjectMapper>{
 
-    public ProjectResource(ProjectService service, ProjectMapper mapper) {
-        super(service, mapper);
+
+    public ProjectResource(ProjectService service, ProjectMapper mapper, AuthenticatedUserBean Authentication) {
+        super(service, mapper, Authentication);
     }
 
     @GetMapping("/search/{name}")
