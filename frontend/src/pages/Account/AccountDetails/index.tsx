@@ -8,6 +8,7 @@ import IRemoteData, {
 } from "../../../core/IRemoteData";
 import { User, UserResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
+import { formatUser } from "../../../formatters/user";
 interface IProps extends RouteComponentProps {}
 
 const AccountDetails: React.FC<IProps> = (props) => {
@@ -15,9 +16,10 @@ const AccountDetails: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new UserResourceApi(api.config).allUsingGET4();
-      console.log(result);
-      // setUser(fromLoaded(result));
+      const result = await new UserResourceApi(api.config).getOneByIdUsingGET4({
+        id: 1,
+      });
+      setUser(fromLoaded(result));
     })();
   });
   return (
@@ -45,13 +47,7 @@ const AccountDetails: React.FC<IProps> = (props) => {
                 <Row>
                   <Col span={4}></Col>
                   <Col span={16}>
-                    <Descriptions
-                      title={
-                        user.data!.name! +
-                        user.data!.infix! +
-                        user.data!.lastName!
-                      }
-                    >
+                    <Descriptions title={formatUser(user.data!)}>
                       <Descriptions.Item span={16} label="Name">
                         {user.data!.name!}
                       </Descriptions.Item>
