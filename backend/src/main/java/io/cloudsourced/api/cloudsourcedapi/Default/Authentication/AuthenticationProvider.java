@@ -83,9 +83,8 @@ public class AuthenticationProvider {
             return authentication;
         }
 
-        throw new UnauthorizedException("AUTH_INVALID");
+        return withNewToken(authentication);
     }
-
     private Authentication withNewToken(Authentication authentication) {
         String generatedToken = generateToken();
 

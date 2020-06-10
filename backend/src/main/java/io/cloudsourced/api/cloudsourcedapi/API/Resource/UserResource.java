@@ -25,9 +25,4 @@ public class UserResource extends BaseResource<User,UserDTO, UserService, UserRe
         super(service, mapper, Authentication);
     }
 
-    @GetMapping("/test")
-    public Object test(){
-        return SecurityContextHolder.getContext().getAuthentication().getCredentials();
-    }
-
 }
