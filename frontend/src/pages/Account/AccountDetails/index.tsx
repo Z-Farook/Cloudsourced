@@ -15,7 +15,7 @@ const AccountDetails: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new UserResourceApi().getOneByIdUsingGET3({
+      const result = await new UserResourceApi().getOneByIdUsingGET4({
         id: 1,
       });
       setUser(fromLoaded(result));

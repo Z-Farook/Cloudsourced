@@ -1,6 +1,5 @@
 package io.cloudsourced.api.cloudsourcedapi.API.DTO;
 
-import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
 import lombok.Data;
 
 import java.util.List;
