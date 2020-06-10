@@ -59,20 +59,20 @@ public class AuthenticationProvider {
     public Authentication getAuthenticationByEmailAndPassword(String email, String password) {
         Optional<User> user = userRepository.findTopByEmail(email);
         if (!user.isPresent()) {
-            throw new NotFoundException();
+            throw new UnauthorizedException();
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (!passwordEncoder.matches(password, user.get().getPassword())) {
-            throw new NotFoundException();
+            throw new UnauthorizedException();
         }
 
         Authentication authentication = user.get().getAuthentication();
         if (authentication == null) {
-            throw new NotFoundException();
+            throw new UnauthorizedException();
         }
 
         if (authentication.getExpireDate() == null || authentication.getToken() == null) {
-            throw new NotFoundException();
+            throw new UnauthorizedException();
         }
 
         if (authentication.getExpireDate().compareTo(Instant.now()) > 0) {
