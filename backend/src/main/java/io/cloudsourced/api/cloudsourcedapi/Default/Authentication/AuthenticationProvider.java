@@ -44,7 +44,7 @@ public class AuthenticationProvider {
     }
 
     public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authentication");
+        String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.length() == tokenLength) {
             return bearerToken;
         }
