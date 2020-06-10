@@ -3,10 +3,7 @@ import { Input, Button, Row, Col, message, Upload } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
-import {
-  ProjectResourceApi,
-  AddWithUserUsingPOSTRequest,
-} from "cloudsourced-api";
+import { ProjectResourceApi, Project } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
 
@@ -56,9 +53,8 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
   };
 
   const handleProject = async (data: Inputs) => {
-    const params: AddWithUserUsingPOSTRequest = {
-      id: 1,
-      project: {
+    const params = {
+      entity: {
         description: data.description,
         user: {},
         name: data.projectName,
@@ -69,7 +65,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     try {
       const response = await new ProjectResourceApi(
         api.config
-      ).addWithUserUsingPOST(params);
+      ).createNewUsingPOST2(params);
       message.success({
         content: "Project is created succesfully!",
         key: "updatableKey",
