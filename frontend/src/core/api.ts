@@ -16,7 +16,13 @@ export const api = {
   })(),
 };
 
-export const saveAuthentication = (auth: Authentication) => {
+export const saveAuthentication = (auth: Authentication | null) => {
+  if (auth == null) {
+    api.config = new Configuration();
+    localStorage.removeItem("AUTH");
+    return;
+  }
+
   api.config = new Configuration({
     headers: {
       Authorization: auth.token!,
