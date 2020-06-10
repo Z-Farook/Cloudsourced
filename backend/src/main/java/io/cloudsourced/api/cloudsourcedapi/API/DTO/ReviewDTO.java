@@ -7,6 +7,5 @@ public class ReviewDTO {
     private Long id;
     private Boolean approved;
     private String message;
-    private ImplementationDTO implementation;
     private UserDTO user;
 }
