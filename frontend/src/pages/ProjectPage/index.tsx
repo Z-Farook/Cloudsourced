@@ -8,7 +8,9 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../core/IRemoteData";
+
 import ProjectCard from "./ProjectCard";
+import { api } from "../../core/api";
 
 interface IProps extends RouteComponentProps {}
 
@@ -19,7 +21,7 @@ const ProjectPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi().allUsingGET2();
+      const result = await new ProjectResourceApi(api.config).allUsingGET2();
       console.log(result);
       setProjects(fromLoaded(result));
     })();

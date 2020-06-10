@@ -12,7 +12,7 @@ import AccountDetails from "./AccountDetails";
 interface IProps extends RouteComponentProps {}
 
 const AccountPage: React.FC<IProps> = (props) => {
-  const [key, setKey] = useState("1");
+  const [key, setKey] = useState("2");
   const handleMenuClick = (e: any) => {
     setKey(e.key);
   };
