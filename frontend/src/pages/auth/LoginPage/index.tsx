@@ -1,12 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
-import { Store } from "antd/lib/form/interface";
-import { AuthenticationResourceApi } from "cloudsourced-api";
-import { Controller, useForm } from "react-hook-form";
+import { AuthenticationResourceApi, Configuration } from "cloudsourced-api";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import MonacoEditor from "react-monaco-editor";
+import { api } from "../../../core/api";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -16,14 +15,6 @@ const validationSchema = yup.object().shape({
   password: yup.string().required("Password is a required field"),
 });
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
-
 interface IValues {
   email: string;
   password: string;
@@ -32,27 +23,35 @@ interface IValues {
 interface IProps extends RouteComponentProps {}
 
 const LoginPage: React.FC<IProps> = (props) => {
-  const { handleSubmit, errors, watch, setValue, getValues } = useForm({
+  const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,
   });
-  // const _ = watch();
-  const onSubmit = useCallback(async (data) => {
+
+  const onSubmit = async (data: any) => {
     const values = data as IValues;
 
     try {
-      const result = await new AuthenticationResourceApi().authenticateUserUsingPOST(
-        {
-          authenticationUserDTO: {
-            email: values.email,
-            password: values.password,
-          },
-        }
-      );
-      alert("ok");
+      const result = await new AuthenticationResourceApi(
+        api.config
+      ).authenticateUserUsingPOST({
+        authenticationUserDTO: {
+          email: values.email,
+          password: values.password,
+        },
+      });
+      api.config = new Configuration({
+        headers: {
+          Authorization: result.token!,
+        },
+      });
     } catch (err) {
       message.error("Email or password is incorrect.");
     }
-    alert(JSON.stringify(data));
+  };
+
+  useEffect(() => {
+    register({ name: "email" });
+    register({ name: "password" });
   }, []);
 
   return (
@@ -61,11 +60,10 @@ const LoginPage: React.FC<IProps> = (props) => {
         <Col xs={6} />
         <Col xs={12}>
           <Card title="Login">
-            <form {...layout} onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Form.Item
                 label="Email"
                 name="email"
-                rules={[{ required: true, message: "Please input your email" }]}
                 validateStatus={
                   errors.email !== undefined ? "error" : undefined
                 }
@@ -75,17 +73,13 @@ const LoginPage: React.FC<IProps> = (props) => {
               >
                 <Input
                   name="email"
-                  value={getValues("email")}
-                  onChange={(x) => setValue("email", x)}
+                  onChange={(ev) => setValue("email", ev.target.value)}
                 />
               </Form.Item>
 
               <Form.Item
                 label="Password"
                 name="password"
-                rules={[
-                  { required: true, message: "Please input your password" },
-                ]}
                 validateStatus={
                   errors.password !== undefined ? "error" : undefined
                 }
@@ -97,22 +91,15 @@ const LoginPage: React.FC<IProps> = (props) => {
               >
                 <Input.Password
                   name="password"
-                  value={getValues("password")}
-                  onChange={(x) => setValue("password", x)}
+                  onChange={(ev) => setValue("password", ev.target.value)}
                 />
               </Form.Item>
 
-              <Form.Item
-                {...tailLayout}
-                name="remember"
-                valuePropName="checked"
-              >
+              <Form.Item name="remember" valuePropName="checked">
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
 
-              <code>{JSON.stringify(getValues())}</code>
-
-              <Form.Item {...tailLayout}>
+              <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Login
                 </Button>
