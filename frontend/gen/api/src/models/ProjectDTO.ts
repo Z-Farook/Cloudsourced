@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from "../runtime";
 import {
-  Feature,
-  FeatureFromJSON,
-  FeatureFromJSONTyped,
-  FeatureToJSON,
+  FeatureDTO,
+  FeatureDTOFromJSON,
+  FeatureDTOFromJSONTyped,
+  FeatureDTOToJSON,
   UserDTO,
   UserDTOFromJSON,
   UserDTOFromJSONTyped,
@@ -38,10 +38,10 @@ export interface ProjectDTO {
   description?: string;
   /**
    *
-   * @type {Array<Feature>}
+   * @type {Array<FeatureDTO>}
    * @memberof ProjectDTO
    */
-  features?: Array<Feature>;
+  features?: Array<FeatureDTO>;
   /**
    *
    * @type {number}
@@ -83,7 +83,7 @@ export function ProjectDTOFromJSONTyped(
     description: !exists(json, "description") ? undefined : json["description"],
     features: !exists(json, "features")
       ? undefined
-      : (json["features"] as Array<any>).map(FeatureFromJSON),
+      : (json["features"] as Array<any>).map(FeatureDTOFromJSON),
     id: !exists(json, "id") ? undefined : json["id"],
     image: !exists(json, "image") ? undefined : json["image"],
     name: !exists(json, "name") ? undefined : json["name"],
@@ -103,7 +103,7 @@ export function ProjectDTOToJSON(value?: ProjectDTO | null): any {
     features:
       value.features === undefined
         ? undefined
-        : (value.features as Array<any>).map(FeatureToJSON),
+        : (value.features as Array<any>).map(FeatureDTOToJSON),
     id: value.id,
     image: value.image,
     name: value.name,

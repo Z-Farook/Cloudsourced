@@ -27,15 +27,15 @@ export interface AddWithUserUsingPOSTRequest {
   project: Project;
 }
 
-export interface CreateNewUsingPOST1Request {
+export interface CreateNewUsingPOST2Request {
   entity: Project;
 }
 
-export interface DeleteUsingDELETE1Request {
+export interface DeleteUsingDELETE2Request {
   id?: number;
 }
 
-export interface GetOneByIdUsingGET1Request {
+export interface GetOneByIdUsingGET2Request {
   id: number;
 }
 
@@ -105,7 +105,7 @@ export class ProjectResourceApi extends runtime.BaseAPI {
   /**
    * All
    */
-  async allUsingGET1Raw(): Promise<runtime.ApiResponse<Array<ProjectDTO>>> {
+  async allUsingGET2Raw(): Promise<runtime.ApiResponse<Array<ProjectDTO>>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -125,16 +125,16 @@ export class ProjectResourceApi extends runtime.BaseAPI {
   /**
    * All
    */
-  async allUsingGET1(): Promise<Array<ProjectDTO>> {
-    const response = await this.allUsingGET1Raw();
+  async allUsingGET2(): Promise<Array<ProjectDTO>> {
+    const response = await this.allUsingGET2Raw();
     return await response.value();
   }
 
   /**
    * createNew
    */
-  async createNewUsingPOST1Raw(
-    requestParameters: CreateNewUsingPOST1Request
+  async createNewUsingPOST2Raw(
+    requestParameters: CreateNewUsingPOST2Request
   ): Promise<runtime.ApiResponse<Project>> {
     if (
       requestParameters.entity === null ||
@@ -142,7 +142,7 @@ export class ProjectResourceApi extends runtime.BaseAPI {
     ) {
       throw new runtime.RequiredError(
         "entity",
-        "Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST1."
+        "Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST2."
       );
     }
 
@@ -168,18 +168,18 @@ export class ProjectResourceApi extends runtime.BaseAPI {
   /**
    * createNew
    */
-  async createNewUsingPOST1(
-    requestParameters: CreateNewUsingPOST1Request
+  async createNewUsingPOST2(
+    requestParameters: CreateNewUsingPOST2Request
   ): Promise<Project> {
-    const response = await this.createNewUsingPOST1Raw(requestParameters);
+    const response = await this.createNewUsingPOST2Raw(requestParameters);
     return await response.value();
   }
 
   /**
    * delete
    */
-  async deleteUsingDELETE1Raw(
-    requestParameters: DeleteUsingDELETE1Request
+  async deleteUsingDELETE2Raw(
+    requestParameters: DeleteUsingDELETE2Request
   ): Promise<runtime.ApiResponse<void>> {
     const queryParameters: runtime.HTTPQuery = {};
 
@@ -202,22 +202,22 @@ export class ProjectResourceApi extends runtime.BaseAPI {
   /**
    * delete
    */
-  async deleteUsingDELETE1(
-    requestParameters: DeleteUsingDELETE1Request
+  async deleteUsingDELETE2(
+    requestParameters: DeleteUsingDELETE2Request
   ): Promise<void> {
-    await this.deleteUsingDELETE1Raw(requestParameters);
+    await this.deleteUsingDELETE2Raw(requestParameters);
   }
 
   /**
    * getOneById
    */
-  async getOneByIdUsingGET1Raw(
-    requestParameters: GetOneByIdUsingGET1Request
+  async getOneByIdUsingGET2Raw(
+    requestParameters: GetOneByIdUsingGET2Request
   ): Promise<runtime.ApiResponse<ProjectDTO>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET1."
+        "Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET2."
       );
     }
 
@@ -243,10 +243,10 @@ export class ProjectResourceApi extends runtime.BaseAPI {
   /**
    * getOneById
    */
-  async getOneByIdUsingGET1(
-    requestParameters: GetOneByIdUsingGET1Request
+  async getOneByIdUsingGET2(
+    requestParameters: GetOneByIdUsingGET2Request
   ): Promise<ProjectDTO> {
-    const response = await this.getOneByIdUsingGET1Raw(requestParameters);
+    const response = await this.getOneByIdUsingGET2Raw(requestParameters);
     return await response.value();
   }
 

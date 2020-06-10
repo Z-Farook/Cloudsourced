@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  Implementation,
+  ImplementationFromJSON,
+  ImplementationFromJSONTyped,
+  ImplementationToJSON,
+} from "./";
+
 /**
  *
  * @export
@@ -51,6 +58,12 @@ export interface Feature {
   id?: number;
   /**
    *
+   * @type {Array<Implementation>}
+   * @memberof Feature
+   */
+  implementations?: Array<Implementation>;
+  /**
+   *
    * @type {string}
    * @memberof Feature
    */
@@ -84,6 +97,9 @@ export function FeatureFromJSONTyped(
       : new Date(json["createdAt"]),
     description: !exists(json, "description") ? undefined : json["description"],
     id: !exists(json, "id") ? undefined : json["id"],
+    implementations: !exists(json, "implementations")
+      ? undefined
+      : (json["implementations"] as Array<any>).map(ImplementationFromJSON),
     name: !exists(json, "name") ? undefined : json["name"],
     updatedAt: !exists(json, "updatedAt")
       ? undefined
@@ -105,6 +121,10 @@ export function FeatureToJSON(value?: Feature | null): any {
       value.createdAt === undefined ? undefined : value.createdAt.toISOString(),
     description: value.description,
     id: value.id,
+    implementations:
+      value.implementations === undefined
+        ? undefined
+        : (value.implementations as Array<any>).map(ImplementationToJSON),
     name: value.name,
     updatedAt:
       value.updatedAt === undefined ? undefined : value.updatedAt.toISOString(),

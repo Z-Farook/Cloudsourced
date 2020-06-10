@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from "../runtime";
+import {
+  ImplementationDTO,
+  ImplementationDTOFromJSON,
+  ImplementationDTOFromJSONTyped,
+  ImplementationDTOToJSON,
+} from "./";
+
 /**
  *
  * @export
@@ -45,6 +52,12 @@ export interface FeatureDTO {
   id?: number;
   /**
    *
+   * @type {Array<ImplementationDTO>}
+   * @memberof FeatureDTO
+   */
+  implementations?: Array<ImplementationDTO>;
+  /**
+   *
    * @type {string}
    * @memberof FeatureDTO
    */
@@ -69,6 +82,9 @@ export function FeatureDTOFromJSONTyped(
     codePreview: !exists(json, "codePreview") ? undefined : json["codePreview"],
     description: !exists(json, "description") ? undefined : json["description"],
     id: !exists(json, "id") ? undefined : json["id"],
+    implementations: !exists(json, "implementations")
+      ? undefined
+      : (json["implementations"] as Array<any>).map(ImplementationDTOFromJSON),
     name: !exists(json, "name") ? undefined : json["name"],
   };
 }
@@ -85,6 +101,10 @@ export function FeatureDTOToJSON(value?: FeatureDTO | null): any {
     codePreview: value.codePreview,
     description: value.description,
     id: value.id,
+    implementations:
+      value.implementations === undefined
+        ? undefined
+        : (value.implementations as Array<any>).map(ImplementationDTOToJSON),
     name: value.name,
   };
 }

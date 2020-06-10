@@ -18,67 +18,58 @@ import { User, UserFromJSON, UserFromJSONTyped, UserToJSON } from "./";
 /**
  *
  * @export
- * @interface Authentication
+ * @interface Implementation
  */
-export interface Authentication {
+export interface Implementation {
+  /**
+   *
+   * @type {string}
+   * @memberof Implementation
+   */
+  code?: string;
   /**
    *
    * @type {Date}
-   * @memberof Authentication
+   * @memberof Implementation
    */
   createdAt?: Date;
   /**
    *
-   * @type {Date}
-   * @memberof Authentication
-   */
-  expireDate?: Date;
-  /**
-   *
    * @type {number}
-   * @memberof Authentication
+   * @memberof Implementation
    */
   id?: number;
   /**
    *
-   * @type {string}
-   * @memberof Authentication
-   */
-  token?: string;
-  /**
-   *
    * @type {Date}
-   * @memberof Authentication
+   * @memberof Implementation
    */
   updatedAt?: Date;
   /**
    *
    * @type {User}
-   * @memberof Authentication
+   * @memberof Implementation
    */
   user?: User;
 }
 
-export function AuthenticationFromJSON(json: any): Authentication {
-  return AuthenticationFromJSONTyped(json, false);
+export function ImplementationFromJSON(json: any): Implementation {
+  return ImplementationFromJSONTyped(json, false);
 }
 
-export function AuthenticationFromJSONTyped(
+export function ImplementationFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): Authentication {
+): Implementation {
   if (json === undefined || json === null) {
     return json;
   }
   return {
+    code: !exists(json, "code") ? undefined : json["code"],
     createdAt: !exists(json, "createdAt")
       ? undefined
       : new Date(json["createdAt"]),
-    expireDate: !exists(json, "expireDate")
-      ? undefined
-      : new Date(json["expireDate"]),
     id: !exists(json, "id") ? undefined : json["id"],
-    token: !exists(json, "token") ? undefined : json["token"],
     updatedAt: !exists(json, "updatedAt")
       ? undefined
       : new Date(json["updatedAt"]),
@@ -86,7 +77,7 @@ export function AuthenticationFromJSONTyped(
   };
 }
 
-export function AuthenticationToJSON(value?: Authentication | null): any {
+export function ImplementationToJSON(value?: Implementation | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -94,14 +85,10 @@ export function AuthenticationToJSON(value?: Authentication | null): any {
     return null;
   }
   return {
+    code: value.code,
     createdAt:
       value.createdAt === undefined ? undefined : value.createdAt.toISOString(),
-    expireDate:
-      value.expireDate === undefined
-        ? undefined
-        : value.expireDate.toISOString(),
     id: value.id,
-    token: value.token,
     updatedAt:
       value.updatedAt === undefined ? undefined : value.updatedAt.toISOString(),
     user: UserToJSON(value.user),
