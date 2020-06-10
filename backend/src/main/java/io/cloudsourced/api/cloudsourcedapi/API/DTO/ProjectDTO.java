@@ -10,5 +10,5 @@ public class ProjectDTO {
     private String name;
     private String description;
     private String image;
-    private List<Feature> features;
+    private List<FeatureDTO> features;
 }
