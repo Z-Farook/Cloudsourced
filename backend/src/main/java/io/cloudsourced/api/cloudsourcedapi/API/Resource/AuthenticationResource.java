@@ -17,7 +17,7 @@ public class AuthenticationResource {
     private final AuthenticationProvider service;
 
     @PostMapping("")
-    Authentication authenticateUser(@RequestBody AuthenticationUserDTO authenticationUserDTO){
+    Authentication authenticateUser(@RequestBody AuthenticationUserDTO authenticationUserDTO) {
         return service.getAuthenticationByEmailAndPassword(
                 authenticationUserDTO.getEmail(),
                 authenticationUserDTO.getPassword());
