@@ -26,7 +26,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi().getOneByIdUsingGET1({
+      const result = await new ProjectResourceApi().getOneByIdUsingGET2({
         id: projectId,
       });
       setProject(fromLoaded(result));

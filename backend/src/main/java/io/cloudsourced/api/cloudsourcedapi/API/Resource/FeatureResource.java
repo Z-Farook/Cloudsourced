@@ -8,7 +8,6 @@ import io.cloudsourced.api.cloudsourcedapi.Persistence.FeatureRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.FeatureService;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/feature")
 public class FeatureResource extends BaseResource<Feature, FeatureDTO, FeatureService, FeatureRepository, FeatureMapper>{
