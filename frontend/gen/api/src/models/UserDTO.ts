@@ -24,6 +24,12 @@ export interface UserDTO {
    * @type {string}
    * @memberof UserDTO
    */
+  country?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof UserDTO
+   */
   email?: string;
   /**
    *
@@ -36,7 +42,43 @@ export interface UserDTO {
    * @type {string}
    * @memberof UserDTO
    */
+  infix?: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof UserDTO
+   */
+  languages?: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof UserDTO
+   */
+  lastName?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof UserDTO
+   */
   name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof UserDTO
+   */
+  street?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof UserDTO
+   */
+  streetNumber?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof UserDTO
+   */
+  telephone?: string;
 }
 
 export function UserDTOFromJSON(json: any): UserDTO {
@@ -51,9 +93,18 @@ export function UserDTOFromJSONTyped(
     return json;
   }
   return {
+    country: !exists(json, "country") ? undefined : json["country"],
     email: !exists(json, "email") ? undefined : json["email"],
     id: !exists(json, "id") ? undefined : json["id"],
+    infix: !exists(json, "infix") ? undefined : json["infix"],
+    languages: !exists(json, "languages") ? undefined : json["languages"],
+    lastName: !exists(json, "lastName") ? undefined : json["lastName"],
     name: !exists(json, "name") ? undefined : json["name"],
+    street: !exists(json, "street") ? undefined : json["street"],
+    streetNumber: !exists(json, "streetNumber")
+      ? undefined
+      : json["streetNumber"],
+    telephone: !exists(json, "telephone") ? undefined : json["telephone"],
   };
 }
 
@@ -65,8 +116,15 @@ export function UserDTOToJSON(value?: UserDTO | null): any {
     return null;
   }
   return {
+    country: value.country,
     email: value.email,
     id: value.id,
+    infix: value.infix,
+    languages: value.languages,
+    lastName: value.lastName,
     name: value.name,
+    street: value.street,
+    streetNumber: value.streetNumber,
+    telephone: value.telephone,
   };
 }
