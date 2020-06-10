@@ -17,6 +17,4 @@ public class Project extends BaseEntity{
     private String image;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Feature> features;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private User user;
 }
