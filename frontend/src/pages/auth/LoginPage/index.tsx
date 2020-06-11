@@ -6,6 +6,7 @@ import { AuthenticationResourceApi, Configuration } from "cloudsourced-api";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { api, saveAuthentication } from "../../../core/api";
+import AuthStore from "../../../stores/AuthStore";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -23,6 +24,8 @@ interface IValues {
 interface IProps extends RouteComponentProps {}
 
 const LoginPage: React.FC<IProps> = (props) => {
+  const { setAuth } = AuthStore.useContainer();
+
   const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,
   });
@@ -39,7 +42,7 @@ const LoginPage: React.FC<IProps> = (props) => {
           password: values.password,
         },
       });
-      saveAuthentication(result);
+      setAuth(result);
       props.history.push(`/account`);
     } catch (err) {
       message.error("Email or password is incorrect.");

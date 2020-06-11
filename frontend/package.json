@@ -27,6 +27,7 @@
     "react-syntax-highlighter": "^12.2.1",
     "styled-components": "^5.1.0",
     "typescript": "^3.7.5",
+    "unstated-next": "^1.1.0",
     "yup": "^0.29.1"
   },
   "scripts": {
