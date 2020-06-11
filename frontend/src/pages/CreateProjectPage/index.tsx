@@ -7,6 +7,7 @@ import {
   ProjectResourceApi,
   AddWithUserUsingPOSTRequest,
 } from "cloudsourced-api";
+import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
 
 interface IProps extends RouteComponentProps {}
@@ -66,9 +67,9 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     };
     message.loading({ content: "Saving project...", key: "updatableKey" });
     try {
-      const response = await new ProjectResourceApi().addWithUserUsingPOST(
-        params
-      );
+      const response = await new ProjectResourceApi(
+        api.config
+      ).addWithUserUsingPOST(params);
       message.success({
         content: "Project is created succesfully!",
         key: "updatableKey",

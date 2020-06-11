@@ -8,7 +8,7 @@ public class UserDTO {
     private String infix;
     private String lastName;
     private String[] languages;
-    private String Country;
+    private String country;
     private String email;
     private String telephone;
     private String street;

@@ -14,9 +14,9 @@ import java.util.List;
 @Table(name = "tbl_implementation")
 public class Implementation extends BaseEntity {
     private String code;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementation", fetch = FetchType.LAZY)
     private List<Review> reviews;
 }

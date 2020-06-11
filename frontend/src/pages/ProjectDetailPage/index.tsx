@@ -10,6 +10,7 @@ import IRemoteData, {
   EState,
 } from "../../core/IRemoteData";
 import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { api } from "../../core/api";
 
 interface IRouterParams {
   projectId: string;
@@ -26,7 +27,9 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi().getOneByIdUsingGET1({
+      const result = await new ProjectResourceApi(
+        api.config
+      ).getOneByIdUsingGET2({
         id: projectId,
       });
       setProject(fromLoaded(result));

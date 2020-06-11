@@ -6,5 +6,4 @@ import lombok.Data;
 public class ImplementationDTO {
     private Long id;
     private String code;
-    private UserDTO user;
 }

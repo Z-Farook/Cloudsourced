@@ -17,6 +17,7 @@ public class ImplementationService extends BaseService<Implementation, Implement
         this.userService = userService;
     }
 
+    // TODO: revise relationships
     public Implementation addImplementationToFeature(Long id, Implementation implementation) {
         Feature feature = featureService.getOneById(id);
 
@@ -27,10 +28,15 @@ public class ImplementationService extends BaseService<Implementation, Implement
 
         implementation.setUser(user);
 
+        List<Implementation> userImplementations = user.getImplementations();
+        userImplementations.add(implementation);
+        user.setImplementations(userImplementations);
+
         implementations.add(implementation);
         feature.setImplementations(implementations);
 
         featureService.save(feature);
+        userService.save(user);
         return implementation;
     }
 }

@@ -23,15 +23,15 @@ import {
     TransactionDTOToJSON,
 } from '../models';
 
-export interface CreateNewUsingPOST2Request {
+export interface CreateNewUsingPOST3Request {
     entity: Transaction;
 }
 
-export interface DeleteUsingDELETE2Request {
+export interface DeleteUsingDELETE3Request {
     id?: number;
 }
 
-export interface GetOneByIdUsingGET2Request {
+export interface GetOneByIdUsingGET3Request {
     id: number;
 }
 
@@ -43,7 +43,7 @@ export class TransactionResourceApi extends runtime.BaseAPI {
     /**
      * All
      */
-    async allUsingGET2Raw(): Promise<runtime.ApiResponse<Array<TransactionDTO>>> {
+    async allUsingGET3Raw(): Promise<runtime.ApiResponse<Array<TransactionDTO>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -61,17 +61,17 @@ export class TransactionResourceApi extends runtime.BaseAPI {
     /**
      * All
      */
-    async allUsingGET2(): Promise<Array<TransactionDTO>> {
-        const response = await this.allUsingGET2Raw();
+    async allUsingGET3(): Promise<Array<TransactionDTO>> {
+        const response = await this.allUsingGET3Raw();
         return await response.value();
     }
 
     /**
      * createNew
      */
-    async createNewUsingPOST2Raw(requestParameters: CreateNewUsingPOST2Request): Promise<runtime.ApiResponse<Transaction>> {
+    async createNewUsingPOST3Raw(requestParameters: CreateNewUsingPOST3Request): Promise<runtime.ApiResponse<Transaction>> {
         if (requestParameters.entity === null || requestParameters.entity === undefined) {
-            throw new runtime.RequiredError('entity','Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST2.');
+            throw new runtime.RequiredError('entity','Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST3.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -94,15 +94,15 @@ export class TransactionResourceApi extends runtime.BaseAPI {
     /**
      * createNew
      */
-    async createNewUsingPOST2(requestParameters: CreateNewUsingPOST2Request): Promise<Transaction> {
-        const response = await this.createNewUsingPOST2Raw(requestParameters);
+    async createNewUsingPOST3(requestParameters: CreateNewUsingPOST3Request): Promise<Transaction> {
+        const response = await this.createNewUsingPOST3Raw(requestParameters);
         return await response.value();
     }
 
     /**
      * delete
      */
-    async deleteUsingDELETE2Raw(requestParameters: DeleteUsingDELETE2Request): Promise<runtime.ApiResponse<void>> {
+    async deleteUsingDELETE3Raw(requestParameters: DeleteUsingDELETE3Request): Promise<runtime.ApiResponse<void>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.id !== undefined) {
@@ -124,16 +124,16 @@ export class TransactionResourceApi extends runtime.BaseAPI {
     /**
      * delete
      */
-    async deleteUsingDELETE2(requestParameters: DeleteUsingDELETE2Request): Promise<void> {
-        await this.deleteUsingDELETE2Raw(requestParameters);
+    async deleteUsingDELETE3(requestParameters: DeleteUsingDELETE3Request): Promise<void> {
+        await this.deleteUsingDELETE3Raw(requestParameters);
     }
 
     /**
      * getOneById
      */
-    async getOneByIdUsingGET2Raw(requestParameters: GetOneByIdUsingGET2Request): Promise<runtime.ApiResponse<TransactionDTO>> {
+    async getOneByIdUsingGET3Raw(requestParameters: GetOneByIdUsingGET3Request): Promise<runtime.ApiResponse<TransactionDTO>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET2.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET3.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -153,8 +153,8 @@ export class TransactionResourceApi extends runtime.BaseAPI {
     /**
      * getOneById
      */
-    async getOneByIdUsingGET2(requestParameters: GetOneByIdUsingGET2Request): Promise<TransactionDTO> {
-        const response = await this.getOneByIdUsingGET2Raw(requestParameters);
+    async getOneByIdUsingGET3(requestParameters: GetOneByIdUsingGET3Request): Promise<TransactionDTO> {
+        const response = await this.getOneByIdUsingGET3Raw(requestParameters);
         return await response.value();
     }
 

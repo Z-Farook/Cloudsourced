@@ -4,6 +4,7 @@ import { Button, PageHeader, BackTop } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Spin } from "antd";
 import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { api } from "../../../core/api";
 import IRemoteData, {
   EState,
   fromLoaded,
@@ -11,7 +12,6 @@ import IRemoteData, {
 } from "../../../core/IRemoteData";
 import ProjectCard from "../../ProjectPage/ProjectCard/";
 
-interface IProps extends RouteComponentProps {}
 interface IProps extends RouteComponentProps {}
 
 const MyProjects: React.FC<IProps> = (props) => {
@@ -23,7 +23,7 @@ const MyProjects: React.FC<IProps> = (props) => {
     (async () => {
       //TODO
       // get projects from current user
-      const result = await new ProjectResourceApi().allUsingGET1();
+      const result = await new ProjectResourceApi(api.config).allUsingGET2();
       console.log(result);
       setProjects(fromLoaded(result));
     })();
