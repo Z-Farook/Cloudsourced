@@ -2,6 +2,8 @@ import React, { useMemo } from "react";
 import { Menu, Typography } from "antd";
 import { RouteComponentProps, withRouter } from "react-router";
 import { DownOutlined } from "@ant-design/icons";
+import AuthStore from "../../../stores/AuthStore";
+import { saveAuthentication } from "../../../core/api";
 
 export enum EMenuItem {
   Home,
@@ -21,6 +23,8 @@ export const menuItemTexts: Record<EMenuItem, string> = {
 interface IProps extends RouteComponentProps {}
 
 const Header: React.FC<IProps> = (props) => {
+  const { auth, setAuth } = AuthStore.useContainer();
+
   const selectedKeys = useMemo<Array<string>>(() => {
     const menuItem = Object.keys(menuItemUrls).find((menuItemKey) => {
       const key = Number(menuItemKey) as EMenuItem;
@@ -68,23 +72,48 @@ const Header: React.FC<IProps> = (props) => {
           );
         })}
         <div style={{ flex: 1 }} />
-        <Menu.SubMenu
-          title={
-            <span style={{ display: "flex", alignItems: "center" }}>
-              <span>Account</span>
-              <span style={{ marginLeft: 5 }}>
-                <DownOutlined />
+        {auth === null ? (
+          <Menu.SubMenu
+            title={
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <span>Account</span>
+                <span style={{ marginLeft: 5 }}>
+                  <DownOutlined />
+                </span>
               </span>
-            </span>
-          }
-        >
-          <Menu.Item onClick={() => props.history.push("/auth/login")}>
-            Login
-          </Menu.Item>
-          <Menu.Item onClick={() => props.history.push("/auth/register")}>
-            Register
-          </Menu.Item>
-        </Menu.SubMenu>
+            }
+          >
+            <Menu.Item onClick={() => props.history.push("/auth/login")}>
+              Login
+            </Menu.Item>
+            <Menu.Item onClick={() => props.history.push("/auth/register")}>
+              Register
+            </Menu.Item>
+          </Menu.SubMenu>
+        ) : (
+          <Menu.SubMenu
+            title={
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <span>Account</span>
+                <span style={{ marginLeft: 5 }}>
+                  <DownOutlined />
+                </span>
+              </span>
+            }
+          >
+            <Menu.Item onClick={() => props.history.push("/account")}>
+              My Account
+            </Menu.Item>
+            <Menu.Item
+              onClick={() => {
+                props.history.push("/home");
+                setAuth(null);
+              }}
+            >
+              Log out
+            </Menu.Item>
+          </Menu.SubMenu>
+        )}
       </Menu>
       {/*</Layout.Header>*/}
     </div>
