@@ -8,10 +8,6 @@ import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedU
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

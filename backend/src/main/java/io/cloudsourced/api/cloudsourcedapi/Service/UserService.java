@@ -1,8 +1,11 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.Default.Exception.BadRequestException;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class UserService extends BaseService<User, UserRepository> {
@@ -16,7 +19,12 @@ public class UserService extends BaseService<User, UserRepository> {
 
     @Override
     public User save(User user){
-        return repository.save(encodePassword(user));
+        Optional<User> foundByEmail = repository.findTopByEmail(user.getEmail());
+
+        if(foundByEmail.isEmpty()){
+            return repository.save(encodePassword(user));
+        }
+        throw new BadRequestException("User with this email already exists");
     }
 
     private User encodePassword(User user){
