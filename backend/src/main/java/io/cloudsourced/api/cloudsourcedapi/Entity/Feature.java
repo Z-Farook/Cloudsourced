@@ -20,4 +20,7 @@ public class Feature extends BaseEntity {
     private List<Implementation> implementations;
     @ManyToOne(cascade = CascadeType.ALL)
     private Project project;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private User user;
 }

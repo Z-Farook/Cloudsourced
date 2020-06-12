@@ -18,7 +18,7 @@ public class FeatureResource extends BaseResource<Feature, FeatureDTO, FeatureSe
     }
 
     @PostMapping("/{projectId}")
-    public Feature addFeatureToProject(@PathVariable Long projectId, @RequestBody Feature feature) {
-        return service.addFeatureToProject(projectId, feature);
+    public FeatureDTO addFeatureToProject(@PathVariable Long projectId, @RequestBody Feature feature) {
+        return mapper.entityToDTO(service.addFeatureToProject(projectId, feature));
     }
 }
