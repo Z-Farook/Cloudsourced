@@ -26,15 +26,11 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         return repository.save(project);
     }
 
-    //TODO: This function is for development purposes only and needs to go when we can get the user from the session
-    public Project saveWithUser(Long id, Project project) {
-        User user = userService.getOneById(id); //.get();
-
+    public Project saveWithUser(User user, Project project) {
         List<Project> projects = user.getProjects();
         projects.add(project);
         user.setProjects(projects);
 
         return repository.save(project);
     }
-
 }

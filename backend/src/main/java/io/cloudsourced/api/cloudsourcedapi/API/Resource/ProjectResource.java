@@ -23,13 +23,9 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
     public List<ProjectDTO> searchProjectName(@PathVariable String name) {
         return mapper.entityListToDtoList(service.searchProjectName(name));
     }
-
-    public Project addProject(@RequestBody Project project) {
-        return service.saveProject(project);
-    }
-
+    
    @Override
     public Project createNew( @RequestBody Project project) {
-        return service.saveWithUser(authenticatedUserProvider.GetUser().getId(), project);
+        return service.saveWithUser(authenticatedUserProvider.GetUser(), project);
     }
 }

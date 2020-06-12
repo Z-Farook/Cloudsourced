@@ -18,13 +18,10 @@ public class ImplementationService extends BaseService<Implementation, Implement
     }
 
     // TODO: revise relationships
-    public Implementation addImplementationToFeature(Long id, Implementation implementation) {
+    public Implementation addImplementationToFeature(Long id, Implementation implementation, User user) {
         Feature feature = featureService.getOneById(id);
 
         List<Implementation> implementations = feature.getImplementations();
-
-        // TODO: get the logged in user
-        User user = userService.getOneById(1L);
 
         implementation.setUser(user);
 
