@@ -14,6 +14,7 @@ import home from "../../pages/HomePage";
 interface IProps extends RouteComponentProps {}
 
 const AuthRouter: React.FC<IProps> = (props) => {
+  const auth = AuthStore.useContainer();
   return (
     <Router>
       <Switch>
@@ -26,11 +27,7 @@ const AuthRouter: React.FC<IProps> = (props) => {
         <Route
           exact
           path="/account"
-          component={
-            AuthStore.useContainer().auth
-              ? AccountPage
-              : () => <Redirect to="/home" />
-          }
+          component={auth ? AccountPage : () => <Redirect to="/home" />}
         />
         <Route exact path="/home" component={home} />
       </Switch>

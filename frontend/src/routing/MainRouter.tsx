@@ -20,6 +20,7 @@ import AuthStore from "../stores/AuthStore";
 interface IProps {}
 
 const MainRouter: React.FC<IProps> = (props) => {
+  const auth = AuthStore.useContainer();
   return (
     <Router>
       <Switch>
@@ -29,11 +30,7 @@ const MainRouter: React.FC<IProps> = (props) => {
         <Route
           exact
           path="/account"
-          component={
-            AuthStore.useContainer().auth
-              ? AccountPage
-              : () => <Redirect to="/home" />
-          }
+          component={auth ? AccountPage : () => <Redirect to="/home" />}
         />
         <Route path="/auth" component={AuthRouter} />
         <Route
