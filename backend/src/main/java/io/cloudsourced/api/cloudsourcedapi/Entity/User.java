@@ -32,7 +32,6 @@ public class User extends BaseEntity{
     @OneToMany(cascade = CascadeType.ALL)
     private List<Implementation> implementations;
 
-//>>>>>>> dev
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;
 
