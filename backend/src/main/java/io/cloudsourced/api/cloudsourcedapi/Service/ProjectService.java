@@ -36,10 +36,6 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
 
         project.setUser(user);
 
-//        user.setProjects(user.getProjects().add(project));
-//        user.getProjects().add(project);
-//        userService.save(user);
-
         return repository.save(project);
     }
 }

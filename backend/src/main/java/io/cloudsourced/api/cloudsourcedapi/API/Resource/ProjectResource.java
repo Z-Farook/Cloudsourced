@@ -23,7 +23,7 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
     }
 
     @PostMapping("/test")
-    public ProjectDTO add( @RequestBody Project project) {
-        return mapper.entityToDTO(service.saveWithUser(project));
+    public ProjectDTO add( @RequestBody ProjectDTO projectDTO) {
+        return mapper.entityToDTO(service.saveWithUser(mapper.DTOToEntity(projectDTO)));
     }
 }
