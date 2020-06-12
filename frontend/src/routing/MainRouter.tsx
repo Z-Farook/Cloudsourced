@@ -16,7 +16,7 @@ import CreateProjectPage from "../pages/CreateProjectPage";
 import CreateFeaturePage from "../pages/CreateFeaturePage";
 import FeatureImplPage from "../pages/ProjectPage/FeaturePage/FeatureImplPage";
 import AuthRouter from "./AuthRouter";
-
+import AuthStore from "../stores/AuthStore";
 interface IProps {}
 
 const MainRouter: React.FC<IProps> = (props) => {
@@ -26,7 +26,15 @@ const MainRouter: React.FC<IProps> = (props) => {
         <Route exact path="/" component={() => <Redirect to="/home" />} />
         <Route exact path="/home" component={HomePage} />
         <Route exact path="/projects" component={ProjectPage} />
-        <Route exact path="/account" component={AccountPage} />
+        <Route
+          exact
+          path="/account"
+          component={
+            AuthStore.useContainer().auth
+              ? AccountPage
+              : () => <Redirect to="/home" />
+          }
+        />
         <Route path="/auth" component={AuthRouter} />
         <Route
           exact
