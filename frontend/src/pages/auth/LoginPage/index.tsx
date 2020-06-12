@@ -52,6 +52,7 @@ const LoginPage: React.FC<IProps> = (props) => {
   useEffect(() => {
     register({ name: "email" });
     register({ name: "password" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

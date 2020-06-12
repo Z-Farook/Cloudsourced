@@ -14,6 +14,7 @@ const AppWrapper = () => {
     }
     const auth = JSON.parse(authItem);
     setAuth(auth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <MainRouter />;
