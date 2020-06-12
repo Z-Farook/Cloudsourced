@@ -1,5 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.API;
 
+import io.cloudsourced.api.cloudsourcedapi.Default.Exception.BadRequestException;
 import io.cloudsourced.api.cloudsourcedapi.Default.Exception.NotFoundException;
 import io.cloudsourced.api.cloudsourcedapi.Default.Exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -24,4 +25,12 @@ class ExceptionHandlingAdvice {
     String employeeNotFoundHandler(UnauthorizedException ex) {
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String employeeNotFoundHandler(BadRequestException ex) {
+        return ex.getMessage();
+    }
+
 }
