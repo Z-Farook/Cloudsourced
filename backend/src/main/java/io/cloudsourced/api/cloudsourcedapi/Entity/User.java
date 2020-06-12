@@ -25,12 +25,12 @@ public class User extends BaseEntity{
     private String street;
     private String streetNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Review> reviews;
-    @OneToMany(cascade = CascadeType.ALL)
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+//    private List<Review> reviews;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Project> projects;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Implementation> implementations;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+//    private List<Implementation> implementations;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;

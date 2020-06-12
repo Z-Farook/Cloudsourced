@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserResource extends BaseResource<User,UserDTO, UserService, UserRepository, UserMapper> {
 
 
-    public UserResource(UserService service, UserMapper mapper, AuthenticatedUserBean Authentication) {
-        super(service, mapper, Authentication);
+    public UserResource(UserService service, UserMapper mapper) {
+        super(service, mapper);
     }
 
 }

@@ -13,7 +13,7 @@ public class Review extends BaseEntity {
     private Boolean approved;
     private String message;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Implementation implementation;
 
     @ManyToOne(cascade = CascadeType.ALL)

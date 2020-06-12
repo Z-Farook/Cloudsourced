@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class TransactionResource extends BaseResource<Transaction, TransactionDTO, TransactionService, TransactionRepository, TransactionMapper> {
 
 
-    public TransactionResource(TransactionService service, TransactionMapper mapper, AuthenticatedUserBean Authentication) {
-        super(service, mapper, Authentication);
+    public TransactionResource(TransactionService service, TransactionMapper mapper) {
+        super(service, mapper);
     }
 }

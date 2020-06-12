@@ -19,8 +19,6 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
 
     public final S service;
     public final DTOMapper mapper;
-    public final AuthenticatedUserBean authenticatedUserProvider;
-    
 
     @GetMapping("{id}")
     @Override

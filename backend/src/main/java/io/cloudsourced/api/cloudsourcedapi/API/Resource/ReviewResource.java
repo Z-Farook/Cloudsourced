@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/review")
 public class ReviewResource extends BaseResource<Review, ReviewDTO, ReviewService, ReviewRepository, ReviewMapper>{
 
-    public ReviewResource(ReviewService service, ReviewMapper mapper, AuthenticatedUserBean Authentication) {
-        super(service, mapper, Authentication);
+    public ReviewResource(ReviewService service, ReviewMapper mapper) {
+        super(service, mapper);
     }
 
     @PostMapping("/{implementationId}")

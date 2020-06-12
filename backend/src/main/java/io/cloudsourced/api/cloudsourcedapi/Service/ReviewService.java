@@ -1,5 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Implementation;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Review;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
@@ -11,8 +12,8 @@ import java.util.List;
 public class ReviewService extends BaseService<Review, ReviewRepository> {
     private final ImplementationService implementationService;
     private final UserService userService;
-    public ReviewService(ReviewRepository repository, ImplementationService implementationService, UserService userService) {
-        super(repository);
+    public ReviewService(ReviewRepository repository, AuthenticatedUserBean authenticatedUserProvider, ImplementationService implementationService, UserService userService) {
+        super(repository, authenticatedUserProvider);
         this.implementationService = implementationService;
         this.userService = userService;
     }

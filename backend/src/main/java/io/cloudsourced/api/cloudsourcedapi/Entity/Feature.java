@@ -16,6 +16,8 @@ public class Feature extends BaseEntity {
     private String description;
     private String codePreview;
     private String codeLanguage;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feature")
     private List<Implementation> implementations;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Project project;
 }

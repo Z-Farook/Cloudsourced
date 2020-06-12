@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class FeatureResource extends BaseResource<Feature, FeatureDTO, FeatureService, FeatureRepository, FeatureMapper>{
 
 
-    public FeatureResource(FeatureService service, FeatureMapper mapper, AuthenticatedUserBean Authentication) {
-        super(service, mapper, Authentication);
+    public FeatureResource(FeatureService service, FeatureMapper mapper) {
+        super(service, mapper);
     }
 
     @PostMapping("/{projectId}")

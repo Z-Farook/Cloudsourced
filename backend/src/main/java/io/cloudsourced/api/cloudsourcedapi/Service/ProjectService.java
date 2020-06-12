@@ -1,5 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
@@ -10,11 +11,10 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
 
-
     private final UserService userService;
 
-    public ProjectService(ProjectRepository repository, UserService userService) {
-        super(repository);
+    public ProjectService(ProjectRepository repository, AuthenticatedUserBean authenticatedUserProvider, UserService userService) {
+        super(repository, authenticatedUserProvider);
         this.userService = userService;
     }
 
@@ -26,10 +26,19 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         return repository.save(project);
     }
 
-    public Project saveWithUser(User user, Project project) {
+    public Project saveWithUser(Project project) {
+        User user = authenticatedUserProvider.GetUser();
+
         List<Project> projects = user.getProjects();
+
         projects.add(project);
         user.setProjects(projects);
+
+        project.setUser(user);
+
+//        user.setProjects(user.getProjects().add(project));
+//        user.getProjects().add(project);
+//        userService.save(user);
 
         return repository.save(project);
     }

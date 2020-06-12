@@ -15,17 +15,17 @@ import java.util.List;
 public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectService, ProjectRepository, ProjectMapper>{
 
 
-    public ProjectResource(ProjectService service, ProjectMapper mapper, AuthenticatedUserBean Authentication) {
-        super(service, mapper, Authentication);
+    public ProjectResource(ProjectService service, ProjectMapper mapper) {
+        super(service, mapper);
     }
 
     @GetMapping("/search/{name}")
     public List<ProjectDTO> searchProjectName(@PathVariable String name) {
         return mapper.entityListToDtoList(service.searchProjectName(name));
     }
-    
-   @Override
-    public Project createNew( @RequestBody Project project) {
-        return service.saveWithUser(authenticatedUserProvider.GetUser(), project);
+
+    @PostMapping("/test")
+    public ProjectDTO add( @RequestBody Project project) {
+        return mapper.entityToDTO(service.saveWithUser(project));
     }
 }

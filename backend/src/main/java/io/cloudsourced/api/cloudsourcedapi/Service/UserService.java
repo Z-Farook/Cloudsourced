@@ -1,5 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,8 +10,8 @@ public class UserService extends BaseService<User, UserRepository> {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
-        super(repository);
+    public UserService(UserRepository repository, AuthenticatedUserBean authenticatedUserProvider, PasswordEncoder passwordEncoder) {
+        super(repository, authenticatedUserProvider);
         this.passwordEncoder = passwordEncoder;
     }
 

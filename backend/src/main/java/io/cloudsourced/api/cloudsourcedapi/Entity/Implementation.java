@@ -17,6 +17,9 @@ public class Implementation extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Feature feature;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementation", fetch = FetchType.LAZY)
     private List<Review> reviews;
 }
