@@ -23,7 +23,7 @@ const MyProjects: React.FC<IProps> = (props) => {
     (async () => {
       //TODO
       // get projects from current user
-      const result = await new ProjectResourceApi(api.config).g();
+      const result = await new ProjectResourceApi(api.config).allUsingGET2();
       console.log(result);
       setProjects(fromLoaded(result));
     })();
