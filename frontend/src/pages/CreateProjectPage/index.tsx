@@ -5,7 +5,8 @@ import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
 import {
   ProjectResourceApi,
-  AddWithUserUsingPOSTRequest,
+  Project,
+  CreateNewUsingPOST2Request,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
@@ -56,9 +57,8 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
   };
 
   const handleProject = async (data: Inputs) => {
-    const params: AddWithUserUsingPOSTRequest = {
-      id: 1,
-      project: {
+    const params: CreateNewUsingPOST2Request = {
+      entity: {
         description: data.description,
         user: {},
         name: data.projectName,
@@ -69,7 +69,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     try {
       const response = await new ProjectResourceApi(
         api.config
-      ).addWithUserUsingPOST(params);
+      ).createNewUsingPOST2(params);
       message.success({
         content: "Project is created succesfully!",
         key: "updatableKey",
