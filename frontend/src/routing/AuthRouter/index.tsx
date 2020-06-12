@@ -27,7 +27,7 @@ const AuthRouter: React.FC<IProps> = (props) => {
         <Route
           exact
           path="/account"
-          component={authStore.auth ? AccountPage : () => <Redirect to="/home" />}
+          component={authStore.auth !== null ? AccountPage : () => <Redirect to="/home" />}
         />
         <Route exact path="/home" component={home} />
       </Switch>
