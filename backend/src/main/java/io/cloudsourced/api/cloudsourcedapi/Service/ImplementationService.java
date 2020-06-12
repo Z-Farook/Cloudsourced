@@ -21,8 +21,11 @@ public class ImplementationService extends BaseService<Implementation, Implement
     // TODO: revise relationships
     public Implementation addImplementationToFeature(Long id, Implementation implementation) {
         User user = authenticatedUserProvider.GetUser();
-
         Feature feature = featureService.getOneById(id);
+
+        List<Implementation> implementations = feature.getImplementations();
+        implementations.add(implementation);
+        feature.setImplementations(implementations);
 
         implementation.setUser(user);
         implementation.setFeature(feature);

@@ -15,7 +15,7 @@ import java.util.List;
 public class Implementation extends BaseEntity {
     private String code;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private User user;
     @ManyToOne(cascade = CascadeType.ALL)
     private Feature feature;
