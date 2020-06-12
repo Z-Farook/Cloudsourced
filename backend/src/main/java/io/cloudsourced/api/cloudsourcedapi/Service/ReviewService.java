@@ -11,19 +11,22 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class ReviewService extends BaseService<Review, ReviewRepository> {
     private final ImplementationService implementationService;
-    private final UserService userService;
-    public ReviewService(ReviewRepository repository, AuthenticatedUserBean authenticatedUserProvider, ImplementationService implementationService, UserService userService) {
+    public ReviewService(ReviewRepository repository, AuthenticatedUserBean authenticatedUserProvider, ImplementationService implementationService) {
         super(repository, authenticatedUserProvider);
         this.implementationService = implementationService;
-        this.userService = userService;
     }
 
     public Review addReviewToImplementation(Long id, Review review) {
-        User user = userService.getOneById(1L);
-        review.setUser(user);
+        User user = authenticatedUserProvider.GetUser();
         Implementation implementation = implementationService.getOneById(id);
+
+        List<Review> reviews = implementation.getReviews();
+        reviews.add(review);
+        implementation.setReviews(reviews);
+
+        review.setUser(user);
         review.setImplementation(implementation);
-        repository.save(review);
-        return review;
+
+        return repository.save(review);
     }
 }

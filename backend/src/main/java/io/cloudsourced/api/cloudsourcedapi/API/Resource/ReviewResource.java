@@ -19,7 +19,7 @@ public class ReviewResource extends BaseResource<Review, ReviewDTO, ReviewServic
 
     @PostMapping("/{implementationId}")
     public ReviewDTO addReviewToImplementation(@PathVariable Long implementationId, @RequestBody ReviewDTO reviewDTO) {
-        Review review =  service.addReviewToImplementation(implementationId, mapper.DTOToEntity(reviewDTO));
+        Review review = service.addReviewToImplementation(implementationId, mapper.DTOToEntity(reviewDTO));
         return mapper.entityToDTO(review);
     }
 }

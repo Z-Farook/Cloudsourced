@@ -16,6 +16,6 @@ public class Review extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private Implementation implementation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private User user;
 }
