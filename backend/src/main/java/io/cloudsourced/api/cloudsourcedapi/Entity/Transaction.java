@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class Transaction extends BaseEntity{
 
     private long points;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 }

@@ -13,13 +13,13 @@ import java.util.List;
 @Data
 @Table(name = "tbl_implementation")
 public class Implementation extends BaseEntity {
-    private String code;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    private User user;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Feature feature;
+    private String code;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementation", fetch = FetchType.LAZY)
     private List<Review> reviews;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Feature feature;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private User user;
 }

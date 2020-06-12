@@ -2,7 +2,6 @@ package io.cloudsourced.api.cloudsourcedapi.API.Resource;
 
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.ReviewMapper;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.ReviewDTO;
-import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Review;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ReviewRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.ReviewService;
