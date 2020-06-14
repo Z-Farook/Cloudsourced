@@ -30,8 +30,8 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
 
     @PostMapping("")
     @Override
-    public Entity createNew(@RequestBody Entity entity) {
-        return service.save(entity);
+    public DTO createNew(@RequestBody DTO dto) {
+        return mapper.entityToDTO(service.save(mapper.DTOToEntity(dto)));
     }
 
     @Override

@@ -28,8 +28,8 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
         return service.saveProject(project);
     }
 
-   @Override
-    public Project createNew( @RequestBody Project project) {
-        return service.saveWithUser(authenticatedUserProvider.GetUser().getId(), project);
+    @Override
+    public ProjectDTO createNew(@RequestBody ProjectDTO projectDTO) {
+        return mapper.entityToDTO(service.saveWithUser(authenticatedUserProvider.GetUser().getId(), mapper.DTOToEntity(projectDTO)));
     }
 }
