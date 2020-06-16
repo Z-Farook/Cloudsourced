@@ -36,8 +36,8 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
 
     @Override
     @PutMapping("")
-    public DTO update(@RequestBody DTO dto) {
-        return mapper.entityToDTO(service.save(mapper.DTOToEntity(dto)));
+    public DTO update(@RequestBody Entity entity) {
+        return mapper.entityToDTO(service.save(entity));
     }
 
     @Override
