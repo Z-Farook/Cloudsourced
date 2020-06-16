@@ -20,17 +20,23 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
     public final S service;
     public final DTOMapper mapper;
     public final AuthenticatedUserBean authenticatedUserProvider;
-    
 
-    @GetMapping("{id}")
+
     @Override
+    @GetMapping("{id}")
     public DTO getOneById(@PathVariable Long id) {
         return mapper.entityToDTO(service.getOneById(id));
     }
 
-    @PostMapping("")
     @Override
+    @PostMapping("")
     public DTO createNew(@RequestBody DTO dto) {
+        return mapper.entityToDTO(service.save(mapper.DTOToEntity(dto)));
+    }
+
+    @Override
+    @PutMapping("")
+    public DTO update(@RequestBody DTO dto) {
         return mapper.entityToDTO(service.save(mapper.DTOToEntity(dto)));
     }
 

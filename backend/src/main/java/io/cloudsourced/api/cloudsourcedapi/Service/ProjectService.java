@@ -10,7 +10,6 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
 
-
     private final UserService userService;
 
     public ProjectService(ProjectRepository repository, UserService userService) {
@@ -20,10 +19,6 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
 
     public List<Project> searchProjectName(String name) {
         return repository.findByNameContainsIgnoreCase(name);
-    }
-
-    public Project saveProject(Project project) {
-        return repository.save(project);
     }
 
     //TODO: This function is for development purposes only and needs to go when we can get the user from the session
@@ -36,5 +31,4 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
 
         return repository.save(project);
     }
-
 }
