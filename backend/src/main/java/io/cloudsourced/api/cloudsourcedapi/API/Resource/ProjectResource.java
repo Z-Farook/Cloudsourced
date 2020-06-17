@@ -4,6 +4,7 @@ import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.ProjectDetailMapper;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.ProjectMapper;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDTO;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDetailDTO;
+import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectPostDTO;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.ProjectService;
@@ -28,10 +29,10 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
         return mapper.entityListToDtoList(service.searchProjectName(name));
     }
 
-//    @PostMapping("/test")
-//    public ProjectDTO add( @RequestBody ProjectRegisterDTO projectPostDTO) {
-//        return mapper.entityToDTO(service.saveWithUser(mapper.DTOToEntity(ProjectRegisterDTO)));
-//    }
+    @PostMapping("/test")
+    public ProjectDTO add(@RequestBody ProjectDTO projectDTO) {
+        return mapper.entityToDTO(service.saveWithUser(mapper.DTOToEntity(projectDTO)));
+    }
 
     @GetMapping("/detail/{id}")
     public ProjectDetailDTO getProjectDetailById(@PathVariable long id){
