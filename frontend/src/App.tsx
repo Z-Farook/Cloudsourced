@@ -7,11 +7,27 @@ import {
   ValidateTokenUsingPOSTRequest,
 } from "cloudsourced-api";
 import { Authentication } from "cloudsourced-api";
+import { monaco } from "@monaco-editor/react";
 
 require("dotenv").config();
 
 const AppWrapper = () => {
   const { setAuth } = AuthStore.useContainer();
+
+  useEffect(() => {
+    monaco
+      .init()
+      .then((monaco) => {
+        /* here is the instance of monaco, so you can use the `monaco.languages` or whatever you want */
+      })
+      .catch((error) =>
+        console.error(
+          "An error occurred during initialization of Monaco: ",
+          error
+        )
+      );
+  }, []);
+
   useEffect(() => {
     const authItem = localStorage.getItem("AUTH");
     if (authItem === null) {
