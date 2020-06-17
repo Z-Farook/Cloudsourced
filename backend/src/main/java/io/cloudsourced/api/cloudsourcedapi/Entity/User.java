@@ -25,8 +25,6 @@ public class User extends BaseEntity{
     private String street;
     private String streetNumber;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Project> projects;
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;
 
