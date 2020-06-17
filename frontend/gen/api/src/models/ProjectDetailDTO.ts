@@ -13,55 +13,68 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    FeatureDTO,
+    FeatureDTOFromJSON,
+    FeatureDTOFromJSONTyped,
+    FeatureDTOToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface ProjectDTO
+ * @interface ProjectDetailDTO
  */
-export interface ProjectDTO {
+export interface ProjectDetailDTO {
     /**
      * 
      * @type {Date}
-     * @memberof ProjectDTO
+     * @memberof ProjectDetailDTO
      */
     createdAt?: Date;
     /**
      * 
      * @type {string}
-     * @memberof ProjectDTO
+     * @memberof ProjectDetailDTO
      */
     description?: string;
     /**
      * 
+     * @type {Array<FeatureDTO>}
+     * @memberof ProjectDetailDTO
+     */
+    features?: Array<FeatureDTO>;
+    /**
+     * 
      * @type {number}
-     * @memberof ProjectDTO
+     * @memberof ProjectDetailDTO
      */
     id?: number;
     /**
      * 
      * @type {string}
-     * @memberof ProjectDTO
+     * @memberof ProjectDetailDTO
      */
     image?: string;
     /**
      * 
      * @type {string}
-     * @memberof ProjectDTO
+     * @memberof ProjectDetailDTO
      */
     name?: string;
     /**
      * 
      * @type {Date}
-     * @memberof ProjectDTO
+     * @memberof ProjectDetailDTO
      */
     updatedAt?: Date;
 }
 
-export function ProjectDTOFromJSON(json: any): ProjectDTO {
-    return ProjectDTOFromJSONTyped(json, false);
+export function ProjectDetailDTOFromJSON(json: any): ProjectDetailDTO {
+    return ProjectDetailDTOFromJSONTyped(json, false);
 }
 
-export function ProjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): ProjectDTO {
+export function ProjectDetailDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): ProjectDetailDTO {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -69,6 +82,7 @@ export function ProjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
         'description': !exists(json, 'description') ? undefined : json['description'],
+        'features': !exists(json, 'features') ? undefined : ((json['features'] as Array<any>).map(FeatureDTOFromJSON)),
         'id': !exists(json, 'id') ? undefined : json['id'],
         'image': !exists(json, 'image') ? undefined : json['image'],
         'name': !exists(json, 'name') ? undefined : json['name'],
@@ -76,7 +90,7 @@ export function ProjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function ProjectDTOToJSON(value?: ProjectDTO | null): any {
+export function ProjectDetailDTOToJSON(value?: ProjectDetailDTO | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,6 +101,7 @@ export function ProjectDTOToJSON(value?: ProjectDTO | null): any {
         
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'description': value.description,
+        'features': value.features === undefined ? undefined : ((value.features as Array<any>).map(FeatureDTOToJSON)),
         'id': value.id,
         'image': value.image,
         'name': value.name,

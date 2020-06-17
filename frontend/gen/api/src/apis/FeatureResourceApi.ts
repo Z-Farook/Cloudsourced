@@ -25,7 +25,7 @@ import {
 
 export interface AddFeatureToProjectUsingPOSTRequest {
     projectId: number;
-    feature: Feature;
+    featureDTO: FeatureDTO;
 }
 
 export interface CreateNewUsingPOSTRequest {
@@ -48,13 +48,13 @@ export class FeatureResourceApi extends runtime.BaseAPI {
     /**
      * addFeatureToProject
      */
-    async addFeatureToProjectUsingPOSTRaw(requestParameters: AddFeatureToProjectUsingPOSTRequest): Promise<runtime.ApiResponse<Feature>> {
+    async addFeatureToProjectUsingPOSTRaw(requestParameters: AddFeatureToProjectUsingPOSTRequest): Promise<runtime.ApiResponse<FeatureDTO>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling addFeatureToProjectUsingPOST.');
         }
 
-        if (requestParameters.feature === null || requestParameters.feature === undefined) {
-            throw new runtime.RequiredError('feature','Required parameter requestParameters.feature was null or undefined when calling addFeatureToProjectUsingPOST.');
+        if (requestParameters.featureDTO === null || requestParameters.featureDTO === undefined) {
+            throw new runtime.RequiredError('featureDTO','Required parameter requestParameters.featureDTO was null or undefined when calling addFeatureToProjectUsingPOST.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -68,16 +68,16 @@ export class FeatureResourceApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: FeatureToJSON(requestParameters.feature),
+            body: FeatureDTOToJSON(requestParameters.featureDTO),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => FeatureFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FeatureDTOFromJSON(jsonValue));
     }
 
     /**
      * addFeatureToProject
      */
-    async addFeatureToProjectUsingPOST(requestParameters: AddFeatureToProjectUsingPOSTRequest): Promise<Feature> {
+    async addFeatureToProjectUsingPOST(requestParameters: AddFeatureToProjectUsingPOSTRequest): Promise<FeatureDTO> {
         const response = await this.addFeatureToProjectUsingPOSTRaw(requestParameters);
         return await response.value();
     }

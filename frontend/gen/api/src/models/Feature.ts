@@ -18,6 +18,14 @@ import {
     ImplementationFromJSON,
     ImplementationFromJSONTyped,
     ImplementationToJSON,
+    Project,
+    ProjectFromJSON,
+    ProjectFromJSONTyped,
+    ProjectToJSON,
+    User,
+    UserFromJSON,
+    UserFromJSONTyped,
+    UserToJSON,
 } from './';
 
 /**
@@ -70,10 +78,22 @@ export interface Feature {
     name?: string;
     /**
      * 
+     * @type {Project}
+     * @memberof Feature
+     */
+    project?: Project;
+    /**
+     * 
      * @type {Date}
      * @memberof Feature
      */
     updatedAt?: Date;
+    /**
+     * 
+     * @type {User}
+     * @memberof Feature
+     */
+    user?: User;
 }
 
 export function FeatureFromJSON(json: any): Feature {
@@ -93,7 +113,9 @@ export function FeatureFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
         'id': !exists(json, 'id') ? undefined : json['id'],
         'implementations': !exists(json, 'implementations') ? undefined : ((json['implementations'] as Array<any>).map(ImplementationFromJSON)),
         'name': !exists(json, 'name') ? undefined : json['name'],
+        'project': !exists(json, 'project') ? undefined : ProjectFromJSON(json['project']),
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
+        'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
@@ -113,7 +135,9 @@ export function FeatureToJSON(value?: Feature | null): any {
         'id': value.id,
         'implementations': value.implementations === undefined ? undefined : ((value.implementations as Array<any>).map(ImplementationToJSON)),
         'name': value.name,
+        'project': ProjectToJSON(value.project),
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
+        'user': UserToJSON(value.user),
     };
 }
 

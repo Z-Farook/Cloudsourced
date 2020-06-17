@@ -18,14 +18,6 @@ import {
     AuthenticationFromJSON,
     AuthenticationFromJSONTyped,
     AuthenticationToJSON,
-    Implementation,
-    ImplementationFromJSON,
-    ImplementationFromJSONTyped,
-    ImplementationToJSON,
-    Project,
-    ProjectFromJSON,
-    ProjectFromJSONTyped,
-    ProjectToJSON,
 } from './';
 
 /**
@@ -66,12 +58,6 @@ export interface User {
     id?: number;
     /**
      * 
-     * @type {Array<Implementation>}
-     * @memberof User
-     */
-    implementations?: Array<Implementation>;
-    /**
-     * 
      * @type {string}
      * @memberof User
      */
@@ -100,12 +86,6 @@ export interface User {
      * @memberof User
      */
     password?: string;
-    /**
-     * 
-     * @type {Array<Project>}
-     * @memberof User
-     */
-    projects?: Array<Project>;
     /**
      * 
      * @type {string}
@@ -147,13 +127,11 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
         'email': !exists(json, 'email') ? undefined : json['email'],
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'implementations': !exists(json, 'implementations') ? undefined : ((json['implementations'] as Array<any>).map(ImplementationFromJSON)),
         'infix': !exists(json, 'infix') ? undefined : json['infix'],
         'languages': !exists(json, 'languages') ? undefined : json['languages'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'password': !exists(json, 'password') ? undefined : json['password'],
-        'projects': !exists(json, 'projects') ? undefined : ((json['projects'] as Array<any>).map(ProjectFromJSON)),
         'street': !exists(json, 'street') ? undefined : json['street'],
         'streetNumber': !exists(json, 'streetNumber') ? undefined : json['streetNumber'],
         'telephone': !exists(json, 'telephone') ? undefined : json['telephone'],
@@ -175,13 +153,11 @@ export function UserToJSON(value?: User | null): any {
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'email': value.email,
         'id': value.id,
-        'implementations': value.implementations === undefined ? undefined : ((value.implementations as Array<any>).map(ImplementationToJSON)),
         'infix': value.infix,
         'languages': value.languages,
         'lastName': value.lastName,
         'name': value.name,
         'password': value.password,
-        'projects': value.projects === undefined ? undefined : ((value.projects as Array<any>).map(ProjectToJSON)),
         'street': value.street,
         'streetNumber': value.streetNumber,
         'telephone': value.telephone,

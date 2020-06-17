@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { Row, Col, Table, Card, Statistic, Timeline, Progress } from "antd";
 
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
+import IRemoteData, {
+  fromLoading,
+  fromLoaded,
+} from "../../../core/IRemoteData";
+import { Project, ProjectResourceApi, ProjectDTO } from "cloudsourced-api";
+import { api } from "../../../core/api";
+import ProjectCard from "../../ProjectPage/ProjectCard";
 
 interface IProps extends RouteComponentProps {}
+
 const dataSource = [
   {
     key: "1",
@@ -94,8 +102,47 @@ const columnsTransactions = [
     key: "project",
   },
 ];
-
+interface projectData {
+  key: string;
+  number: number;
+  project: Project;
+}
 const Dashboard: React.FC<IProps> = (props) => {
+  const [projects, setProjects] = useState<IRemoteData<projectData[], null>>(
+    fromLoading()
+  );
+  const [latestProject, setLatestProjects] = useState<
+    IRemoteData<projectData, null>
+  >(fromLoading());
+  useEffect(() => {
+    (async () => {
+      //TODO
+      // get projects from current user
+      const result = await new ProjectResourceApi(
+        api.config
+      ).getProjectsByUserUsingGET();
+      console.log(result);
+      const data: projectData[] = result.map((p, i) => ({
+        key: i.toString(),
+        number: i,
+        project: p,
+      }));
+      let latestProject: projectData = data[0];
+      data.forEach((dataPoint) => {
+        if (latestProject) {
+          if (latestProject.project.createdAt! > dataPoint.project.createdAt!) {
+            latestProject = dataPoint;
+          }
+        } else {
+          latestProject = dataPoint;
+        }
+      });
+
+      data.find((p) => p.project.updatedAt);
+      setProjects(fromLoaded(data));
+      setLatestProjects(fromLoaded(latestProject));
+    })();
+  }, []);
   return (
     <>
       <Row justify="center" gutter={[24, 24]}>
@@ -144,15 +191,15 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <Title>Progress</Title>
                 <br />
                 <div>
-                  <Title level={4}>Closed projects</Title>
+                  <Title level={4}>Finished projects</Title>
                   <Progress percent={50} status="active" />
                 </div>
                 <div>
-                  <Title level={4}>Closed tasks</Title>
+                  <Title level={4}>Finished tasks</Title>
                   <Progress percent={70} status="active" />
                 </div>
                 <div>
-                  <Title level={4}>Closed points</Title>
+                  <Title level={4}>Finished points</Title>
                   <Progress percent={100} />
                 </div>
               </Card>
@@ -161,8 +208,16 @@ const Dashboard: React.FC<IProps> = (props) => {
         </Col>
         <Col span={6}>
           <Card>
-            <Title>Latest project</Title>
-            <Timeline>
+            <Title level={3} style={{ textAlign: "center" }}>
+              Latest project
+            </Title>
+            <ProjectCard
+              project={
+                latestProject.data?.project ? latestProject.data?.project : {}
+              }
+            />
+          </Card>
+          {/* <Timeline>
               <Timeline.Item color="green">
                 Create a services site 2015-09-01
               </Timeline.Item>
@@ -179,8 +234,7 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <p>Technical testing 2</p>
                 <p>Technical testing 3</p>
               </Timeline.Item>
-            </Timeline>
-          </Card>
+            </Timeline> */}
         </Col>
       </Row>
       <Row justify="center" gutter={[24, 24]}>
@@ -188,7 +242,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={dataSource}
+              dataSource={projects.data ? projects.data : []}
               columns={columns}
             />
           </Card>

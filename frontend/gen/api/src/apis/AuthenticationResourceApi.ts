@@ -21,10 +21,20 @@ import {
     AuthenticationUserDTO,
     AuthenticationUserDTOFromJSON,
     AuthenticationUserDTOToJSON,
+    RegisterUserDTO,
+    RegisterUserDTOFromJSON,
+    RegisterUserDTOToJSON,
+    User,
+    UserFromJSON,
+    UserToJSON,
 } from '../models';
 
 export interface AuthenticateUserUsingPOSTRequest {
     authenticationUserDTO: AuthenticationUserDTO;
+}
+
+export interface RegisterNewUserUsingPOSTRequest {
+    registerUserDTO: RegisterUserDTO;
 }
 
 /**
@@ -62,6 +72,39 @@ export class AuthenticationResourceApi extends runtime.BaseAPI {
      */
     async authenticateUserUsingPOST(requestParameters: AuthenticateUserUsingPOSTRequest): Promise<Authentication> {
         const response = await this.authenticateUserUsingPOSTRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * registerNewUser
+     */
+    async registerNewUserUsingPOSTRaw(requestParameters: RegisterNewUserUsingPOSTRequest): Promise<runtime.ApiResponse<User>> {
+        if (requestParameters.registerUserDTO === null || requestParameters.registerUserDTO === undefined) {
+            throw new runtime.RequiredError('registerUserDTO','Required parameter requestParameters.registerUserDTO was null or undefined when calling registerNewUserUsingPOST.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/authentication/register`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RegisterUserDTOToJSON(requestParameters.registerUserDTO),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
+    }
+
+    /**
+     * registerNewUser
+     */
+    async registerNewUserUsingPOST(requestParameters: RegisterNewUserUsingPOSTRequest): Promise<User> {
+        const response = await this.registerNewUserUsingPOSTRaw(requestParameters);
         return await response.value();
     }
 
