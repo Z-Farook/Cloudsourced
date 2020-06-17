@@ -7,6 +7,7 @@ import {
   ProjectResourceApi,
   Project,
   CreateNewUsingPOST2Request,
+  AddUsingPOSTRequest,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
@@ -39,7 +40,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: process.env.IMGUR_API_KEY!,
+        Authorization: "Client-ID 2b1eae61348c066",
       },
       body: JSON.stringify({
         image,
@@ -49,6 +50,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     try {
       const response = await fetch(url, requestOptions);
       const data = await response.json();
+      console.log(data);
       return data!.data!.link;
     } catch (e) {
       errorMessage();
@@ -62,14 +64,14 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       name: data.projectName,
       image: await postImage(image),
     };
-    const params: CreateNewUsingPOST2Request = {
-      entity: project,
+    const params: AddUsingPOSTRequest = {
+      projectDTO: project,
     };
     message.loading({ content: "Saving project...", key: "updatableKey" });
     try {
-      const response = await new ProjectResourceApi(
-        api.config
-      ).createNewUsingPOST2(params);
+      const response = await new ProjectResourceApi(api.config).addUsingPOST(
+        params
+      );
       message.success({
         content: "Project is created succesfully!",
         key: "updatableKey",

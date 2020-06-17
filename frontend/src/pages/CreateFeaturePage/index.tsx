@@ -9,6 +9,7 @@ import {
 } from "cloudsourced-api";
 import { RouteComponentProps } from "react-router";
 import { Store } from "antd/lib/form/interface";
+import { api } from "../../core/api";
 interface IRouterParams {
   projectId: string;
 }
@@ -39,7 +40,7 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
       },
     };
     message.loading({ content: "Saving project...", key: "updatableKey" });
-    await new FeatureResourceApi()
+    await new FeatureResourceApi(api.config)
       .addFeatureToProjectUsingPOST(params)
       .then(() => {
         message.success({

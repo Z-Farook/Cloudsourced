@@ -11,6 +11,7 @@ import IRemoteData, {
   fromLoading,
 } from "../../../core/IRemoteData";
 import { Feature, FeatureResourceApi } from "cloudsourced-api";
+import { api } from "../../../core/api";
 
 const { Title, Paragraph } = Typography;
 
@@ -44,7 +45,9 @@ const FeaturePage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new FeatureResourceApi().getOneByIdUsingGET({
+      const result = await new FeatureResourceApi(
+        api.config
+      ).getOneByIdUsingGET({
         id: featureId,
       });
       setFeature(fromLoaded(result));

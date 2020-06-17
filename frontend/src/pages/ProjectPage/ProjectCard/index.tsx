@@ -5,7 +5,7 @@ import { MoreOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { Project } from "cloudsourced-api";
-
+import noImage from "../../../assets/noimage.png";
 export interface IProps {
   project: Project;
 }
@@ -19,11 +19,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
       <Card
         style={{ width: "100%" }}
         cover={
-          <img
-            alt="example"
-            className="image"
-            src={image ? image : "https://source.unsplash.com/400x300/?code,pc"}
-          />
+          <img alt="example" className="image" src={image ? image : noImage} />
         }
         // actions={
         //   [
@@ -41,7 +37,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
               src={"https://source.unsplash.com/100x100/?person,avatar"}
             />
           }
-          title={"language"}
+          title={name ? name : "This project has no name"}
           description={
             description
               ? description
