@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    User,
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
-} from './';
-
 /**
  * 
  * @export
@@ -56,12 +49,6 @@ export interface Authentication {
      * @memberof Authentication
      */
     updatedAt?: Date;
-    /**
-     * 
-     * @type {User}
-     * @memberof Authentication
-     */
-    user?: User;
 }
 
 export function AuthenticationFromJSON(json: any): Authentication {
@@ -79,7 +66,6 @@ export function AuthenticationFromJSONTyped(json: any, ignoreDiscriminator: bool
         'id': !exists(json, 'id') ? undefined : json['id'],
         'token': !exists(json, 'token') ? undefined : json['token'],
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
-        'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
@@ -97,7 +83,6 @@ export function AuthenticationToJSON(value?: Authentication | null): any {
         'id': value.id,
         'token': value.token,
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
-        'user': UserToJSON(value.user),
     };
 }
 

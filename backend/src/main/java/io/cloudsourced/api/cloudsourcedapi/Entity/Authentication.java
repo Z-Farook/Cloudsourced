@@ -12,8 +12,6 @@ import java.time.temporal.ChronoUnit;
 @Table(name="tbl_authentication")
 public class Authentication extends BaseEntity{
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
     private String token;
     @Setter(AccessLevel.NONE)
     private Instant expireDate;

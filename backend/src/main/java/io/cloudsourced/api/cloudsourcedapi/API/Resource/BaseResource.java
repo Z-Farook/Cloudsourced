@@ -1,6 +1,5 @@
 package io.cloudsourced.api.cloudsourcedapi.API.Resource;
 
-
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.Mapper;
 import io.cloudsourced.api.cloudsourcedapi.Service.BaseService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +37,4 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
     public void delete(Long id) {
         service.delete(id);
     }
-
 }

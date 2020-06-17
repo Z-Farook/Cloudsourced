@@ -1,8 +1,9 @@
 package io.cloudsourced.api.cloudsourcedapi.Entity;
-import lombok.Getter;
 
+import lombok.Getter;
 import javax.persistence.*;
 import java.time.Instant;
+
 @MappedSuperclass
 public class BaseEntity {
 

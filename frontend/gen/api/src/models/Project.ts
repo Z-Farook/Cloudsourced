@@ -18,10 +18,6 @@ import {
     FeatureFromJSON,
     FeatureFromJSONTyped,
     FeatureToJSON,
-    User,
-    UserFromJSON,
-    UserFromJSONTyped,
-    UserToJSON,
 } from './';
 
 /**
@@ -72,12 +68,6 @@ export interface Project {
      * @memberof Project
      */
     updatedAt?: Date;
-    /**
-     * 
-     * @type {User}
-     * @memberof Project
-     */
-    user?: User;
 }
 
 export function ProjectFromJSON(json: any): Project {
@@ -97,7 +87,6 @@ export function ProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
         'image': !exists(json, 'image') ? undefined : json['image'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
-        'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
@@ -117,7 +106,6 @@ export function ProjectToJSON(value?: Project | null): any {
         'image': value.image,
         'name': value.name,
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
-        'user': UserToJSON(value.user),
     };
 }
 

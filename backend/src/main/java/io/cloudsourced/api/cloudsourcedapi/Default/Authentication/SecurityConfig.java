@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //@formatter:off
@@ -36,8 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .antMatchers("/authentication").permitAll()
-                .antMatchers(HttpMethod.POST,"/user").permitAll()
+                .antMatchers("/authentication/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",

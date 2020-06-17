@@ -13,6 +13,17 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    ImplementationDTO,
+    ImplementationDTOFromJSON,
+    ImplementationDTOFromJSONTyped,
+    ImplementationDTOToJSON,
+    ProjectDTO,
+    ProjectDTOFromJSON,
+    ProjectDTOFromJSONTyped,
+    ProjectDTOToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -39,6 +50,12 @@ export interface UserDTO {
     id?: number;
     /**
      * 
+     * @type {Array<ImplementationDTO>}
+     * @memberof UserDTO
+     */
+    implementations?: Array<ImplementationDTO>;
+    /**
+     * 
      * @type {string}
      * @memberof UserDTO
      */
@@ -61,6 +78,12 @@ export interface UserDTO {
      * @memberof UserDTO
      */
     name?: string;
+    /**
+     * 
+     * @type {Array<ProjectDTO>}
+     * @memberof UserDTO
+     */
+    projects?: Array<ProjectDTO>;
     /**
      * 
      * @type {string}
@@ -94,10 +117,12 @@ export function UserDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'country': !exists(json, 'country') ? undefined : json['country'],
         'email': !exists(json, 'email') ? undefined : json['email'],
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'implementations': !exists(json, 'implementations') ? undefined : ((json['implementations'] as Array<any>).map(ImplementationDTOFromJSON)),
         'infix': !exists(json, 'infix') ? undefined : json['infix'],
         'languages': !exists(json, 'languages') ? undefined : json['languages'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
         'name': !exists(json, 'name') ? undefined : json['name'],
+        'projects': !exists(json, 'projects') ? undefined : ((json['projects'] as Array<any>).map(ProjectDTOFromJSON)),
         'street': !exists(json, 'street') ? undefined : json['street'],
         'streetNumber': !exists(json, 'streetNumber') ? undefined : json['streetNumber'],
         'telephone': !exists(json, 'telephone') ? undefined : json['telephone'],
@@ -116,10 +141,12 @@ export function UserDTOToJSON(value?: UserDTO | null): any {
         'country': value.country,
         'email': value.email,
         'id': value.id,
+        'implementations': value.implementations === undefined ? undefined : ((value.implementations as Array<any>).map(ImplementationDTOToJSON)),
         'infix': value.infix,
         'languages': value.languages,
         'lastName': value.lastName,
         'name': value.name,
+        'projects': value.projects === undefined ? undefined : ((value.projects as Array<any>).map(ProjectDTOToJSON)),
         'street': value.street,
         'streetNumber': value.streetNumber,
         'telephone': value.telephone,

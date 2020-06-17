@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/project")
 public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectService, ProjectRepository, ProjectMapper>{
@@ -23,13 +22,8 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
         return mapper.entityListToDtoList(service.searchProjectName(name));
     }
 
-    public Project addProject(@RequestBody Project project) {
-        return service.saveProject(project);
-    }
-
-    // TODO: This function is for development purposes only and needs to go when we can get the user from the session
-    @PostMapping("/{id}")
-    public Project addWithUser(@PathVariable Long id, @RequestBody Project project) {
-        return service.saveWithUser(id, project);
+    @PostMapping("/test")
+    public ProjectDTO add( @RequestBody ProjectDTO projectDTO) {
+        return mapper.entityToDTO(service.saveWithUser(mapper.DTOToEntity(projectDTO)));
     }
 }

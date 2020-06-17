@@ -33,6 +33,7 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "@types/enzyme": "^3.10.5",
     "@types/react-router-dom": "^5.1.4",
+    "unstated-next": "^1.1.0",
     "yup": "^0.29.1"
   },
   "scripts": {

@@ -23,15 +23,15 @@ import {
     UserDTOToJSON,
 } from '../models';
 
-export interface CreateNewUsingPOST3Request {
+export interface CreateNewUsingPOST4Request {
     entity: User;
 }
 
-export interface DeleteUsingDELETE3Request {
+export interface DeleteUsingDELETE4Request {
     id?: number;
 }
 
-export interface GetOneByIdUsingGET3Request {
+export interface GetOneByIdUsingGET4Request {
     id: number;
 }
 
@@ -43,7 +43,7 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * All
      */
-    async allUsingGET3Raw(): Promise<runtime.ApiResponse<Array<UserDTO>>> {
+    async allUsingGET4Raw(): Promise<runtime.ApiResponse<Array<UserDTO>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -61,17 +61,17 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * All
      */
-    async allUsingGET3(): Promise<Array<UserDTO>> {
-        const response = await this.allUsingGET3Raw();
+    async allUsingGET4(): Promise<Array<UserDTO>> {
+        const response = await this.allUsingGET4Raw();
         return await response.value();
     }
 
     /**
      * createNew
      */
-    async createNewUsingPOST3Raw(requestParameters: CreateNewUsingPOST3Request): Promise<runtime.ApiResponse<User>> {
+    async createNewUsingPOST4Raw(requestParameters: CreateNewUsingPOST4Request): Promise<runtime.ApiResponse<User>> {
         if (requestParameters.entity === null || requestParameters.entity === undefined) {
-            throw new runtime.RequiredError('entity','Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST3.');
+            throw new runtime.RequiredError('entity','Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST4.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -94,15 +94,15 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * createNew
      */
-    async createNewUsingPOST3(requestParameters: CreateNewUsingPOST3Request): Promise<User> {
-        const response = await this.createNewUsingPOST3Raw(requestParameters);
+    async createNewUsingPOST4(requestParameters: CreateNewUsingPOST4Request): Promise<User> {
+        const response = await this.createNewUsingPOST4Raw(requestParameters);
         return await response.value();
     }
 
     /**
      * delete
      */
-    async deleteUsingDELETE3Raw(requestParameters: DeleteUsingDELETE3Request): Promise<runtime.ApiResponse<void>> {
+    async deleteUsingDELETE4Raw(requestParameters: DeleteUsingDELETE4Request): Promise<runtime.ApiResponse<void>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.id !== undefined) {
@@ -124,16 +124,16 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * delete
      */
-    async deleteUsingDELETE3(requestParameters: DeleteUsingDELETE3Request): Promise<void> {
-        await this.deleteUsingDELETE3Raw(requestParameters);
+    async deleteUsingDELETE4(requestParameters: DeleteUsingDELETE4Request): Promise<void> {
+        await this.deleteUsingDELETE4Raw(requestParameters);
     }
 
     /**
      * getOneById
      */
-    async getOneByIdUsingGET3Raw(requestParameters: GetOneByIdUsingGET3Request): Promise<runtime.ApiResponse<UserDTO>> {
+    async getOneByIdUsingGET4Raw(requestParameters: GetOneByIdUsingGET4Request): Promise<runtime.ApiResponse<UserDTO>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET3.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET4.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -153,8 +153,8 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * getOneById
      */
-    async getOneByIdUsingGET3(requestParameters: GetOneByIdUsingGET3Request): Promise<UserDTO> {
-        const response = await this.getOneByIdUsingGET3Raw(requestParameters);
+    async getOneByIdUsingGET4(requestParameters: GetOneByIdUsingGET4Request): Promise<UserDTO> {
+        const response = await this.getOneByIdUsingGET4Raw(requestParameters);
         return await response.value();
     }
 

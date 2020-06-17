@@ -3,7 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Switch,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -13,23 +13,30 @@ import FeaturePage from "../pages/ProjectPage/FeaturePage";
 
 import AccountPage from "../pages/Account";
 import CreateProjectPage from "../pages/CreateProjectPage";
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
 import CreateFeaturePage from "../pages/CreateFeaturePage";
 import FeatureImplPage from "../pages/ProjectPage/FeaturePage/FeatureImplPage";
-
+import AuthRouter from "./AuthRouter";
+import AuthStore from "../stores/AuthStore";
 interface IProps {}
 
-const MainRouter: React.FC<IProps> = props => {
+const MainRouter: React.FC<IProps> = (props) => {
+  const authStore = AuthStore.useContainer();
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={() => <Redirect to="/home" />} />
         <Route exact path="/home" component={HomePage} />
         <Route exact path="/projects" component={ProjectPage} />
-        <Route exact path="/account" component={AccountPage} />
-        <Route exact path="/auth/login" component={LoginPage} />
-        <Route exact path="/auth/register" component={RegisterPage} />
+        <Route
+          exact
+          path="/account"
+          component={
+            authStore.auth !== null
+              ? AccountPage
+              : () => <Redirect to="/home" />
+          }
+        />
+        <Route path="/auth" component={AuthRouter} />
         <Route
           exact
           path="/user/project/create"

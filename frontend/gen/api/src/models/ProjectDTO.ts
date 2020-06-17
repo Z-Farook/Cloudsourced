@@ -14,14 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Feature,
-    FeatureFromJSON,
-    FeatureFromJSONTyped,
-    FeatureToJSON,
-    UserDTO,
-    UserDTOFromJSON,
-    UserDTOFromJSONTyped,
-    UserDTOToJSON,
+    FeatureDTO,
+    FeatureDTOFromJSON,
+    FeatureDTOFromJSONTyped,
+    FeatureDTOToJSON,
 } from './';
 
 /**
@@ -38,10 +34,10 @@ export interface ProjectDTO {
     description?: string;
     /**
      * 
-     * @type {Array<Feature>}
+     * @type {Array<FeatureDTO>}
      * @memberof ProjectDTO
      */
-    features?: Array<Feature>;
+    features?: Array<FeatureDTO>;
     /**
      * 
      * @type {number}
@@ -60,12 +56,6 @@ export interface ProjectDTO {
      * @memberof ProjectDTO
      */
     name?: string;
-    /**
-     * 
-     * @type {UserDTO}
-     * @memberof ProjectDTO
-     */
-    user?: UserDTO;
 }
 
 export function ProjectDTOFromJSON(json: any): ProjectDTO {
@@ -79,11 +69,10 @@ export function ProjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'features': !exists(json, 'features') ? undefined : ((json['features'] as Array<any>).map(FeatureFromJSON)),
+        'features': !exists(json, 'features') ? undefined : ((json['features'] as Array<any>).map(FeatureDTOFromJSON)),
         'id': !exists(json, 'id') ? undefined : json['id'],
         'image': !exists(json, 'image') ? undefined : json['image'],
         'name': !exists(json, 'name') ? undefined : json['name'],
-        'user': !exists(json, 'user') ? undefined : UserDTOFromJSON(json['user']),
     };
 }
 
@@ -97,11 +86,10 @@ export function ProjectDTOToJSON(value?: ProjectDTO | null): any {
     return {
         
         'description': value.description,
-        'features': value.features === undefined ? undefined : ((value.features as Array<any>).map(FeatureToJSON)),
+        'features': value.features === undefined ? undefined : ((value.features as Array<any>).map(FeatureDTOToJSON)),
         'id': value.id,
         'image': value.image,
         'name': value.name,
-        'user': UserDTOToJSON(value.user),
     };
 }
 
