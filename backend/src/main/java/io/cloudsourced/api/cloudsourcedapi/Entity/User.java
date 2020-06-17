@@ -2,6 +2,8 @@ package io.cloudsourced.api.cloudsourcedapi.Entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,16 +25,12 @@ public class User extends BaseEntity{
     private String street;
     private String streetNumber;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Project> projects;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Implementation> implementations;
-
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;
 
     public User(){
         authentication = new Authentication();
     }
-
 }

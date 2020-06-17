@@ -1,8 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.API.DTO;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class UserDTO {
     private Long id;
@@ -15,7 +13,4 @@ public class UserDTO {
     private String telephone;
     private String street;
     private String streetNumber;
-
-    private List<ProjectDTO> projects;
-    private List<ImplementationDTO> implementations;
 }
