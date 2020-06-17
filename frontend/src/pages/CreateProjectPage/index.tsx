@@ -63,7 +63,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       image: await postImage(image),
     };
     const params: CreateNewUsingPOST2Request = {
-      project,
+      entity: project,
     };
     message.loading({ content: "Saving project...", key: "updatableKey" });
     try {

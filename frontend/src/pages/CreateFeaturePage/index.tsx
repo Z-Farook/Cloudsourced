@@ -31,7 +31,7 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
     console.log(values);
     const params: AddFeatureToProjectUsingPOSTRequest = {
       projectId: projectId,
-      feature: {
+      featureDTO: {
         name: values.featureName,
         description: values.description,
         codeLanguage: values.codeLanguage,

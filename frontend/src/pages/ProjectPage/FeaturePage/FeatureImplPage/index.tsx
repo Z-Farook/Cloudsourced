@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../../components/layout/DefaultLayout";
-import MonacoEditor from "react-monaco-editor";
+import { ControlledEditor } from "@monaco-editor/react";
 import IRemoteData, {
   EState,
   fromLoaded,
@@ -15,6 +15,7 @@ import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
+import { api } from "../../../../core/api";
 
 const validationSchema = yup.object().shape({
   code: yup.string().required("Code is a required field"),
@@ -56,7 +57,9 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new FeatureResourceApi().getOneByIdUsingGET({
+      const result = await new FeatureResourceApi(
+        api.config
+      ).getOneByIdUsingGET({
         id: featureId,
       });
       setFeature(fromLoaded(result));
@@ -120,7 +123,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
                     name="code"
                     control={control}
                     as={
-                      <MonacoEditor
+                      <ControlledEditor
                         width={`${
                           editorDimensions == null ? 0 : editorDimensions.width
                         }px`}
@@ -129,9 +132,17 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
                         }px`}
                         language={feature.data!.codeLanguage}
                         theme="vs-dark"
-                        value={getValues("code")}
+                        value={(() => {
+                          const x = getValues("code");
+                          debugger;
+                          return x;
+                        })()}
                         options={options}
-                        onChange={(x) => setValue("code", x)}
+                        onChange={(ev, x) => {
+                          debugger;
+                          alert(1);
+                          return setValue("code", x);
+                        }}
                       />
                     }
                   />

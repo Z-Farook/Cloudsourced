@@ -13,63 +13,88 @@
  */
 
 import { exists, mapValues } from "../runtime";
-import { User, UserFromJSON, UserFromJSONTyped, UserToJSON } from "./";
+import {
+  Implementation,
+  ImplementationFromJSON,
+  ImplementationFromJSONTyped,
+  ImplementationToJSON,
+  User,
+  UserFromJSON,
+  UserFromJSONTyped,
+  UserToJSON,
+} from "./";
 
 /**
  *
  * @export
- * @interface Transaction
+ * @interface Review
  */
-export interface Transaction {
+export interface Review {
+  /**
+   *
+   * @type {boolean}
+   * @memberof Review
+   */
+  approved?: boolean;
   /**
    *
    * @type {Date}
-   * @memberof Transaction
+   * @memberof Review
    */
   createdAt?: Date;
   /**
    *
    * @type {number}
-   * @memberof Transaction
+   * @memberof Review
    */
   id?: number;
   /**
    *
-   * @type {number}
-   * @memberof Transaction
+   * @type {Implementation}
+   * @memberof Review
    */
-  points?: number;
+  implementation?: Implementation;
+  /**
+   *
+   * @type {string}
+   * @memberof Review
+   */
+  message?: string;
   /**
    *
    * @type {Date}
-   * @memberof Transaction
+   * @memberof Review
    */
   updatedAt?: Date;
   /**
    *
    * @type {User}
-   * @memberof Transaction
+   * @memberof Review
    */
   user?: User;
 }
 
-export function TransactionFromJSON(json: any): Transaction {
-  return TransactionFromJSONTyped(json, false);
+export function ReviewFromJSON(json: any): Review {
+  return ReviewFromJSONTyped(json, false);
 }
 
-export function TransactionFromJSONTyped(
+export function ReviewFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): Transaction {
+): Review {
   if (json === undefined || json === null) {
     return json;
   }
   return {
+    approved: !exists(json, "approved") ? undefined : json["approved"],
     createdAt: !exists(json, "createdAt")
       ? undefined
       : new Date(json["createdAt"]),
     id: !exists(json, "id") ? undefined : json["id"],
-    points: !exists(json, "points") ? undefined : json["points"],
+    implementation: !exists(json, "implementation")
+      ? undefined
+      : ImplementationFromJSON(json["implementation"]),
+    message: !exists(json, "message") ? undefined : json["message"],
     updatedAt: !exists(json, "updatedAt")
       ? undefined
       : new Date(json["updatedAt"]),
@@ -77,7 +102,7 @@ export function TransactionFromJSONTyped(
   };
 }
 
-export function TransactionToJSON(value?: Transaction | null): any {
+export function ReviewToJSON(value?: Review | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -85,10 +110,12 @@ export function TransactionToJSON(value?: Transaction | null): any {
     return null;
   }
   return {
+    approved: value.approved,
     createdAt:
       value.createdAt === undefined ? undefined : value.createdAt.toISOString(),
     id: value.id,
-    points: value.points,
+    implementation: ImplementationToJSON(value.implementation),
+    message: value.message,
     updatedAt:
       value.updatedAt === undefined ? undefined : value.updatedAt.toISOString(),
     user: UserToJSON(value.user),
