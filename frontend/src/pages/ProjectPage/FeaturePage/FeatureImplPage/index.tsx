@@ -1,7 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../../components/layout/DefaultLayout";
-import { ControlledEditor } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 import IRemoteData, {
   EState,
   fromLoaded,
@@ -34,6 +40,7 @@ interface IEditorDimensions {
 }
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
+  const editorRef = useRef<any>();
   const { handleSubmit, errors, control, setValue, getValues } = useForm({
     validationSchema,
   });
@@ -123,7 +130,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
                     name="code"
                     control={control}
                     as={
-                      <ControlledEditor
+                      <Editor
                         width={`${
                           editorDimensions == null ? 0 : editorDimensions.width
                         }px`}
@@ -132,16 +139,14 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
                         }px`}
                         language={feature.data!.codeLanguage}
                         theme="vs-dark"
-                        value={(() => {
-                          const x = getValues("code");
-                          debugger;
-                          return x;
-                        })()}
                         options={options}
-                        onChange={(ev, x) => {
-                          debugger;
-                          alert(1);
-                          return setValue("code", x);
+                        value={getValues("code")}
+                        editorDidMount={(_, editor) => {
+                          editorRef.current = editor;
+                          editorRef.current.onDidChangeModelContent(() => {
+                            const value = editorRef.current.getValue();
+                            setValue("code", value);
+                          });
                         }}
                       />
                     }
