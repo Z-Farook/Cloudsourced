@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { Row, Col, Table, Card, Statistic, Timeline, Progress } from "antd";
+import {
+  Row,
+  Col,
+  Table,
+  Card,
+  Statistic,
+  Timeline,
+  Progress,
+  Button,
+} from "antd";
 
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import {
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import IRemoteData, {
   fromLoading,
@@ -211,11 +224,20 @@ const Dashboard: React.FC<IProps> = (props) => {
             <Title level={3} style={{ textAlign: "center" }}>
               Latest project
             </Title>
-            <ProjectCard
-              project={
-                latestProject.data?.project ? latestProject.data?.project : {}
-              }
-            />
+            {latestProject.data?.project ? (
+              <ProjectCard project={latestProject.data?.project} />
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                <p>You have no projects, please create a new project!</p>
+                <Button
+                  type="primary"
+                  shape="circle"
+                  onClick={() => props.history.push("/user/project/create")}
+                >
+                  <PlusOutlined />
+                </Button>
+              </div>
+            )}
           </Card>
           {/* <Timeline>
               <Timeline.Item color="green">
