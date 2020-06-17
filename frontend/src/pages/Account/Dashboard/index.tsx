@@ -16,6 +16,7 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
   PlusOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import IRemoteData, {
@@ -79,18 +80,7 @@ const dataSourceTransactions = [
     project: "test transaction",
   },
 ];
-const columns = [
-  {
-    title: "#",
-    dataIndex: "number",
-    key: "number",
-  },
-  {
-    title: "Current projects",
-    dataIndex: "projectName",
-    key: "projectName",
-  },
-];
+
 const columnsTasks = [
   {
     title: "#",
@@ -120,8 +110,34 @@ interface projectData {
   number: number;
   project: Project;
   projectName: string;
+  id: number;
 }
 const Dashboard: React.FC<IProps> = (props) => {
+  const columns = [
+    {
+      title: "#",
+      dataIndex: "number",
+      key: "number",
+    },
+    {
+      title: "Current projects",
+      dataIndex: "projectName",
+      key: "projectName",
+    },
+    {
+      title: "",
+      dataIndex: "id",
+      key: "id",
+      render: (id: number) => (
+        <Button
+          shape="circle"
+          onClick={() => props.history.push("/projects/" + id.toString())}
+        >
+          <RightOutlined />
+        </Button>
+      ),
+    },
+  ];
   const [projects, setProjects] = useState<IRemoteData<projectData[], null>>(
     fromLoading()
   );
@@ -139,6 +155,7 @@ const Dashboard: React.FC<IProps> = (props) => {
         number: i,
         project: p,
         projectName: p.name ? p.name : "",
+        id: p.id ? p.id : 0,
       }));
       let latestProject: projectData = data[0];
 
