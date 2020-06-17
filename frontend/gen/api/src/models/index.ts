@@ -15,4 +15,5 @@ export * from "./Transaction";
 export * from "./TransactionDTO";
 export * from "./User";
 export * from "./UserDTO";
+export * from "./ValidateTokenResult";
 export * from "./View";
