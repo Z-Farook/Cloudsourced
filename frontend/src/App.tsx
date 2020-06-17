@@ -5,8 +5,9 @@ import AuthStore from "./stores/AuthStore";
 import {
   AuthenticationResourceApi,
   ValidateTokenUsingPOSTRequest,
+  Authentication,
 } from "cloudsourced-api";
-import { Authentication } from "cloudsourced-api";
+
 import { monaco } from "@monaco-editor/react";
 
 require("dotenv").config();
