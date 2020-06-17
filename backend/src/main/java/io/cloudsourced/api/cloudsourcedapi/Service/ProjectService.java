@@ -20,7 +20,7 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     public List<Project> searchProjectName(String name) {
         return repository.findByNameContainsIgnoreCase(name);
     }
-    
+
     public Project saveProject(Project project) {
         return repository.save(project);
     }

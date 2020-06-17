@@ -15,7 +15,7 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
     public final DTOMapper mapper;
 
     @Override
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public DTO getOneById(@PathVariable Long id) {
         return mapper.entityToDTO(service.getOneById(id));
     }
@@ -27,9 +27,13 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
     }
 
     @Override
-    @PutMapping("")
-    public DTO update(@RequestBody Entity entity) {
-        return mapper.entityToDTO(service.save(entity));
+    @PutMapping("/{id}")
+    public DTO update(@RequestBody DTO dto, @PathVariable Long id) {
+        Entity originalEntity = service.getOneById(id);
+        Entity incomingEntity = mapper.DTOToEntity(dto);
+        Entity updatedEntity = mapper.updateEntityFromEntity(originalEntity, incomingEntity);
+
+        return mapper.entityToDTO(service.save(updatedEntity));
     }
 
     @Override
