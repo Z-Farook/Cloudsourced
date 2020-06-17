@@ -16,76 +16,52 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface UserDTO
+ * @interface RegisterUserDTO
  */
-export interface UserDTO {
+export interface RegisterUserDTO {
     /**
      * 
      * @type {string}
-     * @memberof UserDTO
+     * @memberof RegisterUserDTO
      */
     country?: string;
     /**
      * 
      * @type {string}
-     * @memberof UserDTO
+     * @memberof RegisterUserDTO
      */
     email?: string;
     /**
      * 
-     * @type {number}
-     * @memberof UserDTO
-     */
-    id?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserDTO
-     */
-    infix?: string;
-    /**
-     * 
      * @type {Array<string>}
-     * @memberof UserDTO
+     * @memberof RegisterUserDTO
      */
     languages?: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof UserDTO
+     * @memberof RegisterUserDTO
      */
     lastName?: string;
     /**
      * 
      * @type {string}
-     * @memberof UserDTO
+     * @memberof RegisterUserDTO
      */
     name?: string;
     /**
      * 
      * @type {string}
-     * @memberof UserDTO
+     * @memberof RegisterUserDTO
      */
-    street?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserDTO
-     */
-    streetNumber?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserDTO
-     */
-    telephone?: string;
+    password?: string;
 }
 
-export function UserDTOFromJSON(json: any): UserDTO {
-    return UserDTOFromJSONTyped(json, false);
+export function RegisterUserDTOFromJSON(json: any): RegisterUserDTO {
+    return RegisterUserDTOFromJSONTyped(json, false);
 }
 
-export function UserDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserDTO {
+export function RegisterUserDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): RegisterUserDTO {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -93,18 +69,14 @@ export function UserDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         
         'country': !exists(json, 'country') ? undefined : json['country'],
         'email': !exists(json, 'email') ? undefined : json['email'],
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'infix': !exists(json, 'infix') ? undefined : json['infix'],
         'languages': !exists(json, 'languages') ? undefined : json['languages'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
         'name': !exists(json, 'name') ? undefined : json['name'],
-        'street': !exists(json, 'street') ? undefined : json['street'],
-        'streetNumber': !exists(json, 'streetNumber') ? undefined : json['streetNumber'],
-        'telephone': !exists(json, 'telephone') ? undefined : json['telephone'],
+        'password': !exists(json, 'password') ? undefined : json['password'],
     };
 }
 
-export function UserDTOToJSON(value?: UserDTO | null): any {
+export function RegisterUserDTOToJSON(value?: RegisterUserDTO | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -115,14 +87,10 @@ export function UserDTOToJSON(value?: UserDTO | null): any {
         
         'country': value.country,
         'email': value.email,
-        'id': value.id,
-        'infix': value.infix,
         'languages': value.languages,
         'lastName': value.lastName,
         'name': value.name,
-        'street': value.street,
-        'streetNumber': value.streetNumber,
-        'telephone': value.telephone,
+        'password': value.password,
     };
 }
 

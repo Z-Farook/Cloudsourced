@@ -23,8 +23,12 @@ import {
     ProjectDTOToJSON,
 } from '../models';
 
+export interface AddUsingPOSTRequest {
+    projectDTO: ProjectDTO;
+}
+
 export interface CreateNewUsingPOST2Request {
-    project: Project;
+    entity: Project;
 }
 
 export interface DeleteUsingDELETE2Request {
@@ -43,6 +47,39 @@ export interface SearchProjectNameUsingGETRequest {
  * 
  */
 export class ProjectResourceApi extends runtime.BaseAPI {
+
+    /**
+     * add
+     */
+    async addUsingPOSTRaw(requestParameters: AddUsingPOSTRequest): Promise<runtime.ApiResponse<ProjectDTO>> {
+        if (requestParameters.projectDTO === null || requestParameters.projectDTO === undefined) {
+            throw new runtime.RequiredError('projectDTO','Required parameter requestParameters.projectDTO was null or undefined when calling addUsingPOST.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/project/test`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ProjectDTOToJSON(requestParameters.projectDTO),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ProjectDTOFromJSON(jsonValue));
+    }
+
+    /**
+     * add
+     */
+    async addUsingPOST(requestParameters: AddUsingPOSTRequest): Promise<ProjectDTO> {
+        const response = await this.addUsingPOSTRaw(requestParameters);
+        return await response.value();
+    }
 
     /**
      * All
@@ -74,8 +111,8 @@ export class ProjectResourceApi extends runtime.BaseAPI {
      * createNew
      */
     async createNewUsingPOST2Raw(requestParameters: CreateNewUsingPOST2Request): Promise<runtime.ApiResponse<Project>> {
-        if (requestParameters.project === null || requestParameters.project === undefined) {
-            throw new runtime.RequiredError('project','Required parameter requestParameters.project was null or undefined when calling createNewUsingPOST2.');
+        if (requestParameters.entity === null || requestParameters.entity === undefined) {
+            throw new runtime.RequiredError('entity','Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST2.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -89,7 +126,7 @@ export class ProjectResourceApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ProjectToJSON(requestParameters.project),
+            body: ProjectToJSON(requestParameters.entity),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ProjectFromJSON(jsonValue));

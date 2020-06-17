@@ -14,14 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Feature,
-    FeatureFromJSON,
-    FeatureFromJSONTyped,
-    FeatureToJSON,
-    Review,
-    ReviewFromJSON,
-    ReviewFromJSONTyped,
-    ReviewToJSON,
+    Implementation,
+    ImplementationFromJSON,
+    ImplementationFromJSONTyped,
+    ImplementationToJSON,
     User,
     UserFromJSON,
     UserFromJSONTyped,
@@ -31,74 +27,74 @@ import {
 /**
  * 
  * @export
- * @interface Implementation
+ * @interface Review
  */
-export interface Implementation {
+export interface Review {
     /**
      * 
-     * @type {string}
-     * @memberof Implementation
+     * @type {boolean}
+     * @memberof Review
      */
-    code?: string;
+    approved?: boolean;
     /**
      * 
      * @type {Date}
-     * @memberof Implementation
+     * @memberof Review
      */
     createdAt?: Date;
     /**
      * 
-     * @type {Feature}
-     * @memberof Implementation
-     */
-    feature?: Feature;
-    /**
-     * 
      * @type {number}
-     * @memberof Implementation
+     * @memberof Review
      */
     id?: number;
     /**
      * 
-     * @type {Array<Review>}
-     * @memberof Implementation
+     * @type {Implementation}
+     * @memberof Review
      */
-    reviews?: Array<Review>;
+    implementation?: Implementation;
+    /**
+     * 
+     * @type {string}
+     * @memberof Review
+     */
+    message?: string;
     /**
      * 
      * @type {Date}
-     * @memberof Implementation
+     * @memberof Review
      */
     updatedAt?: Date;
     /**
      * 
      * @type {User}
-     * @memberof Implementation
+     * @memberof Review
      */
     user?: User;
 }
 
-export function ImplementationFromJSON(json: any): Implementation {
-    return ImplementationFromJSONTyped(json, false);
+export function ReviewFromJSON(json: any): Review {
+    return ReviewFromJSONTyped(json, false);
 }
 
-export function ImplementationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Implementation {
+export function ReviewFromJSONTyped(json: any, ignoreDiscriminator: boolean): Review {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'code': !exists(json, 'code') ? undefined : json['code'],
+        'approved': !exists(json, 'approved') ? undefined : json['approved'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
-        'feature': !exists(json, 'feature') ? undefined : FeatureFromJSON(json['feature']),
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'reviews': !exists(json, 'reviews') ? undefined : ((json['reviews'] as Array<any>).map(ReviewFromJSON)),
+        'implementation': !exists(json, 'implementation') ? undefined : ImplementationFromJSON(json['implementation']),
+        'message': !exists(json, 'message') ? undefined : json['message'],
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
         'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
-export function ImplementationToJSON(value?: Implementation | null): any {
+export function ReviewToJSON(value?: Review | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -107,11 +103,11 @@ export function ImplementationToJSON(value?: Implementation | null): any {
     }
     return {
         
-        'code': value.code,
+        'approved': value.approved,
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
-        'feature': FeatureToJSON(value.feature),
         'id': value.id,
-        'reviews': value.reviews === undefined ? undefined : ((value.reviews as Array<any>).map(ReviewToJSON)),
+        'implementation': ImplementationToJSON(value.implementation),
+        'message': value.message,
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
         'user': UserToJSON(value.user),
     };

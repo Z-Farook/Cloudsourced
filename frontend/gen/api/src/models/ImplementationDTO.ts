@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    ReviewDTO,
+    ReviewDTOFromJSON,
+    ReviewDTOFromJSONTyped,
+    ReviewDTOToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -31,6 +38,12 @@ export interface ImplementationDTO {
      * @memberof ImplementationDTO
      */
     id?: number;
+    /**
+     * 
+     * @type {Array<ReviewDTO>}
+     * @memberof ImplementationDTO
+     */
+    reviews?: Array<ReviewDTO>;
 }
 
 export function ImplementationDTOFromJSON(json: any): ImplementationDTO {
@@ -45,6 +58,7 @@ export function ImplementationDTOFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'code': !exists(json, 'code') ? undefined : json['code'],
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'reviews': !exists(json, 'reviews') ? undefined : ((json['reviews'] as Array<any>).map(ReviewDTOFromJSON)),
     };
 }
 
@@ -59,6 +73,7 @@ export function ImplementationDTOToJSON(value?: ImplementationDTO | null): any {
         
         'code': value.code,
         'id': value.id,
+        'reviews': value.reviews === undefined ? undefined : ((value.reviews as Array<any>).map(ReviewDTOToJSON)),
     };
 }
 

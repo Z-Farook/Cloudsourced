@@ -18,10 +18,6 @@ import {
     AuthenticationFromJSON,
     AuthenticationFromJSONTyped,
     AuthenticationToJSON,
-    Implementation,
-    ImplementationFromJSON,
-    ImplementationFromJSONTyped,
-    ImplementationToJSON,
     Project,
     ProjectFromJSON,
     ProjectFromJSONTyped,
@@ -64,12 +60,6 @@ export interface User {
      * @memberof User
      */
     id?: number;
-    /**
-     * 
-     * @type {Array<Implementation>}
-     * @memberof User
-     */
-    implementations?: Array<Implementation>;
     /**
      * 
      * @type {string}
@@ -147,7 +137,6 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
         'email': !exists(json, 'email') ? undefined : json['email'],
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'implementations': !exists(json, 'implementations') ? undefined : ((json['implementations'] as Array<any>).map(ImplementationFromJSON)),
         'infix': !exists(json, 'infix') ? undefined : json['infix'],
         'languages': !exists(json, 'languages') ? undefined : json['languages'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
@@ -175,7 +164,6 @@ export function UserToJSON(value?: User | null): any {
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'email': value.email,
         'id': value.id,
-        'implementations': value.implementations === undefined ? undefined : ((value.implementations as Array<any>).map(ImplementationToJSON)),
         'infix': value.infix,
         'languages': value.languages,
         'lastName': value.lastName,
