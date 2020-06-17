@@ -8,10 +8,7 @@ import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.Authentication
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/authentication")
@@ -35,5 +32,10 @@ public class AuthenticationResource {
         return userService.save(
                 mapper.DTOToEntity(registerUserDTO)
         );
+    }
+
+    @PostMapping("/validate-token/{token}")
+    boolean validateToken(@PathVariable String token) {
+        return service.validateToken(token);
     }
 }

@@ -14,58 +14,58 @@
 
 import * as runtime from "../runtime";
 import {
-  Feature,
-  FeatureFromJSON,
-  FeatureToJSON,
-  FeatureDTO,
-  FeatureDTOFromJSON,
-  FeatureDTOToJSON,
+  Review,
+  ReviewFromJSON,
+  ReviewToJSON,
+  ReviewDTO,
+  ReviewDTOFromJSON,
+  ReviewDTOToJSON,
 } from "../models";
 
-export interface AddFeatureToProjectUsingPOSTRequest {
-  projectId: number;
-  featureDTO: FeatureDTO;
+export interface AddReviewToImplementationUsingPOSTRequest {
+  implementationId: number;
+  reviewDTO: ReviewDTO;
 }
 
-export interface CreateNewUsingPOSTRequest {
-  entity: Feature;
+export interface CreateNewUsingPOST3Request {
+  entity: Review;
 }
 
-export interface DeleteUsingDELETERequest {
+export interface DeleteUsingDELETE3Request {
   id?: number;
 }
 
-export interface GetOneByIdUsingGETRequest {
+export interface GetOneByIdUsingGET3Request {
   id: number;
 }
 
 /**
  *
  */
-export class FeatureResourceApi extends runtime.BaseAPI {
+export class ReviewResourceApi extends runtime.BaseAPI {
   /**
-   * addFeatureToProject
+   * addReviewToImplementation
    */
-  async addFeatureToProjectUsingPOSTRaw(
-    requestParameters: AddFeatureToProjectUsingPOSTRequest
-  ): Promise<runtime.ApiResponse<FeatureDTO>> {
+  async addReviewToImplementationUsingPOSTRaw(
+    requestParameters: AddReviewToImplementationUsingPOSTRequest
+  ): Promise<runtime.ApiResponse<ReviewDTO>> {
     if (
-      requestParameters.projectId === null ||
-      requestParameters.projectId === undefined
+      requestParameters.implementationId === null ||
+      requestParameters.implementationId === undefined
     ) {
       throw new runtime.RequiredError(
-        "projectId",
-        "Required parameter requestParameters.projectId was null or undefined when calling addFeatureToProjectUsingPOST."
+        "implementationId",
+        "Required parameter requestParameters.implementationId was null or undefined when calling addReviewToImplementationUsingPOST."
       );
     }
 
     if (
-      requestParameters.featureDTO === null ||
-      requestParameters.featureDTO === undefined
+      requestParameters.reviewDTO === null ||
+      requestParameters.reviewDTO === undefined
     ) {
       throw new runtime.RequiredError(
-        "featureDTO",
-        "Required parameter requestParameters.featureDTO was null or undefined when calling addFeatureToProjectUsingPOST."
+        "reviewDTO",
+        "Required parameter requestParameters.reviewDTO was null or undefined when calling addReviewToImplementationUsingPOST."
       );
     }
 
@@ -76,28 +76,28 @@ export class FeatureResourceApi extends runtime.BaseAPI {
     headerParameters["Content-Type"] = "application/json";
 
     const response = await this.request({
-      path: `/feature/{projectId}`.replace(
-        `{${"projectId"}}`,
-        encodeURIComponent(String(requestParameters.projectId))
+      path: `/review/{implementationId}`.replace(
+        `{${"implementationId"}}`,
+        encodeURIComponent(String(requestParameters.implementationId))
       ),
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: FeatureDTOToJSON(requestParameters.featureDTO),
+      body: ReviewDTOToJSON(requestParameters.reviewDTO),
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FeatureDTOFromJSON(jsonValue)
+      ReviewDTOFromJSON(jsonValue)
     );
   }
 
   /**
-   * addFeatureToProject
+   * addReviewToImplementation
    */
-  async addFeatureToProjectUsingPOST(
-    requestParameters: AddFeatureToProjectUsingPOSTRequest
-  ): Promise<FeatureDTO> {
-    const response = await this.addFeatureToProjectUsingPOSTRaw(
+  async addReviewToImplementationUsingPOST(
+    requestParameters: AddReviewToImplementationUsingPOSTRequest
+  ): Promise<ReviewDTO> {
+    const response = await this.addReviewToImplementationUsingPOSTRaw(
       requestParameters
     );
     return await response.value();
@@ -106,44 +106,44 @@ export class FeatureResourceApi extends runtime.BaseAPI {
   /**
    * All
    */
-  async allUsingGETRaw(): Promise<runtime.ApiResponse<Array<FeatureDTO>>> {
+  async allUsingGET3Raw(): Promise<runtime.ApiResponse<Array<ReviewDTO>>> {
     const queryParameters: runtime.HTTPQuery = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/feature`,
+      path: `/review`,
       method: "GET",
       headers: headerParameters,
       query: queryParameters,
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      jsonValue.map(FeatureDTOFromJSON)
+      jsonValue.map(ReviewDTOFromJSON)
     );
   }
 
   /**
    * All
    */
-  async allUsingGET(): Promise<Array<FeatureDTO>> {
-    const response = await this.allUsingGETRaw();
+  async allUsingGET3(): Promise<Array<ReviewDTO>> {
+    const response = await this.allUsingGET3Raw();
     return await response.value();
   }
 
   /**
    * createNew
    */
-  async createNewUsingPOSTRaw(
-    requestParameters: CreateNewUsingPOSTRequest
-  ): Promise<runtime.ApiResponse<Feature>> {
+  async createNewUsingPOST3Raw(
+    requestParameters: CreateNewUsingPOST3Request
+  ): Promise<runtime.ApiResponse<Review>> {
     if (
       requestParameters.entity === null ||
       requestParameters.entity === undefined
     ) {
       throw new runtime.RequiredError(
         "entity",
-        "Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST."
+        "Required parameter requestParameters.entity was null or undefined when calling createNewUsingPOST3."
       );
     }
 
@@ -154,33 +154,33 @@ export class FeatureResourceApi extends runtime.BaseAPI {
     headerParameters["Content-Type"] = "application/json";
 
     const response = await this.request({
-      path: `/feature`,
+      path: `/review`,
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: FeatureToJSON(requestParameters.entity),
+      body: ReviewToJSON(requestParameters.entity),
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FeatureFromJSON(jsonValue)
+      ReviewFromJSON(jsonValue)
     );
   }
 
   /**
    * createNew
    */
-  async createNewUsingPOST(
-    requestParameters: CreateNewUsingPOSTRequest
-  ): Promise<Feature> {
-    const response = await this.createNewUsingPOSTRaw(requestParameters);
+  async createNewUsingPOST3(
+    requestParameters: CreateNewUsingPOST3Request
+  ): Promise<Review> {
+    const response = await this.createNewUsingPOST3Raw(requestParameters);
     return await response.value();
   }
 
   /**
    * delete
    */
-  async deleteUsingDELETERaw(
-    requestParameters: DeleteUsingDELETERequest
+  async deleteUsingDELETE3Raw(
+    requestParameters: DeleteUsingDELETE3Request
   ): Promise<runtime.ApiResponse<void>> {
     const queryParameters: runtime.HTTPQuery = {};
 
@@ -191,7 +191,7 @@ export class FeatureResourceApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/feature`,
+      path: `/review`,
       method: "DELETE",
       headers: headerParameters,
       query: queryParameters,
@@ -203,22 +203,22 @@ export class FeatureResourceApi extends runtime.BaseAPI {
   /**
    * delete
    */
-  async deleteUsingDELETE(
-    requestParameters: DeleteUsingDELETERequest
+  async deleteUsingDELETE3(
+    requestParameters: DeleteUsingDELETE3Request
   ): Promise<void> {
-    await this.deleteUsingDELETERaw(requestParameters);
+    await this.deleteUsingDELETE3Raw(requestParameters);
   }
 
   /**
    * getOneById
    */
-  async getOneByIdUsingGETRaw(
-    requestParameters: GetOneByIdUsingGETRequest
-  ): Promise<runtime.ApiResponse<FeatureDTO>> {
+  async getOneByIdUsingGET3Raw(
+    requestParameters: GetOneByIdUsingGET3Request
+  ): Promise<runtime.ApiResponse<ReviewDTO>> {
     if (requestParameters.id === null || requestParameters.id === undefined) {
       throw new runtime.RequiredError(
         "id",
-        "Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET."
+        "Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET3."
       );
     }
 
@@ -227,7 +227,7 @@ export class FeatureResourceApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/feature/{id}`.replace(
+      path: `/review/{id}`.replace(
         `{${"id"}}`,
         encodeURIComponent(String(requestParameters.id))
       ),
@@ -237,17 +237,17 @@ export class FeatureResourceApi extends runtime.BaseAPI {
     });
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      FeatureDTOFromJSON(jsonValue)
+      ReviewDTOFromJSON(jsonValue)
     );
   }
 
   /**
    * getOneById
    */
-  async getOneByIdUsingGET(
-    requestParameters: GetOneByIdUsingGETRequest
-  ): Promise<FeatureDTO> {
-    const response = await this.getOneByIdUsingGETRaw(requestParameters);
+  async getOneByIdUsingGET3(
+    requestParameters: GetOneByIdUsingGET3Request
+  ): Promise<ReviewDTO> {
+    const response = await this.getOneByIdUsingGET3Raw(requestParameters);
     return await response.value();
   }
 }

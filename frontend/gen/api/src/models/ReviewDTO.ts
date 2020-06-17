@@ -23,48 +23,55 @@ import {
 /**
  *
  * @export
- * @interface TransactionDTO
+ * @interface ReviewDTO
  */
-export interface TransactionDTO {
+export interface ReviewDTO {
+  /**
+   *
+   * @type {boolean}
+   * @memberof ReviewDTO
+   */
+  approved?: boolean;
   /**
    *
    * @type {number}
-   * @memberof TransactionDTO
+   * @memberof ReviewDTO
    */
   id?: number;
   /**
    *
-   * @type {number}
-   * @memberof TransactionDTO
+   * @type {string}
+   * @memberof ReviewDTO
    */
-  points?: number;
+  message?: string;
   /**
    *
    * @type {UserDTO}
-   * @memberof TransactionDTO
+   * @memberof ReviewDTO
    */
   user?: UserDTO;
 }
 
-export function TransactionDTOFromJSON(json: any): TransactionDTO {
-  return TransactionDTOFromJSONTyped(json, false);
+export function ReviewDTOFromJSON(json: any): ReviewDTO {
+  return ReviewDTOFromJSONTyped(json, false);
 }
 
-export function TransactionDTOFromJSONTyped(
+export function ReviewDTOFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean
-): TransactionDTO {
+): ReviewDTO {
   if (json === undefined || json === null) {
     return json;
   }
   return {
+    approved: !exists(json, "approved") ? undefined : json["approved"],
     id: !exists(json, "id") ? undefined : json["id"],
-    points: !exists(json, "points") ? undefined : json["points"],
+    message: !exists(json, "message") ? undefined : json["message"],
     user: !exists(json, "user") ? undefined : UserDTOFromJSON(json["user"]),
   };
 }
 
-export function TransactionDTOToJSON(value?: TransactionDTO | null): any {
+export function ReviewDTOToJSON(value?: ReviewDTO | null): any {
   if (value === undefined) {
     return undefined;
   }
@@ -72,8 +79,9 @@ export function TransactionDTOToJSON(value?: TransactionDTO | null): any {
     return null;
   }
   return {
+    approved: value.approved,
     id: value.id,
-    points: value.points,
+    message: value.message,
     user: UserDTOToJSON(value.user),
   };
 }

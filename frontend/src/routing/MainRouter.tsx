@@ -30,7 +30,11 @@ const MainRouter: React.FC<IProps> = (props) => {
         <Route
           exact
           path="/account"
-          component={authStore.auth !== null ? AccountPage : () => <Redirect to="/home" />}
+          component={
+            authStore.auth !== null
+              ? AccountPage
+              : () => <Redirect to="/home" />
+          }
         />
         <Route path="/auth" component={AuthRouter} />
         <Route
