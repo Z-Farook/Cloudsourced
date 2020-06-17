@@ -87,8 +87,8 @@ const columns = [
   },
   {
     title: "Current projects",
-    dataIndex: "project",
-    key: "project",
+    dataIndex: "projectName",
+    key: "projectName",
   },
 ];
 const columnsTasks = [
@@ -119,6 +119,7 @@ interface projectData {
   key: string;
   number: number;
   project: Project;
+  projectName: string;
 }
 const Dashboard: React.FC<IProps> = (props) => {
   const [projects, setProjects] = useState<IRemoteData<projectData[], null>>(
@@ -129,18 +130,18 @@ const Dashboard: React.FC<IProps> = (props) => {
   >(fromLoading());
   useEffect(() => {
     (async () => {
-      //TODO
-      // get projects from current user
       const result = await new ProjectResourceApi(
         api.config
       ).getProjectsByUserUsingGET();
-      console.log(result);
+
       const data: projectData[] = result.map((p, i) => ({
         key: i.toString(),
         number: i,
         project: p,
+        projectName: p.name ? p.name : "",
       }));
       let latestProject: projectData = data[0];
+
       data.forEach((dataPoint) => {
         if (latestProject) {
           if (latestProject.project.createdAt! > dataPoint.project.createdAt!) {
@@ -221,7 +222,10 @@ const Dashboard: React.FC<IProps> = (props) => {
         </Col>
         <Col span={6}>
           <Card>
-            <Title level={3} style={{ textAlign: "center" }}>
+            <Title
+              level={3}
+              style={{ textAlign: "center", marginTop: "-0.5em" }}
+            >
               Latest project
             </Title>
             {latestProject.data?.project ? (
@@ -239,24 +243,6 @@ const Dashboard: React.FC<IProps> = (props) => {
               </div>
             )}
           </Card>
-          {/* <Timeline>
-              <Timeline.Item color="green">
-                Create a services site 2015-09-01
-              </Timeline.Item>
-              <Timeline.Item color="green">
-                Create a services site 2015-09-01
-              </Timeline.Item>
-              <Timeline.Item color="red">
-                <p>Solve initial network problems 1</p>
-                <p>Solve initial network problems 2</p>
-                <p>Solve initial network problems 3 2015-09-01</p>
-              </Timeline.Item>
-              <Timeline.Item>
-                <p>Technical testing 1</p>
-                <p>Technical testing 2</p>
-                <p>Technical testing 3</p>
-              </Timeline.Item>
-            </Timeline> */}
         </Col>
       </Row>
       <Row justify="center" gutter={[24, 24]}>
