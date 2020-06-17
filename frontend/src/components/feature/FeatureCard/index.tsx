@@ -10,7 +10,7 @@ interface IProps extends RouteComponentProps {
   projectId: Number;
 }
 
-const FeatureCard: React.FC<IProps> = props => {
+const FeatureCard: React.FC<IProps> = (props) => {
   const { id, name, description, codeLanguage, codePreview } = props.data;
   const projectId = props.projectId;
 

@@ -8,7 +8,7 @@ import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import IRemoteData, {
   EState,
   fromLoaded,
-  fromLoading
+  fromLoading,
 } from "../../../core/IRemoteData";
 import { Feature, FeatureResourceApi } from "cloudsourced-api";
 
@@ -30,7 +30,7 @@ export interface IMockFeature {
   points: number;
 }
 
-const FeaturePage: React.FC<IProps> = props => {
+const FeaturePage: React.FC<IProps> = (props) => {
   const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
     fromLoading()
   );
@@ -38,14 +38,14 @@ const FeaturePage: React.FC<IProps> = props => {
   const { projectId, featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
-      featureId: Number(props.match.params.featureId)
+      featureId: Number(props.match.params.featureId),
     };
   }, [props.match.params]);
 
   useEffect(() => {
     (async () => {
       const result = await new FeatureResourceApi().getOneByIdUsingGET({
-        id: featureId
+        id: featureId,
       });
       setFeature(fromLoaded(result));
     })();
