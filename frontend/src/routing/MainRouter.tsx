@@ -3,7 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Switch,
-  Redirect,
+  Redirect
 } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -19,7 +19,7 @@ import AuthRouter from "./AuthRouter";
 
 interface IProps {}
 
-const MainRouter: React.FC<IProps> = (props) => {
+const MainRouter: React.FC<IProps> = props => {
   return (
     <Router>
       <Switch>
@@ -35,13 +35,18 @@ const MainRouter: React.FC<IProps> = (props) => {
         />
         <Route
           exact
-          path="/projects/:projectId/feature/add"
-          component={CreateFeaturePage}
+          path="/projects/:projectId/edit"
+          component={CreateProjectPage}
         />
         <Route
           exact
           path="/projects/:projectId"
           component={ProjectDetailPage}
+        />
+        <Route
+          exact
+          path="/projects/:projectId/feature/add"
+          component={CreateFeaturePage}
         />
         <Route
           exact

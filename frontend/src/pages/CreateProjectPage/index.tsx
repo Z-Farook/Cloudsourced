@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Button, Row, Col, message, Upload } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
@@ -7,11 +7,17 @@ import {
   ProjectResourceApi,
   Project,
   CreateNewUsingPOST2Request,
+  UpdateUsingPUT2Request,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
+import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
-interface IProps extends RouteComponentProps {}
+interface IRouterParams {
+  projectId?: string;
+}
+
+interface IProps extends RouteComponentProps<IRouterParams> {}
 
 type Inputs = {
   projectName: string;
@@ -19,6 +25,40 @@ type Inputs = {
 };
 
 const CreateProjectPage: React.FC<IProps> = (props) => {
+  let isEditing = false;
+  if (Number(props.match.params.projectId)) {
+    isEditing = true;
+  } else {
+    isEditing = false;
+  }
+  console.log(isEditing);
+
+  const projectId = Number(props.match.params.projectId);
+
+  const [project, setProject] = useState<IRemoteData<Project, null>>(
+    fromLoading()
+  );
+
+  useEffect(() => {
+    if (isEditing) {
+      (async () => {
+        const result = await new ProjectResourceApi(
+          api.config
+        ).getOneByIdUsingGET2({
+          id: projectId,
+        });
+        setProject(fromLoaded(result));
+      })();
+    }
+  }, [projectId]);
+
+  const { name: projectName, description, image: projectImage } =
+    project.data || {};
+
+  console.log(description, projectImage, projectName);
+
+  console.log(project.data);
+
   const { control, handleSubmit, errors } = useForm<Inputs>();
   const [image, setImage] = useState("");
 
@@ -57,27 +97,56 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
   };
 
   const handleProject = async (data: Inputs) => {
-    const params: CreateNewUsingPOST2Request = {
-      entity: {
-        description: data.description,
-        user: {},
-        name: data.projectName,
-        image: await postImage(image),
-      },
-    };
-    message.loading({ content: "Saving project...", key: "updatableKey" });
-    try {
-      const response = await new ProjectResourceApi(
-        api.config
-      ).createNewUsingPOST2(params);
-      message.success({
-        content: "Project is created succesfully!",
-        key: "updatableKey",
-        duration: 2,
-      });
-      props.history.push(`/projects/${response.id}`);
-    } catch (error) {
-      errorMessage();
+    if (!isEditing) {
+      const createParams: CreateNewUsingPOST2Request = {
+        projectDTO: {
+          id: projectId,
+          name: data.projectName,
+          description: data.description,
+          image: await postImage(image),
+        },
+      };
+
+      message.loading({ content: "Saving project...", key: "updatableKey" });
+      try {
+        const createResponse = await new ProjectResourceApi(
+          api.config
+        ).createNewUsingPOST2(createParams);
+
+        message.success({
+          content: "Project is created succesfully!",
+          key: "updatableKey",
+          duration: 2,
+        });
+        props.history.push(`/projects/${createResponse.id}`);
+      } catch (error) {
+        errorMessage();
+      }
+    } else {
+      const updateParams: UpdateUsingPUT2Request = {
+        entity: {
+          id: projectId,
+          name: data.projectName,
+          description: data.description,
+          image: await postImage(image),
+        },
+      };
+
+      message.loading({ content: "Saving project...", key: "updatableKey" });
+      try {
+        const updateResponse = await new ProjectResourceApi(
+          api.config
+        ).updateUsingPUT2(updateParams);
+
+        message.success({
+          content: "Project is created succesfully!",
+          key: "updatableKey",
+          duration: 2,
+        });
+        props.history.push(`/projects/${updateResponse.id}`);
+      } catch (error) {
+        errorMessage();
+      }
     }
   };
 
@@ -95,14 +164,14 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         <div className="Grid" style={{ padding: 20 }}>
           <Row justify="center" gutter={[24, 24]}>
             <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-              <Title>Create a new project</Title>
-
+              <Title>{isEditing ? "Edit" : "Create"}</Title>
               <form onSubmit={handleSubmit(handleProject)}>
                 <Controller
                   as={Input}
                   name="projectName"
                   control={control}
-                  defaultValue=""
+                  key={`${Math.floor(Math.random() * 1000)}-min`}
+                  defaultValue={projectName}
                   placeholder="Project name"
                   rules={{ required: true }}
                 />
@@ -117,7 +186,8 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   name="description"
                   placeholder="Description"
                   control={control}
-                  defaultValue=""
+                  key={`${Math.floor(Math.random() * 1000)}-min`}
+                  defaultValue={description}
                   rules={{ required: true }}
                 />
                 <ErrorMessage
@@ -135,10 +205,18 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                     getBase64(event.file.originFileObj as Blob)
                   }
                 >
-                  <img src={image} alt="avatar" style={{ width: "100%" }} />
+                  {isEditing ? (
+                    <img
+                      src={projectImage}
+                      alt="avatar"
+                      style={{ width: "100%" }}
+                    />
+                  ) : (
+                    <img src={image} alt="avatar" style={{ width: "100%" }} />
+                  )}
                 </Upload>
                 <Button type="primary" htmlType="submit" block>
-                  Submit
+                  {!isEditing ? "Submit" : "Update"}
                 </Button>
               </form>
               <h1>
