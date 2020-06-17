@@ -10,6 +10,14 @@ import io.cloudsourced.api.cloudsourcedapi.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+class ValidateTokenResult {
+    public boolean valid;
+
+    ValidateTokenResult(boolean valid) {
+        this.valid = valid;
+    }
+}
+
 @RestController
 @RequestMapping("/authentication")
 @RequiredArgsConstructor
@@ -35,7 +43,8 @@ public class AuthenticationResource {
     }
 
     @PostMapping("/validate-token/{token}")
-    boolean validateToken(@PathVariable String token) {
-        return service.validateToken(token);
+    ValidateTokenResult validateToken(@PathVariable String token) {
+        final boolean isValid = service.validateToken(token);
+        return new ValidateTokenResult(isValid);
     }
 }

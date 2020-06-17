@@ -18,6 +18,6 @@ public class Authentication extends BaseEntity{
 
     @PreUpdate
     protected void onUpdate() {
-        expireDate =  Instant.now().plus(5, ChronoUnit.MINUTES);
+        expireDate =  Instant.now().plus(7, ChronoUnit.DAYS);
     }
 }

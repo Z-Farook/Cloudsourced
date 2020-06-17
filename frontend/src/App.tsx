@@ -5,8 +5,8 @@ import AuthStore from "./stores/AuthStore";
 import {
   AuthenticationResourceApi,
   ValidateTokenUsingPOSTRequest,
-} from "../gen/api/src/apis";
-import { Authentication } from "../gen/api/src/models";
+} from "cloudsourced-api";
+import { Authentication } from "cloudsourced-api";
 
 require("dotenv").config();
 
@@ -17,15 +17,21 @@ const AppWrapper = () => {
     if (authItem === null) {
       return;
     }
-    const auth: Authentication = JSON.parse(authItem);
-    setAuth(auth);
 
     (async () => {
-      const isValid = new AuthenticationResourceApi().validateTokenUsingPOST({
-        token: auth.token!,
-      });
-      alert(isValid);
+      const auth: Authentication = JSON.parse(authItem);
+      const response = await new AuthenticationResourceApi().validateTokenUsingPOST(
+        {
+          token: auth.token!,
+        }
+      );
+      if (!response.valid) {
+        localStorage.removeItem("AUTH");
+        return;
+      }
+      setAuth(auth);
     })();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
