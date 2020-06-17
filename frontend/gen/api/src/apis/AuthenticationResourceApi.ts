@@ -36,10 +36,6 @@ export interface RegisterNewUserUsingPOSTRequest {
   registerUserDTO: RegisterUserDTO;
 }
 
-export interface ValidateTokenUsingPOSTRequest {
-  token: string;
-}
-
 /**
  *
  */
@@ -133,49 +129,6 @@ export class AuthenticationResourceApi extends runtime.BaseAPI {
     requestParameters: RegisterNewUserUsingPOSTRequest
   ): Promise<User> {
     const response = await this.registerNewUserUsingPOSTRaw(requestParameters);
-    return await response.value();
-  }
-
-  /**
-   * validateToken
-   */
-  async validateTokenUsingPOSTRaw(
-    requestParameters: ValidateTokenUsingPOSTRequest
-  ): Promise<runtime.ApiResponse<boolean>> {
-    if (
-      requestParameters.token === null ||
-      requestParameters.token === undefined
-    ) {
-      throw new runtime.RequiredError(
-        "token",
-        "Required parameter requestParameters.token was null or undefined when calling validateTokenUsingPOST."
-      );
-    }
-
-    const queryParameters: runtime.HTTPQuery = {};
-
-    const headerParameters: runtime.HTTPHeaders = {};
-
-    const response = await this.request({
-      path: `/authentication/validate-token/{token}`.replace(
-        `{${"token"}}`,
-        encodeURIComponent(String(requestParameters.token))
-      ),
-      method: "POST",
-      headers: headerParameters,
-      query: queryParameters,
-    });
-
-    return new runtime.TextApiResponse(response) as any;
-  }
-
-  /**
-   * validateToken
-   */
-  async validateTokenUsingPOST(
-    requestParameters: ValidateTokenUsingPOSTRequest
-  ): Promise<boolean> {
-    const response = await this.validateTokenUsingPOSTRaw(requestParameters);
     return await response.value();
   }
 }
