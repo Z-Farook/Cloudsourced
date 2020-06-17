@@ -6,13 +6,15 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
 @Entity
-@Table(name = "tbl_transation")
-public class Transaction extends BaseEntity{
-
-    private long points;
+@Data
+@Table(name="tbl_review")
+public class Review extends BaseEntity {
+    private Boolean approved;
+    private String message;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    private Implementation implementation;
+    @ManyToOne(cascade = CascadeType.MERGE)
     private User user;
 }

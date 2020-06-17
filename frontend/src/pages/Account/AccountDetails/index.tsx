@@ -21,7 +21,7 @@ const AccountDetails: React.FC<IProps> = (props) => {
       });
       setUser(fromLoaded(result));
     })();
-  });
+  }, []);
   return (
     <>
       {user.state === EState.Loading ? (

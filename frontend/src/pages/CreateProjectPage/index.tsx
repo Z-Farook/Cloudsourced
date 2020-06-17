@@ -57,13 +57,13 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
   };
 
   const handleProject = async (data: Inputs) => {
+    const project: Project = {
+      description: data.description,
+      name: data.projectName,
+      image: await postImage(image),
+    };
     const params: CreateNewUsingPOST2Request = {
-      entity: {
-        description: data.description,
-        user: {},
-        name: data.projectName,
-        image: await postImage(image),
-      },
+      project,
     };
     message.loading({ content: "Saving project...", key: "updatableKey" });
     try {

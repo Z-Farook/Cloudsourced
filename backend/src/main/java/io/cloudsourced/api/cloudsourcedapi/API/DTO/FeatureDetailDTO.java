@@ -5,11 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class FeatureDTO {
+public class FeatureDetailDTO {
     private Long id;
     private String name;
     private String description;
     private String codePreview;
     private String codeLanguage;
-
+    private List<ImplementationDTO> implementations;
 }

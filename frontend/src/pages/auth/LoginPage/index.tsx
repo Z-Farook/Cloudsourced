@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
-import { AuthenticationResourceApi, Configuration } from "cloudsourced-api";
+import { AuthenticationResourceApi } from "cloudsourced-api";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { api, saveAuthentication } from "../../../core/api";
+import { api } from "../../../core/api";
 import AuthStore from "../../../stores/AuthStore";
 
 const validationSchema = yup.object().shape({
@@ -52,6 +52,7 @@ const LoginPage: React.FC<IProps> = (props) => {
   useEffect(() => {
     register({ name: "email" });
     register({ name: "password" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

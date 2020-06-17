@@ -5,6 +5,6 @@ import io.cloudsourced.api.cloudsourcedapi.Entity.Implementation;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.factory.Mappers;
 
-@org.mapstruct.Mapper(componentModel = "spring", uses = { UserMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@org.mapstruct.Mapper(componentModel = "spring", uses = { UserMapper.class, ReviewMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ImplementationMapper extends Mapper<Implementation, ImplementationDTO> {
 }

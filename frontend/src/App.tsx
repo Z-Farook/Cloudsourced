@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import MainRouter from "./routing/MainRouter";
 import "./App.scss";
 import AuthStore from "./stores/AuthStore";
-import { api } from "./core/api";
+
 require("dotenv").config();
 
 const AppWrapper = () => {
   const { setAuth } = AuthStore.useContainer();
-
   useEffect(() => {
     const authItem = localStorage.getItem("AUTH");
     if (authItem === null) {
@@ -15,6 +14,7 @@ const AppWrapper = () => {
     }
     const auth = JSON.parse(authItem);
     setAuth(auth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <MainRouter />;
