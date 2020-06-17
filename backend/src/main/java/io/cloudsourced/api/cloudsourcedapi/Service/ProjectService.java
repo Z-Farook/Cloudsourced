@@ -13,11 +13,8 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
 
-    private final UserService userService;
-
-    public ProjectService(ProjectRepository repository, AuthenticatedUserBean authenticatedUserProvider, UserService userService) {
+    public ProjectService(ProjectRepository repository, AuthenticatedUserBean authenticatedUserProvider) {
         super(repository, authenticatedUserProvider);
-        this.userService = userService;
     }
 
     public List<Project> searchProjectName(String name) {
@@ -30,14 +27,7 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
 
     public Project saveWithUser(Project project) {
         User user = authenticatedUserProvider.GetUser();
-
-        List<Project> projects = user.getProjects();
-
-        projects.add(project);
-        user.setProjects(projects);
-
         project.setUser(user);
-
         return repository.save(project);
     }
 
