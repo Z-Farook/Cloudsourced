@@ -17,7 +17,7 @@ const AccountDetails: React.FC<IProps> = (props) => {
   useEffect(() => {
     (async () => {
       const result = await new UserResourceApi(api.config).getOneByIdUsingGET5({
-        id: 1,
+        id: 2,
       });
       setUser(fromLoaded(result));
     })();
@@ -99,7 +99,7 @@ const AccountDetails: React.FC<IProps> = (props) => {
                   <Col span={16}>
                     <Descriptions>
                       <Descriptions.Item span={16} label="Email">
-                        Zhou@email.com
+                        {user.data?.email}
                       </Descriptions.Item>
                       <Descriptions.Item span={16} label="Password">
                         ******
