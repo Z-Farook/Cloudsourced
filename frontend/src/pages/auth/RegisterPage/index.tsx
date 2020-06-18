@@ -49,9 +49,8 @@ const RegisterPage: React.FC<IProps> = (props) => {
             password: values.password,
           },
         });
-        props.history.push(`/auth/login`);
+        message.success("Your account has been created. you can now login!");
       } catch (err) {
-        console.log(err)
         message.error("Email already exists");
       }
     };
