@@ -44,7 +44,7 @@ public class AuthenticationProvider {
 
             }
         }
-        throw new UnauthorizedException();
+        throw new UnauthorizedException("TOKEN_NOT_VALID");
     }
 
     public String resolveToken(HttpServletRequest req) {
