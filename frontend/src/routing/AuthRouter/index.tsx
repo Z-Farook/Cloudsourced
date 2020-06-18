@@ -11,6 +11,7 @@ import RegisterPage from "../../pages/auth/RegisterPage";
 import AuthStore from "../../stores/AuthStore";
 import AccountPage from "../../pages/Account";
 import home from "../../pages/HomePage";
+import MainRouter from "../MainRouter";
 interface IProps extends RouteComponentProps {}
 
 const AuthRouter: React.FC<IProps> = (props) => {
@@ -24,15 +25,7 @@ const AuthRouter: React.FC<IProps> = (props) => {
           path={`${props.match.path}/register`}
           component={RegisterPage}
         />
-        <Route
-          exact
-          path="/account"
-          component={
-            authStore.auth !== null
-              ? AccountPage
-              : () => <Redirect to="/home" />
-          }
-        />
+        <Route exact path="/account" component={MainRouter} />
         <Route exact path="/home" component={home} />
       </Switch>
     </Router>
