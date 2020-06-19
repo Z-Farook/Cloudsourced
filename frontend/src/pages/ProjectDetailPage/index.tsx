@@ -18,16 +18,16 @@ interface IRouterParams {
 }
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
-//const authStore = AuthStore.useContainer();
-//const userId = authStore.auth?.userId;
 const ProjectDetailPage: React.FC<IProps> = (props) => {
+  const { auth } = AuthStore.useContainer();
+  const userId = auth?.userId;
   const projectId = Number(props.match.params.projectId);
 
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
     fromLoading()
   );
 
-  //const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +37,9 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
         id: projectId,
       });
       console.log(result);
-      //if(userId === result.user.id)setIsOwner(true);
+      if (userId === result.user?.id) {
+        setIsOwner(true);
+      }
       setProject(fromLoaded(result));
     })();
   }, [projectId]);
@@ -92,13 +94,17 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 );
               })}
 
-              <Button
-                onClick={() =>
-                  props.history.push(`/projects/${projectId}/feature/add`)
-                }
-              >
-                Create feature
-              </Button>
+              {isOwner ? (
+                <Button
+                  onClick={() =>
+                    props.history.push(`/projects/${projectId}/feature/add`)
+                  }
+                >
+                  Create feature
+                </Button>
+              ) : (
+                ""
+              )}
             </Col>
           </Row>
         </div>
