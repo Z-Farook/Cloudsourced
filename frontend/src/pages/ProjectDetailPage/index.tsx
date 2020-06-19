@@ -11,19 +11,23 @@ import IRemoteData, {
 } from "../../core/IRemoteData";
 import { ProjectDetailDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../core/api";
+import AuthStore from "../../stores/AuthStore";
 
 interface IRouterParams {
   projectId: string;
 }
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
-
+//const authStore = AuthStore.useContainer();
+//const userId = authStore.auth?.userId;
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const projectId = Number(props.match.params.projectId);
 
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
     fromLoading()
   );
+
+  //const [isOwner, setIsOwner] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -33,6 +37,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
         id: projectId,
       });
       console.log(result);
+      //if(userId === result.user.id)setIsOwner(true);
       setProject(fromLoaded(result));
     })();
   }, [projectId]);

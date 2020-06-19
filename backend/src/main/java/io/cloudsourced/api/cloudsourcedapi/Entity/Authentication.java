@@ -15,7 +15,8 @@ public class Authentication extends BaseEntity{
     private String token;
     @Setter(AccessLevel.NONE)
     private Instant expireDate;
-
+    @Setter()
+    private long userId;
     @PreUpdate
     protected void onUpdate() {
         expireDate =  Instant.now().plus(7, ChronoUnit.DAYS);
