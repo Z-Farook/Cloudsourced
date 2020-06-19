@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Button, Row, Col, message, Upload } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
@@ -6,30 +6,65 @@ import Title from "antd/lib/typography/Title";
 import {
   ProjectResourceApi,
   ProjectDTO,
-  CreateNewUsingPOST2Request,
+  UpdateUsingPUT2Request,
   AddUsingPOSTRequest,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
+import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
-interface IProps extends RouteComponentProps {}
+import noImage from "../../assets/noimage.png";
+
+interface IRouterParams {
+  projectId?: string;
+}
+
+interface IProps extends RouteComponentProps<IRouterParams> {}
 
 type Inputs = {
   projectName: string;
   description: string;
 };
 
-const CreateProjectPage: React.FC<IProps> = (props) => {
-  const { control, handleSubmit, errors } = useForm<Inputs>();
+const ProjectFormPage: React.FC<IProps> = (props) => {
+  let isEditing = false;
+  if (Number(props.match.params.projectId)) {
+    isEditing = true;
+  } else {
+    isEditing = false;
+  }
+
+  const projectId = Number(props.match.params.projectId);
+
+  const [project, setProject] = useState<IRemoteData<ProjectDTO, null>>(
+    fromLoading()
+  );
+
+  useEffect(() => {
+    if (isEditing) {
+      (async () => {
+        const result = await new ProjectResourceApi(
+          api.config
+        ).getOneByIdUsingGET2({
+          id: projectId,
+        });
+        if (result.name) setValue("projectName", result.name!);
+        if (result.description) setValue("description", result.description!);
+        if (result.image) setImage(result.image!);
+        setProject(fromLoaded(result));
+      })();
+    }
+  }, [projectId]);
+
+  const { control, handleSubmit, errors, setValue } = useForm<Inputs>();
+
   const [image, setImage] = useState("");
 
   const getBase64 = (image: Blob) => {
     const reader = new FileReader();
-
     reader.addEventListener("load", () => {
       setImage(reader.result as string);
     });
-
     reader.readAsDataURL(image);
   };
 
@@ -50,7 +85,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     try {
       const response = await fetch(url, requestOptions);
       const data = await response.json();
-      console.log(data);
       return data!.data!.link;
     } catch (e) {
       errorMessage();
@@ -64,23 +98,59 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       name: data.projectName,
       image: await postImage(image),
     };
-    const params: AddUsingPOSTRequest = {
-      projectDTO: project,
-    };
-    message.loading({ content: "Saving project...", key: "updatableKey" });
-    try {
-      const response = await new ProjectResourceApi(api.config).addUsingPOST(
-        params
-      );
-      message.success({
-        content: "Project is created succesfully!",
-        key: "updatableKey",
-        duration: 2,
-      });
-      props.history.push(`/projects/${response.id}`);
-    } catch (error) {
-      errorMessage();
+    if (!isEditing) {
+      const params: AddUsingPOSTRequest = {
+        projectDTO: project,
+      };
+      message.loading({ content: "Saving project...", key: "updatableKey" });
+      try {
+        const response = await new ProjectResourceApi(api.config).addUsingPOST(
+          params
+        );
+        message.success({
+          content: "Project is created succesfully!",
+          key: "updatableKey",
+          duration: 2,
+        });
+        props.history.push(`/projects/${response.id}`);
+      } catch (error) {
+        errorMessage();
+      }
+    } else {
+      const updateParams: UpdateUsingPUT2Request = {
+        id: projectId,
+        dto: {
+          name: data.projectName,
+          description: data.description,
+          image: await postImage(image),
+        },
+      };
+
+      loadMessage();
+      try {
+        const updateResponse = await new ProjectResourceApi(
+          api.config
+        ).updateUsingPUT2(updateParams);
+        successMessage();
+        props.history.push(`/projects/${updateResponse.id}`);
+      } catch (error) {
+        errorMessage();
+      }
     }
+  };
+
+  const successMessage = () => {
+    message.success({
+      content: isEditing
+        ? "Project is updated succesfully!"
+        : "Project is created succesfully!",
+      key: "updatableKey",
+      duration: 2,
+    });
+  };
+
+  const loadMessage = () => {
+    message.loading({ content: "Saving project...", key: "updatableKey" });
   };
 
   const errorMessage = () => {
@@ -97,14 +167,12 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         <div className="Grid" style={{ padding: 20 }}>
           <Row justify="center" gutter={[24, 24]}>
             <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-              <Title>Create a new project</Title>
-
+              <Title>{isEditing ? "Edit" : "Create"}</Title>
               <form onSubmit={handleSubmit(handleProject)}>
                 <Controller
                   as={Input}
                   name="projectName"
                   control={control}
-                  defaultValue=""
                   placeholder="Project name"
                   rules={{ required: true }}
                 />
@@ -117,9 +185,8 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                 <Controller
                   as={Input}
                   name="description"
-                  placeholder="Description"
                   control={control}
-                  defaultValue=""
+                  placeholder="Description"
                   rules={{ required: true }}
                 />
                 <ErrorMessage
@@ -127,6 +194,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   name="description"
                   message="A description is required"
                 />
+
                 <Upload
                   name="avatar"
                   listType="picture-card"
@@ -137,10 +205,15 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                     getBase64(event.file.originFileObj as Blob)
                   }
                 >
-                  <img src={image} alt="avatar" style={{ width: "100%" }} />
+                  <img
+                    src={image ? image : noImage}
+                    alt="avatar"
+                    style={{ width: "100%" }}
+                  />
                 </Upload>
+
                 <Button type="primary" htmlType="submit" block>
-                  Submit
+                  {isEditing ? "Update" : "Submit"}
                 </Button>
               </form>
             </Col>
@@ -150,4 +223,4 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     </DefaultLayout>
   );
 };
-export default CreateProjectPage;
+export default ProjectFormPage;

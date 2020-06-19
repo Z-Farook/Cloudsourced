@@ -12,7 +12,7 @@ import ProjectPage from "../pages/ProjectPage";
 import FeaturePage from "../pages/ProjectPage/FeaturePage";
 
 import AccountPage from "../pages/Account";
-import CreateProjectPage from "../pages/CreateProjectPage";
+import ProjectFormPage from "../pages/ProjectFormPage";
 import CreateFeaturePage from "../pages/CreateFeaturePage";
 import FeatureImplPage from "../pages/ProjectPage/FeaturePage/FeatureImplPage";
 import AuthRouter from "./AuthRouter";
@@ -37,20 +37,21 @@ const MainRouter: React.FC<IProps> = (props) => {
           }
         />
         <Route path="/auth" component={AuthRouter} />
+        <Route exact path="/user/project/create" component={ProjectFormPage} />
         <Route
           exact
-          path="/user/project/create"
-          component={CreateProjectPage}
-        />
-        <Route
-          exact
-          path="/projects/:projectId/feature/add"
-          component={CreateFeaturePage}
+          path="/projects/:projectId/edit"
+          component={ProjectFormPage}
         />
         <Route
           exact
           path="/projects/:projectId"
           component={ProjectDetailPage}
+        />
+        <Route
+          exact
+          path="/projects/:projectId/feature/add"
+          component={CreateFeaturePage}
         />
         <Route
           exact

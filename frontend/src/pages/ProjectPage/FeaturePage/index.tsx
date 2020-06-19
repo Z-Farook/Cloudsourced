@@ -10,7 +10,7 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../core/IRemoteData";
-import { ProjectDTO, FeatureResourceApi, FeatureDTO } from "cloudsourced-api";
+import { FeatureDTO, FeatureResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
 
 const { Title, Paragraph } = Typography;
