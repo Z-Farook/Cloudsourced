@@ -9,7 +9,7 @@ import IRemoteData, {
   fromLoading,
   EState,
 } from "../../core/IRemoteData";
-import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { ProjectDetailDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../core/api";
 
 interface IRouterParams {
@@ -21,7 +21,7 @@ export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const projectId = Number(props.match.params.projectId);
 
-  const [project, setProject] = useState<IRemoteData<Project, null>>(
+  const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
     fromLoading()
   );
 

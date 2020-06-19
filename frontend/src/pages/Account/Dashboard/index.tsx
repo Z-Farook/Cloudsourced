@@ -23,7 +23,7 @@ import IRemoteData, {
   fromLoading,
   fromLoaded,
 } from "../../../core/IRemoteData";
-import { Project, ProjectResourceApi, ProjectDTO } from "cloudsourced-api";
+import { ProjectResourceApi, ProjectDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 
@@ -108,7 +108,7 @@ const columnsTransactions = [
 interface projectData {
   key: string;
   number: number;
-  project: Project;
+  project: ProjectDTO;
   projectName: string;
   id: number;
 }

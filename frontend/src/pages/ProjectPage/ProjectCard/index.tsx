@@ -4,10 +4,10 @@ import { Card, Avatar } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
-import { Project } from "cloudsourced-api";
+import { ProjectDTO } from "cloudsourced-api";
 import noImage from "../../../assets/noimage.png";
 export interface IProps {
-  project: Project;
+  project: ProjectDTO;
 }
 
 const ProjectCard: React.FC<IProps> = (props) => {

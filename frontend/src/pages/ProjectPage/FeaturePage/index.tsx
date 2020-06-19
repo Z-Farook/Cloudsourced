@@ -10,7 +10,7 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../core/IRemoteData";
-import { Feature, FeatureResourceApi } from "cloudsourced-api";
+import { FeatureDTO, FeatureResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
 
 const { Title, Paragraph } = Typography;
@@ -32,7 +32,7 @@ export interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
-  const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
+  const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
 
