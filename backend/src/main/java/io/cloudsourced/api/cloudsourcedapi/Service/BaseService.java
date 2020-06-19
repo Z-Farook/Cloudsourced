@@ -1,5 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Default.Exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import java.util.List;
 public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implements Service<Entity> {
 
     public final P repository;
+    public final AuthenticatedUserBean authenticatedUserProvider;
 
     @Override
     public Entity getOneById(Long id) {
@@ -27,13 +29,7 @@ public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implemen
     }
 
     @Override
-    public Entity update(Long id, Entity e) {
-        return null;
-    }
-
-    @Override
     public void delete(Long id) {
-            repository.delete(getOneById(id));
+        repository.deleteById(id);
     }
-
 }

@@ -1,6 +1,5 @@
 package io.cloudsourced.api.cloudsourcedapi.API.Resource;
 
-
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.Mapper;
 import io.cloudsourced.api.cloudsourcedapi.Service.BaseService;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +14,26 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
     public final S service;
     public final DTOMapper mapper;
 
-    @GetMapping("{id}")
     @Override
+    @GetMapping("/{id}")
     public DTO getOneById(@PathVariable Long id) {
         return mapper.entityToDTO(service.getOneById(id));
     }
 
-    @PostMapping("")
     @Override
-    public Entity createNew(@RequestBody Entity entity) {
-        return service.save(entity);
+    @PostMapping("")
+    public DTO createNew(@RequestBody DTO dto) {
+        return mapper.entityToDTO(service.save(mapper.DTOToEntity(dto)));
+    }
+
+    @Override
+    @PutMapping("/{id}")
+    public DTO update(@RequestBody DTO dto, @PathVariable Long id) {
+        Entity originalEntity = service.getOneById(id);
+        Entity incomingEntity = mapper.DTOToEntity(dto);
+        Entity updatedEntity = mapper.updateEntityFromEntity(originalEntity, incomingEntity);
+
+        return mapper.entityToDTO(service.save(updatedEntity));
     }
 
     @Override
@@ -38,5 +47,4 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
     public void delete(Long id) {
         service.delete(id);
     }
-
 }

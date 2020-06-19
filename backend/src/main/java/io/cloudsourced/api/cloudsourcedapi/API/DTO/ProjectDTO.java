@@ -1,8 +1,8 @@
 package io.cloudsourced.api.cloudsourcedapi.API.DTO;
 
-import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -11,6 +11,7 @@ public class ProjectDTO {
     private String name;
     private String description;
     private String image;
-    private List<Feature> features;
-    private UserDTO user;
+    private Instant createdAt;
+    private Instant updatedAt;
 }
+

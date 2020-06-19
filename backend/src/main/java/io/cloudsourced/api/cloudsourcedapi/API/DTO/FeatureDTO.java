@@ -2,6 +2,8 @@ package io.cloudsourced.api.cloudsourcedapi.API.DTO;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class FeatureDTO {
     private Long id;
@@ -9,4 +11,5 @@ public class FeatureDTO {
     private String description;
     private String codePreview;
     private String codeLanguage;
+
 }

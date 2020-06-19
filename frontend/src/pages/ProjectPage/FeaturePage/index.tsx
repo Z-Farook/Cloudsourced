@@ -4,9 +4,14 @@ import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Button, Spin, Typography } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import IRemoteData, { EState, fromLoaded, fromLoading } from "../../../core/IRemoteData";
-import { Feature, FeatureResourceApi, GetOneByIdUsingGET1Request } from "cloudsourced-api";
+import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import IRemoteData, {
+  EState,
+  fromLoaded,
+  fromLoading,
+} from "../../../core/IRemoteData";
+import { FeatureDTO, FeatureResourceApi } from "cloudsourced-api";
+import { api } from "../../../core/api";
 
 const { Title, Paragraph } = Typography;
 
@@ -27,27 +32,27 @@ export interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
-  const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
+  const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
 
-  const { featureId } = useMemo(() => {
+  const { projectId, featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
       featureId: Number(props.match.params.featureId),
     };
   }, [props.match.params]);
 
-  const featureIdRequest: GetOneByIdUsingGET1Request = { id: featureId };
-
   useEffect(() => {
     (async () => {
-      const result = await new FeatureResourceApi().getOneByIdUsingGET(
-        featureIdRequest
-      );
-      setFeature(fromLoaded(result))
+      const result = await new FeatureResourceApi(
+        api.config
+      ).getOneByIdUsingGET({
+        id: featureId,
+      });
+      setFeature(fromLoaded(result));
     })();
-  }, [featureIdRequest]);
+  }, [featureId]);
 
   return (
     <DefaultLayout>
@@ -70,7 +75,16 @@ const FeaturePage: React.FC<IProps> = (props) => {
               {feature.data!.codePreview}
             </SyntaxHighlighter>
 
-            <Button style={{ marginTop: 10 }}>Provide implementation</Button>
+            <Button
+              style={{ marginTop: 10 }}
+              onClick={() => {
+                props.history.push(
+                  `/projects/${projectId}/features/${featureId}/implementation`
+                );
+              }}
+            >
+              Provide implementation
+            </Button>
           </div>
         ) : (
           <div>Whoops!</div>

@@ -1,5 +1,8 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
+import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDTO;
+import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
+import io.cloudsourced.api.cloudsourcedapi.Default.Exception.NotFoundException;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
@@ -10,12 +13,8 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
 
-
-    private final UserService userService;
-
-    public ProjectService(ProjectRepository repository, UserService userService) {
-        super(repository);
-        this.userService = userService;
+    public ProjectService(ProjectRepository repository, AuthenticatedUserBean authenticatedUserProvider) {
+        super(repository, authenticatedUserProvider);
     }
 
     public List<Project> searchProjectName(String name) {
@@ -26,13 +25,18 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         return repository.save(project);
     }
 
-    //TODO: This function is for development purposes only and needs to go when we can get the user from the session
-    public Project saveWithUser(Long id, Project project) {
-        User user = userService.getOneById(id); //.get();
-
+    public Project saveWithUser(Project project) {
+        User user = authenticatedUserProvider.GetUser();
         project.setUser(user);
-
         return repository.save(project);
     }
 
+    public Project getProjectDetailById(long id){
+        return repository.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+    public List<Project> getProjectsByUser(){
+        User user = authenticatedUserProvider.GetUser();
+        return repository.findByUser(user);
+    }
 }
