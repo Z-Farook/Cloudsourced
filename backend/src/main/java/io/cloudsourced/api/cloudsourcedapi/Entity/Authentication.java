@@ -12,14 +12,13 @@ import java.time.temporal.ChronoUnit;
 @Table(name="tbl_authentication")
 public class Authentication extends BaseEntity{
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
     private String token;
     @Setter(AccessLevel.NONE)
     private Instant expireDate;
-
+    @Setter()
+    private long userId;
     @PreUpdate
     protected void onUpdate() {
-        expireDate =  Instant.now().plus(5, ChronoUnit.MINUTES);
+        expireDate =  Instant.now().plus(7, ChronoUnit.DAYS);
     }
 }

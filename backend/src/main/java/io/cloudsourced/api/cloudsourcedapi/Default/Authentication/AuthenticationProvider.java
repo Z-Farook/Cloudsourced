@@ -28,23 +28,27 @@ public class AuthenticationProvider {
     static SecureRandom rnd = new SecureRandom();
     int tokenLength = 40;
 
-    public Boolean validateToken(String token){
+    public Boolean validateToken(String token) {
         Optional<Authentication> authentication = authenticationRepository.findTopByToken(token);
         return authentication.filter(value -> value.getExpireDate().compareTo(Instant.now()) > 0).isPresent();
     }
 
-    public User getUserByToken(String token){
-        if(validateToken(token)){
+    public User getUserByToken(String token) {
+        if (validateToken(token)) {
             Optional<Authentication> authentication = authenticationRepository.findTopByToken(token);
             if(authentication.isPresent()) {
-                return authentication.get().getUser();
+                Optional<User> user = userRepository.findTopByAuthentication(authentication.get());
+                if(user.isPresent()){
+                    return user.get();
+                }
+
             }
         }
         throw new UnauthorizedException();
     }
 
     public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authentication");
+        String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.length() == tokenLength) {
             return bearerToken;
         }
@@ -53,32 +57,40 @@ public class AuthenticationProvider {
 
     public org.springframework.security.core.Authentication getAuthentication(String token) {
         User user = getUserByToken(token);
-        return new UsernamePasswordAuthenticationToken(user, "", null);
+        System.out.print(user.getPassword());
+        return new UsernamePasswordAuthenticationToken(null, user, null);
     }
 
-    public Authentication getAuthenticationByEmailAndPassword(String email, String password){
+    public Authentication getAuthenticationByEmailAndPassword(String email, String password) {
         Optional<User> user = userRepository.findTopByEmail(email);
-        if(user.isPresent()){
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            if(passwordEncoder.matches(password, user.get().getPassword())){
-                Authentication authentication = user.get().getAuthentication();
-                if (authentication != null){
-                    if (authentication.getExpireDate() != null && authentication.getToken() != null){
-                        if(authentication.getExpireDate().compareTo(Instant.now()) > 0){
-                            return authentication;
-                        }
-                    }
-                    return withNewToken(authentication);
-                }
-            }
+        if (!user.isPresent()) {
+            throw new UnauthorizedException("EMAIL_OR_PASSWORD_INCORRECT");
         }
-        throw new NotFoundException();
-    }
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(password, user.get().getPassword())) {
+            throw new UnauthorizedException("EMAIL_OR_PASSWORD_INCORRECT");
+        }
 
-    private Authentication withNewToken(Authentication authentication){
+        Authentication authentication = user.get().getAuthentication();
+        authentication.setUserId(user.get().getId());
+
+        if (authentication == null) {
+            throw new UnauthorizedException("AUTH_NOT_FOUND");
+        }
+
+        if (authentication.getExpireDate() == null || authentication.getToken() == null) {
+            return withNewToken(authentication);
+        }
+        if (authentication.getExpireDate().compareTo(Instant.now()) > 0) {
+            return authentication;
+        }
+
+        return withNewToken(authentication);
+    }
+    private Authentication withNewToken(Authentication authentication) {
         String generatedToken = generateToken();
 
-        if(isTokenUnique(generatedToken)){
+        if (isTokenUnique(generatedToken)) {
             authentication.setToken(generatedToken);
             authenticationRepository.save(authentication);
             return authentication;
@@ -86,14 +98,15 @@ public class AuthenticationProvider {
         return withNewToken(authentication);
     }
 
-    private Boolean isTokenUnique(String token){;
+    private Boolean isTokenUnique(String token) {
+        ;
         return !authenticationRepository.findTopByToken(token).isPresent();
     }
 
-    private String generateToken(){
-        StringBuilder stringBuilder = new StringBuilder( tokenLength );
-        for( int i = 0; i < tokenLength; i++ )
-            stringBuilder.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+    private String generateToken() {
+        StringBuilder stringBuilder = new StringBuilder(tokenLength);
+        for (int i = 0; i < tokenLength; i++)
+            stringBuilder.append(AB.charAt(rnd.nextInt(AB.length())));
         return stringBuilder.toString();
     }
 }

@@ -1,20 +1,27 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../../components/layout/DefaultLayout";
-import MonacoEditor from "react-monaco-editor";
+import Editor from "@monaco-editor/react";
 import IRemoteData, {
   EState,
   fromLoaded,
   fromLoading,
 } from "../../../../core/IRemoteData";
-import { Feature } from "../../../../../gen/api/dist/models";
+
 import { Button, Spin, Form } from "antd";
-import { FeatureResourceApi } from "cloudsourced-api";
+import { FeatureResourceApi, FeatureDTO } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
+import { api } from "../../../../core/api";
 
 const validationSchema = yup.object().shape({
   code: yup.string().required("Code is a required field"),
@@ -33,12 +40,13 @@ interface IEditorDimensions {
 }
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
+  const editorRef = useRef<any>();
   const { handleSubmit, errors, control, setValue, getValues } = useForm({
     validationSchema,
   });
   const onSubmit = useCallback((data) => alert(JSON.stringify(data)), []);
 
-  const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
+  const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
 
@@ -56,7 +64,9 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new FeatureResourceApi().getOneByIdUsingGET({
+      const result = await new FeatureResourceApi(
+        api.config
+      ).getOneByIdUsingGET({
         id: featureId,
       });
       setFeature(fromLoaded(result));
@@ -120,7 +130,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
                     name="code"
                     control={control}
                     as={
-                      <MonacoEditor
+                      <Editor
                         width={`${
                           editorDimensions == null ? 0 : editorDimensions.width
                         }px`}
@@ -129,9 +139,15 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
                         }px`}
                         language={feature.data!.codeLanguage}
                         theme="vs-dark"
-                        value={getValues("code")}
                         options={options}
-                        onChange={(x) => setValue("code", x)}
+                        value={getValues("code")}
+                        editorDidMount={(_, editor) => {
+                          editorRef.current = editor;
+                          editorRef.current.onDidChangeModelContent(() => {
+                            const value = editorRef.current.getValue();
+                            setValue("code", value);
+                          });
+                        }}
                       />
                     }
                   />

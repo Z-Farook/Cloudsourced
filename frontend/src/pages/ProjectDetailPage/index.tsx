@@ -2,33 +2,42 @@ import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { Typography, Row, Col, Divider, Spin, Button } from "antd";
-
+import noImage from "../../assets/noimage.png";
 import FeatureCard from "../../components/feature/FeatureCard";
 import IRemoteData, {
   fromLoaded,
   fromLoading,
   EState,
 } from "../../core/IRemoteData";
-import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { ProjectDetailDTO, ProjectResourceApi } from "cloudsourced-api";
+import { api } from "../../core/api";
+import AuthStore from "../../stores/AuthStore";
 
 interface IRouterParams {
   projectId: string;
 }
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
-
+//const authStore = AuthStore.useContainer();
+//const userId = authStore.auth?.userId;
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const projectId = Number(props.match.params.projectId);
 
-  const [project, setProject] = useState<IRemoteData<Project, null>>(
+  const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
     fromLoading()
   );
 
+  //const [isOwner, setIsOwner] = useState<boolean>(false);
+
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi().getOneByIdUsingGET1({
+      const result = await new ProjectResourceApi(
+        api.config
+      ).getProjectDetailByIdUsingGET({
         id: projectId,
       });
+      console.log(result);
+      //if(userId === result.user.id)setIsOwner(true);
       setProject(fromLoaded(result));
     })();
   }, [projectId]);
@@ -49,11 +58,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   <img
                     alt="example"
                     className="image"
-                    src={
-                      image
-                        ? image
-                        : "https://source.unsplash.com/400x300/?code,pc"
-                    }
+                    src={image ? image : noImage}
                   />
                 </Col>
                 <Col span={12}>
