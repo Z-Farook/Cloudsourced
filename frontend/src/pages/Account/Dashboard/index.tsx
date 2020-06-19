@@ -157,21 +157,12 @@ const Dashboard: React.FC<IProps> = (props) => {
         projectName: p.name ? p.name : "",
         id: p.id ? p.id : 0,
       }));
-      let latestProject: projectData = data[0];
 
-      data.forEach((dataPoint) => {
-        if (latestProject) {
-          if (latestProject.project.createdAt! > dataPoint.project.createdAt!) {
-            latestProject = dataPoint;
-          }
-        } else {
-          latestProject = dataPoint;
-        }
+      data.sort((a, b) => {
+        return b.project.createdAt!.getTime() - a.project.createdAt!.getTime();
       });
-
-      data.find((p) => p.project.updatedAt);
       setProjects(fromLoaded(data));
-      setLatestProjects(fromLoaded(latestProject));
+      setLatestProjects(fromLoaded(data[0]));
     })();
   }, []);
   return (

@@ -143,14 +143,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   Submit
                 </Button>
               </form>
-              <h1>
-                <br />
-                Disclaimer:
-                <br />
-                Currently adds project to user with id: 1. <br />
-                If no user exists throws error. <br /> This is fixed if
-                authentication is completed!
-              </h1>
             </Col>
           </Row>
         </div>
