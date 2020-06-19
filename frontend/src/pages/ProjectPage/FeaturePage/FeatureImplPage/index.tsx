@@ -13,9 +13,9 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../../core/IRemoteData";
-import { Feature } from "../../../../../gen/api/dist/models";
+
 import { Button, Spin, Form } from "antd";
-import { FeatureResourceApi } from "cloudsourced-api";
+import { FeatureResourceApi, FeatureDTO } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
@@ -46,7 +46,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
   });
   const onSubmit = useCallback((data) => alert(JSON.stringify(data)), []);
 
-  const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
+  const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
 

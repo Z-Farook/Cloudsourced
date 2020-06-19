@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Button, PageHeader, BackTop, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Spin } from "antd";
-import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { ProjectDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import IRemoteData, {
   EState,
@@ -15,7 +15,7 @@ import ProjectCard from "../../ProjectPage/ProjectCard/";
 interface IProps extends RouteComponentProps {}
 
 const MyProjects: React.FC<IProps> = (props) => {
-  const [projects, setProjects] = useState<IRemoteData<Project[], null>>(
+  const [projects, setProjects] = useState<IRemoteData<ProjectDTO[], null>>(
     fromLoading()
   );
   const sort = (value: string) => {

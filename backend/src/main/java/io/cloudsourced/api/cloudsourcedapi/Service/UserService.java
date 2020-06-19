@@ -33,4 +33,8 @@ public class UserService extends BaseService<User, UserRepository> {
         user.setPassword(passwordEncoder.encode(pass));
         return user;
     }
+
+    public User getAuthenticatedUserInfo(){
+        return authenticatedUserProvider.GetUser();
+    }
 }

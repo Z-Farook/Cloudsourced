@@ -5,7 +5,7 @@ import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
 import {
   ProjectResourceApi,
-  Project,
+  ProjectDTO,
   CreateNewUsingPOST2Request,
   AddUsingPOSTRequest,
 } from "cloudsourced-api";
@@ -59,7 +59,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
   };
 
   const handleProject = async (data: Inputs) => {
-    const project: Project = {
+    const project: ProjectDTO = {
       description: data.description,
       name: data.projectName,
       image: await postImage(image),
