@@ -21,15 +21,10 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
         User user = authenticatedUserProvider.GetUser();
         Project project = projectService.getOneById(id);
 
-        if (!user.getId().equals(project.getUser().getId())) {
-            throw new UnauthorizedException("AUTHENTICATED_USER_IS_NOT_THE_PROJECT_OWNER");
-        }
-
         List<Feature> features = project.getFeatures();
         features.add(feature);
         project.setFeatures(features);
 
-        feature.setUser(user);
         feature.setProject(project);
 
         return repository.save(feature);
