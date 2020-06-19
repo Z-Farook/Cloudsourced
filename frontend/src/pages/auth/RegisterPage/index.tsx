@@ -31,7 +31,8 @@ const validationSchema = yup.object().shape({
   password: yup.string().required("Password is a required field"),
   repeatPassword: yup
     .string()
-    .oneOf([yup.ref("password")], "Passwords must match"),
+    .oneOf([yup.ref("password"), undefined], "Passwords don't match")
+    .required("Confirm Password is required"),
 });
 
 interface IValues {
@@ -86,6 +87,7 @@ const RegisterPage: React.FC<IProps> = (props) => {
     register({ name: "telephone" });
     register({ name: "email" });
     register({ name: "password" });
+    register({ name: "repeatPassword" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
