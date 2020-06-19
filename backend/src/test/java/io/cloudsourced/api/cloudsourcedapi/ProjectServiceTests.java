@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
+//@RunWith(JUnitPlatform.class)
 public class ProjectServiceTests {
 
     @InjectMocks

@@ -161,7 +161,7 @@ const Dashboard: React.FC<IProps> = (props) => {
 
       data.forEach((dataPoint) => {
         if (latestProject) {
-          if (latestProject.project.createdAt! > dataPoint.project.createdAt!) {
+          if (latestProject.project.createdAt! < dataPoint.project.createdAt!) {
             latestProject = dataPoint;
           }
         } else {
