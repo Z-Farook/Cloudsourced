@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Col, Row, Spin, Typography } from "antd";
-import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { Col, Row, Spin, Typography, Select, PageHeader } from "antd";
+import { ProjectDTO, ProjectResourceApi } from "cloudsourced-api";
 import IRemoteData, {
   EState,
   fromLoaded,
@@ -15,10 +15,29 @@ import { api } from "../../core/api";
 interface IProps extends RouteComponentProps {}
 
 const ProjectPage: React.FC<IProps> = (props) => {
-  const [projects, setProjects] = useState<IRemoteData<Project[], null>>(
+  const [projects, setProjects] = useState<IRemoteData<ProjectDTO[], null>>(
     fromLoading()
   );
-
+  const sort = (value: string) => {
+    if (value === "Ascending") {
+      setProjects(
+        fromLoaded(
+          projects.data!.sort((a, b) => {
+            return a.createdAt!.getTime() - b.createdAt!.getTime();
+          })
+        )
+      );
+    } else {
+      setProjects(
+        fromLoaded(
+          projects.data!.sort((a, b) => {
+            return b.createdAt!.getTime() - a.createdAt!.getTime();
+          })
+        )
+      );
+    }
+  };
+  const { Option } = Select;
   useEffect(() => {
     (async () => {
       const result = await new ProjectResourceApi(api.config).allUsingGET2();
@@ -29,9 +48,20 @@ const ProjectPage: React.FC<IProps> = (props) => {
 
   return (
     <DefaultLayout>
-      <div style={{ padding: 20 }}>
-        <Typography.Title>Projecten</Typography.Title>
-      </div>
+      <PageHeader
+        className="site-page-header"
+        title="Projects"
+        extra={[
+          <Select
+            defaultValue="Ascending"
+            style={{ width: 120 }}
+            onChange={sort}
+          >
+            <Option value="Ascending">Ascending</Option>
+            <Option value="Descending">Descending</Option>
+          </Select>,
+        ]}
+      />
       {projects.state === EState.Loading ? (
         <Spin />
       ) : (

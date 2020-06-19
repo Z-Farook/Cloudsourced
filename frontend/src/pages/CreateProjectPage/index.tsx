@@ -5,7 +5,7 @@ import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
 import {
   ProjectResourceApi,
-  Project,
+  ProjectDTO,
   CreateNewUsingPOST2Request,
   UpdateUsingPUT2Request,
 } from "cloudsourced-api";
@@ -35,7 +35,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
 
   const projectId = Number(props.match.params.projectId);
 
-  const [project, setProject] = useState<IRemoteData<Project, null>>(
+  const [project, setProject] = useState<IRemoteData<ProjectDTO, null>>(
     fromLoading()
   );
 
@@ -79,7 +79,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: process.env.IMGUR_API_KEY!,
+        Authorization: "Client-ID 2b1eae61348c066",
       },
       body: JSON.stringify({
         image,
@@ -89,6 +89,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     try {
       const response = await fetch(url, requestOptions);
       const data = await response.json();
+      console.log(data);
       return data!.data!.link;
     } catch (e) {
       errorMessage();
@@ -99,7 +100,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
   const handleProject = async (data: Inputs) => {
     if (!isEditing) {
       const createParams: CreateNewUsingPOST2Request = {
-        projectDTO: {
+        dto: {
           id: projectId,
           name: data.projectName,
           description: data.description,
@@ -124,8 +125,8 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
       }
     } else {
       const updateParams: UpdateUsingPUT2Request = {
-        entity: {
-          id: projectId,
+        id: projectId,
+        dto: {
           name: data.projectName,
           description: data.description,
           image: await postImage(image),
@@ -219,14 +220,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   {!isEditing ? "Submit" : "Update"}
                 </Button>
               </form>
-              <h1>
-                <br />
-                Disclaimer:
-                <br />
-                Currently adds project to user with id: 1. <br />
-                If no user exists throws error. <br /> This is fixed if
-                authentication is completed!
-              </h1>
             </Col>
           </Row>
         </div>

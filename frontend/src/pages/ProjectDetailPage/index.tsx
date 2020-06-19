@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { Typography, Row, Col, Divider, Spin, Button } from "antd";
-
+import noImage from "../../assets/noimage.png";
 import FeatureCard from "../../components/feature/FeatureCard";
 import IRemoteData, {
   fromLoaded,
   fromLoading,
   EState,
 } from "../../core/IRemoteData";
-import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { ProjectDetailDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../core/api";
 
 interface IRouterParams {
@@ -21,7 +21,7 @@ export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const projectId = Number(props.match.params.projectId);
 
-  const [project, setProject] = useState<IRemoteData<Project, null>>(
+  const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
     fromLoading()
   );
 
@@ -29,9 +29,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
     (async () => {
       const result = await new ProjectResourceApi(
         api.config
-      ).getOneByIdUsingGET2({
+      ).getProjectDetailByIdUsingGET({
         id: projectId,
       });
+      console.log(result);
       setProject(fromLoaded(result));
     })();
   }, [projectId]);
@@ -52,11 +53,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   <img
                     alt="example"
                     className="image"
-                    src={
-                      image
-                        ? image
-                        : "https://source.unsplash.com/400x300/?code,pc"
-                    }
+                    src={image ? image : noImage}
                   />
                 </Col>
                 <Col span={12}>

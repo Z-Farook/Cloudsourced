@@ -3,7 +3,6 @@ import { Menu, Typography } from "antd";
 import { RouteComponentProps, withRouter } from "react-router";
 import { DownOutlined } from "@ant-design/icons";
 import AuthStore from "../../../stores/AuthStore";
-import { saveAuthentication } from "../../../core/api";
 
 export enum EMenuItem {
   Home,
