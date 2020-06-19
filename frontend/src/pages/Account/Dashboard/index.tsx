@@ -28,7 +28,14 @@ import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 
 interface IProps extends RouteComponentProps {}
+const now = new Date();
 
+const weekDay = (now.getDay() + 6) % 7; // Make sure Sunday is 6, not 0
+const monthDay = now.getDate();
+const mondayThisWeek = monthDay - weekDay;
+const startOfThisWeek = new Date(+now);
+startOfThisWeek.setDate(mondayThisWeek);
+startOfThisWeek.setHours(0, 0, 0, 0);
 const dataSource = [
   {
     key: "1",
@@ -173,12 +180,16 @@ const Dashboard: React.FC<IProps> = (props) => {
             <Col span={8}>
               <Card>
                 <Statistic
-                  title="Projects"
-                  value={30.57}
-                  precision={2}
+                  title="Projects this week"
+                  value={
+                    projects.data?.filter(
+                      (p) => p.project.createdAt! > startOfThisWeek
+                    ).length
+                  }
+                  precision={0}
                   valueStyle={{ color: "#3f8600" }}
                   prefix={<ArrowUpOutlined />}
-                  suffix="%"
+                  suffix=""
                 />
               </Card>
             </Col>
