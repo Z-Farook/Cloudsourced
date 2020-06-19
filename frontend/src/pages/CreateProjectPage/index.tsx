@@ -33,7 +33,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
   } else {
     isEditing = false;
   }
-  console.log(isEditing);
 
   const projectId = Number(props.match.params.projectId);
 
@@ -49,19 +48,15 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         ).getOneByIdUsingGET2({
           id: projectId,
         });
+        if (result.name) setValue("projectName", result.name!);
+        if (result.description) setValue("description", result.description!);
         setProject(fromLoaded(result));
       })();
     }
   }, [projectId]);
 
-  const { name: projectName, description, image: projectImage } =
-    project.data || {};
+  const { control, handleSubmit, errors, watch, setValue } = useForm<Inputs>();
 
-  console.log(description, projectImage, projectName);
-
-  console.log(project.data);
-
-  const { control, handleSubmit, errors } = useForm<Inputs>();
   const [image, setImage] = useState("");
 
   const getBase64 = (image: Blob) => {
@@ -91,7 +86,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     try {
       const response = await fetch(url, requestOptions);
       const data = await response.json();
-      console.log(data);
       return data!.data!.link;
     } catch (e) {
       errorMessage();
@@ -173,8 +167,8 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   as={Input}
                   name="projectName"
                   control={control}
-                  key={`${Math.floor(Math.random() * 1000)}-min`}
-                  defaultValue={projectName}
+                  //  key={`${Math.floor(Math.random() * 1000)}-min`}
+
                   placeholder="Project name"
                   rules={{ required: true }}
                 />
@@ -187,10 +181,9 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                 <Controller
                   as={Input}
                   name="description"
-                  placeholder="Description"
                   control={control}
-                  key={`${Math.floor(Math.random() * 1000)}-min`}
-                  defaultValue={description}
+                  // key={`${Math.floor(Math.random() * 1000)}-min`}
+                  placeholder="Description"
                   rules={{ required: true }}
                 />
                 <ErrorMessage
@@ -211,7 +204,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                     }
                   >
                     <img
-                      src={projectImage ? projectImage : noImage}
+                      src={project.data?.image ? project.data?.image : noImage}
                       alt="avatar"
                       style={{ width: "100%" }}
                     />
