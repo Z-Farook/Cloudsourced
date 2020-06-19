@@ -26,7 +26,7 @@ type Inputs = {
   description: string;
 };
 
-const CreateProjectPage: React.FC<IProps> = (props) => {
+const ProjectFormPage: React.FC<IProps> = (props) => {
   let isEditing = false;
   if (Number(props.match.params.projectId)) {
     isEditing = true;
@@ -220,4 +220,4 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
     </DefaultLayout>
   );
 };
-export default CreateProjectPage;
+export default ProjectFormPage;
