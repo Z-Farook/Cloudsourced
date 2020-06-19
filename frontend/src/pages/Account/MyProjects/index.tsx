@@ -18,7 +18,7 @@ const MyProjects: React.FC<IProps> = (props) => {
   const [projects, setProjects] = useState<IRemoteData<Project[], null>>(
     fromLoading()
   );
-  function sort(value: string) {
+  const sort = (value: string) => {
     if (value === "Ascending") {
       setProjects(
         fromLoaded(
@@ -36,7 +36,7 @@ const MyProjects: React.FC<IProps> = (props) => {
         )
       );
     }
-  }
+  };
   const { Option } = Select;
   useEffect(() => {
     (async () => {
