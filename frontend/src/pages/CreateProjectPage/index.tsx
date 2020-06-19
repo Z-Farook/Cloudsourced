@@ -14,6 +14,7 @@ import { RouteComponentProps } from "react-router";
 import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
 import noImage from "../../assets/noimage.png";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface IRouterParams {
   projectId?: string;
@@ -50,22 +51,21 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         });
         if (result.name) setValue("projectName", result.name!);
         if (result.description) setValue("description", result.description!);
+        if (result.image) setImage(result.image!);
         setProject(fromLoaded(result));
       })();
     }
   }, [projectId]);
 
-  const { control, handleSubmit, errors, watch, setValue } = useForm<Inputs>();
+  const { control, handleSubmit, errors, setValue } = useForm<Inputs>();
 
   const [image, setImage] = useState("");
 
   const getBase64 = (image: Blob) => {
     const reader = new FileReader();
-
     reader.addEventListener("load", () => {
       setImage(reader.result as string);
     });
-
     reader.readAsDataURL(image);
   };
 
@@ -192,41 +192,22 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   message="A description is required"
                 />
 
-                {isEditing ? (
-                  <Upload
-                    name="avatar"
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    showUploadList={false}
-                    accept=".jpg, .jpeg, .png"
-                    onChange={(event) =>
-                      getBase64(event.file.originFileObj as Blob)
-                    }
-                  >
-                    <img
-                      src={project.data?.image ? project.data?.image : noImage}
-                      alt="avatar"
-                      style={{ width: "100%" }}
-                    />
-                  </Upload>
-                ) : (
-                  <Upload
-                    name="avatar"
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    showUploadList={false}
-                    accept=".jpg, .jpeg, .png"
-                    onChange={(event) =>
-                      getBase64(event.file.originFileObj as Blob)
-                    }
-                  >
-                    <img
-                      src={image ? image : noImage}
-                      alt="avatar"
-                      style={{ width: "100%" }}
-                    />
-                  </Upload>
-                )}
+                <Upload
+                  name="avatar"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  accept=".jpg, .jpeg, .png"
+                  onChange={(event) =>
+                    getBase64(event.file.originFileObj as Blob)
+                  }
+                >
+                  <img
+                    src={image ? image : noImage}
+                    alt="avatar"
+                    style={{ width: "100%" }}
+                  />
+                </Upload>
 
                 <Button type="primary" htmlType="submit" block>
                   {!isEditing ? "Submit" : "Update"}
