@@ -13,6 +13,8 @@ import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
 import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
+import noImage from "../../assets/noimage.png";
+
 interface IRouterParams {
   projectId?: string;
 }
@@ -196,26 +198,43 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   name="description"
                   message="A description is required"
                 />
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  accept=".jpg, .jpeg, .png"
-                  onChange={(event) =>
-                    getBase64(event.file.originFileObj as Blob)
-                  }
-                >
-                  {isEditing ? (
+
+                {isEditing ? (
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(event) =>
+                      getBase64(event.file.originFileObj as Blob)
+                    }
+                  >
                     <img
-                      src={projectImage}
+                      src={projectImage ? projectImage : noImage}
                       alt="avatar"
                       style={{ width: "100%" }}
                     />
-                  ) : (
-                    <img src={image} alt="avatar" style={{ width: "100%" }} />
-                  )}
-                </Upload>
+                  </Upload>
+                ) : (
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(event) =>
+                      getBase64(event.file.originFileObj as Blob)
+                    }
+                  >
+                    <img
+                      src={image ? image : noImage}
+                      alt="avatar"
+                      style={{ width: "100%" }}
+                    />
+                  </Upload>
+                )}
+
                 <Button type="primary" htmlType="submit" block>
                   {!isEditing ? "Submit" : "Update"}
                 </Button>
