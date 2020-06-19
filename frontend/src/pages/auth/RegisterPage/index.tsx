@@ -1,14 +1,24 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { Form, Input, Button, Checkbox, Card, Row, Col, message} from "antd";
-import { UserOutlined, MailOutlined, LockOutlined, TeamOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
+import {
+  UserOutlined,
+  MailOutlined,
+  LockOutlined,
+  TeamOutlined,
+  HomeOutlined,
+  IdcardOutlined,
+  NumberOutlined,
+  PhoneOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 import { useForm } from "react-hook-form";
 import { AuthenticationResourceApi, mapValues } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import * as yup from "yup";
 
-import "./style.scss"
+import "./style.scss";
 interface IProps extends RouteComponentProps {}
 
 const validationSchema = yup.object().shape({
@@ -19,47 +29,66 @@ const validationSchema = yup.object().shape({
     .required("Email is a required field")
     .email("Must be a valid email address"),
   password: yup.string().required("Password is a required field"),
+  repeatPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), undefined], "Passwords don't match")
+    .required("Confirm Password is required"),
 });
 
-interface IValues{
-  name:string,
-  lastname:string,
-  email:string,
-  password:string
-};
+interface IValues {
+  name: string;
+  infix: string;
+  lastname: string;
+  country: string;
+  telephone: string;
+  street: string;
+  streetNumber: string;
+  languages: string[];
+  email: string;
+  password: string;
+}
 
 const RegisterPage: React.FC<IProps> = (props) => {
+  const { handleSubmit, errors, setValue, register } = useForm({
+    validationSchema,
+  });
 
+  const onSubmit = async (data: any) => {
+    const values = data as IValues;
 
-    const { handleSubmit, errors, setValue, register } = useForm({
-      validationSchema,
-    });
-
-    const onSubmit = async (data: any) => {
-      const values = data as IValues;
-
-      try {
-        await new AuthenticationResourceApi(
-          api.config
-        ).registerNewUserUsingPOST({
-          registerUserDTO: {
-            name: values.name,
-            lastName: values.lastname,
-            email: values.email,
-            password: values.password,
-          },
-        });
-        message.success("Your account has been created. you can now login!");
-      } catch (err) {
-        message.error("Email already exists");
-      }
-    };
+    try {
+      await new AuthenticationResourceApi(api.config).registerNewUserUsingPOST({
+        registerUserDTO: {
+          name: values.name,
+          infix: values.infix,
+          lastName: values.lastname,
+          country: values.country,
+          telephone: values.telephone,
+          street: values.street,
+          streetNumber: values.streetNumber,
+          languages: values.languages,
+          email: values.email,
+          password: values.password,
+        },
+      });
+      message.success("Your account has been created. you can now login!");
+      props.history.push(`/auth/login`);
+    } catch (err) {
+      message.error("Email already exists");
+    }
+  };
 
   useEffect(() => {
     register({ name: "name" });
+    register({ name: "infix" });
     register({ name: "lastname" });
+    register({ name: "country" });
+    register({ name: "street" });
+    register({ name: "streetNumber" });
+    register({ name: "telephone" });
     register({ name: "email" });
     register({ name: "password" });
+    register({ name: "repeatPassword" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -83,7 +112,21 @@ const RegisterPage: React.FC<IProps> = (props) => {
                   prefix={<UserOutlined />}
                 />
               </Form.Item>
-
+              <Form.Item
+                validateStatus={
+                  errors.infix !== undefined ? "error" : undefined
+                }
+                help={
+                  errors.infix !== undefined ? errors.infix.message : undefined
+                }
+              >
+                <Input
+                  placeholder="infix"
+                  name="infix"
+                  onChange={(ev) => setValue("infix", ev.target.value)}
+                  prefix={<UserAddOutlined />}
+                />
+              </Form.Item>
               <Form.Item
                 validateStatus={
                   errors.lastname !== undefined ? "error" : undefined
@@ -99,6 +142,74 @@ const RegisterPage: React.FC<IProps> = (props) => {
                   name="lastname"
                   onChange={(ev) => setValue("lastname", ev.target.value)}
                   prefix={<TeamOutlined />}
+                />
+              </Form.Item>
+              <Form.Item
+                validateStatus={
+                  errors.country !== undefined ? "error" : undefined
+                }
+                help={
+                  errors.country !== undefined
+                    ? errors.country.message
+                    : undefined
+                }
+              >
+                <Input
+                  placeholder="country"
+                  name="country"
+                  onChange={(ev) => setValue("country", ev.target.value)}
+                  prefix={<IdcardOutlined />}
+                />
+              </Form.Item>
+              <Form.Item
+                validateStatus={
+                  errors.street !== undefined ? "error" : undefined
+                }
+                help={
+                  errors.street !== undefined
+                    ? errors.coustreettry.message
+                    : undefined
+                }
+              >
+                <Input
+                  placeholder="street"
+                  name="street"
+                  onChange={(ev) => setValue("street", ev.target.value)}
+                  prefix={<HomeOutlined />}
+                />
+              </Form.Item>
+              <Form.Item
+                validateStatus={
+                  errors.streetNumber !== undefined ? "error" : undefined
+                }
+                help={
+                  errors.streetNumber !== undefined
+                    ? errors.streetNumber.message
+                    : undefined
+                }
+              >
+                <Input
+                  placeholder="street number"
+                  name="streetNumber"
+                  onChange={(ev) => setValue("streetNumber", ev.target.value)}
+                  prefix={<NumberOutlined />}
+                />
+              </Form.Item>
+              <Form.Item
+                validateStatus={
+                  errors.telephone !== undefined ? "error" : undefined
+                }
+                help={
+                  errors.telephone !== undefined
+                    ? errors.telephone.message
+                    : undefined
+                }
+              >
+                <Input
+                  placeholder="telephone"
+                  name="telephone"
+                  onChange={(ev) => setValue("telephone", ev.target.value)}
+                  prefix={<PhoneOutlined />}
                 />
               </Form.Item>
 
@@ -123,7 +234,9 @@ const RegisterPage: React.FC<IProps> = (props) => {
                   errors.password !== undefined ? "error" : undefined
                 }
                 help={
-                  errors.password !== undefined ? errors.password.message : undefined
+                  errors.password !== undefined
+                    ? errors.password.message
+                    : undefined
                 }
               >
                 <Input.Password
@@ -133,7 +246,23 @@ const RegisterPage: React.FC<IProps> = (props) => {
                   prefix={<LockOutlined />}
                 />
               </Form.Item>
-
+              <Form.Item
+                validateStatus={
+                  errors.repeatPassword !== undefined ? "error" : undefined
+                }
+                help={
+                  errors.repeatPassword !== undefined
+                    ? errors.repeatPassword.message
+                    : undefined
+                }
+              >
+                <Input.Password
+                  placeholder="repeatPassword"
+                  name="repeatPassword"
+                  onChange={(ev) => setValue("repeatPassword", ev.target.value)}
+                  prefix={<LockOutlined />}
+                />
+              </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Register

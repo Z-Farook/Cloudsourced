@@ -13,6 +13,7 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../../core/IRemoteData";
+
 import { Button, Spin, Form } from "antd";
 import { FeatureResourceApi, FeatureDTO } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
