@@ -29,6 +29,9 @@ const validationSchema = yup.object().shape({
     .required("Email is a required field")
     .email("Must be a valid email address"),
   password: yup.string().required("Password is a required field"),
+  repeatPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
 interface IValues {
@@ -75,7 +78,12 @@ const RegisterPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     register({ name: "name" });
+    register({ name: "infix" });
     register({ name: "lastname" });
+    register({ name: "country" });
+    register({ name: "street" });
+    register({ name: "streetNumber" });
+    register({ name: "telephone" });
     register({ name: "email" });
     register({ name: "password" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -235,7 +243,23 @@ const RegisterPage: React.FC<IProps> = (props) => {
                   prefix={<LockOutlined />}
                 />
               </Form.Item>
-
+              <Form.Item
+                validateStatus={
+                  errors.repeatPassword !== undefined ? "error" : undefined
+                }
+                help={
+                  errors.repeatPassword !== undefined
+                    ? errors.repeatPassword.message
+                    : undefined
+                }
+              >
+                <Input.Password
+                  placeholder="repeatPassword"
+                  name="repeatPassword"
+                  onChange={(ev) => setValue("repeatPassword", ev.target.value)}
+                  prefix={<LockOutlined />}
+                />
+              </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Register
