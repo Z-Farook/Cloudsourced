@@ -15,7 +15,6 @@ import MainRouter from "../MainRouter";
 interface IProps extends RouteComponentProps {}
 
 const AuthRouter: React.FC<IProps> = (props) => {
-  const authStore = AuthStore.useContainer();
   return (
     <Router>
       <Switch>

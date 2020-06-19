@@ -6,8 +6,8 @@ import Title from "antd/lib/typography/Title";
 import {
   ProjectResourceApi,
   ProjectDTO,
-  CreateNewUsingPOST2Request,
   UpdateUsingPUT2Request,
+  AddUsingPOSTRequest,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
@@ -93,23 +93,26 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
   };
 
   const handleProject = async (data: Inputs) => {
+    const project: ProjectDTO = {
+      description: data.description,
+      name: data.projectName,
+      image: await postImage(image),
+    };
     if (!isEditing) {
-      const createParams: CreateNewUsingPOST2Request = {
-        dto: {
-          id: projectId,
-          name: data.projectName,
-          description: data.description,
-          image: await postImage(image),
-        },
+      const params: AddUsingPOSTRequest = {
+        projectDTO: project,
       };
-
-      loadMessage();
+      message.loading({ content: "Saving project...", key: "updatableKey" });
       try {
-        const createResponse = await new ProjectResourceApi(
-          api.config
-        ).createNewUsingPOST2(createParams);
-        successMessage();
-        props.history.push(`/projects/${createResponse.id}`);
+        const response = await new ProjectResourceApi(api.config).addUsingPOST(
+          params
+        );
+        message.success({
+          content: "Project is created succesfully!",
+          key: "updatableKey",
+          duration: 2,
+        });
+        props.history.push(`/projects/${response.id}`);
       } catch (error) {
         errorMessage();
       }
