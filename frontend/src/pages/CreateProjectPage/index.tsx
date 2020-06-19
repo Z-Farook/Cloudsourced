@@ -14,7 +14,6 @@ import { RouteComponentProps } from "react-router";
 import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
 import noImage from "../../assets/noimage.png";
-import { PlusOutlined } from "@ant-design/icons";
 
 interface IRouterParams {
   projectId?: string;
@@ -104,17 +103,12 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         },
       };
 
-      message.loading({ content: "Saving project...", key: "updatableKey" });
+      loadMessage();
       try {
         const createResponse = await new ProjectResourceApi(
           api.config
         ).createNewUsingPOST2(createParams);
-
-        message.success({
-          content: "Project is created succesfully!",
-          key: "updatableKey",
-          duration: 2,
-        });
+        successMessage();
         props.history.push(`/projects/${createResponse.id}`);
       } catch (error) {
         errorMessage();
@@ -129,22 +123,31 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
         },
       };
 
-      message.loading({ content: "Saving project...", key: "updatableKey" });
+      loadMessage();
       try {
         const updateResponse = await new ProjectResourceApi(
           api.config
         ).updateUsingPUT2(updateParams);
-
-        message.success({
-          content: "Project is created succesfully!",
-          key: "updatableKey",
-          duration: 2,
-        });
+        successMessage();
         props.history.push(`/projects/${updateResponse.id}`);
       } catch (error) {
         errorMessage();
       }
     }
+  };
+
+  const successMessage = () => {
+    message.success({
+      content: isEditing
+        ? "Project is updated succesfully!"
+        : "Project is created succesfully!",
+      key: "updatableKey",
+      duration: 2,
+    });
+  };
+
+  const loadMessage = () => {
+    message.loading({ content: "Saving project...", key: "updatableKey" });
   };
 
   const errorMessage = () => {
@@ -167,8 +170,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   as={Input}
                   name="projectName"
                   control={control}
-                  //  key={`${Math.floor(Math.random() * 1000)}-min`}
-
                   placeholder="Project name"
                   rules={{ required: true }}
                 />
@@ -182,7 +183,6 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                   as={Input}
                   name="description"
                   control={control}
-                  // key={`${Math.floor(Math.random() * 1000)}-min`}
                   placeholder="Description"
                   rules={{ required: true }}
                 />
@@ -210,7 +210,7 @@ const CreateProjectPage: React.FC<IProps> = (props) => {
                 </Upload>
 
                 <Button type="primary" htmlType="submit" block>
-                  {!isEditing ? "Submit" : "Update"}
+                  {isEditing ? "Update" : "Submit"}
                 </Button>
               </form>
             </Col>
