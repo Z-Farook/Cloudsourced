@@ -23,7 +23,6 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
         this.detailMapper = detailMapper;
     }
 
-
     @GetMapping("/search/{name}")
     public List<ProjectDTO> searchProjectName(@PathVariable String name) {
         return mapper.entityListToDtoList(service.searchProjectName(name));

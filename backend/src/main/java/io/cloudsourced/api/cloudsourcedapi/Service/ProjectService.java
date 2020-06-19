@@ -39,5 +39,4 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         User user = authenticatedUserProvider.GetUser();
         return repository.findByUser(user);
     }
-
 }
