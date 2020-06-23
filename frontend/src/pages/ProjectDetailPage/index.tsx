@@ -31,6 +31,7 @@ interface IRouterParams {
 export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const { auth } = AuthStore.useContainer();
+  console.log(auth);
   const userId = auth?.userId;
   const projectId = Number(props.match.params.projectId);
 
@@ -91,28 +92,21 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   </Text>
                 </Col>
               </Row>
-              <Card>
-                <Row gutter={30}>
-                  <Col span={8}>
-                    <img
-                      alt="example"
-                      className="detailImage"
-                      src={image ? image : noImage}
-                    />
-                  </Col>
-                  <Col span={12}>
-                    <Title level={2}>Description</Title>
-                    <Paragraph>{description}</Paragraph>
-                  </Col>
-                </Row>
-              </Card>
+              <Row className="project-info">
+                <Col span={8}>
+                  <img
+                    alt="example"
+                    className="detailImage"
+                    src={image ? image : noImage}
+                  />
+                </Col>
+                <Col span={12}>
+                  <Title level={2}>Description</Title>
+                  <Paragraph>{description}</Paragraph>
+                </Col>
+              </Row>
               {project.data!.features!.length > 0 ? (
-                <Divider
-                  orientation="left"
-                  style={{ color: "#333", fontWeight: "normal" }}
-                >
-                  Features
-                </Divider>
+                <Title level={2}>Features</Title>
               ) : (
                 ""
               )}

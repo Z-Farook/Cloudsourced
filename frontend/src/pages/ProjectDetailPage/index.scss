@@ -1,7 +1,6 @@
 .detailImage {
   max-width: calc(100% - 2px);
   height: 230px;
-  margin: auto;
 }
 
 h1.ant-typography {
@@ -16,4 +15,10 @@ h1.ant-typography {
     text-decoration: underline;
     cursor: pointer;
   }
+}
+
+.project-info {
+  border: rgb(240, 240, 240) 1px solid;
+  padding: 20px;
+  margin-bottom: 10px;
 }
