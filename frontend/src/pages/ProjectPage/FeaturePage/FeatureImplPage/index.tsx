@@ -13,11 +13,11 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../../core/IRemoteData";
-import { Feature } from "../../../../../gen/api/dist/models";
 import { Button, Spin, Form, message } from "antd";
 import {
   FeatureResourceApi,
   ImplementationResourceApi,
+  FeatureDTO,
 } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
@@ -54,7 +54,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
   } = useForm({
     validationSchema,
   });
-  const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
+  const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
 
