@@ -39,7 +39,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-//@RunWith(JUnitPlatform.class) -> Junit 4
 
 @SpringBootTest
 public class AuthenticationProviderTest {
