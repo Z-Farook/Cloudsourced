@@ -67,17 +67,14 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
           style={{
             padding: 0,
             backgroundColor: "#eaeaea",
-            minHeight: "calc(100vh - 46px)",
           }}
         >
-          <Row
-            style={{ width: "1000px", marginLeft: "auto", marginRight: "auto" }}
-          >
+          <Row style={{ margin: "10em" }}>
             <Col
               span={24}
               style={{
                 backgroundColor: "white",
-                minHeight: "calc(100vh - (46px))",
+                minHeight: "calc(100vh - 46px - 20em)",
                 padding: "20px 60px",
               }}
             >
@@ -86,7 +83,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   <Title>{projectName}</Title>
                   <Text className="subtitle">
                     By{" "}
-                    <span onClick={() => message.info("TODO: go to user")}>
+                    <span onClick={() => props.history.push("/user/" + userId)}>
                       {user?.name}
                     </span>
                   </Text>

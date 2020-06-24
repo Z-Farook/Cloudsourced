@@ -8,6 +8,7 @@ import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +27,9 @@ public class UserResource extends BaseResource<User,UserDTO, UserService, UserRe
     @GetMapping("/info")
     public UserDTO getUserInfo(){
         return mapper.entityToDTO(service.getAuthenticatedUserInfo());
+    }
+    @GetMapping("/profile/{id}")
+    public UserDTO getUserProfileInfo(@PathVariable long id){
+        return mapper.entityToDTO(service.getUserInfo(id));
     }
 }
