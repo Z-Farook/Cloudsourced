@@ -13,6 +13,7 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
 
+    UserService userSevice ;
     public ProjectService(ProjectRepository repository, AuthenticatedUserBean authenticatedUserProvider) {
         super(repository, authenticatedUserProvider);
     }
@@ -37,6 +38,10 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
 
     public List<Project> getProjectsByUser(){
         User user = authenticatedUserProvider.GetUser();
+        return repository.findByUser(user);
+    }
+    public List<Project> getProjectsByUserId(long id){
+        User user = userSevice.getUserInfo(id);
         return repository.findByUser(user);
     }
 }

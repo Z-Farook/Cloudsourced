@@ -42,4 +42,8 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
     public List<ProjectDTO> getProjectsByUser(){
         return service.getProjectsByUser().stream().map(mapper::entityToDTO).collect(Collectors.toList());
     }
+    @GetMapping("/profile/{id}")
+    public List<ProjectDTO> getProjectsByUserId(@PathVariable long id){
+        return service.getProjectsByUserId(id).stream().map(mapper::entityToDTO).collect(Collectors.toList());
+    }
 }
