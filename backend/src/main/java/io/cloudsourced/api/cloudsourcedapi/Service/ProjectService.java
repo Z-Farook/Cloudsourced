@@ -9,6 +9,7 @@ import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
@@ -33,7 +34,12 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         return repository.findById(id).orElseThrow(NotFoundException::new);
     }
 
-    public List<Project> getProjectsByUser(){
+    @Override
+    public List<Project> getAll() {
+        return repository.getAllUnfinished();
+    }
+
+    public List<Project> getProjectsByUser() {
         User user = authenticatedUserProvider.GetUser();
         return repository.findByUser(user);
     }
