@@ -39,7 +39,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-@RunWith(JUnitPlatform.class)
+//@RunWith(JUnitPlatform.class) -> Junit 4
 
 @SpringBootTest
 public class AuthenticationProviderTest {
@@ -59,7 +59,7 @@ public class AuthenticationProviderTest {
 
     @BeforeEach
     void setup() {
-        initMocks(this);
+        //initMocks(this);
     }
 
     @Test
