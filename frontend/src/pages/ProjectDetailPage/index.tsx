@@ -83,7 +83,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   <Title>{projectName}</Title>
                   <Text className="subtitle">
                     By{" "}
-                    <span onClick={() => message.info("TODO: go to user")}>
+                    <span onClick={() => props.history.push("/user/" + userId)}>
                       {user?.name}
                     </span>
                   </Text>
