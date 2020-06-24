@@ -25,15 +25,16 @@ import "./index.scss";
 const { Title, Text, Paragraph } = Typography;
 
 interface IRouterParams {
-  projectId: string;
+  id: string;
 }
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
-const ProjectDetailPage: React.FC<IProps> = (props) => {
+
+const ProfilePage: React.FC<IProps> = (props) => {
   const { auth } = AuthStore.useContainer();
   console.log(auth);
   const userId = auth?.userId;
-  const projectId = Number(props.match.params.projectId);
+  const projectId = Number(props.match.params.id);
 
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
     fromLoading()
@@ -67,14 +68,15 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
           style={{
             padding: 0,
             backgroundColor: "#eaeaea",
+            minHeight: "calc(100vh - 46px)",
           }}
         >
-          <Row style={{ margin: "10em" }}>
+          <Row style={{ margin: "5em" }}>
             <Col
               span={24}
               style={{
                 backgroundColor: "white",
-                minHeight: "calc(100vh - 46px - 20em)",
+                minHeight: "calc(100vh - (46px))",
                 padding: "20px 60px",
               }}
             >
@@ -134,4 +136,4 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
   );
 };
 
-export default ProjectDetailPage;
+export default ProfilePage;
