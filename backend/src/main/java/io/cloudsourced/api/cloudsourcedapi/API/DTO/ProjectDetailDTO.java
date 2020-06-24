@@ -14,5 +14,6 @@ public class ProjectDetailDTO {
     private List<FeatureDTO> features;
     private Instant createdAt;
     private Instant updatedAt;
+    private UserDTO user;
 }
 

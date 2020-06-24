@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Typography, Row, Col, Divider, Spin, Button } from "antd";
+import {
+  Row,
+  Col,
+  Divider,
+  Spin,
+  Button,
+  Card,
+  Typography,
+  message,
+} from "antd";
 import noImage from "../../assets/noimage.png";
 import FeatureCard from "../../components/feature/FeatureCard";
 import IRemoteData, {
@@ -12,22 +21,25 @@ import IRemoteData, {
 import { ProjectDetailDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../core/api";
 import AuthStore from "../../stores/AuthStore";
+import "./index.scss";
+const { Title, Text, Paragraph } = Typography;
 
 interface IRouterParams {
   projectId: string;
 }
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
-//const authStore = AuthStore.useContainer();
-//const userId = authStore.auth?.userId;
 const ProjectDetailPage: React.FC<IProps> = (props) => {
+  const { auth } = AuthStore.useContainer();
+  console.log(auth);
+  const userId = auth?.userId;
   const projectId = Number(props.match.params.projectId);
 
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
     fromLoading()
   );
 
-  //const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -37,52 +49,67 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
         id: projectId,
       });
       console.log(result);
-      //if(userId === result.user.id)setIsOwner(true);
+      if (userId === result.user?.id) {
+        setIsOwner(true);
+      }
       setProject(fromLoaded(result));
     })();
   }, [projectId]);
 
-  const { description, image, name: projectName } = project.data || {};
+  const { description, image, name: projectName, user } = project.data || {};
 
   return (
     <DefaultLayout>
       {project.state === EState.Loading ? (
         <Spin />
       ) : (
-        <div style={{ padding: 20 }}>
-          <Typography.Title>{projectName}</Typography.Title>
-          <Row>
-            <Col span={12} offset={6}>
-              <Row>
-                <Col span={12}>
+        <div
+          style={{
+            padding: 0,
+            backgroundColor: "#eaeaea",
+            minHeight: "calc(100vh - 46px)",
+          }}
+        >
+          <Row
+            style={{ width: "1000px", marginLeft: "auto", marginRight: "auto" }}
+          >
+            <Col
+              span={24}
+              style={{
+                backgroundColor: "white",
+                minHeight: "calc(100vh - (46px))",
+                padding: "20px 60px",
+              }}
+            >
+              <Row gutter={[0, 20]}>
+                <Col span={24}>
+                  <Title>{projectName}</Title>
+                  <Text className="subtitle">
+                    By{" "}
+                    <span onClick={() => message.info("TODO: go to user")}>
+                      {user?.name}
+                    </span>
+                  </Text>
+                </Col>
+              </Row>
+              <Row className="project-info">
+                <Col span={8}>
                   <img
                     alt="example"
-                    className="image"
+                    className="detailImage"
                     src={image ? image : noImage}
                   />
                 </Col>
                 <Col span={12}>
-                  <Divider
-                    orientation="left"
-                    style={{ color: "#333", fontWeight: "normal" }}
-                  >
-                    Description
-                  </Divider>
-                  {description}
+                  <Title level={2}>Description</Title>
+                  <Paragraph>{description}</Paragraph>
                 </Col>
               </Row>
-
               {project.data!.features!.length > 0 ? (
-                <Divider
-                  orientation="left"
-                  style={{ color: "#333", fontWeight: "normal" }}
-                >
-                  Features
-                </Divider>
+                <Title level={2}>Features</Title>
               ) : (
                 ""
               )}
-
               {project.data!.features!.map((v, i) => {
                 return (
                   <FeatureCard
@@ -91,14 +118,17 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   ></FeatureCard>
                 );
               })}
-
-              <Button
-                onClick={() =>
-                  props.history.push(`/projects/${projectId}/feature/add`)
-                }
-              >
-                Create feature
-              </Button>
+              {isOwner ? (
+                <Button
+                  onClick={() =>
+                    props.history.push(`/projects/${projectId}/feature/add`)
+                  }
+                >
+                  Create feature
+                </Button>
+              ) : (
+                ""
+              )}
             </Col>
           </Row>
         </div>
