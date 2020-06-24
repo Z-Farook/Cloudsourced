@@ -41,6 +41,6 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     }
     public List<Project> getProjectsByUserId(long id){
 
-        return repository.findByUserId(id);
+        return repository.byUserId(id);
     }
 }
