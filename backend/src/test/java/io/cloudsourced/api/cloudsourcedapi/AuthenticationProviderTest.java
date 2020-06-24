@@ -56,11 +56,6 @@ public class AuthenticationProviderTest {
     private PasswordEncoder passwordEncoder;
 
 
-    @BeforeEach
-    void setup() {
-        //initMocks(this);
-    }
-
     @Test
     void GivenAnInvalidToken_WhenValidateToken_ShouldReturnFalse(){
         // given
