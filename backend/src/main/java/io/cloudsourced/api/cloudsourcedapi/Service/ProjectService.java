@@ -22,12 +22,9 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         return repository.findByNameContainsIgnoreCase(name);
     }
 
-    public Project saveProject(Project project) {
-        return repository.save(project);
-    }
-
     public Project saveWithUser(Project project) {
         User user = authenticatedUserProvider.GetUser();
+        project.setIsFinished(false);
         project.setUser(user);
         return repository.save(project);
     }

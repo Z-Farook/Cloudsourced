@@ -15,6 +15,7 @@ public class Project extends BaseEntity{
     private String name;
     private String description;
     private String image;
+    private Boolean isFinished;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<Feature> features;

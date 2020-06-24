@@ -28,8 +28,9 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
         return mapper.entityListToDtoList(service.searchProjectName(name));
     }
 
-    @PostMapping("/test")
-    public ProjectDTO add(@RequestBody ProjectDTO projectDTO) {
+    @PostMapping("")
+    @Override
+    public ProjectDTO createNew(@RequestBody ProjectDTO projectDTO) {
         return mapper.entityToDTO(service.saveWithUser(mapper.DTOToEntity(projectDTO)));
     }
 
