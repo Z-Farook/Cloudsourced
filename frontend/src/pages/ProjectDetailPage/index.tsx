@@ -88,9 +88,11 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   </Text>
                 </Col>
                 <Col span={6} style={{textAlign: "right"}}>
+                  {isOwner ? 
                   <Tooltip title="Edit this project">
                     <EditOutlined style={{fontSize: 30}} onClick={() => props.history.push(`/projects/${projectId}/edit`)} />
                   </Tooltip>
+                  : ''}
                 </Col>
               </Row>
               <Row gutter={[20, 0]} className="project-info">
