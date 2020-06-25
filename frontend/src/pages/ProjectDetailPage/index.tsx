@@ -4,12 +4,10 @@ import DefaultLayout from "../../components/layout/DefaultLayout";
 import {
   Row,
   Col,
-  Divider,
   Spin,
   Button,
-  Card,
   Typography,
-  message,
+  Tooltip,
 } from "antd";
 import noImage from "../../assets/noimage.png";
 import FeatureCard from "../../components/feature/FeatureCard";
@@ -22,6 +20,7 @@ import { ProjectDetailDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../core/api";
 import AuthStore from "../../stores/AuthStore";
 import "./index.scss";
+import { EditOutlined } from "@ant-design/icons";
 const { Title, Text, Paragraph } = Typography;
 
 interface IRouterParams {
@@ -79,7 +78,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
               }}
             >
               <Row gutter={[0, 20]}>
-                <Col span={24}>
+                <Col span={18}>
                   <Title>{projectName}</Title>
                   <Text className="subtitle">
                     By{" "}
@@ -88,8 +87,13 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                     </span>
                   </Text>
                 </Col>
+                <Col span={6} style={{textAlign: "right"}}>
+                  <Tooltip title="Edit this project">
+                    <EditOutlined style={{fontSize: 30}} onClick={() => props.history.push(`/projects/${projectId}/edit`)} />
+                  </Tooltip>
+                </Col>
               </Row>
-              <Row className="project-info">
+              <Row gutter={[20, 0]} className="project-info">
                 <Col span={8}>
                   <img
                     alt="example"
@@ -100,6 +104,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 <Col span={12}>
                   <Title level={2}>Description</Title>
                   <Paragraph>{description}</Paragraph>
+
                 </Col>
               </Row>
               {project.data!.features!.length > 0 ? (
