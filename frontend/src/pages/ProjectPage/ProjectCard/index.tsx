@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
 import { Card, Avatar, Tooltip } from "antd";
-import { MoreOutlined, CheckCircleTwoTone } from "@ant-design/icons";
+import { CheckCircleTwoTone } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { ProjectDTO } from "cloudsourced-api";

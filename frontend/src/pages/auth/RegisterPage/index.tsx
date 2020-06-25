@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
+import { Form, Input, Button, Card, Row, Col, message } from "antd";
 import {
   UserOutlined,
   MailOutlined,
@@ -14,7 +14,7 @@ import {
   UserAddOutlined,
 } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
-import { AuthenticationResourceApi, mapValues } from "cloudsourced-api";
+import { AuthenticationResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import * as yup from "yup";
 

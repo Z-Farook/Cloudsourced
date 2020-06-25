@@ -7,7 +7,6 @@ import {
   Table,
   Card,
   Statistic,
-  Timeline,
   Progress,
   Button,
 } from "antd";
@@ -36,23 +35,6 @@ const mondayThisWeek = monthDay - weekDay;
 const startOfThisWeek = new Date(+now);
 startOfThisWeek.setDate(mondayThisWeek);
 startOfThisWeek.setHours(0, 0, 0, 0);
-const dataSource = [
-  {
-    key: "1",
-    number: 1,
-    project: "test project",
-  },
-  {
-    key: "2",
-    number: 2,
-    project: "test project",
-  },
-  {
-    key: "3",
-    number: 3,
-    project: "test project",
-  },
-];
 const dataSourceTasks = [
   {
     key: "1",

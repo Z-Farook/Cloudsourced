@@ -8,7 +8,6 @@ import {
   ProjectDTO,
   UpdateUsingPUT2Request,
   CreateNewUsingPOST2Request,
-  FinishProjectUsingPOSTRequest,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
@@ -53,17 +52,15 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
         if (result.name) setValue("projectName", result.name!);
         if (result.description) setValue("description", result.description!);
         if (result.image) setImage(result.image!);
-        if (result.finishedAt) setFinishedAt(result.finishedAt)
         setProject(fromLoaded(result));
       })();
     }
+    // eslint-disable-next-line
   }, [projectId]);
 
   const { control, handleSubmit, errors, setValue } = useForm<Inputs>();
 
   const [image, setImage] = useState("");
-
-  const [finishedAt, setFinishedAt] = useState<Date>();
 
   const getBase64 = (image: Blob) => {
     const reader = new FileReader();
@@ -223,7 +220,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
                   />
                 </Upload>
 
-                {isEditing && !finishedAt ? (
+                {isEditing && project.data?.finishedAt ? (
                   <Popconfirm title="Are you sure?" okText="Yes" cancelText="No" icon={<QuestionCircleOutlined style={{ color: 'red' }}/>} onConfirm={() => finishProject()}>
                     <Button>Finish project</Button>
                   </Popconfirm>

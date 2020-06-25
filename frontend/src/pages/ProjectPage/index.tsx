@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Col, Row, Spin, Typography, Select, PageHeader } from "antd";
+import { Col, Row, Spin, Select, PageHeader } from "antd";
 import { ProjectDTO, ProjectResourceApi } from "cloudsourced-api";
 import IRemoteData, {
   EState,
@@ -53,12 +53,13 @@ const ProjectPage: React.FC<IProps> = (props) => {
         title="Projects"
         extra={[
           <Select
+            key="select"
             defaultValue="Ascending"
             style={{ width: 120 }}
             onChange={sort}
           >
-            <Option value="Ascending">Ascending</Option>
-            <Option value="Descending">Descending</Option>
+            <Option key="asc" value="Ascending">Ascending</Option>
+            <Option key="desc" value="Descending">Descending</Option>
           </Select>,
         ]}
       />
