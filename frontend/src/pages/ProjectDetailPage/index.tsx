@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import {
-  Row,
-  Col,
-  Spin,
-  Button,
-  Typography,
-  Tooltip,
-} from "antd";
+import { Row, Col, Spin, Button, Typography, Tooltip, PageHeader } from "antd";
 import noImage from "../../assets/noimage.png";
 import FeatureCard from "../../components/feature/FeatureCard";
 import IRemoteData, {
@@ -44,8 +37,8 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       if (auth?.userId === project.data?.user?.id) {
         setIsOwner(true);
       }
-    })()
-  })
+    })();
+  });
 
   useEffect(() => {
     (async () => {
@@ -83,21 +76,33 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
               }}
             >
               <Row gutter={[0, 20]}>
-                <Col span={18}>
-                  <Title>{projectName}</Title>
+                <Col span={24}>
+                  <PageHeader
+                    style={{ fontSize: 38, paddingLeft: 0, paddingRight: 0 }}
+                    title={projectName}
+                    extra={
+                      isOwner ? (
+                        <Tooltip title="Edit this project">
+                          <EditOutlined
+                            style={{ fontSize: 30 }}
+                            onClick={() =>
+                              props.history.push(`/projects/${projectId}/edit`)
+                            }
+                          />
+                        </Tooltip>
+                      ) : (
+                        ""
+                      )
+                    }
+                  />
                   <Text className="subtitle">
                     By{" "}
-                    <span onClick={() => props.history.push("/user/" + user?.id)}>
+                    <span
+                      onClick={() => props.history.push("/user/" + user?.id)}
+                    >
                       {user?.name}
                     </span>
                   </Text>
-                </Col>
-                <Col span={6} style={{textAlign: "right"}}>
-                  {isOwner ? 
-                  <Tooltip title="Edit this project">
-                    <EditOutlined style={{fontSize: 30}} onClick={() => props.history.push(`/projects/${projectId}/edit`)} />
-                  </Tooltip>
-                  : ''}
                 </Col>
               </Row>
               <Row gutter={[20, 0]} className="project-info">
@@ -111,7 +116,6 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                 <Col span={12}>
                   <Title level={2}>Description</Title>
                   <Paragraph>{description}</Paragraph>
-
                 </Col>
               </Row>
               {project.data!.features!.length > 0 ? (
