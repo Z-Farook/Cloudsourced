@@ -29,4 +29,10 @@ public class ReviewService extends BaseService<Review, ReviewRepository> {
 
         return repository.save(review);
     }
+
+    public List<Review> getReviewFromImplementation(Long id) {
+        User user = authenticatedUserProvider.GetUser();
+
+        return repository.getReviewFromImplementation(id, user.getId());
+    }
 }

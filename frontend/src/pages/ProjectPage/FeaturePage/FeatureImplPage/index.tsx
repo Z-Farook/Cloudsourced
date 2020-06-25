@@ -13,9 +13,12 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../../core/IRemoteData";
-
-import { Button, Spin, Form } from "antd";
-import { FeatureResourceApi, FeatureDTO } from "cloudsourced-api";
+import { Button, Spin, Form, message } from "antd";
+import {
+  FeatureResourceApi,
+  ImplementationResourceApi,
+  FeatureDTO,
+} from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
@@ -41,21 +44,53 @@ interface IEditorDimensions {
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
   const editorRef = useRef<any>();
-  const { handleSubmit, errors, control, setValue, getValues } = useForm({
+  const {
+    handleSubmit,
+    errors,
+    control,
+    setValue,
+    getValues,
+    formState,
+  } = useForm({
     validationSchema,
   });
-  const onSubmit = useCallback((data) => alert(JSON.stringify(data)), []);
-
   const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
 
-  // const projectId = useMemo(() => Number(props.match.params.projectId), [
-  //   props.match.params.projectId,
-  // ]);
-  const featureId = useMemo(() => Number(props.match.params.featureId), [
-    props.match.params.featureId,
-  ]);
+  const projectId = useMemo<number | null>(
+    () =>
+      isNaN(Number(props.match.params.projectId))
+        ? null
+        : Number(props.match.params.projectId),
+    [props.match.params.projectId]
+  );
+  const featureId = useMemo<number | null>(
+    () =>
+      isNaN(Number(props.match.params.featureId))
+        ? null
+        : Number(props.match.params.featureId),
+    [props.match.params.featureId]
+  );
+
+  const onSubmit = useCallback(
+    async (data) => {
+      const result = await new ImplementationResourceApi(
+        api.config
+      ).addImplementationToFeatureUsingPOST({
+        featureId: featureId!,
+        implementationDTO: {
+          code: data.code!,
+        },
+      });
+
+      message.success(
+        "Implementation has successfully been added to the feature."
+      );
+      props.history.push(`/projects/${projectId}/features/${featureId}`);
+    },
+    [featureId, props.history, projectId]
+  );
 
   const [
     editorDimensions,
@@ -63,6 +98,10 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
   ] = useState<IEditorDimensions | null>(null);
 
   useEffect(() => {
+    if (featureId === null) {
+      return;
+    }
+
     (async () => {
       const result = await new FeatureResourceApi(
         api.config
@@ -71,7 +110,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
       });
       setFeature(fromLoaded(result));
 
-      // setValue("code", result.codePreview!);
+      setValue("code", result.codePreview!);
     })();
   }, [featureId]);
 
@@ -82,6 +121,10 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
     }),
     []
   );
+
+  if (featureId === null || projectId === null) {
+    return <DefaultLayout>Whoops! Something went wrong.</DefaultLayout>;
+  }
 
   return (
     <DefaultLayout>
@@ -156,6 +199,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
               <Button
                 style={{ marginTop: 50 }}
                 onClick={handleSubmit(onSubmit)}
+                disabled={formState.isSubmitting}
               >
                 Submit
               </Button>

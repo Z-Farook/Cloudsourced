@@ -16,4 +16,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT project FROM Project project WHERE project.finishedAt IS NULL")
     public List<Project> getAllUnfinished();
+    @Query("SELECT project FROM Project project WHERE project.user.id = :id")
+    public List<Project> byUserId(long id);
 }

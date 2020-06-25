@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
 
-    UserService userSevice ;
     public ProjectService(ProjectRepository repository, AuthenticatedUserBean authenticatedUserProvider) {
         super(repository, authenticatedUserProvider);
     }
@@ -45,8 +44,8 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     }
 
     public List<Project> getProjectsByUserId(long id){
-        User user = userSevice.getUserInfo(id);
-        return repository.findByUser(user);
+
+        return repository.byUserId(id);
     }
 
     public Project finishProject(Project project) {
