@@ -29,9 +29,6 @@ interface IRouterParams {
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
-  const { auth } = AuthStore.useContainer();
-  console.log(auth);
-  const userId = auth?.userId;
   const projectId = Number(props.match.params.projectId);
 
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
@@ -39,6 +36,16 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
   );
 
   const [isOwner, setIsOwner] = useState<boolean>(false);
+
+  const { auth } = AuthStore.useContainer();
+
+  useEffect(() => {
+    (async () => {
+      if (auth?.userId === project.data?.user?.id) {
+        setIsOwner(true);
+      }
+    })()
+  })
 
   useEffect(() => {
     (async () => {
@@ -48,9 +55,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
         id: projectId,
       });
       console.log(result);
-      if (userId === result.user?.id) {
-        setIsOwner(true);
-      }
+
       setProject(fromLoaded(result));
     })();
   }, [projectId]);
@@ -82,7 +87,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   <Title>{projectName}</Title>
                   <Text className="subtitle">
                     By{" "}
-                    <span onClick={() => props.history.push("/user/" + userId)}>
+                    <span onClick={() => props.history.push("/user/" + user?.id)}>
                       {user?.name}
                     </span>
                   </Text>
