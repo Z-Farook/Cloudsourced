@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
@@ -15,6 +14,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     public List<Project> findByUser(User user);
 
-    @Query("SELECT project FROM Project project WHERE project.isFinished = false")
+    @Query("SELECT project FROM Project project WHERE project.finishedAt IS NULL")
     public List<Project> getAllUnfinished();
 }

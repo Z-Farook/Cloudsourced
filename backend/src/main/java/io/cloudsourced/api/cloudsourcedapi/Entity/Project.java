@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,8 +16,7 @@ public class Project extends BaseEntity{
     private String name;
     private String description;
     private String image;
-    private Boolean isFinished;
-
+    private Instant finishedAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<Feature> features;
     @ManyToOne(cascade = CascadeType.MERGE)

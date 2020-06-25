@@ -7,6 +7,7 @@ import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,7 +26,6 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
 
     public Project saveWithUser(Project project) {
         User user = authenticatedUserProvider.GetUser();
-        project.setIsFinished(false);
         project.setUser(user);
         return repository.save(project);
     }
@@ -43,8 +43,14 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         User user = authenticatedUserProvider.GetUser();
         return repository.findByUser(user);
     }
+
     public List<Project> getProjectsByUserId(long id){
         User user = userSevice.getUserInfo(id);
         return repository.findByUser(user);
+    }
+
+    public Project finishProject(Project project) {
+        project.setFinishedAt(Instant.now());
+        return repository.save(project);
     }
 }

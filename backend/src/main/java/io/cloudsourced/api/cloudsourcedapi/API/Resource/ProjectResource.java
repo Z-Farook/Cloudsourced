@@ -47,4 +47,10 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
     public List<ProjectDTO> getProjectsByUserId(@PathVariable long id){
         return service.getProjectsByUserId(id).stream().map(mapper::entityToDTO).collect(Collectors.toList());
     }
+
+    @PostMapping("/finish/{projectId}")
+    public ProjectDetailDTO finishProject(@PathVariable Long projectId) {
+        Project project = service.getOneById(projectId);
+        return detailMapper.entityToDTO(service.finishProject(project));
+    }
 }
