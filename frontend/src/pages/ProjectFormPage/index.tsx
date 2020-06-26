@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Row, Col, message, Upload, Popconfirm } from "antd";
+import { Input, Button, Row, Col, message, Upload } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
@@ -14,7 +14,6 @@ import { RouteComponentProps } from "react-router";
 import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
 import noImage from "../../assets/noimage.png";
-import { QuestionCircleOutlined } from "@ant-design/icons";
 
 interface IRouterParams {
   projectId?: string;
@@ -94,16 +93,6 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
     }
   };
 
-  const finishProject = async () => {
-    try {
-      await new ProjectResourceApi(api.config).finishProjectUsingPOST({projectId});
-      successMessage()
-      props.history.push('/account')
-    } catch (error) {
-      errorMessage()
-    }
-  }
-
   const handleProject = async (data: Inputs) => {
     const project: ProjectDTO = {
       description: data.description,
@@ -114,12 +103,12 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
       const params: CreateNewUsingPOST2Request = {
         projectDTO: project,
       };
-      loadMessage()
+      loadMessage();
       try {
-        const response = await new ProjectResourceApi(api.config).createNewUsingPOST2(
-          params
-        );
-        successMessage()
+        const response = await new ProjectResourceApi(
+          api.config
+        ).createNewUsingPOST2(params);
+        successMessage();
         props.history.push(`/projects/${response.id}`);
       } catch (error) {
         errorMessage();
@@ -219,13 +208,6 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
                     style={{ width: "100%" }}
                   />
                 </Upload>
-
-                {isEditing && !project.data?.finishedAt ? (
-                  <Popconfirm title="Are you sure?" okText="Yes" cancelText="No" icon={<QuestionCircleOutlined style={{ color: 'red' }}/>} onConfirm={() => finishProject()}>
-                    <Button>Finish project</Button>
-                  </Popconfirm>
-                ): ""}
-
                 <Button type="primary" htmlType="submit" block>
                   {isEditing ? "Update" : "Submit"}
                 </Button>
