@@ -11,6 +11,34 @@ import {
 } from "../../../core/DataContext/authentication";
 import { mount } from "enzyme";
 import { act } from "react-dom/test-utils";
+const fillForm = async (wrapper: any) => {
+  const nameInput = await wrapper.find('input[name="name"]');
+
+  await nameInput.simulate("change", {
+    target: { value: "testName" },
+  });
+
+  const lastNameInput = await wrapper.find('input[name="lastname"]');
+  await lastNameInput.simulate("change", { target: { value: "testlastname" } });
+  const emailNameInput = await wrapper.find('input[name="email"]');
+
+  await emailNameInput.simulate("change", {
+    target: { value: "testlemail@email.com" },
+  });
+
+  const passwordNameInput = await wrapper.find('input[name="password"]');
+  await passwordNameInput.simulate("change", {
+    target: { value: "testpass" },
+  });
+
+  const repeatPasswordNameInput = await wrapper.find(
+    'input[name="repeatPassword"]'
+  );
+
+  await repeatPasswordNameInput.simulate("change", {
+    target: { value: "testpass" },
+  });
+};
 describe("registerPage", () => {
   it("Should pass", async () => {
     await act(async () => {
@@ -54,34 +82,8 @@ describe("registerPage", () => {
           </AuthStore.Provider>
         </DataContext.Provider>
       );
+      await fillForm(wrapper);
 
-      const nameInput = wrapper.find('input[name="name"]');
-      await new Promise((resolve) => setImmediate(resolve));
-      nameInput.simulate("change", {
-        target: { value: "testName" },
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-      const lastNameInput = wrapper.find('input[name="lastname"]');
-      lastNameInput.simulate("change", { target: { value: "testlastname" } });
-      const emailNameInput = wrapper.find('input[name="email"]');
-      await new Promise((resolve) => setImmediate(resolve));
-      emailNameInput.simulate("change", {
-        target: { value: "testlemail@email.com" },
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-      const passwordNameInput = wrapper.find('input[name="password"]');
-      passwordNameInput.simulate("change", {
-        target: { value: "testpass" },
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-      const repeatPasswordNameInput = wrapper.find(
-        'input[name="repeatPassword"]'
-      );
-      await new Promise((resolve) => setImmediate(resolve));
-      repeatPasswordNameInput.simulate("change", {
-        target: { value: "testpass" },
-      });
-      await new Promise((resolve) => setImmediate(resolve));
       expect(wrapper.update().find('input[name="name"]').props().value).toEqual(
         "testName"
       );
@@ -99,13 +101,10 @@ describe("registerPage", () => {
       ).toEqual("testpass");
 
       const submitButton = wrapper.find("button[type='submit']");
-      await new Promise((resolve) => setImmediate(resolve));
-      wrapper.update();
-      await new Promise((resolve) => setImmediate(resolve));
+
       submitButton.simulate("submit", {
         preventDefault() {},
       });
-
       await new Promise((resolve) => setImmediate(resolve));
 
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(
@@ -210,37 +209,16 @@ describe("registerPage", () => {
         </DataContext.Provider>
       );
 
-      const nameInput = wrapper.find('input[name="name"]');
-      await new Promise((resolve) => setImmediate(resolve));
-      nameInput.simulate("change", {
-        target: { value: "testName" },
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-      const lastNameInput = wrapper.find('input[name="lastname"]');
-      lastNameInput.simulate("change", { target: { value: "testlastname" } });
-      const emailNameInput = wrapper.find('input[name="email"]');
-      await new Promise((resolve) => setImmediate(resolve));
-      emailNameInput.simulate("change", {
-        target: { value: "testlemail.com" },
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-      const passwordNameInput = wrapper.find('input[name="password"]');
-      passwordNameInput.simulate("change", {
-        target: { value: "testpass" },
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-      const repeatPasswordNameInput = wrapper.find(
-        'input[name="repeatPassword"]'
-      );
-      await new Promise((resolve) => setImmediate(resolve));
-      repeatPasswordNameInput.simulate("change", {
-        target: { value: "testpass" },
+      await fillForm(wrapper);
+      const emailNameInput = await wrapper.find('input[name="email"]');
+      await emailNameInput.simulate("change", {
+        target: { value: "testlemail@email.com3546546" },
       });
 
       const submitButton = wrapper.find("button[type='submit']");
-      await new Promise((resolve) => setImmediate(resolve));
+
       wrapper.update();
-      await new Promise((resolve) => setImmediate(resolve));
+
       submitButton.simulate("submit", {
         preventDefault() {},
       });
