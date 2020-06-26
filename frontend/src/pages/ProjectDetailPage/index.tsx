@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { Row, Col, Spin, Button, Typography, Tooltip, PageHeader } from "antd";
+import {
+  Row,
+  Col,
+  Spin,
+  Button,
+  Typography,
+  Tooltip,
+  PageHeader,
+  Popconfirm,
+  message,
+} from "antd";
 import noImage from "../../assets/noimage.png";
 import FeatureCard from "../../components/feature/FeatureCard";
 import IRemoteData, {
@@ -13,7 +23,11 @@ import { ProjectDetailDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../core/api";
 import AuthStore from "../../stores/AuthStore";
 import "./index.scss";
-import { EditOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  CheckOutlined,
+  ExclamationOutlined,
+} from "@ant-design/icons";
 const { Title, Text, Paragraph } = Typography;
 
 interface IRouterParams {
@@ -39,6 +53,26 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       }
     })();
   });
+
+  const finishProject = async () => {
+    try {
+      await new ProjectResourceApi(api.config).finishProjectUsingPOST({
+        projectId,
+      });
+      message.success({
+        content: "Project is finished",
+        key: "updatableKey",
+        duration: 2,
+      });
+      props.history.push("/account");
+    } catch (error) {
+      message.success({
+        content: "Something went wrong",
+        key: "updatableKey",
+        duration: 2,
+      });
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -81,18 +115,36 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                     style={{ fontSize: 38, paddingLeft: 0, paddingRight: 0 }}
                     title={projectName}
                     extra={
-                      isOwner ? (
-                        <Tooltip title="Edit this project">
-                          <EditOutlined
-                            style={{ fontSize: 30 }}
-                            onClick={() =>
-                              props.history.push(`/projects/${projectId}/edit`)
-                            }
-                          />
-                        </Tooltip>
-                      ) : (
-                        ""
-                      )
+                      isOwner
+                        ? [
+                            <Tooltip key="edit" title="Edit this project">
+                              <EditOutlined
+                                style={{ fontSize: 30 }}
+                                onClick={() =>
+                                  props.history.push(
+                                    `/projects/${projectId}/edit`
+                                  )
+                                }
+                              />
+                            </Tooltip>,
+                            <Tooltip key="finish" title="Finish project">
+                              <Popconfirm
+                                title="Do you want to finish this project?"
+                                okText="Yes"
+                                cancelText="No"
+                                placement="bottom"
+                                icon={
+                                  <ExclamationOutlined
+                                    style={{ color: "red" }}
+                                  />
+                                }
+                                onConfirm={() => finishProject()}
+                              >
+                                <CheckOutlined />
+                              </Popconfirm>
+                            </Tooltip>,
+                          ]
+                        : ""
                     }
                   />
                   <Text className="subtitle">
