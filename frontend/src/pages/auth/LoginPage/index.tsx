@@ -43,14 +43,6 @@ const LoginPage: React.FC<IProps> = (props) => {
         email: values.email,
         password: values.password,
       });
-      // const result = await new AuthenticationResourceApi(
-      //   api.config
-      // ).authenticateUserUsingPOST({
-      //   authenticationUserDTO: {
-      //     email: values.email,
-      //     password: values.password,
-      //   },
-      // });
       setAuth(result.authentication);
       props.history.push(`/account`);
     } catch (err) {
