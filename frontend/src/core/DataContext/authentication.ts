@@ -22,10 +22,10 @@ export interface IRegisterNewUserParams {
   telephone?: string;
 }
 
-interface IAuthenticateUserResult {
+export interface IAuthenticateUserResult {
   authentication: Authentication;
 }
-interface IRegisterNewUserResult {
+export interface IRegisterNewUserResult {
   user: User;
 }
 export interface IAuthenticationResource {
