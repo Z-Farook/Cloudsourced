@@ -4,7 +4,6 @@ import "./App.scss";
 import AuthStore from "./stores/AuthStore";
 import {
   AuthenticationResourceApi,
-  ValidateTokenUsingPOSTRequest,
   Authentication,
 } from "cloudsourced-api";
 import DataContext, { defaultDataContext } from "./core/DataContext";

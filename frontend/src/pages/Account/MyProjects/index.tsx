@@ -55,6 +55,7 @@ const MyProjects: React.FC<IProps> = (props) => {
         title="My projects"
         extra={[
           <Select
+            key="sort"
             defaultValue="Ascending"
             style={{ width: 120 }}
             onChange={sort}
@@ -63,6 +64,7 @@ const MyProjects: React.FC<IProps> = (props) => {
             <Option value="Descending">Descending</Option>
           </Select>,
           <Button
+            key="add"
             type="primary"
             shape="circle"
             onClick={() => props.history.push("/user/project/create")}
