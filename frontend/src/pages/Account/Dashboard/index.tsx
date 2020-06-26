@@ -7,7 +7,6 @@ import {
   Table,
   Card,
   Statistic,
-  Timeline,
   Progress,
   Button,
 } from "antd";
@@ -23,29 +22,19 @@ import IRemoteData, {
   fromLoading,
   fromLoaded,
 } from "../../../core/IRemoteData";
-import { Project, ProjectResourceApi, ProjectDTO } from "cloudsourced-api";
+import { ProjectResourceApi, ProjectDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 
 interface IProps extends RouteComponentProps {}
+const now = new Date();
 
-const dataSource = [
-  {
-    key: "1",
-    number: 1,
-    project: "test project",
-  },
-  {
-    key: "2",
-    number: 2,
-    project: "test project",
-  },
-  {
-    key: "3",
-    number: 3,
-    project: "test project",
-  },
-];
+const weekDay = (now.getDay() + 6) % 7; // Make sure Sunday is 6, not 0
+const monthDay = now.getDate();
+const mondayThisWeek = monthDay - weekDay;
+const startOfThisWeek = new Date(+now);
+startOfThisWeek.setDate(mondayThisWeek);
+startOfThisWeek.setHours(0, 0, 0, 0);
 const dataSourceTasks = [
   {
     key: "1",
@@ -108,7 +97,7 @@ const columnsTransactions = [
 interface projectData {
   key: string;
   number: number;
-  project: Project;
+  project: ProjectDTO;
   projectName: string;
   id: number;
 }
@@ -157,21 +146,12 @@ const Dashboard: React.FC<IProps> = (props) => {
         projectName: p.name ? p.name : "",
         id: p.id ? p.id : 0,
       }));
-      let latestProject: projectData = data[0];
 
-      data.forEach((dataPoint) => {
-        if (latestProject) {
-          if (latestProject.project.createdAt! > dataPoint.project.createdAt!) {
-            latestProject = dataPoint;
-          }
-        } else {
-          latestProject = dataPoint;
-        }
+      data.sort((a, b) => {
+        return b.project.createdAt!.getTime() - a.project.createdAt!.getTime();
       });
-
-      data.find((p) => p.project.updatedAt);
       setProjects(fromLoaded(data));
-      setLatestProjects(fromLoaded(latestProject));
+      setLatestProjects(fromLoaded(data[0]));
     })();
   }, []);
   return (
@@ -182,12 +162,16 @@ const Dashboard: React.FC<IProps> = (props) => {
             <Col span={8}>
               <Card>
                 <Statistic
-                  title="Projects"
-                  value={30.57}
-                  precision={2}
+                  title="Projects this week"
+                  value={
+                    projects.data?.filter(
+                      (p) => p.project.createdAt! > startOfThisWeek
+                    ).length
+                  }
+                  precision={0}
                   valueStyle={{ color: "#3f8600" }}
                   prefix={<ArrowUpOutlined />}
-                  suffix="%"
+                  suffix=""
                 />
               </Card>
             </Col>

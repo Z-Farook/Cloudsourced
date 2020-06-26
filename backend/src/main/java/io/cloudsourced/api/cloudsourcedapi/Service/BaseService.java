@@ -29,11 +29,6 @@ public class BaseService<Entity, P extends JpaRepository<Entity, Long>> implemen
     }
 
     @Override
-    public Entity update(Long id, Entity e) {
-        return null;
-    }
-
-    @Override
     public void delete(Long id) {
         repository.deleteById(id);
     }

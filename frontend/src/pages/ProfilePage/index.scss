@@ -1,0 +1,24 @@
+.detailImage {
+  max-width: calc(100% - 2px);
+  height: 230px;
+}
+
+h1.ant-typography {
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  margin-left: 10px;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.45);
+  span {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.project-info {
+  border: rgb(240, 240, 240) 1px solid;
+  padding: 20px;
+  margin-bottom: 10px;
+}

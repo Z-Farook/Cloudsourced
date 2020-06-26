@@ -30,4 +30,10 @@ public class ImplementationService extends BaseService<Implementation, Implement
 
         return repository.save(implementation);
     }
+
+    public List<Implementation> getImplementationFromFeature(Long id) {
+        User user = authenticatedUserProvider.GetUser();
+
+        return repository.getImplementationsFromFeature(id, user.getId());
+    }
 }
