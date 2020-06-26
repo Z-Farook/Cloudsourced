@@ -220,7 +220,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
                   />
                 </Upload>
 
-                {isEditing && project.data?.finishedAt ? (
+                {isEditing && !project.data?.finishedAt ? (
                   <Popconfirm title="Are you sure?" okText="Yes" cancelText="No" icon={<QuestionCircleOutlined style={{ color: 'red' }}/>} onConfirm={() => finishProject()}>
                     <Button>Finish project</Button>
                   </Popconfirm>
