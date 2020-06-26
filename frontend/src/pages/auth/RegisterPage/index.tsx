@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext, useMemo } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Form, Input, Button, Card, Row, Col, message } from "antd";
@@ -19,6 +19,7 @@ import { api } from "../../../core/api";
 import * as yup from "yup";
 
 import "./style.scss";
+import DataContext from "../../../core/DataContext";
 interface IProps extends RouteComponentProps {}
 
 const validationSchema = yup.object().shape({
@@ -49,6 +50,11 @@ interface IValues {
 }
 
 const RegisterPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    api.config,
+  ]);
+
   const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,
   });
@@ -57,19 +63,17 @@ const RegisterPage: React.FC<IProps> = (props) => {
     const values = data as IValues;
 
     try {
-      await new AuthenticationResourceApi(api.config).registerNewUserUsingPOST({
-        registerUserDTO: {
-          name: values.name,
-          infix: values.infix,
-          lastName: values.lastname,
-          country: values.country,
-          telephone: values.telephone,
-          street: values.street,
-          streetNumber: values.streetNumber,
-          languages: values.languages,
-          email: values.email,
-          password: values.password,
-        },
+      await dataContext.authentication.registerNewUser({
+        name: values.name,
+        infix: values.infix,
+        lastName: values.lastname,
+        country: values.country,
+        telephone: values.telephone,
+        street: values.street,
+        streetNumber: values.streetNumber,
+        languages: values.languages,
+        email: values.email,
+        password: values.password,
       });
       message.success("Your account has been created. you can now login!");
       props.history.push(`/auth/login`);
