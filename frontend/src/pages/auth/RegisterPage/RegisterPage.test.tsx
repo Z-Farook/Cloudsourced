@@ -40,7 +40,7 @@ const fillForm = async (wrapper: any) => {
   });
 };
 describe("registerPage", () => {
-  it("Should pass", async () => {
+  it("Should pass and navigate to login page", async () => {
     await act(async () => {
       Object.defineProperty(window, "matchMedia", {
         writable: true,
@@ -65,7 +65,13 @@ describe("registerPage", () => {
               params: IRegisterNewUserParams
             ): Promise<IRegisterNewUserResult> => {
               return {
-                user: {},
+                user: {
+                  authentication: {
+                    id: 1,
+                  },
+                  name: params.name,
+                  email: params.email,
+                },
               };
             },
           } as any,
@@ -110,6 +116,8 @@ describe("registerPage", () => {
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(
         false
       );
+
+      expect(history.location.pathname).toBe("/auth/login");
     });
   });
 
