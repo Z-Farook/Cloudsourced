@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { api } from "../../../core/api";
 import AuthStore from "../../../stores/AuthStore";
+import DataContext from "../../../core/DataContext";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -24,6 +25,10 @@ interface IValues {
 interface IProps extends RouteComponentProps {}
 
 const LoginPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    api.config,
+  ]);
   const { setAuth } = AuthStore.useContainer();
 
   const { handleSubmit, errors, setValue, register } = useForm({
@@ -34,15 +39,19 @@ const LoginPage: React.FC<IProps> = (props) => {
     const values = data as IValues;
 
     try {
-      const result = await new AuthenticationResourceApi(
-        api.config
-      ).authenticateUserUsingPOST({
-        authenticationUserDTO: {
-          email: values.email,
-          password: values.password,
-        },
+      const result = await dataContext.authentication.authenticateUser({
+        email: values.email,
+        password: values.password,
       });
-      setAuth(result);
+      // const result = await new AuthenticationResourceApi(
+      //   api.config
+      // ).authenticateUserUsingPOST({
+      //   authenticationUserDTO: {
+      //     email: values.email,
+      //     password: values.password,
+      //   },
+      // });
+      setAuth(result.authentication);
       props.history.push(`/account`);
     } catch (err) {
       message.error("Email or password is incorrect.");
