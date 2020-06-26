@@ -25,8 +25,8 @@ import AuthStore from "../../stores/AuthStore";
 import "./index.scss";
 import {
   EditOutlined,
-  CheckCircleOutlined,
-  QuestionCircleOutlined,
+  CheckOutlined,
+  ExclamationOutlined,
 } from "@ant-design/icons";
 const { Title, Text, Paragraph } = Typography;
 
@@ -127,19 +127,20 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 }
                               />
                             </Tooltip>,
-                            <Tooltip title="Finish project" key="finish">
+                            <Tooltip key="finish" title="Finish project">
                               <Popconfirm
                                 title="Do you want to finish this project?"
                                 okText="Yes"
                                 cancelText="No"
+                                placement="bottom"
                                 icon={
-                                  <QuestionCircleOutlined
+                                  <ExclamationOutlined
                                     style={{ color: "red" }}
                                   />
                                 }
                                 onConfirm={() => finishProject()}
                               >
-                                <CheckCircleOutlined />
+                                <CheckOutlined />
                               </Popconfirm>
                             </Tooltip>,
                           ]
