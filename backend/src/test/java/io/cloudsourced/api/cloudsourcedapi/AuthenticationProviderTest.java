@@ -23,6 +23,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.naming.NameNotFoundException;
@@ -40,21 +41,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 
-@SpringBootTest
 public class AuthenticationProviderTest {
 
     @InjectMocks
     private AuthenticationProvider authenticationProvider;
 
-    @Spy
+    @Mock
     private UserRepository userRepository;
 
-    @Spy
+    @Mock
     private AuthenticationRepository authenticationRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
 
     @Test
     void GivenAnInvalidToken_WhenValidateToken_ShouldReturnFalse(){
@@ -84,7 +80,7 @@ public class AuthenticationProviderTest {
 
     @Test
     void GivenAnInvalidUsernameAndPassword_whenGetAuthentication_ShouldThrowUnauthorized(){
-
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Authentication authentication = new Authentication();
         authentication.setToken("123-test-token");
         authentication.setExpireDate(Instant.now().plus(5, ChronoUnit.MINUTES));
@@ -103,6 +99,7 @@ public class AuthenticationProviderTest {
 
     @Test
     void GivenAnValidUsernameAndPassword_whenGetAuthentication_ShouldReturnAuthentication(){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Authentication authentication = new Authentication();
         authentication.setToken("123-test-token");
         authentication.setExpireDate(Instant.now().plus(5, ChronoUnit.MINUTES));
@@ -120,6 +117,7 @@ public class AuthenticationProviderTest {
 
     @Test
     void GivenAnInvalidToken_WhenGetUserByToken_ShouldThrowUnauthorized(){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Authentication authentication = new Authentication();
         authentication.setToken("123-test-token");
         authentication.setExpireDate(Instant.now().plus(5, ChronoUnit.MINUTES));
@@ -140,6 +138,7 @@ public class AuthenticationProviderTest {
 
     @Test
     void GivenAnValidToken_WhenGetUserByToken_ShouldReturnUser(){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Authentication authentication = new Authentication();
         authentication.setToken("123-test-token");
         authentication.setExpireDate(Instant.now().plus(5, ChronoUnit.MINUTES));
