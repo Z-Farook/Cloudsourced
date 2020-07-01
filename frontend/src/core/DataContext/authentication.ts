@@ -54,7 +54,7 @@ const authentication = (config?: Configuration): IAuthenticationResource => {
         authentication: result,
       };
     },
-    AddImplementationToFeature: async (
+    registerNewUser: async (
       params: IRegisterNewUserParams
     ): Promise<IRegisterNewUserResult> => {
       const result = await new AuthenticationResourceApi(
