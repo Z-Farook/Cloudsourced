@@ -15,11 +15,7 @@ import IRemoteData, {
   fromLoading,
 } from "../../../../core/IRemoteData";
 import { Button, Spin, Form, message } from "antd";
-import {
-  FeatureResourceApi,
-  ImplementationResourceApi,
-  FeatureDTO,
-} from "cloudsourced-api";
+import { FeatureResourceApi, FeatureDTO } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
@@ -92,7 +88,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
       );
       props.history.push(`/projects/${projectId}/features/${featureId}`);
     },
-    [featureId, props.history, projectId]
+    [featureId, props.history, projectId, dataContext.implementation]
   );
 
   const [

@@ -1,11 +1,5 @@
-import {
-  Authentication,
-  AuthenticationResourceApi,
-  Configuration,
-  ImplementationResourceApi,
-  User,
-} from "cloudsourced-api";
-import { ImplementationDTO, ReviewDTO } from "../../../gen/api/src/models";
+import { Configuration, ImplementationResourceApi } from "cloudsourced-api";
+import { ReviewDTO } from "../../../gen/api/src/models";
 import { api } from "../api";
 
 export interface IAddImplementationToFeatureParams {
