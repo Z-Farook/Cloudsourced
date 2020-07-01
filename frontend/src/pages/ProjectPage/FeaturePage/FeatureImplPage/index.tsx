@@ -15,7 +15,7 @@ import IRemoteData, {
   fromLoading,
 } from "../../../../core/IRemoteData";
 import { Button, Spin, Form, message } from "antd";
-import { FeatureResourceApi, FeatureDTO } from "cloudsourced-api";
+import { FeatureDTO } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
@@ -109,7 +109,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
       setValue("code", result.codePreview!);
     })();
-  }, [featureId, setValue]);
+  }, [featureId, setValue, dataContext.implementation]);
 
   const options = useMemo(
     () => ({
