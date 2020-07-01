@@ -13,7 +13,8 @@ import java.time.temporal.ChronoUnit;
 public class Authentication extends BaseEntity{
 
     private String token;
-    @Setter(AccessLevel.NONE)
+    //ToDo: expireDate Should not have a setter. but its needed for the test rifht now
+    //@Setter(AccessLevel.NONE)
     private Instant expireDate;
     @Setter()
     private long userId;
