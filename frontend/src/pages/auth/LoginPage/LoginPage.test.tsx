@@ -8,8 +8,6 @@ import { Configuration } from "cloudsourced-api";
 import {
   IAuthenticateUserParams,
   IAuthenticateUserResult,
-  IRegisterNewUserParams,
-  IRegisterNewUserResult,
 } from "../../../core/DataContext/authentication";
 import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
@@ -25,6 +23,25 @@ const fillForm = async (
   await passwordInput.simulate("change", {
     target: { value: "testpass" },
   });
+};
+const dataContextCreator = (config?: Configuration): Partial<IResources> => {
+  return {
+    authentication: {
+      authenticateUser: async (
+        params: IAuthenticateUserParams
+      ): Promise<IAuthenticateUserResult> => {
+        return {
+          authentication: {
+            id: 1,
+            createdAt: new Date("2020-06-26T18:31:26.078551Z"),
+            token: "rvCVnB28FTKS3sYm0hIAAcDBnQleQgIgcoeOUHGD",
+            expireDate: new Date("2090-07-03T18:45:17.050748Z"),
+            userId: 1,
+          },
+        };
+      },
+    } as any,
+  };
 };
 describe("loginPage", () => {
   it("Should pass and login", async () => {
@@ -43,27 +60,6 @@ describe("loginPage", () => {
         })),
       });
 
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          authentication: {
-            authenticateUser: async (
-              params: IAuthenticateUserParams
-            ): Promise<IAuthenticateUserResult> => {
-              return {
-                authentication: {
-                  id: 1,
-                  createdAt: new Date("2020-06-26T18:31:26.078551Z"),
-                  token: "rvCVnB28FTKS3sYm0hIAAcDBnQleQgIgcoeOUHGD",
-                  expireDate: new Date("2090-07-03T18:45:17.050748Z"),
-                  userId: 1,
-                },
-              };
-            },
-          } as any,
-        };
-      };
       const history = createMemoryHistory();
       history.push("auth/login");
       const wrapper = mount(
@@ -104,21 +100,6 @@ describe("loginPage", () => {
         })),
       });
 
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          authentication: {
-            AddImplementationToFeature: async (
-              params: IRegisterNewUserParams
-            ): Promise<IRegisterNewUserResult> => {
-              return {
-                user: {},
-              };
-            },
-          } as any,
-        };
-      };
       const history = createMemoryHistory();
       history.push("auth/login");
       const wrapper = mount(
@@ -157,21 +138,6 @@ describe("loginPage", () => {
         })),
       });
 
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          authentication: {
-            AddImplementationToFeature: async (
-              params: IRegisterNewUserParams
-            ): Promise<IRegisterNewUserResult> => {
-              return {
-                user: {},
-              };
-            },
-          } as any,
-        };
-      };
       const history = createMemoryHistory();
       history.push("auth/login");
       const wrapper = mount(
