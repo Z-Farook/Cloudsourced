@@ -18,8 +18,24 @@ export interface IImplementationResource {
   addImplementationToFeature: (
     params: IAddImplementationToFeatureParams
   ) => Promise<IAddImplementationToFeatureResult>;
+  getOneById: (
+    params: IGetOneByIdUsingParams
+  ) => Promise<IGetOneByIdUsingResult>;
 }
+export interface IGetOneByIdUsingParams {
+  id: number;
+}
+export interface IGetOneByIdUsingResult {
+  codeLanguage?: string;
 
+  codePreview?: string;
+
+  description?: string;
+
+  id?: number;
+
+  name?: string;
+}
 const implementation = (config?: Configuration): IImplementationResource => {
   return {
     addImplementationToFeature: async (
@@ -32,6 +48,16 @@ const implementation = (config?: Configuration): IImplementationResource => {
         implementationDTO: {
           code: params.code,
         },
+      });
+      return result;
+    },
+    getOneById: async (
+      params: IGetOneByIdUsingParams
+    ): Promise<IGetOneByIdUsingResult> => {
+      const result = await new ImplementationResourceApi(
+        api.config
+      ).getOneByIdUsingGET1({
+        id: params.id,
       });
       return result;
     },

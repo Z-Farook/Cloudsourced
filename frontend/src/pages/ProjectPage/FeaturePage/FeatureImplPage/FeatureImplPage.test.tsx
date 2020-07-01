@@ -8,7 +8,10 @@ import AuthStore from "../../../../stores/AuthStore";
 import NotFoundPage from "../../../NotFoundPage";
 import { MainSwitch } from "../../../../routing/MainRouter";
 import DataContext, { IResources } from "../../../../core/DataContext";
-import { Configuration } from "../../../../../gen/api/dist";
+import {
+  Configuration,
+  ImplementationResourceApi,
+} from "../../../../../gen/api/dist";
 import {
   IRegisterNewUserParams,
   IRegisterNewUserResult,
@@ -16,8 +19,11 @@ import {
 import {
   IAddImplementationToFeatureParams,
   IAddImplementationToFeatureResult,
+  IGetOneByIdUsingParams,
+  IGetOneByIdUsingResult,
   IImplementationResource,
 } from "../../../../core/DataContext/implementation";
+import { api } from "../../../../core/api";
 const dataContextCreator = (config?: Configuration): Partial<IResources> => {
   return {
     implementation: {
@@ -29,6 +35,16 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
           code: "jibberish",
           reviews: [],
         };
+      },
+      getOneById: async (
+        params: IGetOneByIdUsingParams
+      ): Promise<IGetOneByIdUsingResult> => {
+        const result = await new ImplementationResourceApi(
+          api.config
+        ).getOneByIdUsingGET1({
+          id: 1,
+        });
+        return result;
       },
     } as any,
   };

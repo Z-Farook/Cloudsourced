@@ -102,9 +102,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
     }
 
     (async () => {
-      const result = await new FeatureResourceApi(
-        api.config
-      ).getOneByIdUsingGET({
+      const result = await dataContext.implementation.getOneById({
         id: featureId,
       });
       setFeature(fromLoaded(result));
