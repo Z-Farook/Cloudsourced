@@ -46,7 +46,7 @@ describe("loginPage", () => {
       ): Partial<IResources> => {
         return {
           authentication: {
-            loginUser: async (
+            authenticateUser: async (
               params: IAuthenticateUserParams
             ): Promise<IAuthenticateUserResult> => {
               return {
@@ -77,12 +77,11 @@ describe("loginPage", () => {
 
       const submitButton = wrapper.find("button[type='submit']");
 
-      await submitButton.simulate("submit", {
+      await submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
 
-      console.log(wrapper.debug());
       expect(history.location.pathname).toBe("/account");
     });
   });
@@ -132,7 +131,7 @@ describe("loginPage", () => {
       const submitButton = wrapper.find("button[type='submit']");
 
       wrapper.update();
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
@@ -193,7 +192,7 @@ describe("loginPage", () => {
 
       wrapper.update();
 
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));

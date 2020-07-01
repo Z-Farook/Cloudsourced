@@ -75,7 +75,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
   const onSubmit = useCallback(
     async (data) => {
-      const result = await new ImplementationResourceApi(
+      await new ImplementationResourceApi(
         api.config
       ).addImplementationToFeatureUsingPOST({
         featureId: featureId!,
@@ -112,7 +112,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
       setValue("code", result.codePreview!);
     })();
-  }, [featureId]);
+  }, [featureId, setValue]);
 
   const options = useMemo(
     () => ({

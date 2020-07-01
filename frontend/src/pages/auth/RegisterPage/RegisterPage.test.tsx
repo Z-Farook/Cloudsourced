@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route } from "react-router";
+import { Router } from "react-router";
 import { createMemoryHistory } from "history";
 import AuthStore from "../../../stores/AuthStore";
 import { MainSwitch } from "../../../routing/MainRouter";
@@ -108,7 +108,7 @@ describe("registerPage", () => {
 
       const submitButton = wrapper.find("button[type='submit']");
 
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
@@ -166,12 +166,13 @@ describe("registerPage", () => {
       const submitButton = wrapper.find("button[type='submit']");
 
       wrapper.update();
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
 
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(true);
+      expect(history.location.pathname).toEqual("/auth/register");
     });
   });
   it("Should fail on email validation", async () => {
@@ -227,7 +228,7 @@ describe("registerPage", () => {
 
       wrapper.update();
 
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));

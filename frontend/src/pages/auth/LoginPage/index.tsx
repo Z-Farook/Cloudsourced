@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useMemo } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
-import { AuthenticationResourceApi } from "cloudsourced-api";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { api } from "../../../core/api";
@@ -27,7 +26,7 @@ interface IProps extends RouteComponentProps {}
 const LoginPage: React.FC<IProps> = (props) => {
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
-    api.config,
+    createDataContext,
   ]);
   const { setAuth } = AuthStore.useContainer();
 
@@ -62,7 +61,7 @@ const LoginPage: React.FC<IProps> = (props) => {
         <Col xs={6} />
         <Col xs={12}>
           <Card title="Login">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <Form>
               <Form.Item
                 label="Email"
                 name="email"
@@ -102,11 +101,15 @@ const LoginPage: React.FC<IProps> = (props) => {
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={handleSubmit(onSubmit)}
+                >
                   Login
                 </Button>
               </Form.Item>
-            </form>
+            </Form>
           </Card>
         </Col>
         <Col xs={6} />

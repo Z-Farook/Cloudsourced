@@ -14,7 +14,6 @@ import {
   UserAddOutlined,
 } from "@ant-design/icons";
 import { useForm } from "react-hook-form";
-import { AuthenticationResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import * as yup from "yup";
 
@@ -52,7 +51,7 @@ interface IValues {
 const RegisterPage: React.FC<IProps> = (props) => {
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
-    api.config,
+    createDataContext,
   ]);
 
   const { handleSubmit, errors, setValue, register } = useForm({
@@ -102,7 +101,7 @@ const RegisterPage: React.FC<IProps> = (props) => {
         <Col xs={6} />
         <Col xs={12}>
           <Card title="Register">
-            <form className="register_form" onSubmit={handleSubmit(onSubmit)}>
+            <Form className="register_form">
               <Form.Item
                 validateStatus={errors.name !== undefined ? "error" : undefined}
                 help={
@@ -268,11 +267,15 @@ const RegisterPage: React.FC<IProps> = (props) => {
                 />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={handleSubmit(onSubmit)}
+                >
                   Register
                 </Button>
               </Form.Item>
-            </form>
+            </Form>
           </Card>
         </Col>
       </Row>
