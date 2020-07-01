@@ -4,6 +4,7 @@ import React, {
   useMemo,
   useState,
   useRef,
+  useContext,
 } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../../components/layout/DefaultLayout";
@@ -25,6 +26,7 @@ import ResizeObserver from "react-resize-observer";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { api } from "../../../../core/api";
+import DataContext from "../../../../core/DataContext";
 
 const validationSchema = yup.object().shape({
   code: yup.string().required("Code is a required field"),
@@ -43,6 +45,11 @@ interface IEditorDimensions {
 }
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
+
   const editorRef = useRef<any>();
   const {
     handleSubmit,
@@ -75,13 +82,9 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
   const onSubmit = useCallback(
     async (data) => {
-      await new ImplementationResourceApi(
-        api.config
-      ).addImplementationToFeatureUsingPOST({
+      await dataContext.implementation.addImplementationToFeature({
         featureId: featureId!,
-        implementationDTO: {
-          code: data.code!,
-        },
+        code: data.code!,
       });
 
       message.success(

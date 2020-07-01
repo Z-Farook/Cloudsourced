@@ -109,7 +109,7 @@ describe("loginPage", () => {
       ): Partial<IResources> => {
         return {
           authentication: {
-            registerNewUser: async (
+            AddImplementationToFeature: async (
               params: IRegisterNewUserParams
             ): Promise<IRegisterNewUserResult> => {
               return {
@@ -162,7 +162,7 @@ describe("loginPage", () => {
       ): Partial<IResources> => {
         return {
           authentication: {
-            registerNewUser: async (
+            AddImplementationToFeature: async (
               params: IRegisterNewUserParams
             ): Promise<IRegisterNewUserResult> => {
               return {
