@@ -11,9 +11,11 @@ import {
   IRegisterNewUserParams,
   IRegisterNewUserResult,
 } from "../../../core/DataContext/authentication";
-import { mount } from "enzyme";
+import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
-const fillForm = async (wrapper: any) => {
+const fillForm = async (
+  wrapper: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
+) => {
   const emailNameInput = await wrapper.find('input[name="email"]');
   await emailNameInput.simulate("change", {
     target: { value: "testlemail@email.com" },
