@@ -120,7 +120,7 @@ describe("loginPage", () => {
         };
       };
       const history = createMemoryHistory();
-      history.push("auth/register");
+      history.push("auth/login");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
           <AuthStore.Provider>
@@ -173,7 +173,7 @@ describe("loginPage", () => {
         };
       };
       const history = createMemoryHistory();
-      history.push("auth/register");
+      history.push("auth/login");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
           <AuthStore.Provider>
