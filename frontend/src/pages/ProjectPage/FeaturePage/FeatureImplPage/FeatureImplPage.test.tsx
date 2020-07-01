@@ -1,27 +1,20 @@
 import React from "react";
-import { Router, Route } from "react-router";
+import { Router } from "react-router";
 import { createMemoryHistory } from "history";
 import { render } from "@testing-library/react";
-import FeatureImplPage from "./index";
-import { Switch } from "react-router-dom";
 import AuthStore from "../../../../stores/AuthStore";
-import NotFoundPage from "../../../NotFoundPage";
 import { MainSwitch } from "../../../../routing/MainRouter";
 import DataContext, { IResources } from "../../../../core/DataContext";
 import {
   Configuration,
   ImplementationResourceApi,
 } from "../../../../../gen/api/dist";
-import {
-  IRegisterNewUserParams,
-  IRegisterNewUserResult,
-} from "../../../../core/DataContext/authentication";
+
 import {
   IAddImplementationToFeatureParams,
   IAddImplementationToFeatureResult,
   IGetOneByIdUsingParams,
   IGetOneByIdUsingResult,
-  IImplementationResource,
 } from "../../../../core/DataContext/implementation";
 import { api } from "../../../../core/api";
 const dataContextCreator = (config?: Configuration): Partial<IResources> => {
@@ -97,7 +90,8 @@ test("Should fail because wrong url", () => {
 test("Should work", () => {
   const history = createMemoryHistory();
   history.push("projects/1/features/1/implementation");
-  const { container } = render(
+  // const { container } =
+  render(
     <DataContext.Provider value={dataContextCreator as any}>
       <AuthStore.Provider>
         <Router history={history}>
