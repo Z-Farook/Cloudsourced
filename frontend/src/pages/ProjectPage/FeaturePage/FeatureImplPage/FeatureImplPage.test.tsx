@@ -42,49 +42,51 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
     } as any,
   };
 };
-test("Should work", () => {
-  const history = createMemoryHistory();
-  history.push("projects/1/features/1/implementation");
-  // const { container } =
-  render(
-    <DataContext.Provider value={dataContextCreator as any}>
-      <AuthStore.Provider>
-        <Router history={history}>
-          <MainSwitch />
-        </Router>
-      </AuthStore.Provider>
-    </DataContext.Provider>
-  );
-  //expect(container).toHaveTextContent("Whoops");
-  expect(true).toBe(true);
-});
-test("Should fail because wrong project ID", () => {
-  const history = createMemoryHistory();
-  history.push("projects/BAD_ID/features/1/implementation");
-  const { container } = render(
-    <DataContext.Provider value={dataContextCreator as any}>
-      <AuthStore.Provider>
-        <Router history={history}>
-          <MainSwitch />
-        </Router>
-      </AuthStore.Provider>
-    </DataContext.Provider>
-  );
-  expect(container).toHaveTextContent("Whoops");
-  history.push("projects/1/features/1/implementation");
-});
+describe("implementationPage", () => {
+  it("should work", async () => {
+    const history = createMemoryHistory();
+    history.push("projects/1/features/1/implementation");
+    // const { container } =
+    render(
+      <DataContext.Provider value={dataContextCreator as any}>
+        <AuthStore.Provider>
+          <Router history={history}>
+            <MainSwitch />
+          </Router>
+        </AuthStore.Provider>
+      </DataContext.Provider>
+    );
+    //expect(container).toHaveTextContent("Whoops");
+    expect(true).toBe(true);
+  });
+  it("Should fail because wrong project ID", () => {
+    const history = createMemoryHistory();
+    history.push("projects/BAD_ID/features/1/implementation");
+    const { container } = render(
+      <DataContext.Provider value={dataContextCreator as any}>
+        <AuthStore.Provider>
+          <Router history={history}>
+            <MainSwitch />
+          </Router>
+        </AuthStore.Provider>
+      </DataContext.Provider>
+    );
+    expect(container).toHaveTextContent("Whoops");
+    history.push("projects/1/features/1/implementation");
+  });
 
-test("Should fail because wrong feature ID", () => {
-  const history = createMemoryHistory();
-  history.push("projects/1/features/BAD_ID/implementation");
-  const { container } = render(
-    <DataContext.Provider value={dataContextCreator as any}>
-      <AuthStore.Provider>
-        <Router history={history}>
-          <MainSwitch />
-        </Router>
-      </AuthStore.Provider>
-    </DataContext.Provider>
-  );
-  expect(container).toHaveTextContent("Whoops");
+  it("Should fail because wrong feature ID", () => {
+    const history = createMemoryHistory();
+    history.push("projects/1/features/BAD_ID/implementation");
+    const { container } = render(
+      <DataContext.Provider value={dataContextCreator as any}>
+        <AuthStore.Provider>
+          <Router history={history}>
+            <MainSwitch />
+          </Router>
+        </AuthStore.Provider>
+      </DataContext.Provider>
+    );
+    expect(container).toHaveTextContent("Whoops");
+  });
 });
