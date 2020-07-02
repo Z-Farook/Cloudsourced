@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 
 import { Row, Col, Table, Card, Statistic, Progress, Button } from "antd";
@@ -22,6 +22,7 @@ import {
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 import { UserDTO } from "../../../../gen/api/src/models";
+import DataContext from "../../../core/DataContext";
 
 interface IProps extends RouteComponentProps {}
 const now = new Date();
@@ -105,6 +106,10 @@ interface UserTransaction {
 }
 
 const Dashboard: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
   const columns = [
     {
       title: "#",
@@ -144,12 +149,8 @@ const Dashboard: React.FC<IProps> = (props) => {
   >(fromLoading());
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi(
-        api.config
-      ).getProjectsByUserUsingGET();
-      const userTransactionData = await new TransactionResourceApi(
-        api.config
-      ).getAllTransactionForAUserUsingGET();
+      const result = await dataContext.project.getProjectsByAuthenticatedUser();
+      const userTransactionData = await dataContext.transaction.getTransactionsByAuthenticatedUser();
       const data: projectData[] = result.map((p, i) => ({
         key: i.toString(),
         number: i,
