@@ -7,11 +7,11 @@ import { render } from "@testing-library/react";
 test("landing on a bad page shows the NotFoundPage with 'Whoops!' on it", () => {
   const history = createMemoryHistory();
   history.push("/some/bad/route");
-  const { container } = render(
+  const { getByText } = render(
     <Router history={history}>
       <App />
     </Router>
   );
 
-  expect(container).toHaveTextContent("Whoops!");
+  expect(getByText("Whoops!")).toBeInTheDocument();
 });
