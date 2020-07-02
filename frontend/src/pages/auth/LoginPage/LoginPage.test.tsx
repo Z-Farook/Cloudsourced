@@ -59,6 +59,47 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
   };
 };
 describe("loginPage", () => {
+  it("Should fail and has error", async () => {
+    await act(async () => {
+      Object.defineProperty(window, "matchMedia", {
+        writable: true,
+        value: jest.fn().mockImplementation((query) => ({
+          matches: false,
+          media: query,
+          onchange: null,
+          addListener: jest.fn(),
+          removeListener: jest.fn(),
+          addEventListener: jest.fn(),
+          removeEventListener: jest.fn(),
+          dispatchEvent: jest.fn(),
+        })),
+      });
+
+      const history = createMemoryHistory();
+      history.push("auth/login");
+      const wrapper = mount(
+        <DataContext.Provider value={dataContextCreator as any}>
+          <AuthStore.Provider>
+            <Router history={history}>
+              <MainSwitch />
+            </Router>
+          </AuthStore.Provider>
+        </DataContext.Provider>
+      );
+      await emptyForm(wrapper);
+      const submitButton = wrapper.find("button[type='submit']");
+
+      await submitButton.simulate("click", {
+        preventDefault() {},
+      });
+      await new Promise((resolve) => setImmediate(resolve));
+
+      expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(true);
+      expect(wrapper.update().getDOMNode()).toHaveTextContent(
+        "Email is a required field"
+      );
+    });
+  });
   it("Should pass and login", async () => {
     await act(async () => {
       Object.defineProperty(window, "matchMedia", {
@@ -98,44 +139,6 @@ describe("loginPage", () => {
       expect(history.location.pathname).toBe("/account");
     });
   });
-  it("Should fail and has error", async () => {
-    await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(),
-          removeListener: jest.fn(),
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const history = createMemoryHistory();
-      history.push("auth/login");
-      const wrapper = mount(
-        <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider>
-            <Router history={history}>
-              <MainSwitch />
-            </Router>
-          </AuthStore.Provider>
-        </DataContext.Provider>
-      );
-      await emptyForm(wrapper);
-      const submitButton = wrapper.find("button[type='submit']");
-
-      await submitButton.simulate("click", {
-        preventDefault() {},
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-
-      expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(true);
-    });
-  });
   it("Should fail on email validation", async () => {
     await act(async () => {
       Object.defineProperty(window, "matchMedia", {
@@ -169,7 +172,7 @@ describe("loginPage", () => {
       await emailNameInput.simulate("change", {
         target: { value: "testlemail@email.com3546546" },
       });
-      await emptyForm(wrapper);
+
       const submitButton = wrapper.find("button[type='submit']");
 
       wrapper.update();
