@@ -72,22 +72,6 @@ test("Should fail because wrong feature ID", () => {
   expect(container).toHaveTextContent("Whoops");
 });
 
-test("Should fail because wrong url", () => {
-  const history = createMemoryHistory();
-  history.push("/");
-  history.push("projects/1/features/BAD_ID/implementations");
-  const { container } = render(
-    <DataContext.Provider value={dataContextCreator as any}>
-      <AuthStore.Provider>
-        <Router history={history}>
-          <MainSwitch />
-        </Router>
-      </AuthStore.Provider>
-    </DataContext.Provider>
-  );
-  expect(container).toHaveTextContent("Whoops");
-});
-
 test("Should work", () => {
   const history = createMemoryHistory();
   history.push("projects/1/features/1/implementation");
