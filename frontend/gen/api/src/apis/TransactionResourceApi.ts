@@ -20,38 +20,21 @@ import {
     TransactionDTOToJSON,
 } from '../models';
 
-export interface CreateNewUsingPOST4Request {
-    dto: TransactionDTO;
-}
-
-export interface DeleteUsingDELETE4Request {
-    id?: number;
-}
-
-export interface GetOneByIdUsingGET4Request {
-    id: number;
-}
-
-export interface UpdateUsingPUT4Request {
-    id: number;
-    dto: TransactionDTO;
-}
-
 /**
  * 
  */
 export class TransactionResourceApi extends runtime.BaseAPI {
 
     /**
-     * all
+     * getAllTransactionForAUser
      */
-    async allUsingGET4Raw(): Promise<runtime.ApiResponse<Array<TransactionDTO>>> {
+    async getAllTransactionForAUserUsingGETRaw(): Promise<runtime.ApiResponse<Array<TransactionDTO>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/transaction`,
+            path: `/transaction/user`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -61,139 +44,10 @@ export class TransactionResourceApi extends runtime.BaseAPI {
     }
 
     /**
-     * all
+     * getAllTransactionForAUser
      */
-    async allUsingGET4(): Promise<Array<TransactionDTO>> {
-        const response = await this.allUsingGET4Raw();
-        return await response.value();
-    }
-
-    /**
-     * createNew
-     */
-    async createNewUsingPOST4Raw(requestParameters: CreateNewUsingPOST4Request): Promise<runtime.ApiResponse<TransactionDTO>> {
-        if (requestParameters.dto === null || requestParameters.dto === undefined) {
-            throw new runtime.RequiredError('dto','Required parameter requestParameters.dto was null or undefined when calling createNewUsingPOST4.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/transaction`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: TransactionDTOToJSON(requestParameters.dto),
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionDTOFromJSON(jsonValue));
-    }
-
-    /**
-     * createNew
-     */
-    async createNewUsingPOST4(requestParameters: CreateNewUsingPOST4Request): Promise<TransactionDTO> {
-        const response = await this.createNewUsingPOST4Raw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * delete
-     */
-    async deleteUsingDELETE4Raw(requestParameters: DeleteUsingDELETE4Request): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        if (requestParameters.id !== undefined) {
-            queryParameters['id'] = requestParameters.id;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/transaction`,
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     * delete
-     */
-    async deleteUsingDELETE4(requestParameters: DeleteUsingDELETE4Request): Promise<void> {
-        await this.deleteUsingDELETE4Raw(requestParameters);
-    }
-
-    /**
-     * getOneById
-     */
-    async getOneByIdUsingGET4Raw(requestParameters: GetOneByIdUsingGET4Request): Promise<runtime.ApiResponse<TransactionDTO>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET4.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/transaction/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionDTOFromJSON(jsonValue));
-    }
-
-    /**
-     * getOneById
-     */
-    async getOneByIdUsingGET4(requestParameters: GetOneByIdUsingGET4Request): Promise<TransactionDTO> {
-        const response = await this.getOneByIdUsingGET4Raw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * update
-     */
-    async updateUsingPUT4Raw(requestParameters: UpdateUsingPUT4Request): Promise<runtime.ApiResponse<TransactionDTO>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateUsingPUT4.');
-        }
-
-        if (requestParameters.dto === null || requestParameters.dto === undefined) {
-            throw new runtime.RequiredError('dto','Required parameter requestParameters.dto was null or undefined when calling updateUsingPUT4.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/transaction/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: TransactionDTOToJSON(requestParameters.dto),
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => TransactionDTOFromJSON(jsonValue));
-    }
-
-    /**
-     * update
-     */
-    async updateUsingPUT4(requestParameters: UpdateUsingPUT4Request): Promise<TransactionDTO> {
-        const response = await this.updateUsingPUT4Raw(requestParameters);
+    async getAllTransactionForAUserUsingGET(): Promise<Array<TransactionDTO>> {
+        const response = await this.getAllTransactionForAUserUsingGETRaw();
         return await response.value();
     }
 
