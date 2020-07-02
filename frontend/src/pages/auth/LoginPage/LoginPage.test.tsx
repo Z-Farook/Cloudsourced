@@ -62,32 +62,14 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
       getProjectsByAuthenticatedUser: async (): Promise<
         Array<IGetProjectsByAuthenticatedUserResult>
       > => {
-        return [
-          {
-            id: 1,
-            createdAt: new Date("2019-01-16"),
-          },
-          {
-            id: 2,
-            createdAt: new Date("2020-01-16"),
-          },
-        ];
+        return [];
       },
     } as any,
     transaction: {
       getTransactionsByAuthenticatedUser: async (): Promise<
         Array<IGettransactionsByAuthenticatedUserResult>
       > => {
-        return [
-          {
-            id: 1,
-            points: 20,
-          },
-          {
-            id: 2,
-            points: 30,
-          },
-        ];
+        return [];
       },
     },
   };
