@@ -39,23 +39,40 @@ const fillForm = async (wrapper: any) => {
     target: { value: "testpass" },
   });
 };
+const setObject = () => {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // deprecated
+      removeListener: jest.fn(), // deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+};
+const emptyDataContextCreator = (
+  config?: Configuration
+): Partial<IResources> => {
+  return {
+    authentication: {
+      registerNewUser: async (
+        params: IRegisterNewUserParams
+      ): Promise<IRegisterNewUserResult> => {
+        return {
+          user: {},
+        };
+      },
+    } as any,
+  };
+};
 describe("registerPage", () => {
   it("Should pass and navigate to login page", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
+      setObject();
       const dataContextCreator = (
         config?: Configuration
       ): Partial<IResources> => {
@@ -123,39 +140,11 @@ describe("registerPage", () => {
 
   it("Should fail on validate", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          authentication: {
-            registerNewUser: async (
-              params: IRegisterNewUserParams
-            ): Promise<IRegisterNewUserResult> => {
-              return {
-                user: {},
-              };
-            },
-          } as any,
-        };
-      };
+      setObject();
       const history = createMemoryHistory();
       history.push("auth/register");
       const wrapper = mount(
-        <DataContext.Provider value={dataContextCreator as any}>
+        <DataContext.Provider value={emptyDataContextCreator as any}>
           <AuthStore.Provider>
             <Router history={history}>
               <MainSwitch />
@@ -177,39 +166,11 @@ describe("registerPage", () => {
   });
   it("Should fail on email validation", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          authentication: {
-            registerNewUser: async (
-              params: IRegisterNewUserParams
-            ): Promise<IRegisterNewUserResult> => {
-              return {
-                user: {},
-              };
-            },
-          } as any,
-        };
-      };
+      setObject();
       const history = createMemoryHistory();
       history.push("auth/register");
       const wrapper = mount(
-        <DataContext.Provider value={dataContextCreator as any}>
+        <DataContext.Provider value={emptyDataContextCreator as any}>
           <AuthStore.Provider>
             <Router history={history}>
               <MainSwitch />

@@ -74,6 +74,7 @@ test("Should fail because wrong feature ID", () => {
 
 test("Should fail because wrong url", () => {
   const history = createMemoryHistory();
+  history.push("/");
   history.push("projects/1/features/BAD_ID/implementations");
   const { container } = render(
     <DataContext.Provider value={dataContextCreator as any}>
