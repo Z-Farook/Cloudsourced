@@ -20,15 +20,15 @@ import {
     UserDTOToJSON,
 } from '../models';
 
-export interface CreateNewUsingPOST5Request {
+export interface CreateNewUsingPOST4Request {
     dto: UserDTO;
 }
 
-export interface DeleteUsingDELETE5Request {
+export interface DeleteUsingDELETE4Request {
     id?: number;
 }
 
-export interface GetOneByIdUsingGET5Request {
+export interface GetOneByIdUsingGET4Request {
     id: number;
 }
 
@@ -36,7 +36,7 @@ export interface GetUserProfileInfoUsingGETRequest {
     id: number;
 }
 
-export interface UpdateUsingPUT5Request {
+export interface UpdateUsingPUT4Request {
     id: number;
     dto: UserDTO;
 }
@@ -49,7 +49,7 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * all
      */
-    async allUsingGET5Raw(): Promise<runtime.ApiResponse<Array<UserDTO>>> {
+    async allUsingGET4Raw(): Promise<runtime.ApiResponse<Array<UserDTO>>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -67,17 +67,17 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * all
      */
-    async allUsingGET5(): Promise<Array<UserDTO>> {
-        const response = await this.allUsingGET5Raw();
+    async allUsingGET4(): Promise<Array<UserDTO>> {
+        const response = await this.allUsingGET4Raw();
         return await response.value();
     }
 
     /**
      * createNew
      */
-    async createNewUsingPOST5Raw(requestParameters: CreateNewUsingPOST5Request): Promise<runtime.ApiResponse<UserDTO>> {
+    async createNewUsingPOST4Raw(requestParameters: CreateNewUsingPOST4Request): Promise<runtime.ApiResponse<UserDTO>> {
         if (requestParameters.dto === null || requestParameters.dto === undefined) {
-            throw new runtime.RequiredError('dto','Required parameter requestParameters.dto was null or undefined when calling createNewUsingPOST5.');
+            throw new runtime.RequiredError('dto','Required parameter requestParameters.dto was null or undefined when calling createNewUsingPOST4.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -100,15 +100,15 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * createNew
      */
-    async createNewUsingPOST5(requestParameters: CreateNewUsingPOST5Request): Promise<UserDTO> {
-        const response = await this.createNewUsingPOST5Raw(requestParameters);
+    async createNewUsingPOST4(requestParameters: CreateNewUsingPOST4Request): Promise<UserDTO> {
+        const response = await this.createNewUsingPOST4Raw(requestParameters);
         return await response.value();
     }
 
     /**
      * delete
      */
-    async deleteUsingDELETE5Raw(requestParameters: DeleteUsingDELETE5Request): Promise<runtime.ApiResponse<void>> {
+    async deleteUsingDELETE4Raw(requestParameters: DeleteUsingDELETE4Request): Promise<runtime.ApiResponse<void>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.id !== undefined) {
@@ -130,16 +130,16 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * delete
      */
-    async deleteUsingDELETE5(requestParameters: DeleteUsingDELETE5Request): Promise<void> {
-        await this.deleteUsingDELETE5Raw(requestParameters);
+    async deleteUsingDELETE4(requestParameters: DeleteUsingDELETE4Request): Promise<void> {
+        await this.deleteUsingDELETE4Raw(requestParameters);
     }
 
     /**
      * getOneById
      */
-    async getOneByIdUsingGET5Raw(requestParameters: GetOneByIdUsingGET5Request): Promise<runtime.ApiResponse<UserDTO>> {
+    async getOneByIdUsingGET4Raw(requestParameters: GetOneByIdUsingGET4Request): Promise<runtime.ApiResponse<UserDTO>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET5.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getOneByIdUsingGET4.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -159,8 +159,8 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * getOneById
      */
-    async getOneByIdUsingGET5(requestParameters: GetOneByIdUsingGET5Request): Promise<UserDTO> {
-        const response = await this.getOneByIdUsingGET5Raw(requestParameters);
+    async getOneByIdUsingGET4(requestParameters: GetOneByIdUsingGET4Request): Promise<UserDTO> {
+        const response = await this.getOneByIdUsingGET4Raw(requestParameters);
         return await response.value();
     }
 
@@ -223,13 +223,13 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * update
      */
-    async updateUsingPUT5Raw(requestParameters: UpdateUsingPUT5Request): Promise<runtime.ApiResponse<UserDTO>> {
+    async updateUsingPUT4Raw(requestParameters: UpdateUsingPUT4Request): Promise<runtime.ApiResponse<UserDTO>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateUsingPUT5.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling updateUsingPUT4.');
         }
 
         if (requestParameters.dto === null || requestParameters.dto === undefined) {
-            throw new runtime.RequiredError('dto','Required parameter requestParameters.dto was null or undefined when calling updateUsingPUT5.');
+            throw new runtime.RequiredError('dto','Required parameter requestParameters.dto was null or undefined when calling updateUsingPUT4.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -252,8 +252,8 @@ export class UserResourceApi extends runtime.BaseAPI {
     /**
      * update
      */
-    async updateUsingPUT5(requestParameters: UpdateUsingPUT5Request): Promise<UserDTO> {
-        const response = await this.updateUsingPUT5Raw(requestParameters);
+    async updateUsingPUT4(requestParameters: UpdateUsingPUT4Request): Promise<UserDTO> {
+        const response = await this.updateUsingPUT4Raw(requestParameters);
         return await response.value();
     }
 

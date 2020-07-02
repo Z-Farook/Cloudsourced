@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import {
-  Row,
-  Col,
-  Table,
-  Card,
-  Statistic,
-  Progress,
-  Button,
-} from "antd";
+import { Row, Col, Table, Card, Statistic, Progress, Button } from "antd";
 
 import {
   ArrowUpOutlined,
-  ArrowDownOutlined,
+  DollarOutlined,
   PlusOutlined,
   RightOutlined,
 } from "@ant-design/icons";
@@ -22,9 +14,11 @@ import IRemoteData, {
   fromLoading,
   fromLoaded,
 } from "../../../core/IRemoteData";
-import { ProjectResourceApi, ProjectDTO } from "cloudsourced-api";
+import { ProjectDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
+import { UserDTO } from "../../../../gen/api/src/models";
+import DataContext from "../../../core/DataContext";
 
 interface IProps extends RouteComponentProps {}
 const now = new Date();
@@ -52,23 +46,6 @@ const dataSourceTasks = [
     project: "test task",
   },
 ];
-const dataSourceTransactions = [
-  {
-    key: "1",
-    number: 1,
-    project: "test transaction",
-  },
-  {
-    key: "2",
-    number: 2,
-    project: "test transaction",
-  },
-  {
-    key: "3",
-    number: 3,
-    project: "test transaction",
-  },
-];
 
 const columnsTasks = [
   {
@@ -89,9 +66,14 @@ const columnsTransactions = [
     key: "number",
   },
   {
-    title: "Latest transactions",
-    dataIndex: "project",
-    key: "project",
+    title: "Transactions by user",
+    dataIndex: "user",
+    key: "user",
+  },
+  {
+    title: "Points",
+    dataIndex: "points",
+    key: "points",
   },
 ];
 interface projectData {
@@ -101,7 +83,17 @@ interface projectData {
   projectName: string;
   id: number;
 }
+interface UserTransaction {
+  id?: number;
+  points?: number;
+  user?: UserDTO;
+}
+
 const Dashboard: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
   const columns = [
     {
       title: "#",
@@ -130,15 +122,18 @@ const Dashboard: React.FC<IProps> = (props) => {
   const [projects, setProjects] = useState<IRemoteData<projectData[], null>>(
     fromLoading()
   );
+  const [transactions, setTransactions] = useState<
+    IRemoteData<UserTransaction[], null>
+  >(fromLoading());
+  const [points, setPoints] = useState<IRemoteData<number, 0>>(fromLoading());
   const [latestProject, setLatestProjects] = useState<
     IRemoteData<projectData, null>
   >(fromLoading());
+
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi(
-        api.config
-      ).getProjectsByUserUsingGET();
-
+      const result = await dataContext.project.getProjectsByAuthenticatedUser();
+      const userTransactionData = await dataContext.transaction.getTransactionsByAuthenticatedUser();
       const data: projectData[] = result.map((p, i) => ({
         key: i.toString(),
         number: i,
@@ -151,9 +146,26 @@ const Dashboard: React.FC<IProps> = (props) => {
         return b.project.createdAt!.getTime() - a.project.createdAt!.getTime();
       });
       setProjects(fromLoaded(data));
+      const userTransactions: UserTransaction[] = userTransactionData.map(
+        (p, i) => ({
+          key: i.toString(),
+          id: p.id,
+          points: p.points,
+          user: p.user,
+        })
+      );
+      setTransactions(fromLoaded(userTransactions));
+      let points =
+        userTransactions !== null
+          ? (userTransactions
+              .map((a) => a.points)
+              .reduce((a, b) => a! + b!, 0) as number)
+          : 0;
+
+      setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
     })();
-  }, []);
+  }, [dataContext.project, dataContext.transaction]);
   return (
     <>
       <Row justify="center" gutter={[24, 24]}>
@@ -178,19 +190,19 @@ const Dashboard: React.FC<IProps> = (props) => {
             <Col span={8}>
               <Card>
                 <Statistic
-                  title="Tasks"
-                  value={19.21}
-                  precision={2}
-                  valueStyle={{ color: "#cf1322" }}
-                  prefix={<ArrowDownOutlined />}
-                  suffix="%"
+                  title="Your points"
+                  value={points.data ? (points.data as number) : 0}
+                  precision={0}
+                  valueStyle={{ color: "#1890ff" }}
+                  prefix={<DollarOutlined />}
+                  suffix=""
                 />
               </Card>
             </Col>
             <Col span={8}>
               <Card>
                 <Statistic
-                  title="Points"
+                  title="Points this week"
                   value={11.28}
                   precision={2}
                   valueStyle={{ color: "#3f8600" }}
@@ -214,7 +226,7 @@ const Dashboard: React.FC<IProps> = (props) => {
                   <Progress percent={70} status="active" />
                 </div>
                 <div>
-                  <Title level={4}>Finished points</Title>
+                  <Title level={4}>Received points</Title>
                   <Progress percent={100} />
                 </div>
               </Card>
@@ -269,7 +281,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={dataSourceTransactions}
+              dataSource={transactions.data !== null ? transactions.data : []}
               columns={columnsTransactions}
             />
           </Card>
