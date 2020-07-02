@@ -182,7 +182,7 @@ const Dashboard: React.FC<IProps> = (props) => {
       setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
     })();
-  }, []);
+  }, [transactions.data]);
   return (
     <>
       <Row justify="center" gutter={[24, 24]}>
