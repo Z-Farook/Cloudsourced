@@ -1,9 +1,4 @@
-import {
-  Configuration,
-  ImplementationResourceApi,
-  ProjectResourceApi,
-} from "cloudsourced-api";
-import { ProjectDTO, ReviewDTO } from "../../../gen/api/src/models";
+import { Configuration, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../api";
 
 export interface IProjectResource {

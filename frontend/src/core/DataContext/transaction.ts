@@ -1,10 +1,5 @@
-import {
-  Configuration,
-  ImplementationResourceApi,
-  ProjectResourceApi,
-  TransactionResourceApi,
-} from "cloudsourced-api";
-import { ProjectDTO, ReviewDTO, UserDTO } from "../../../gen/api/src/models";
+import { Configuration, TransactionResourceApi } from "cloudsourced-api";
+import { UserDTO } from "../../../gen/api/src/models";
 import { api } from "../api";
 
 export interface ITransactionResource {
