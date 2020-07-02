@@ -38,9 +38,7 @@ interface IRouterParams {
 export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const createDataContext = useContext(DataContext);
-  const dataContext = useMemo(() => createDataContext(api.config), [
-    api.config,
-  ]);
+  const dataContext = useMemo(() => createDataContext(api.config), []);
 
   const projectId = Number(props.match.params.projectId);
 
@@ -85,7 +83,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       const result = await dataContext.project.getProjectDetail({ projectId });
       setProject(fromLoaded(result.project));
     })();
-  }, [projectId]);
+  }, []);
 
   const { description, image, name: projectName, user } = project.data || {};
 
