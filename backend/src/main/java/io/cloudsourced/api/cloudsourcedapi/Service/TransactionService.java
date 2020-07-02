@@ -9,4 +9,12 @@ public class TransactionService extends BaseService<Transaction, TransactionRepo
     public TransactionService(TransactionRepository repository, AuthenticatedUserBean authenticatedUserProvider) {
         super(repository, authenticatedUserProvider);
     }
+    /**
+     * This is used in paymentService to get points for user
+     *
+     * @return long points
+     */
+    public long getPointsByUser(Long userId) {
+        return repository.findPoints(userId);
+    }
 }
