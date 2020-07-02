@@ -11,7 +11,7 @@ import {
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
-import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
+// import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
 import noImage from "../../assets/noimage.png";
 
@@ -36,9 +36,9 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
 
   const projectId = Number(props.match.params.projectId);
 
-  const [project, setProject] = useState<IRemoteData<ProjectDTO, null>>(
-    fromLoading()
-  );
+  // const [project, setProject] = useState<IRemoteData<ProjectDTO, null>>(
+  //   fromLoading()
+  // );
 
   useEffect(() => {
     if (isEditing) {
@@ -51,7 +51,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
         if (result.name) setValue("projectName", result.name!);
         if (result.description) setValue("description", result.description!);
         if (result.image) setImage(result.image!);
-        setProject(fromLoaded(result));
+        // setProject(fromLoaded(result));
       })();
     }
     // eslint-disable-next-line
