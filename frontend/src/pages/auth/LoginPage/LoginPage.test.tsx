@@ -58,23 +58,25 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
     } as any,
   };
 };
+const setObject = () => {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // deprecated
+      removeListener: jest.fn(), // deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+};
 describe("loginPage", () => {
   it("Should fail and has error", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(),
-          removeListener: jest.fn(),
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
+      setObject();
       const history = createMemoryHistory();
       history.push("auth/login");
       const wrapper = mount(
@@ -102,20 +104,7 @@ describe("loginPage", () => {
   });
   it("Should fail on email validation", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(),
-          removeListener: jest.fn(),
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
+      setObject();
       const history = createMemoryHistory();
       history.push("auth/login");
       const wrapper = mount(
@@ -149,20 +138,7 @@ describe("loginPage", () => {
   });
   it("Should pass and login", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(),
-          removeListener: jest.fn(),
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
+      setObject();
       const history = createMemoryHistory();
       history.push("auth/login");
       const wrapper = mount(

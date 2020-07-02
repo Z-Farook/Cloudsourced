@@ -71,6 +71,7 @@ test("Should fail because wrong project ID", () => {
     </DataContext.Provider>
   );
   expect(container).toHaveTextContent("Whoops");
+  history.push("projects/1/features/1/implementation");
 });
 
 test("Should fail because wrong feature ID", () => {
