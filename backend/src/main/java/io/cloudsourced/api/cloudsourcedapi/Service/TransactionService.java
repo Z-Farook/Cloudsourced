@@ -12,11 +12,9 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class TransactionService extends BaseService<Transaction, TransactionRepository> {
 
-    private final UserRepository userRepository;
 
-    public TransactionService(TransactionRepository repository, UserRepository userRepository, AuthenticatedUserBean authenticatedUserBean) {
+    public TransactionService(TransactionRepository repository,  AuthenticatedUserBean authenticatedUserBean) {
         super(repository, authenticatedUserBean);
-        this.userRepository = userRepository;
     }
 
     public List<Transaction> getTransactionForUser(User user) {
