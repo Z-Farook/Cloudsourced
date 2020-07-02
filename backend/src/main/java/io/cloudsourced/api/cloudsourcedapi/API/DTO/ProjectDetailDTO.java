@@ -11,6 +11,7 @@ public class ProjectDetailDTO {
     private String name;
     private String description;
     private String image;
+    private Instant finishedAt;
     private List<FeatureDTO> features;
     private Instant createdAt;
     private Instant updatedAt;

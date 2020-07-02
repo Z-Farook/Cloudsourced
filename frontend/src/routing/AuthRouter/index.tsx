@@ -3,13 +3,10 @@ import {
   RouteComponentProps,
   BrowserRouter as Router,
   Switch,
-  Redirect,
 } from "react-router-dom";
 import { Route } from "react-router-dom";
 import LoginPage from "../../pages/auth/LoginPage";
 import RegisterPage from "../../pages/auth/RegisterPage";
-import AuthStore from "../../stores/AuthStore";
-import AccountPage from "../../pages/Account";
 import home from "../../pages/HomePage";
 import MainRouter from "../MainRouter";
 interface IProps extends RouteComponentProps {}

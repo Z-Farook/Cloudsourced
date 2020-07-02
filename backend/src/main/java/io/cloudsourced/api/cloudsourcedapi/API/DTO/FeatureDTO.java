@@ -11,5 +11,7 @@ public class FeatureDTO {
     private String description;
     private String codePreview;
     private String codeLanguage;
+    private long  points;
+    private List<ImplementationDTO> implementations;
 
 }

@@ -8,7 +8,7 @@ public interface Resource<Entity,DTO> {
     DTO getOneById(Long id);
     DTO createNew(DTO dto);
     DTO update(DTO dto, Long id);
-    List<DTO> All();
+    List<DTO> all();
     void delete(Long id);
 }
 
