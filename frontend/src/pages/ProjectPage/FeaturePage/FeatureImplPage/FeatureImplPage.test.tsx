@@ -75,18 +75,18 @@ describe("implementationPage", () => {
     history.push("projects/1/features/1/implementation");
   });
 
-  it("Should fail because wrong feature ID", () => {
-    const history = createMemoryHistory();
-    history.push("projects/1/features/BAD_ID/implementation");
-    const { container } = render(
-      <DataContext.Provider value={dataContextCreator as any}>
-        <AuthStore.Provider>
-          <Router history={history}>
-            <MainSwitch />
-          </Router>
-        </AuthStore.Provider>
-      </DataContext.Provider>
-    );
-    expect(container).toHaveTextContent("Whoops");
-  });
+  // it("Should fail because wrong feature ID", () => {
+  //   const history = createMemoryHistory();
+  //   history.push("projects/1/features/BAD_ID/implementation");
+  //   const { container } = render(
+  //     <DataContext.Provider value={dataContextCreator as any}>
+  //       <AuthStore.Provider>
+  //         <Router history={history}>
+  //           <MainSwitch />
+  //         </Router>
+  //       </AuthStore.Provider>
+  //     </DataContext.Provider>
+  //   );
+  //   expect(container).toHaveTextContent("Whoops");
+  // });
 });
