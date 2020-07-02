@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Button, PageHeader, BackTop } from "antd";
+import { Button, PageHeader, BackTop, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Spin } from "antd";
-import { Project, ProjectResourceApi } from "cloudsourced-api";
+import { ProjectDTO, ProjectResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import IRemoteData, {
   EState,
@@ -15,18 +15,35 @@ import ProjectCard from "../../ProjectPage/ProjectCard/";
 interface IProps extends RouteComponentProps {}
 
 const MyProjects: React.FC<IProps> = (props) => {
-  const [projects, setProjects] = useState<IRemoteData<Project[], null>>(
+  const [projects, setProjects] = useState<IRemoteData<ProjectDTO[], null>>(
     fromLoading()
   );
-
+  const sort = (value: string) => {
+    if (value === "Ascending") {
+      setProjects(
+        fromLoaded(
+          projects.data!.sort((a, b) => {
+            return a.createdAt!.getTime() - b.createdAt!.getTime();
+          })
+        )
+      );
+    } else {
+      setProjects(
+        fromLoaded(
+          projects.data!.sort((a, b) => {
+            return b.createdAt!.getTime() - a.createdAt!.getTime();
+          })
+        )
+      );
+    }
+  };
+  const { Option } = Select;
   useEffect(() => {
     (async () => {
-      //TODO
-      // get projects from current user
       const result = await new ProjectResourceApi(
         api.config
       ).getProjectsByUserUsingGET();
-      console.log(result);
+
       setProjects(fromLoaded(result));
     })();
   }, []);
@@ -37,7 +54,17 @@ const MyProjects: React.FC<IProps> = (props) => {
         className="site-page-header"
         title="My projects"
         extra={[
+          <Select
+            key="sort"
+            defaultValue="Ascending"
+            style={{ width: 120 }}
+            onChange={sort}
+          >
+            <Option value="Ascending">Ascending</Option>
+            <Option value="Descending">Descending</Option>
+          </Select>,
           <Button
+            key="add"
             type="primary"
             shape="circle"
             onClick={() => props.history.push("/user/project/create")}

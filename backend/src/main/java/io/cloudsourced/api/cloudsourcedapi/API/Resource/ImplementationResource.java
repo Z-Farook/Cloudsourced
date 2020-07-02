@@ -7,7 +7,10 @@ import io.cloudsourced.api.cloudsourcedapi.Persistence.ImplementationRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.ImplementationService;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 @RestController
 @RequestMapping("/implementation")
 public class ImplementationResource extends BaseResource<Implementation, ImplementationDTO, ImplementationService, ImplementationRepository, ImplementationMapper> {
@@ -19,5 +22,10 @@ public class ImplementationResource extends BaseResource<Implementation, Impleme
     @PostMapping("/{featureId}")
     public ImplementationDTO addImplementationToFeature(@PathVariable Long featureId, @RequestBody ImplementationDTO implementationDTO) {
         return mapper.entityToDTO(service.addImplementationToFeature(featureId, mapper.DTOToEntity(implementationDTO)));
+    }
+
+    @GetMapping("/feature/{featureId}")
+    public List<ImplementationDTO> getImplementationFromFeature(@PathVariable Long featureId) {
+        return service.getImplementationFromFeature(featureId).stream().map(mapper::entityToDTO).collect(Collectors.toList());
     }
 }

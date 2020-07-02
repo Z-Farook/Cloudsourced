@@ -4,9 +4,9 @@ import "./App.scss";
 import AuthStore from "./stores/AuthStore";
 import {
   AuthenticationResourceApi,
-  ValidateTokenUsingPOSTRequest,
   Authentication,
 } from "cloudsourced-api";
+import DataContext, { defaultDataContext } from "./core/DataContext";
 
 import { monaco } from "@monaco-editor/react";
 
@@ -57,9 +57,11 @@ const AppWrapper = () => {
 
 function App() {
   return (
-    <AuthStore.Provider>
-      <AppWrapper />
-    </AuthStore.Provider>
+    <DataContext.Provider value={defaultDataContext}>
+      <AuthStore.Provider>
+        <AppWrapper />
+      </AuthStore.Provider>
+    </DataContext.Provider>
   );
 }
 

@@ -3,10 +3,10 @@ import { Card, Button } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { Feature } from "cloudsourced-api";
+import { FeatureDTO } from "cloudsourced-api";
 
 interface IProps extends RouteComponentProps {
-  data: Feature;
+  data: FeatureDTO;
   projectId: Number;
 }
 

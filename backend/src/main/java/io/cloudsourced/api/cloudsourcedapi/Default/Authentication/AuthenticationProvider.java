@@ -57,7 +57,6 @@ public class AuthenticationProvider {
 
     public org.springframework.security.core.Authentication getAuthentication(String token) {
         User user = getUserByToken(token);
-        System.out.print(user.getPassword());
         return new UsernamePasswordAuthenticationToken(null, user, null);
     }
 
@@ -72,6 +71,8 @@ public class AuthenticationProvider {
         }
 
         Authentication authentication = user.get().getAuthentication();
+        authentication.setUserId(user.get().getId());
+
         if (authentication == null) {
             throw new UnauthorizedException("AUTH_NOT_FOUND");
         }

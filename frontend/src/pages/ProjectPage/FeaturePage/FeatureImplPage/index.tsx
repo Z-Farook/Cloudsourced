@@ -4,6 +4,7 @@ import React, {
   useMemo,
   useState,
   useRef,
+  useContext,
 } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../../components/layout/DefaultLayout";
@@ -13,15 +14,15 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../../core/IRemoteData";
-import { Feature } from "../../../../../gen/api/dist/models";
-import { Button, Spin, Form } from "antd";
-import { FeatureResourceApi } from "cloudsourced-api";
+import { Button, Spin, Form, message } from "antd";
+import { FeatureDTO } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { api } from "../../../../core/api";
+import DataContext from "../../../../core/DataContext";
 
 const validationSchema = yup.object().shape({
   code: yup.string().required("Code is a required field"),
@@ -40,22 +41,55 @@ interface IEditorDimensions {
 }
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
+
   const editorRef = useRef<any>();
-  const { handleSubmit, errors, control, setValue, getValues } = useForm({
+  const {
+    handleSubmit,
+    errors,
+    control,
+    setValue,
+    getValues,
+    formState,
+  } = useForm({
     validationSchema,
   });
-  const onSubmit = useCallback((data) => alert(JSON.stringify(data)), []);
-
-  const [feature, setFeature] = useState<IRemoteData<Feature, null>>(
+  const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
 
-  // const projectId = useMemo(() => Number(props.match.params.projectId), [
-  //   props.match.params.projectId,
-  // ]);
-  const featureId = useMemo(() => Number(props.match.params.featureId), [
-    props.match.params.featureId,
-  ]);
+  const projectId = useMemo<number | null>(
+    () =>
+      isNaN(Number(props.match.params.projectId))
+        ? null
+        : Number(props.match.params.projectId),
+    [props.match.params.projectId]
+  );
+  const featureId = useMemo<number | null>(
+    () =>
+      isNaN(Number(props.match.params.featureId))
+        ? null
+        : Number(props.match.params.featureId),
+    [props.match.params.featureId]
+  );
+
+  const onSubmit = useCallback(
+    async (data) => {
+      await dataContext.implementation.addImplementationToFeature({
+        featureId: featureId!,
+        code: data.code!,
+      });
+
+      message.success(
+        "Implementation has successfully been added to the feature."
+      );
+      props.history.push(`/projects/${projectId}/features/${featureId}`);
+    },
+    [featureId, props.history, projectId, dataContext.implementation]
+  );
 
   const [
     editorDimensions,
@@ -63,17 +97,19 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
   ] = useState<IEditorDimensions | null>(null);
 
   useEffect(() => {
+    if (featureId === null) {
+      return;
+    }
+
     (async () => {
-      const result = await new FeatureResourceApi(
-        api.config
-      ).getOneByIdUsingGET({
+      const result = await dataContext.implementation.getOneById({
         id: featureId,
       });
       setFeature(fromLoaded(result));
 
-      // setValue("code", result.codePreview!);
+      setValue("code", result.codePreview!);
     })();
-  }, [featureId]);
+  }, [featureId, setValue, dataContext.implementation]);
 
   const options = useMemo(
     () => ({
@@ -82,6 +118,10 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
     }),
     []
   );
+
+  if (featureId === null || projectId === null) {
+    return <DefaultLayout>Whoops! Something went wrong.</DefaultLayout>;
+  }
 
   return (
     <DefaultLayout>
@@ -156,6 +196,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
               <Button
                 style={{ marginTop: 50 }}
                 onClick={handleSubmit(onSubmit)}
+                disabled={formState.isSubmitting}
               >
                 Submit
               </Button>

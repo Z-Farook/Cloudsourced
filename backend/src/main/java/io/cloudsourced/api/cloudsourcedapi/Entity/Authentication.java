@@ -16,7 +16,8 @@ public class Authentication extends BaseEntity{
     //ToDo: expireDate Should not have a setter. but its needed for the test rifht now
     //@Setter(AccessLevel.NONE)
     private Instant expireDate;
-
+    @Setter()
+    private long userId;
     @PreUpdate
     protected void onUpdate() {
         expireDate =  Instant.now().plus(7, ChronoUnit.DAYS);
