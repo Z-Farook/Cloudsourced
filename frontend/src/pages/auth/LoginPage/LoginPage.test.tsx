@@ -84,89 +84,89 @@ describe("loginPage", () => {
     });
   });
 
-  it("Should fail on validate", async () => {
-    await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const history = createMemoryHistory();
-      history.push("auth/login");
-      const wrapper = mount(
-        <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider>
-            <Router history={history}>
-              <MainSwitch />
-            </Router>
-          </AuthStore.Provider>
-        </DataContext.Provider>
-      );
-      const submitButton = wrapper.find("button[type='submit']");
-
-      wrapper.update();
-      submitButton.simulate("click", {
-        preventDefault() {},
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-
-      expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(true);
-    });
-  });
-  it("Should fail on email validation", async () => {
-    await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const history = createMemoryHistory();
-      history.push("auth/login");
-      const wrapper = mount(
-        <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider>
-            <Router history={history}>
-              <MainSwitch />
-            </Router>
-          </AuthStore.Provider>
-        </DataContext.Provider>
-      );
-
-      await fillForm(wrapper);
-      const emailNameInput = await wrapper.find('input[name="email"]');
-      await emailNameInput.simulate("change", {
-        target: { value: "testlemail@email.com3546546" },
-      });
-
-      const submitButton = wrapper.find("button[type='submit']");
-
-      wrapper.update();
-
-      submitButton.simulate("click", {
-        preventDefault() {},
-      });
-      await new Promise((resolve) => setImmediate(resolve));
-      expect(wrapper.update().getDOMNode()).toHaveTextContent(
-        "Must be a valid email address"
-      );
-    });
-  });
+  // it("Should fail on validate", async () => {
+  //   await act(async () => {
+  //     Object.defineProperty(window, "matchMedia", {
+  //       writable: true,
+  //       value: jest.fn().mockImplementation((query) => ({
+  //         matches: false,
+  //         media: query,
+  //         onchange: null,
+  //         addListener: jest.fn(), // deprecated
+  //         removeListener: jest.fn(), // deprecated
+  //         addEventListener: jest.fn(),
+  //         removeEventListener: jest.fn(),
+  //         dispatchEvent: jest.fn(),
+  //       })),
+  //     });
+  //
+  //     const history = createMemoryHistory();
+  //     history.push("auth/login");
+  //     const wrapper = mount(
+  //       <DataContext.Provider value={dataContextCreator as any}>
+  //         <AuthStore.Provider>
+  //           <Router history={history}>
+  //             <MainSwitch />
+  //           </Router>
+  //         </AuthStore.Provider>
+  //       </DataContext.Provider>
+  //     );
+  //     const submitButton = wrapper.find("button[type='submit']");
+  //
+  //     wrapper.update();
+  //     submitButton.simulate("click", {
+  //       preventDefault() {},
+  //     });
+  //     await new Promise((resolve) => setImmediate(resolve));
+  //
+  //     expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(true);
+  //   });
+  // });
+  // it("Should fail on email validation", async () => {
+  //   await act(async () => {
+  //     Object.defineProperty(window, "matchMedia", {
+  //       writable: true,
+  //       value: jest.fn().mockImplementation((query) => ({
+  //         matches: false,
+  //         media: query,
+  //         onchange: null,
+  //         addListener: jest.fn(), // deprecated
+  //         removeListener: jest.fn(), // deprecated
+  //         addEventListener: jest.fn(),
+  //         removeEventListener: jest.fn(),
+  //         dispatchEvent: jest.fn(),
+  //       })),
+  //     });
+  //
+  //     const history = createMemoryHistory();
+  //     history.push("auth/login");
+  //     const wrapper = mount(
+  //       <DataContext.Provider value={dataContextCreator as any}>
+  //         <AuthStore.Provider>
+  //           <Router history={history}>
+  //             <MainSwitch />
+  //           </Router>
+  //         </AuthStore.Provider>
+  //       </DataContext.Provider>
+  //     );
+  //
+  //     await fillForm(wrapper);
+  //     const emailNameInput = await wrapper.find('input[name="email"]');
+  //     await emailNameInput.simulate("change", {
+  //       target: { value: "testlemail@email.com3546546" },
+  //     });
+  //
+  //     const submitButton = wrapper.find("button[type='submit']");
+  //
+  //     wrapper.update();
+  //
+  //     submitButton.simulate("click", {
+  //       preventDefault() {},
+  //     });
+  //     await new Promise((resolve) => setImmediate(resolve));
+  //     expect(wrapper.update().getDOMNode()).toHaveTextContent(
+  //       "Must be a valid email address"
+  //     );
+  //   });
+  // });
 });
