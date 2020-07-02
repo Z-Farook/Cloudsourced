@@ -27,11 +27,12 @@ public class TransactionResource {
 
     /**
      * Fetch all the Transactions related to User X
+     * @param /user
      * @return
      */
     @GetMapping("")
     public List<TransactionDTO> getAllTransactionForAUser() {
         User user = authenticatedUserProvider.GetUser();
-        return  transactionMapper.entityListToDtoList( service.getTransactionForUser(user.getId()));
+        return  transactionMapper.entityListToDtoList( service.getTransactionForUser(user));
     }
 }

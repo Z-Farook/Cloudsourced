@@ -8,7 +8,6 @@ import io.cloudsourced.api.cloudsourcedapi.Persistence.TransactionRepository;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class TransactionService extends BaseService<Transaction, TransactionRepository> {
@@ -20,12 +19,11 @@ public class TransactionService extends BaseService<Transaction, TransactionRepo
         this.userRepository = userRepository;
     }
 
-    public List<Transaction> getTransactionForUser(Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+    public List<Transaction> getTransactionForUser(User user) {
 
-        if (!user.isPresent()) {
-            throw new NotFoundException("No user Found with userId: " + userId);
+        if (null == user) {
+            throw new NotFoundException("No user Found in Security context");
         }
-        return repository.findByUser(user.get());
+        return repository.findByUser(user);
     }
 }
