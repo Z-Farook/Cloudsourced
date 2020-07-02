@@ -11,6 +11,8 @@ import {
 } from "../../../core/DataContext/authentication";
 import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
+import { IGetProjectsByAuthenticatedUserResult } from "../../../core/DataContext/project";
+import { IGettransactionsByAuthenticatedUserResult } from "../../../core/DataContext/transaction";
 
 const fillForm = async (
   wrapper: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
@@ -56,6 +58,38 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         };
       },
     } as any,
+    project: {
+      getProjectsByAuthenticatedUser: async (): Promise<
+        Array<IGetProjectsByAuthenticatedUserResult>
+      > => {
+        return [
+          {
+            id: 1,
+            createdAt: new Date("2019-01-16"),
+          },
+          {
+            id: 2,
+            createdAt: new Date("2020-01-16"),
+          },
+        ];
+      },
+    } as any,
+    transaction: {
+      getTransactionsByAuthenticatedUser: async (): Promise<
+        Array<IGettransactionsByAuthenticatedUserResult>
+      > => {
+        return [
+          {
+            id: 1,
+            points: 20,
+          },
+          {
+            id: 2,
+            points: 30,
+          },
+        ];
+      },
+    },
   };
 };
 const setObject = () => {
