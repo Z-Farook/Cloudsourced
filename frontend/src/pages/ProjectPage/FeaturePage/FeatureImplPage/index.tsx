@@ -4,6 +4,7 @@ import React, {
   useMemo,
   useState,
   useRef,
+  useContext,
 } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../../components/layout/DefaultLayout";
@@ -14,17 +15,14 @@ import IRemoteData, {
   fromLoading,
 } from "../../../../core/IRemoteData";
 import { Button, Spin, Form, message } from "antd";
-import {
-  FeatureResourceApi,
-  ImplementationResourceApi,
-  FeatureDTO,
-} from "cloudsourced-api";
+import { FeatureDTO } from "cloudsourced-api";
 import Title from "antd/lib/typography/Title";
 import Paragraph from "antd/lib/typography/Paragraph";
 import ResizeObserver from "react-resize-observer";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { api } from "../../../../core/api";
+import DataContext from "../../../../core/DataContext";
 
 const validationSchema = yup.object().shape({
   code: yup.string().required("Code is a required field"),
@@ -43,6 +41,11 @@ interface IEditorDimensions {
 }
 
 const FeatureImplPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
+
   const editorRef = useRef<any>();
   const {
     handleSubmit,
@@ -75,13 +78,9 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
   const onSubmit = useCallback(
     async (data) => {
-      const result = await new ImplementationResourceApi(
-        api.config
-      ).addImplementationToFeatureUsingPOST({
+      await dataContext.implementation.addImplementationToFeature({
         featureId: featureId!,
-        implementationDTO: {
-          code: data.code!,
-        },
+        code: data.code!,
       });
 
       message.success(
@@ -89,7 +88,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
       );
       props.history.push(`/projects/${projectId}/features/${featureId}`);
     },
-    [featureId, props.history, projectId]
+    [featureId, props.history, projectId, dataContext.implementation]
   );
 
   const [
@@ -103,16 +102,14 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
     }
 
     (async () => {
-      const result = await new FeatureResourceApi(
-        api.config
-      ).getOneByIdUsingGET({
+      const result = await dataContext.implementation.getOneById({
         id: featureId,
       });
       setFeature(fromLoaded(result));
 
       setValue("code", result.codePreview!);
     })();
-  }, [featureId]);
+  }, [featureId, setValue, dataContext.implementation]);
 
   const options = useMemo(
     () => ({
