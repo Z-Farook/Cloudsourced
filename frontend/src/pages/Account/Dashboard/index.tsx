@@ -170,13 +170,14 @@ const Dashboard: React.FC<IProps> = (props) => {
         })
       );
       setTransactions(fromLoaded(userTransactions));
-      let points: number = transactions.data
-        ? (transactions.data
-            .map((a) => a.points)
-            .reduce((a, b) => {
-              return a! + b!;
-            }) as number)
-        : 0;
+      let points: number =
+        transactions.data !== null
+          ? (transactions.data
+              .map((a) => a.points)
+              .reduce((a, b) => {
+                return a! + b!;
+              }) as number)
+          : 0;
 
       setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
