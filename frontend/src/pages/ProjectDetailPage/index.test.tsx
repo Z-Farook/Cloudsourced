@@ -1,5 +1,5 @@
 import React from "react";
-import { Configuration } from "../../../gen/api/dist";
+import { Configuration } from "cloudsourced-api";
 import DataContext, { IResources } from "../../core/DataContext";
 import project, {
   IProjectDetailParams,
@@ -69,7 +69,8 @@ describe("projecDetailPage", () => {
       const heading = await wrapper
         .update()
         .find(".ant-page-header-heading-title")
-        .getDOMNode();
+        .getDOMNode()
+        .getAttribute("title");
 
       expect(heading).toBe("piet");
     });
