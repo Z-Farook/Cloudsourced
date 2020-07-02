@@ -12,47 +12,42 @@ import { Router } from "react-router";
 import { MainSwitch } from "../../routing/MainRouter";
 import { act } from "react-dom/test-utils";
 
-// test("the right amount of items", () => {});
-
+const setObject = () => {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // deprecated
+      removeListener: jest.fn(), // deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+};
+const dataContextCreator = (config?: Configuration): Partial<IResources> => {
+  return {
+    project: {
+      getProjectDetail: async (params: 1): Promise<IProjectDetailResult> => {
+        return {
+          project: {
+            name: "piet",
+            id: 1,
+            features: [],
+            description: "test",
+            image: "../../noimage.png",
+          },
+        };
+      },
+    } as any,
+  };
+};
 describe("projecDetailPage", () => {
   it("Should pass", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          project: {
-            getProjectDetail: async (
-              params: 1
-            ): Promise<IProjectDetailResult> => {
-              return {
-                project: {
-                  name: "piet",
-                  id: 1,
-                  features: [],
-                  description: "test",
-                  image: "../../noimage.png",
-                },
-              };
-            },
-          } as any,
-        };
-      };
-
+      setObject();
       const history = createMemoryHistory();
       history.push("projects/1");
       const wrapper = mount(
@@ -77,42 +72,7 @@ describe("projecDetailPage", () => {
   });
   it("Should pass and navigate", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          project: {
-            getProjectDetail: async (
-              params: 1
-            ): Promise<IProjectDetailResult> => {
-              return {
-                project: {
-                  name: "piet",
-                  id: 1,
-                  features: [],
-                  description: "test",
-                  image: "../../noimage.png",
-                },
-              };
-            },
-          } as any,
-        };
-      };
-
+      setObject();
       const history = createMemoryHistory();
       history.push("projects/1");
       const wrapper = mount(
