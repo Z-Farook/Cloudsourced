@@ -26,4 +26,12 @@ public class TransactionService extends BaseService<Transaction, TransactionRepo
         }
         return repository.findByUser(user);
     }
+    /**
+     * This is used in paymentService to get points for user
+     *
+     * @return long points
+     */
+    public long getPointsByUser(Long userId) {
+        return repository.findPoints(userId);
+    }
 }

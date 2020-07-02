@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
-import { Card, Avatar } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
+import { Card, Avatar, Tooltip } from "antd";
+import { CheckCircleTwoTone } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { ProjectDTO } from "cloudsourced-api";
@@ -12,7 +12,15 @@ export interface IProps {
 
 const ProjectCard: React.FC<IProps> = (props) => {
   const { project } = props;
-  const { description, image, name, id } = project;
+  const { description, image, name, id, finishedAt } = project;
+
+  const FinishedPrompt = () => {
+    return(
+      <Tooltip title="This project is finished">
+        <CheckCircleTwoTone twoToneColor="#52c41a" />
+      </Tooltip>
+    )
+  }
 
   return (
     <Link to={`/projects/${id}`}>
@@ -29,7 +37,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
         //   ]
         // }
         title={name}
-        extra={<MoreOutlined />}
+        extra={finishedAt ? <FinishedPrompt /> : ''}
       >
         <Meta
           avatar={
