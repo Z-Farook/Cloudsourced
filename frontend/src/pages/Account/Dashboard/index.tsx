@@ -14,11 +14,7 @@ import IRemoteData, {
   fromLoading,
   fromLoaded,
 } from "../../../core/IRemoteData";
-import {
-  ProjectResourceApi,
-  ProjectDTO,
-  TransactionResourceApi,
-} from "cloudsourced-api";
+import { ProjectDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 import { UserDTO } from "../../../../gen/api/src/models";
@@ -50,23 +46,6 @@ const dataSourceTasks = [
     project: "test task",
   },
 ];
-const dataSourceTransactions = [
-  {
-    key: "1",
-    number: 1,
-    project: "test transaction",
-  },
-  {
-    key: "2",
-    number: 2,
-    project: "test transaction",
-  },
-  {
-    key: "3",
-    number: 3,
-    project: "test transaction",
-  },
-];
 
 const columnsTasks = [
   {
@@ -87,9 +66,14 @@ const columnsTransactions = [
     key: "number",
   },
   {
-    title: "Latest transactions",
-    dataIndex: "project",
-    key: "project",
+    title: "Transactions by user",
+    dataIndex: "user",
+    key: "user",
+  },
+  {
+    title: "Points",
+    dataIndex: "points",
+    key: "points",
   },
 ];
 interface projectData {
@@ -141,12 +125,11 @@ const Dashboard: React.FC<IProps> = (props) => {
   const [transactions, setTransactions] = useState<
     IRemoteData<UserTransaction[], null>
   >(fromLoading());
-  const [points, setPoints] = useState<IRemoteData<number, null>>(
-    fromLoading()
-  );
+  const [points, setPoints] = useState<IRemoteData<number, 0>>(fromLoading());
   const [latestProject, setLatestProjects] = useState<
     IRemoteData<projectData, null>
   >(fromLoading());
+
   useEffect(() => {
     (async () => {
       const result = await dataContext.project.getProjectsByAuthenticatedUser();
@@ -168,22 +151,21 @@ const Dashboard: React.FC<IProps> = (props) => {
           key: i.toString(),
           id: p.id,
           points: p.points,
+          user: p.user,
         })
       );
       setTransactions(fromLoaded(userTransactions));
-      let points: number =
-        transactions.data !== null
-          ? (transactions.data
+      let points =
+        userTransactions !== null
+          ? (userTransactions
               .map((a) => a.points)
-              .reduce((a, b) => {
-                return a! + b!;
-              }) as number)
+              .reduce((a, b) => a! + b!, 0) as number)
           : 0;
 
       setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
     })();
-  }, [transactions.data]);
+  }, [dataContext.project, dataContext.transaction]);
   return (
     <>
       <Row justify="center" gutter={[24, 24]}>
@@ -209,7 +191,7 @@ const Dashboard: React.FC<IProps> = (props) => {
               <Card>
                 <Statistic
                   title="Your points"
-                  value={points.data as number}
+                  value={points.data ? (points.data as number) : 0}
                   precision={0}
                   valueStyle={{ color: "#1890ff" }}
                   prefix={<DollarOutlined />}
@@ -299,7 +281,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={dataSourceTransactions}
+              dataSource={transactions.data !== null ? transactions.data : []}
               columns={columnsTransactions}
             />
           </Card>
