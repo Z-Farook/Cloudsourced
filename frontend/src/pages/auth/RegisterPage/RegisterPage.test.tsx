@@ -1,5 +1,5 @@
 import React from "react";
-import { Router, Route } from "react-router";
+import { Router } from "react-router";
 import { createMemoryHistory } from "history";
 import AuthStore from "../../../stores/AuthStore";
 import { MainSwitch } from "../../../routing/MainRouter";
@@ -39,23 +39,40 @@ const fillForm = async (wrapper: any) => {
     target: { value: "testpass" },
   });
 };
+const setObject = () => {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // deprecated
+      removeListener: jest.fn(), // deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+};
+const emptyDataContextCreator = (
+  config?: Configuration
+): Partial<IResources> => {
+  return {
+    authentication: {
+      registerNewUser: async (
+        params: IRegisterNewUserParams
+      ): Promise<IRegisterNewUserResult> => {
+        return {
+          user: {},
+        };
+      },
+    } as any,
+  };
+};
 describe("registerPage", () => {
-  it("Should pass", async () => {
+  it("Should pass and navigate to login page", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
+      setObject();
       const dataContextCreator = (
         config?: Configuration
       ): Partial<IResources> => {
@@ -65,7 +82,13 @@ describe("registerPage", () => {
               params: IRegisterNewUserParams
             ): Promise<IRegisterNewUserResult> => {
               return {
-                user: {},
+                user: {
+                  authentication: {
+                    id: 1,
+                  },
+                  name: params.name,
+                  email: params.email,
+                },
               };
             },
           } as any,
@@ -102,7 +125,7 @@ describe("registerPage", () => {
 
       const submitButton = wrapper.find("button[type='submit']");
 
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
@@ -110,44 +133,18 @@ describe("registerPage", () => {
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(
         false
       );
+
+      expect(history.location.pathname).toBe("/auth/login");
     });
   });
 
   it("Should fail on validate", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          authentication: {
-            registerNewUser: async (
-              params: IRegisterNewUserParams
-            ): Promise<IRegisterNewUserResult> => {
-              return {
-                user: {},
-              };
-            },
-          } as any,
-        };
-      };
+      setObject();
       const history = createMemoryHistory();
       history.push("auth/register");
       const wrapper = mount(
-        <DataContext.Provider value={dataContextCreator as any}>
+        <DataContext.Provider value={emptyDataContextCreator as any}>
           <AuthStore.Provider>
             <Router history={history}>
               <MainSwitch />
@@ -158,49 +155,22 @@ describe("registerPage", () => {
       const submitButton = wrapper.find("button[type='submit']");
 
       wrapper.update();
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
 
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(true);
+      expect(history.location.pathname).toEqual("/auth/register");
     });
   });
   it("Should fail on email validation", async () => {
     await act(async () => {
-      Object.defineProperty(window, "matchMedia", {
-        writable: true,
-        value: jest.fn().mockImplementation((query) => ({
-          matches: false,
-          media: query,
-          onchange: null,
-          addListener: jest.fn(), // deprecated
-          removeListener: jest.fn(), // deprecated
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          dispatchEvent: jest.fn(),
-        })),
-      });
-
-      const dataContextCreator = (
-        config?: Configuration
-      ): Partial<IResources> => {
-        return {
-          authentication: {
-            registerNewUser: async (
-              params: IRegisterNewUserParams
-            ): Promise<IRegisterNewUserResult> => {
-              return {
-                user: {},
-              };
-            },
-          } as any,
-        };
-      };
+      setObject();
       const history = createMemoryHistory();
       history.push("auth/register");
       const wrapper = mount(
-        <DataContext.Provider value={dataContextCreator as any}>
+        <DataContext.Provider value={emptyDataContextCreator as any}>
           <AuthStore.Provider>
             <Router history={history}>
               <MainSwitch />
@@ -219,7 +189,7 @@ describe("registerPage", () => {
 
       wrapper.update();
 
-      submitButton.simulate("submit", {
+      submitButton.simulate("click", {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
