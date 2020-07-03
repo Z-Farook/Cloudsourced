@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import {
@@ -28,6 +28,7 @@ import {
   CheckOutlined,
   ExclamationOutlined,
 } from "@ant-design/icons";
+import DataContext from "../../core/DataContext";
 const { Title, Text, Paragraph } = Typography;
 
 interface IRouterParams {
@@ -36,6 +37,9 @@ interface IRouterParams {
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), []);
+
   const projectId = Number(props.match.params.projectId);
 
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
@@ -76,16 +80,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi(
-        api.config
-      ).getProjectDetailByIdUsingGET({
-        id: projectId,
-      });
-      console.log(result);
-
-      setProject(fromLoaded(result));
+      const result = await dataContext.project.getProjectDetail({ projectId });
+      setProject(fromLoaded(result.project));
     })();
-  }, [projectId]);
+  }, []);
 
   const { description, image, name: projectName, user } = project.data || {};
 

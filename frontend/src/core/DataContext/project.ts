@@ -1,6 +1,13 @@
-import { Configuration, ProjectResourceApi } from "cloudsourced-api";
-import { api } from "../api";
 
+import { Configuration, ProjectResourceApi , ProjectDetailDTO} from "cloudsourced-api";
+import { api } from "../api";
+export interface IProjectDetailParams {
+  projectId: number;
+}
+
+export interface IProjectDetailResult {
+  project: ProjectDetailDTO;
+}
 export interface IProjectResource {
   getProjectsByAuthenticatedUser: () => Promise<
     Array<IGetProjectsByAuthenticatedUserResult>
@@ -25,7 +32,15 @@ const project = (config?: Configuration): IProjectResource => {
       ).getProjectsByUserUsingGET();
       return result;
     },
-  };
+   getProjectDetail: async (
+      params: IProjectDetailParams
+    ): Promise<IProjectDetailResult> => {
+      const result = await new ProjectResourceApi(
+        config
+      ).getProjectDetailByIdUsingGET({ id: params.projectId });
+      return {
+        project: result,
+      };
 };
 
 export default project;
