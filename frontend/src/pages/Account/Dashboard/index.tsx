@@ -235,7 +235,15 @@ const Dashboard: React.FC<IProps> = (props) => {
                           )
                         : 100
                     }
-                    status="active"
+                    status={
+                      (projects.data
+                        ? Math.floor(
+                            (projectsFinished / projects.data?.length) * 100
+                          )
+                        : 100) == 100
+                        ? "success"
+                        : "active"
+                    }
                   />
                 </div>
                 <div>
