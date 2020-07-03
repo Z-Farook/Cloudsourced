@@ -19,6 +19,8 @@ import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 import { UserDTO } from "../../../../gen/api/src/models";
 import DataContext from "../../../core/DataContext";
+import { finished } from "stream";
+import project from "../../../core/DataContext/project";
 
 interface IProps extends RouteComponentProps {}
 const now = new Date();
@@ -82,6 +84,7 @@ interface projectData {
   project: ProjectDTO;
   projectName: string;
   id: number;
+  finishedAt?: Date;
 }
 interface UserTransaction {
   id?: number;
@@ -129,6 +132,7 @@ const Dashboard: React.FC<IProps> = (props) => {
   const [latestProject, setLatestProjects] = useState<
     IRemoteData<projectData, null>
   >(fromLoading());
+  const [projectsFinished, setProjectsFinished] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
@@ -140,6 +144,7 @@ const Dashboard: React.FC<IProps> = (props) => {
         project: p,
         projectName: p.name ? p.name : "",
         id: p.id ? p.id : 0,
+        finishedAt: p.finishedAt ? p.finishedAt : undefined,
       }));
 
       data.sort((a, b) => {
@@ -161,7 +166,10 @@ const Dashboard: React.FC<IProps> = (props) => {
               .map((a) => a.points)
               .reduce((a, b) => a! + b!, 0) as number)
           : 0;
-
+      const fp: projectData[] = data.filter((p, i) =>
+        p.finishedAt ? p.finishedAt : undefined
+      );
+      setProjectsFinished(fp.length);
       setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
     })();
@@ -219,7 +227,16 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <br />
                 <div>
                   <Title level={4}>Finished projects</Title>
-                  <Progress percent={50} status="active" />
+                  <Progress
+                    percent={
+                      projects.data
+                        ? Math.floor(
+                            (projectsFinished / projects.data?.length) * 100
+                          )
+                        : 100
+                    }
+                    status="active"
+                  />
                 </div>
                 <div>
                   <Title level={4}>Finished tasks</Title>

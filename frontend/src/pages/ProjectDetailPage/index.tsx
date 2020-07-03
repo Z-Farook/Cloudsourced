@@ -160,7 +160,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 key="isfinish"
                                 title="This project is finished"
                               >
-                                <CheckCircleTwoTone twoToneColor="#52c41a" />
+                                <CheckCircleTwoTone
+                                  style={{ cursor: "pointer" }}
+                                  twoToneColor="#52c41a"
+                                />
                               </Tooltip>
                             ) : (
                               <Tooltip key="finish" title="Finish project">
@@ -171,7 +174,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                   placement="bottom"
                                   icon={
                                     <ExclamationOutlined
-                                      style={{ color: "red" }}
+                                      style={{
+                                        color: "grey",
+                                        cursor: "pointer",
+                                      }}
                                     />
                                   }
                                   onConfirm={() => finishProject()}
@@ -185,7 +191,12 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 key="isfinish"
                                 title="This project is archived"
                               >
-                                <FileExclamationTwoTone twoToneColor="red" />
+                                <FileExclamationTwoTone
+                                  twoToneColor="red"
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
+                                />
                               </Tooltip>
                             ) : (
                               <Tooltip key="archive" title="Archive project">
@@ -196,7 +207,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                   placement="bottom"
                                   icon={
                                     <ExclamationOutlined
-                                      style={{ color: "red" }}
+                                      style={{
+                                        color: "grey",
+                                        cursor: "pointer",
+                                      }}
                                     />
                                   }
                                   onConfirm={() => archiveProject()}
