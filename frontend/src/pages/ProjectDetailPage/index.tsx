@@ -80,7 +80,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   const successMessage = () => {
     message.success({
-      content: "Something went wrong",
+      content: "Project is updated succesfully!",
       key: "updatableKey",
       duration: 2,
     });
