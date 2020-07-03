@@ -69,6 +69,28 @@ const ProjectPage: React.FC<IProps> = (props) => {
       />
       {projects.state === EState.Loading ? (
         <Spin />
+      ) : projects.state === EState.Error ? (
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          Something went wrong.
+        </div>
+      ) : projects.data!.length === 0 ? (
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          There are no projects available.
+        </div>
       ) : (
         <div className="Grid" style={{ padding: 20 }}>
           <Row justify="center" gutter={[24, 24]}>
