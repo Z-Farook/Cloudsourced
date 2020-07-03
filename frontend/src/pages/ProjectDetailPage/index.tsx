@@ -185,7 +185,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 key="isfinish"
                                 title="This project is archived"
                               >
-                                <FileExclamationTwoTone twoToneColor="#52c41a" />
+                                <FileExclamationTwoTone twoToneColor="red" />
                               </Tooltip>
                             ) : (
                               <Tooltip key="archive" title="Archive project">
