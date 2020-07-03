@@ -4,7 +4,6 @@ import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.ProjectDetailMapper;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.ProjectMapper;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDTO;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDetailDTO;
-import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectPostDTO;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.ProjectService;
@@ -52,5 +51,11 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
     public ProjectDetailDTO finishProject(@PathVariable Long projectId) {
         Project project = service.getOneById(projectId);
         return detailMapper.entityToDTO(service.finishProject(project));
+    }
+
+    @PostMapping("/archive/{projectId}")
+    public ProjectDetailDTO archiveProject(@PathVariable Long projectId) {
+        Project project = service.getOneById(projectId);
+        return detailMapper.entityToDTO(service.archiveProject(project));
     }
 }

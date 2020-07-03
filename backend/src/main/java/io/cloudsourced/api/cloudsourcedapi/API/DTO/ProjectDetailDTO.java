@@ -12,6 +12,7 @@ public class ProjectDetailDTO {
     private String description;
     private String image;
     private Instant finishedAt;
+    private Instant archivedAt;
     private List<FeatureDTO> features;
     private Instant createdAt;
     private Instant updatedAt;
