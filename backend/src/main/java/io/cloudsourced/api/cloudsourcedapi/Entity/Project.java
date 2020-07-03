@@ -17,6 +17,7 @@ public class Project extends BaseEntity{
     private String description;
     private String image;
     private Instant finishedAt;
+    private Instant archivedAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private List<Feature> features;
     @ManyToOne(cascade = CascadeType.MERGE)
