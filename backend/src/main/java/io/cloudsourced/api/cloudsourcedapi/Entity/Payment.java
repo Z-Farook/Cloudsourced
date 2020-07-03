@@ -16,3 +16,4 @@ public class Payment extends BaseEntity {
     @ManyToOne
     private User user;
 }
+
