@@ -25,7 +25,7 @@ public class PaymentService extends BaseService<Payment, PaymentRepository> {
         User user = authenticatedUserProvider.GetUser();
 
         if (user == null) {
-            throw new NotFoundException("User is Not found with userId " + user.getId());
+            throw new NotFoundException("User is Not found");
         }
 
         long totalPoints = transactionService.getPointsByUser(user.getId());
