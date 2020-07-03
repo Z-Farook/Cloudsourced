@@ -16,7 +16,7 @@ import DataContext from "../../../core/DataContext";
 import ImplementationCard from "../../../components/implementation/ImplementationCard";
 import { DollarOutlined } from "@ant-design/icons";
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 interface IRouteParams {
   projectId: string;
