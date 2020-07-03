@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Row, Col, message, Upload, Form, Card } from "antd";
-import { useForm, Controller, ErrorMessage } from "react-hook-form";
+import { Input, Button, Row, Col, message, Upload, Form } from "antd";
+import { useForm } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
 import {
@@ -11,7 +11,6 @@ import {
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
-// import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
 import noImage from "../../assets/noimage.png";
 import * as yup from "yup";
@@ -39,10 +38,6 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
   }
 
   const projectId = Number(props.match.params.projectId);
-
-  // const [project, setProject] = useState<IRemoteData<ProjectDTO, null>>(
-  //   fromLoading()
-  // );
 
   useEffect(() => {
     if (isEditing) {

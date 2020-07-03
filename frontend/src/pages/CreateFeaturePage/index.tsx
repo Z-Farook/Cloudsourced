@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Form,
   Input,
@@ -24,13 +24,6 @@ interface IRouterParams {
 }
 interface IProps extends RouteComponentProps<IRouterParams> {}
 
-type Inputs = {
-  featureName: string;
-  description: string;
-  codePreview: string;
-  codeLanguage: string;
-  points: number;
-};
 const { Option } = Select;
 const layout = {
   labelCol: { span: 8 },

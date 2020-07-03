@@ -10,11 +10,7 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../core/IRemoteData";
-import {
-  FeatureDTO,
-  FeatureResourceApi,
-  ImplementationDTO,
-} from "cloudsourced-api";
+import { FeatureDTO, ImplementationDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import DataContext from "../../../core/DataContext";
 import ImplementationCard from "../../../components/implementation/ImplementationCard";
