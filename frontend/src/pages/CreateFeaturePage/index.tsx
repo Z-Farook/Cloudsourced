@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Row, Col, Select, message } from "antd";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
@@ -27,9 +27,10 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 const CreateFeaturePage: React.FC<IProps> = (props) => {
+  const [userClicked, setUserClicked] = useState(false);
   const projectId = +props.match.params.projectId;
   const handleSubmit = async (values: Store) => {
-    console.log(values);
+    setUserClicked(true);
     const params: AddFeatureToProjectUsingPOSTRequest = {
       projectId: projectId,
       featureDTO: {
@@ -52,6 +53,7 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
       })
       .catch(() => {
         errorMessage();
+        setUserClicked(false);
       });
   };
 
@@ -125,7 +127,11 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={userClicked}
+                  >
                     Create
                   </Button>
                 </Form.Item>

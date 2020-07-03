@@ -60,7 +60,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
   const { control, handleSubmit, errors, setValue } = useForm<Inputs>();
 
   const [image, setImage] = useState("");
-  const [userclicked, setUserclicked] = useState(false);
+  const [userClicked, setUserClicked] = useState(false);
 
   const getBase64 = (image: Blob) => {
     const reader = new FileReader();
@@ -95,7 +95,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
   };
 
   const handleProject = async (data: Inputs) => {
-    setUserclicked(true);
+    setUserClicked(true);
     const project: ProjectDTO = {
       description: data.description,
       name: data.projectName,
@@ -134,7 +134,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
         props.history.push(`/projects/${updateResponse.id}`);
       } catch (error) {
         errorMessage();
-        setUserclicked(false);
+        setUserClicked(false);
       }
     }
   };
@@ -214,7 +214,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  disabled={userclicked}
+                  disabled={userClicked}
                   block
                 >
                   {isEditing ? "Update" : "Submit"}
