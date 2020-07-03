@@ -33,7 +33,12 @@ export const MainSwitch = () => {
           authStore.auth !== null ? AccountPage : () => <Redirect to="/home" />
         }
       />
-      <Route path="/auth" component={AuthRouter} />
+      <Route
+        path="/auth"
+        component={
+          authStore.auth === null ? AuthRouter : () => <Redirect to="/home" />
+        }
+      />
       <Route exact path="/user/project/create" component={ProjectFormPage} />
       <Route
         exact
