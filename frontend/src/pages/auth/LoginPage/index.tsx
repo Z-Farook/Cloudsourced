@@ -43,6 +43,7 @@ const LoginPage: React.FC<IProps> = (props) => {
         password: values.password,
       });
       setAuth(result.authentication);
+      props.history.push("/account");
     } catch (err) {
       message.error("Email or password is incorrect.");
     }
