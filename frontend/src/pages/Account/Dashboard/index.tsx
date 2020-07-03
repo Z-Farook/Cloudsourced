@@ -4,28 +4,22 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Row, Col, Table, Card, Statistic, Progress, Button } from "antd";
 
 import {
-  ArrowUpOutlined,
   DollarOutlined,
   PlusOutlined,
   RightOutlined,
+  ApiOutlined,
+  ClusterOutlined,
 } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import IRemoteData, {
   fromLoading,
   fromLoaded,
 } from "../../../core/IRemoteData";
-import {
-  ProjectDTO,
-  FeatureDTO,
-  ProjectDetailDTOFromJSON,
-} from "cloudsourced-api";
+import { ProjectDTO, FeatureDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 import { UserDTO } from "../../../../gen/api/src/models";
 import DataContext from "../../../core/DataContext";
-import { finished } from "stream";
-import project from "../../../core/DataContext/project";
-import feature from "../../../core/DataContext/feature";
 
 interface IProps extends RouteComponentProps {}
 const now = new Date();
@@ -185,7 +179,7 @@ const Dashboard: React.FC<IProps> = (props) => {
         },
         finishedAt: p.finishedAt ? p.finishedAt : undefined,
       }));
-
+      console.log(featureData);
       featureData.sort((a, b) => {
         return b.feature.createdAt!.getTime() - a.feature.createdAt!.getTime();
       });
@@ -254,7 +248,22 @@ const Dashboard: React.FC<IProps> = (props) => {
                   }
                   precision={0}
                   valueStyle={{ color: "#3f8600" }}
-                  prefix={<ArrowUpOutlined />}
+                  prefix={<ClusterOutlined />}
+                  suffix=""
+                />
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <Statistic
+                  title="Features this week"
+                  value={
+                    features.data?.filter((p) => p.createdAt! > startOfThisWeek)
+                      .length
+                  }
+                  precision={0}
+                  valueStyle={{ color: "#3f8600" }}
+                  prefix={<ApiOutlined />}
                   suffix=""
                 />
               </Card>
@@ -265,21 +274,9 @@ const Dashboard: React.FC<IProps> = (props) => {
                   title="Your points"
                   value={points.data ? (points.data as number) : 0}
                   precision={0}
-                  valueStyle={{ color: "#1890ff" }}
+                  valueStyle={{ color: "#3f8600" }}
                   prefix={<DollarOutlined />}
                   suffix=""
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card>
-                <Statistic
-                  title="Points this week"
-                  value={11.28}
-                  precision={2}
-                  valueStyle={{ color: "#3f8600" }}
-                  prefix={<ArrowUpOutlined />}
-                  suffix="%"
                 />
               </Card>
             </Col>
