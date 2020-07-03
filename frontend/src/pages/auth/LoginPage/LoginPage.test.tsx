@@ -4,7 +4,7 @@ import { createMemoryHistory } from "history";
 import AuthStore from "../../../stores/AuthStore";
 import { MainSwitch } from "../../../routing/MainRouter";
 import DataContext, { IResources } from "../../../core/DataContext";
-import { Configuration } from "cloudsourced-api";
+import {Configuration, FeatureDTO, FeatureResourceApi} from "cloudsourced-api";
 import {
   IAuthenticateUserParams,
   IAuthenticateUserResult,
@@ -13,6 +13,12 @@ import { mount, ReactWrapper } from "enzyme";
 import { act } from "react-dom/test-utils";
 import { IGetProjectsByAuthenticatedUserResult } from "../../../core/DataContext/project";
 import { IGettransactionsByAuthenticatedUserResult } from "../../../core/DataContext/transaction";
+import {
+  IArchiveFeatureParams,
+  IFinishFeatureParams,
+  IGetOneByIdParams,
+  IGetOneByIdResult
+} from "../../../core/DataContext/feature";
 
 const fillForm = async (
   wrapper: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
@@ -43,6 +49,7 @@ const emptyForm = async (
 };
 const dataContextCreator = (config?: Configuration): Partial<IResources> => {
   return {
+    implementation: undefined,
     authentication: {
       authenticateUser: async (
         params: IAuthenticateUserParams
@@ -72,6 +79,21 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         return [];
       },
     },
+    feature:{
+      getFeaturesByUser: async(): Promise<Array<FeatureDTO>> => {
+        return [];
+      },
+      getOneById: async():Promise<IGetOneByIdResult> => {return {feature:{}}},
+
+        finishOneById: async (
+            params: { featureId: number }
+        ): Promise<FeatureDTO> => {
+          return {}
+        },
+     archiveFeature: async (params: IArchiveFeatureParams): Promise<FeatureDTO> => {return {}
+     }
+    }
+
   };
 };
 const setObject = () => {

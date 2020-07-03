@@ -11,6 +11,7 @@ import AuthStore from "../../stores/AuthStore";
 import { Router } from "react-router";
 import { MainSwitch } from "../../routing/MainRouter";
 import { act } from "react-dom/test-utils";
+import authentication, {IAuthenticateUserParams, IAuthenticateUserResult} from "../../core/DataContext/authentication";
 
 const setObject = () => {
   Object.defineProperty(window, "matchMedia", {
@@ -38,6 +39,21 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
             features: [],
             description: "test",
             image: "../../noimage.png",
+          },
+        };
+      },
+    } as any,
+    authentication: {
+      authenticateUser: async (
+          params: IAuthenticateUserParams
+      ): Promise<IAuthenticateUserResult> => {
+        return {
+          authentication: {
+            id: 1,
+            createdAt: new Date("2020-06-26T18:31:26.078551Z"),
+            token: "rvCVnB28FTKS3sYm0hIAAcDBnQleQgIgcoeOUHGD",
+            expireDate: new Date("2090-07-03T18:45:17.050748Z"),
+            userId: 1,
           },
         };
       },
@@ -72,12 +88,12 @@ describe("projecDetailPage", () => {
   });
   it("Should pass and navigate", async () => {
     await act(async () => {
-      setObject();
+      setObject()
       const history = createMemoryHistory();
       history.push("projects/1");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider>
+          <AuthStore.Provider >
             <Router history={history}>
               <MainSwitch />
             </Router>
