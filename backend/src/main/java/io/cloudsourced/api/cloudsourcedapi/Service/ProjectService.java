@@ -7,8 +7,10 @@ import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
@@ -21,10 +23,6 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         return repository.findByNameContainsIgnoreCase(name);
     }
 
-    public Project saveProject(Project project) {
-        return repository.save(project);
-    }
-
     public Project saveWithUser(Project project) {
         User user = authenticatedUserProvider.GetUser();
         project.setUser(user);
@@ -35,8 +33,23 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         return repository.findById(id).orElseThrow(NotFoundException::new);
     }
 
-    public List<Project> getProjectsByUser(){
+    @Override
+    public List<Project> getAll() {
+        return repository.getAllUnfinished();
+    }
+
+    public List<Project> getProjectsByUser() {
         User user = authenticatedUserProvider.GetUser();
         return repository.findByUser(user);
+    }
+
+    public List<Project> getProjectsByUserId(long id){
+
+        return repository.byUserId(id);
+    }
+
+    public Project finishProject(Project project) {
+        project.setFinishedAt(Instant.now());
+        return repository.save(project);
     }
 }

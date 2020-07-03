@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Button, Spin, Typography } from "antd";
@@ -10,8 +10,14 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../core/IRemoteData";
-import { FeatureDTO, FeatureResourceApi } from "cloudsourced-api";
+import {
+  FeatureDTO,
+  FeatureResourceApi,
+  ImplementationDTO,
+} from "cloudsourced-api";
 import { api } from "../../../core/api";
+import DataContext from "../../../core/DataContext";
+import ImplementationCard from "../../../components/implementation/ImplementationCard";
 
 const { Title, Paragraph } = Typography;
 
@@ -32,9 +38,16 @@ export interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
   const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
+  const [implementations, setImplementations] = useState<
+    IRemoteData<Array<ImplementationDTO>, null>
+  >(fromLoading());
 
   const { projectId, featureId } = useMemo(() => {
     return {
@@ -45,14 +58,23 @@ const FeaturePage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new FeatureResourceApi(
-        api.config
-      ).getOneByIdUsingGET({
+      const result = await dataContext.feature.getOneById({
         id: featureId,
       });
-      setFeature(fromLoaded(result));
+      setFeature(fromLoaded(result.feature));
     })();
-  }, [featureId]);
+  }, [featureId, dataContext.feature.getOneById]);
+
+  useEffect(() => {
+    (async () => {
+      const result = await dataContext.implementation.getImplementationsFromFeature(
+        {
+          featureId,
+        }
+      );
+      setImplementations(fromLoaded(result.implementations));
+    })();
+  }, [featureId, dataContext.implementation.getImplementationsFromFeature]);
 
   return (
     <DefaultLayout>
@@ -60,9 +82,11 @@ const FeaturePage: React.FC<IProps> = (props) => {
       {/*<div>Feature ID: {featureId}</div>*/}
 
       <div style={{ padding: 50 }}>
-        {feature.state === EState.Loading ? (
+        {feature.state === EState.Loading ||
+        implementations.state === EState.Loading ? (
           <Spin />
-        ) : feature.state === EState.Loaded ? (
+        ) : feature.state === EState.Loaded &&
+          implementations.state === EState.Loaded ? (
           <div>
             <Title level={2}>{feature.data!.name}</Title>
             {/* TODO: points */}
@@ -85,6 +109,21 @@ const FeaturePage: React.FC<IProps> = (props) => {
             >
               Provide implementation
             </Button>
+
+            <div style={{ marginTop: 20 }}>
+              {implementations.data!.map((impl, i) => {
+                return (
+                  <div
+                    key={impl.id}
+                    style={{
+                      marginBottom: i === implementations.data!.length ? 0 : 20,
+                    }}
+                  >
+                    <ImplementationCard impl={impl} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ) : (
           <div>Whoops!</div>

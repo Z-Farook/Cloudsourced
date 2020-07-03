@@ -44,7 +44,7 @@ public class AuthenticationProvider {
 
             }
         }
-        throw new UnauthorizedException();
+        throw new UnauthorizedException("TOKEN_NOT_VALID");
     }
 
     public String resolveToken(HttpServletRequest req) {
@@ -57,7 +57,6 @@ public class AuthenticationProvider {
 
     public org.springframework.security.core.Authentication getAuthentication(String token) {
         User user = getUserByToken(token);
-        System.out.print(user.getPassword());
         return new UsernamePasswordAuthenticationToken(null, user, null);
     }
 

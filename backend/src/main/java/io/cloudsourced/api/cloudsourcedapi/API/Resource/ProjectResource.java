@@ -28,8 +28,9 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
         return mapper.entityListToDtoList(service.searchProjectName(name));
     }
 
-    @PostMapping("/test")
-    public ProjectDTO add(@RequestBody ProjectDTO projectDTO) {
+    @PostMapping("")
+    @Override
+    public ProjectDTO createNew(@RequestBody ProjectDTO projectDTO) {
         return mapper.entityToDTO(service.saveWithUser(mapper.DTOToEntity(projectDTO)));
     }
 
@@ -41,5 +42,15 @@ public class ProjectResource extends BaseResource<Project, ProjectDTO, ProjectSe
     @GetMapping("/user")
     public List<ProjectDTO> getProjectsByUser(){
         return service.getProjectsByUser().stream().map(mapper::entityToDTO).collect(Collectors.toList());
+    }
+    @GetMapping("/profile/{id}")
+    public List<ProjectDTO> getProjectsByUserId(@PathVariable long id){
+        return service.getProjectsByUserId(id).stream().map(mapper::entityToDTO).collect(Collectors.toList());
+    }
+
+    @PostMapping("/finish/{projectId}")
+    public ProjectDetailDTO finishProject(@PathVariable Long projectId) {
+        Project project = service.getOneById(projectId);
+        return detailMapper.entityToDTO(service.finishProject(project));
     }
 }
