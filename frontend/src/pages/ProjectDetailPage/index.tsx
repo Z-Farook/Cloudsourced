@@ -28,6 +28,9 @@ import {
   CheckOutlined,
   ExclamationOutlined,
   FileDoneOutlined,
+  CheckCircleTwoTone,
+  FileExclamationTwoTone,
+  FileExclamationOutlined,
 } from "@ant-design/icons";
 const { Title, Text, Paragraph } = Typography;
 
@@ -73,6 +76,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
         projectId,
       });
       successMessage();
+      props.history.push("/account");
     } catch (error) {
       errorMessage();
     }
@@ -107,7 +111,14 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
     })();
   }, [projectId]);
 
-  const { description, image, name: projectName, user } = project.data || {};
+  const {
+    description,
+    image,
+    name: projectName,
+    user,
+    finishedAt,
+    archivedAt,
+  } = project.data || {};
 
   return (
     <DefaultLayout>
@@ -147,38 +158,56 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 }
                               />
                             </Tooltip>,
-                            <Tooltip key="finish" title="Finish project">
-                              <Popconfirm
-                                title="Do you want to finish this project?"
-                                okText="Yes"
-                                cancelText="No"
-                                placement="bottom"
-                                icon={
-                                  <ExclamationOutlined
-                                    style={{ color: "red" }}
-                                  />
-                                }
-                                onConfirm={() => finishProject()}
+                            finishedAt ? (
+                              <Tooltip
+                                key="isfinish"
+                                title="This project is finished"
                               >
-                                <CheckOutlined />
-                              </Popconfirm>
-                            </Tooltip>,
-                            <Tooltip key="archive" title="Archive project">
-                              <Popconfirm
-                                title="Do you want to archive this project?"
-                                okText="Yes"
-                                cancelText="No"
-                                placement="bottom"
-                                icon={
-                                  <ExclamationOutlined
-                                    style={{ color: "red" }}
-                                  />
-                                }
-                                onConfirm={() => archiveProject()}
+                                <CheckCircleTwoTone twoToneColor="#52c41a" />
+                              </Tooltip>
+                            ) : (
+                              <Tooltip key="finish" title="Finish project">
+                                <Popconfirm
+                                  title="Do you want to finish this project?"
+                                  okText="Yes"
+                                  cancelText="No"
+                                  placement="bottom"
+                                  icon={
+                                    <ExclamationOutlined
+                                      style={{ color: "red" }}
+                                    />
+                                  }
+                                  onConfirm={() => finishProject()}
+                                >
+                                  <CheckOutlined />
+                                </Popconfirm>
+                              </Tooltip>
+                            ),
+                            archivedAt ? (
+                              <Tooltip
+                                key="isfinish"
+                                title="This project is archived"
                               >
-                                <FileDoneOutlined />
-                              </Popconfirm>
-                            </Tooltip>,
+                                <FileExclamationTwoTone twoToneColor="#52c41a" />
+                              </Tooltip>
+                            ) : (
+                              <Tooltip key="archive" title="Archive project">
+                                <Popconfirm
+                                  title="Do you want to archive this project?"
+                                  okText="Yes"
+                                  cancelText="No"
+                                  placement="bottom"
+                                  icon={
+                                    <ExclamationOutlined
+                                      style={{ color: "red" }}
+                                    />
+                                  }
+                                  onConfirm={() => archiveProject()}
+                                >
+                                  <FileExclamationOutlined />
+                                </Popconfirm>
+                              </Tooltip>
+                            ),
                           ]
                         : ""
                     }
