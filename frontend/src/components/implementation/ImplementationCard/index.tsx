@@ -9,7 +9,7 @@ interface IProps {
 const ImplementationCard: React.FC<IProps> = (props) => {
   return (
     <Card>
-      <p>{props.impl.user!.name}</p>
+      {/*<p>{props.impl.user!.name}</p>*/}
       <code>{JSON.stringify(props.impl)}</code>
     </Card>
   );

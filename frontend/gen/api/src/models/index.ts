@@ -3,6 +3,7 @@ export * from "./AuthenticationUserDTO";
 export * from "./FeatureDTO";
 export * from "./ImplementationDTO";
 export * from "./ModelAndView";
+export * from "./PaymentDTO";
 export * from "./ProjectDTO";
 export * from "./ProjectDetailDTO";
 export * from "./RegisterUserDTO";
