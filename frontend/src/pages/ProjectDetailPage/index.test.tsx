@@ -1,5 +1,5 @@
 import React from "react";
-import { Configuration } from "cloudsourced-api";
+import {Authentication, Configuration} from "cloudsourced-api";
 import DataContext, { IResources } from "../../core/DataContext";
 import project, {
   IProjectDetailParams,
@@ -60,6 +60,12 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
     } as any,
   };
 };
+const initialAuthState = {
+  auth: dataContextCreator().authentication?.authenticateUser({
+    email: "test@email.com",
+    password: "hengel",
+  }) as Authentication,
+};
 describe("projecDetailPage", () => {
   it("Should pass", async () => {
     await act(async () => {
@@ -68,7 +74,7 @@ describe("projecDetailPage", () => {
       history.push("projects/1");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider>
+          <AuthStore.Provider initialState={initialAuthState}>
             <Router history={history}>
               <MainSwitch />
             </Router>
@@ -93,7 +99,7 @@ describe("projecDetailPage", () => {
       history.push("projects/1");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider >
+          <AuthStore.Provider initialState={initialAuthState}>
             <Router history={history}>
               <MainSwitch />
             </Router>

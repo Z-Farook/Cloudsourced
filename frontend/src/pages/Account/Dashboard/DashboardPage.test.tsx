@@ -4,7 +4,7 @@ import { createMemoryHistory } from "history";
 import AuthStore from "../../../stores/AuthStore";
 import { MainSwitch } from "../../../routing/MainRouter";
 import DataContext, { IResources } from "../../../core/DataContext";
-import { Authentication, Configuration } from "cloudsourced-api";
+import {Authentication, Configuration, FeatureDTO} from "cloudsourced-api";
 import { mount, ReactWrapper } from "enzyme";
 import {
   IAuthenticateUserParams,
@@ -13,6 +13,7 @@ import {
 import { IGetProjectsByAuthenticatedUserResult } from "../../../core/DataContext/project";
 import { IGettransactionsByAuthenticatedUserResult } from "../../../core/DataContext/transaction";
 import { act } from "react-dom/test-utils";
+import {IArchiveFeatureParams, IGetOneByIdResult} from "../../../core/DataContext/feature";
 const dataContextCreator = (config?: Configuration): Partial<IResources> => {
   return {
     authentication: {
@@ -61,7 +62,22 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
           },
         ];
       },
-    },
+
+    },feature:{
+      getFeaturesByUser: async(): Promise<Array<FeatureDTO>> => {
+        return [];
+      },
+      getOneById: async():Promise<IGetOneByIdResult> => {return {feature:{}}},
+
+      finishOneById: async (
+          params: { featureId: number }
+      ): Promise<FeatureDTO> => {
+        return {}
+      },
+      archiveFeature: async (params: IArchiveFeatureParams): Promise<FeatureDTO> => {return {}
+      }
+    }
+
   };
 };
 const initialAuthState = {
@@ -105,12 +121,12 @@ describe("DashboardPage", () => {
       await new Promise((resolve) => setImmediate(resolve));
       expect(wrapper.update().getDOMNode()).toHaveTextContent("My account");
 
-      // get second statistic card and check value
+      // get third statistic card and check value
       expect(
         wrapper
           .update()
           .find(".ant-statistic-content-value-int")
-          .at(1)
+          .at(2)
           .getDOMNode()
       ).toHaveTextContent("50");
     });
