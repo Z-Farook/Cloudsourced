@@ -1,4 +1,4 @@
-import { Authentication, Configuration } from "cloudsourced-api";
+import { Authentication, Configuration, UserDTO } from "cloudsourced-api";
 
 export const api = {
   config: (() => {
@@ -30,4 +30,13 @@ export const saveAuthentication = (auth: Authentication | null) => {
   });
 
   localStorage.setItem("AUTH", JSON.stringify(auth));
+};
+
+export const saveUser = (user: UserDTO | null) => {
+  if (user == null) {
+    localStorage.removeItem("USER");
+    return;
+  }
+
+  localStorage.setItem("USER", JSON.stringify(user));
 };

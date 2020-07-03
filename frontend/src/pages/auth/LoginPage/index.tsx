@@ -28,7 +28,7 @@ const LoginPage: React.FC<IProps> = (props) => {
   const dataContext = useMemo(() => createDataContext(api.config), [
     createDataContext,
   ]);
-  const { setAuth } = AuthStore.useContainer();
+  const { setAuth, setUser } = AuthStore.useContainer();
 
   const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,
@@ -43,6 +43,11 @@ const LoginPage: React.FC<IProps> = (props) => {
         password: values.password,
       });
       setAuth(result.authentication);
+      // Nodig voor asynchroniteit
+      const dc = createDataContext(api.config);
+      const user = await dc.user.getUserInfo();
+      setUser(user);
+
       props.history.push(`/account`);
     } catch (err) {
       message.error("Email or password is incorrect.");

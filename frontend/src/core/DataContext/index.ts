@@ -5,6 +5,7 @@ import implementation, { IImplementationResource } from "./implementation";
 import project, { IProjectResource } from "./project";
 import transaction, { ITransactionResource } from "./transaction";
 import feature, { IFeatureResource } from "./feature";
+import { IUserResource, user } from "./user";
 
 export interface IResources {
   authentication: IAuthenticationResource;
@@ -12,6 +13,7 @@ export interface IResources {
   project: IProjectResource;
   transaction: ITransactionResource;
   feature: IFeatureResource;
+  user: IUserResource;
 }
 
 const resources = (config?: Configuration) => {
@@ -21,6 +23,7 @@ const resources = (config?: Configuration) => {
     project: project(config),
     transaction: transaction(config),
     feature: feature(config),
+    user: user(config),
   };
 };
 

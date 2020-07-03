@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import MainRouter from "./routing/MainRouter";
 import "./App.scss";
 import AuthStore from "./stores/AuthStore";
-import { AuthenticationResourceApi, Authentication } from "cloudsourced-api";
+import {
+  AuthenticationResourceApi,
+  Authentication,
+  UserDTO,
+} from "cloudsourced-api";
 import DataContext, { defaultDataContext } from "./core/DataContext";
 
 import { monaco } from "@monaco-editor/react";
@@ -10,7 +14,7 @@ import { monaco } from "@monaco-editor/react";
 require("dotenv").config();
 
 const AppWrapper = () => {
-  const { setAuth } = AuthStore.useContainer();
+  const { setAuth, setUser } = AuthStore.useContainer();
 
   useEffect(() => {
     monaco
@@ -28,7 +32,8 @@ const AppWrapper = () => {
 
   useEffect(() => {
     const authItem = localStorage.getItem("AUTH");
-    if (authItem === null) {
+    const userItem = localStorage.getItem("USER");
+    if (authItem === null || userItem === null) {
       return;
     }
 
@@ -41,9 +46,12 @@ const AppWrapper = () => {
       );
       if (!response.valid) {
         localStorage.removeItem("AUTH");
+        localStorage.removeItem("USER");
         return;
       }
+      const user: UserDTO = JSON.parse(userItem);
       setAuth(auth);
+      setUser(user);
     })();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

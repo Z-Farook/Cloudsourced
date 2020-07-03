@@ -1,14 +1,16 @@
 import { createContainer } from "unstated-next";
-import { Authentication } from "cloudsourced-api";
+import { Authentication, UserDTO } from "cloudsourced-api";
 import { useCallback, useMemo, useState } from "react";
-import { saveAuthentication } from "../core/api";
+import { saveAuthentication, saveUser } from "../core/api";
 
 interface IInitialState {
   auth?: Authentication;
+  user?: UserDTO;
 }
 
 const defaultInitialState: IInitialState = {
   auth: undefined,
+  user: undefined,
 };
 
 const useAuthStore = (initialState?: IInitialState) => {
@@ -16,6 +18,7 @@ const useAuthStore = (initialState?: IInitialState) => {
     return { ...defaultInitialState, ...initialState };
   }, [initialState]);
   const [auth, setAuth] = useState<Authentication | null>(state.auth || null);
+  const [user, setUser] = useState<UserDTO | null>(state.user || null);
 
   const setAuthFn = useCallback(
     (x: Authentication | null) => {
@@ -25,7 +28,15 @@ const useAuthStore = (initialState?: IInitialState) => {
     [setAuth]
   );
 
-  return { auth, setAuth: setAuthFn };
+  const setUserFn = useCallback(
+    (x: UserDTO | null) => {
+      setUser(x);
+      saveUser(x);
+    },
+    [setUser]
+  );
+
+  return { auth, setAuth: setAuthFn, user, setUser: setUserFn };
 };
 
 const AuthStore = createContainer(useAuthStore);

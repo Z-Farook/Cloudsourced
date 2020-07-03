@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
-import { Menu, Typography } from "antd";
+import { Menu, Spin, Typography } from "antd";
 import { RouteComponentProps, withRouter } from "react-router";
 import { DownOutlined } from "@ant-design/icons";
 import AuthStore from "../../../stores/AuthStore";
+import { formatUser } from "../../../formatters/user";
 
 export enum EMenuItem {
   Home,
@@ -22,7 +23,7 @@ export const menuItemTexts: Record<EMenuItem, string> = {
 interface IProps extends RouteComponentProps {}
 
 const Header: React.FC<IProps> = (props) => {
-  const { auth, setAuth } = AuthStore.useContainer();
+  const { auth, setAuth, setUser, user } = AuthStore.useContainer();
 
   const selectedKeys = useMemo<Array<string>>(() => {
     const menuItem = Object.keys(menuItemUrls).find((menuItemKey) => {
@@ -99,7 +100,7 @@ const Header: React.FC<IProps> = (props) => {
           <Menu.SubMenu
             title={
               <span style={{ display: "flex", alignItems: "center" }}>
-                <span>Account</span>
+                <span>{user === null ? <Spin /> : formatUser(user!)}</span>
                 <span style={{ marginLeft: 5 }}>
                   <DownOutlined />
                 </span>
@@ -113,6 +114,7 @@ const Header: React.FC<IProps> = (props) => {
               onClick={() => {
                 props.history.push("/home");
                 setAuth(null);
+                setUser(null);
               }}
             >
               Log out
