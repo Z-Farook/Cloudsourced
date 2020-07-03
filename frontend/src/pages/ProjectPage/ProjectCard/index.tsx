@@ -37,13 +37,6 @@ const ProjectCard: React.FC<IProps> = (props) => {
         cover={
           <img alt="example" className="image" src={image ? image : noImage} />
         }
-        // actions={
-        //   [
-        //     <HeartFilled key="favorite" />,
-        //     <ShareAltOutlined key="share" />,
-        //     <DownOutlined key="ellipsis" />,
-        //   ]
-        // }
         title={name}
         extra={[
           finishedAt ? <FinishedPrompt /> : "",
