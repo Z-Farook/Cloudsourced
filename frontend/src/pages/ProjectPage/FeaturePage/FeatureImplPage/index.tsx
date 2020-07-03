@@ -102,12 +102,12 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
     }
 
     (async () => {
-      const result = await dataContext.implementation.getOneById({
+      const result = await dataContext.feature.getOneById({
         id: featureId,
       });
-      setFeature(fromLoaded(result));
+      setFeature(fromLoaded(result.feature));
 
-      setValue("code", result.codePreview!);
+      setValue("code", result.feature.codePreview!);
     })();
   }, [featureId, setValue, dataContext.implementation]);
 

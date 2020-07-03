@@ -15,12 +15,12 @@ const ProjectCard: React.FC<IProps> = (props) => {
   const { description, image, name, id, finishedAt } = project;
 
   const FinishedPrompt = () => {
-    return(
+    return (
       <Tooltip title="This project is finished">
         <CheckCircleTwoTone twoToneColor="#52c41a" />
       </Tooltip>
-    )
-  }
+    );
+  };
 
   return (
     <Link to={`/projects/${id}`}>
@@ -37,7 +37,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
         //   ]
         // }
         title={name}
-        extra={finishedAt ? <FinishedPrompt /> : ''}
+        extra={finishedAt ? <FinishedPrompt /> : ""}
       >
         <Meta
           avatar={

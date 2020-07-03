@@ -14,10 +14,10 @@ const HomePage: React.FC<IProps> = (props) => {
         In need of software components?
       </Title>
       <Text style={{ textAlign: "center" }}>
-        Look no further, we offer a great network of developer to help you!{" "}
+        Look no further, we offer a great network of developers to help you!
         <br />
-        Now you think where is the catch? Well there is none, our services are
-        free to use!!
+        Now you probably think where is the catch? Well there is none, our
+        services are free to use.
       </Text>
 
       <img
@@ -34,7 +34,7 @@ const HomePage: React.FC<IProps> = (props) => {
           props.history.push(`/auth/register`);
         }}
       >
-        Signup
+        Sign Up
       </Button>
     </DefaultLayout>
   );

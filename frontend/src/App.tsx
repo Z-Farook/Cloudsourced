@@ -2,10 +2,7 @@ import React, { useEffect } from "react";
 import MainRouter from "./routing/MainRouter";
 import "./App.scss";
 import AuthStore from "./stores/AuthStore";
-import {
-  AuthenticationResourceApi,
-  Authentication,
-} from "cloudsourced-api";
+import { AuthenticationResourceApi, Authentication } from "cloudsourced-api";
 import DataContext, { defaultDataContext } from "./core/DataContext";
 
 import { monaco } from "@monaco-editor/react";

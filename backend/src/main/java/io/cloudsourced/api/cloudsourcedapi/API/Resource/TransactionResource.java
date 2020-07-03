@@ -30,7 +30,7 @@ public class TransactionResource {
      * @param /user
      * @return
      */
-    @GetMapping("")
+    @GetMapping("/user")
     public List<TransactionDTO> getAllTransactionForAUser() {
         User user = authenticatedUserProvider.GetUser();
         return  transactionMapper.entityListToDtoList( service.getTransactionForUser(user));

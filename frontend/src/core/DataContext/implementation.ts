@@ -1,4 +1,8 @@
-import { Configuration, ImplementationResourceApi } from "cloudsourced-api";
+import {
+  Configuration,
+  ImplementationResourceApi,
+  ImplementationDTO,
+} from "cloudsourced-api";
 import { ReviewDTO } from "../../../gen/api/src/models";
 import { api } from "../api";
 
@@ -14,6 +18,15 @@ export interface IAddImplementationToFeatureResult {
 
   reviews?: Array<ReviewDTO>;
 }
+
+export interface IGetImplementationsFromFeatureParams {
+  featureId: number;
+}
+
+export interface IGetImplementationsFromFeatureResult {
+  implementations: Array<ImplementationDTO>;
+}
+
 export interface IImplementationResource {
   addImplementationToFeature: (
     params: IAddImplementationToFeatureParams
@@ -21,6 +34,9 @@ export interface IImplementationResource {
   getOneById: (
     params: IGetOneByIdUsingParams
   ) => Promise<IGetOneByIdUsingResult>;
+  getImplementationsFromFeature: (
+    params: IGetImplementationsFromFeatureParams
+  ) => Promise<IGetImplementationsFromFeatureResult>;
 }
 export interface IGetOneByIdUsingParams {
   id: number;
@@ -60,6 +76,17 @@ const implementation = (config?: Configuration): IImplementationResource => {
         id: params.id,
       });
       return result;
+    },
+    getImplementationsFromFeature: async (
+      params: IGetImplementationsFromFeatureParams
+    ): Promise<IGetImplementationsFromFeatureResult> => {
+      const result = await new ImplementationResourceApi(
+        api.config
+      ).getImplementationFromFeatureUsingGET({
+        featureId: params.featureId,
+      });
+
+      return { implementations: result };
     },
   };
 };

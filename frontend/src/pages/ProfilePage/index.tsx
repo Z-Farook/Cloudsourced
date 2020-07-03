@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import {
-  Row,
-  Col,
-  Spin,
-  Typography,
-  BackTop,
-  Descriptions,
-} from "antd";
+import { Row, Col, Spin, Typography, BackTop, Descriptions } from "antd";
 import noImage from "../../assets/noimage.png";
 import IRemoteData, {
   fromLoaded,
