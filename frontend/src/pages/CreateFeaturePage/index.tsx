@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, Select, message } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  Select,
+  message,
+  InputNumber,
+} from "antd";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
 
@@ -20,6 +29,7 @@ type Inputs = {
   description: string;
   codePreview: string;
   codeLanguage: string;
+  points: number;
 };
 const { Option } = Select;
 const layout = {
@@ -36,6 +46,7 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
         description: values.description,
         codeLanguage: values.codeLanguage,
         codePreview: values.codePreview,
+        points: values.points,
       },
     };
     message.loading({ content: "Saving project...", key: "updatableKey" });
@@ -94,6 +105,18 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
                   ]}
                 >
                   <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Points"
+                  name="points"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please assign points to this feature!",
+                    },
+                  ]}
+                >
+                  <InputNumber style={{ width: "100%" }} />
                 </Form.Item>
 
                 <Form.Item

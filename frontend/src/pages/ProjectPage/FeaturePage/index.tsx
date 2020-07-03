@@ -28,15 +28,6 @@ interface IRouteParams {
 
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
-// These are temporary mock models and data
-export interface IMockFeature {
-  name: string;
-  description: string;
-  codePreview: string;
-  codeLanguage: string;
-  points: number;
-}
-
 const FeaturePage: React.FC<IProps> = (props) => {
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
@@ -78,9 +69,6 @@ const FeaturePage: React.FC<IProps> = (props) => {
 
   return (
     <DefaultLayout>
-      {/*<div>Project ID: {projectId}</div>*/}
-      {/*<div>Feature ID: {featureId}</div>*/}
-
       <div style={{ padding: 50 }}>
         {feature.state === EState.Loading ||
         implementations.state === EState.Loading ? (
@@ -89,8 +77,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
           implementations.state === EState.Loaded ? (
           <div>
             <Title level={2}>{feature.data!.name}</Title>
-            {/* TODO: points */}
-            {/* <Paragraph strong>Points: {feature.data!.points}</Paragraph> */}
+            <Paragraph strong>Points: {feature.data!.points}</Paragraph>
             <Paragraph>{feature.data!.description}</Paragraph>
             <SyntaxHighlighter
               language={feature.data!.codeLanguage}
