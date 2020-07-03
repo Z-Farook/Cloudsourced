@@ -22,6 +22,14 @@ const ProjectCard: React.FC<IProps> = (props) => {
     );
   };
 
+  const ArchivedPrompt = () => {
+    return (
+      <Tooltip title="This project is archived">
+        <InfoCircleOutlined />
+      </Tooltip>
+    );
+  };
+
   return (
     <Link to={`/projects/${id}`}>
       <Card
@@ -39,7 +47,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
         title={name}
         extra={[
           finishedAt ? <FinishedPrompt /> : "",
-          archivedAt ? <InfoCircleOutlined /> : "",
+          archivedAt ? <ArchivedPrompt /> : "",
         ]}
       >
         <Meta
