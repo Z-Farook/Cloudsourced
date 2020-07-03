@@ -58,8 +58,12 @@ const ProjectPage: React.FC<IProps> = (props) => {
             style={{ width: 120 }}
             onChange={sort}
           >
-            <Option key="asc" value="Ascending">Ascending</Option>
-            <Option key="desc" value="Descending">Descending</Option>
+            <Option key="asc" value="Ascending">
+              Ascending
+            </Option>
+            <Option key="desc" value="Descending">
+              Descending
+            </Option>
           </Select>,
         ]}
       />
