@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Row, Col, message, Upload } from "antd";
+import { Input, Button, Row, Col, message, Upload, Form, Card } from "antd";
 import { useForm, Controller, ErrorMessage } from "react-hook-form";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
@@ -14,17 +14,21 @@ import { RouteComponentProps } from "react-router";
 // import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
 import noImage from "../../assets/noimage.png";
+import * as yup from "yup";
 
 interface IRouterParams {
   projectId?: string;
 }
+const validationSchema = yup.object().shape({
+  projectName: yup.string().required("Name is a required field"),
+  description: yup.string().required("Description is a required field"),
+});
 
-interface IProps extends RouteComponentProps<IRouterParams> {}
-
-type Inputs = {
+interface IValues {
   projectName: string;
   description: string;
-};
+}
+interface IProps extends RouteComponentProps<IRouterParams> {}
 
 const ProjectFormPage: React.FC<IProps> = (props) => {
   let isEditing = false;
@@ -57,7 +61,11 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
     // eslint-disable-next-line
   }, [projectId]);
 
-  const { control, handleSubmit, errors, setValue } = useForm<Inputs>();
+  const { handleSubmit, errors, setValue, register, formState } = useForm({
+    validationSchema,
+  });
+
+  const { isSubmitting, isValid } = formState;
 
   const [image, setImage] = useState("");
 
@@ -93,11 +101,11 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
     }
   };
 
-  const handleProject = async (data: Inputs) => {
+  const handleProject = async (data: any) => {
     const project: ProjectDTO = {
       description: data.description,
       name: data.projectName,
-      image: await postImage(image),
+      image: "", //await postImage(image),
     };
     if (!isEditing) {
       const params: CreateNewUsingPOST2Request = {
@@ -157,7 +165,11 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
       duration: 2,
     });
   };
-
+  useEffect(() => {
+    register({ name: "projectName" });
+    register({ name: "description" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <DefaultLayout>
       <div style={{ backgroundColor: "#f5f5f5" }}>
@@ -165,53 +177,69 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
           <Row justify="center" gutter={[24, 24]}>
             <Col xl={8} lg={12} md={12} sm={24} xs={24}>
               <Title>{isEditing ? "Edit" : "Create"}</Title>
-              <form onSubmit={handleSubmit(handleProject)}>
-                <Controller
-                  as={Input}
-                  name="projectName"
-                  control={control}
-                  placeholder="Project name"
-                  rules={{ required: true }}
-                />
-                <ErrorMessage
-                  errors={errors}
-                  name="projectName"
-                  message="A project name is required"
-                />
-
-                <Controller
-                  as={Input}
-                  name="description"
-                  control={control}
-                  placeholder="Description"
-                  rules={{ required: true }}
-                />
-                <ErrorMessage
-                  errors={errors}
-                  name="description"
-                  message="A description is required"
-                />
-
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  accept=".jpg, .jpeg, .png"
-                  onChange={(event) =>
-                    getBase64(event.file.originFileObj as Blob)
+              <Form>
+                <Form.Item
+                  label="Project name"
+                  validateStatus={
+                    errors.projectName !== undefined ? "error" : undefined
+                  }
+                  help={
+                    errors.projectName !== undefined
+                      ? errors.projectName.message
+                      : undefined
                   }
                 >
-                  <img
-                    src={image ? image : noImage}
-                    alt="avatar"
-                    style={{ width: "100%" }}
+                  <Input
+                    name="projectName"
+                    onChange={(ev) => setValue("projectName", ev.target.value)}
                   />
-                </Upload>
-                <Button type="primary" htmlType="submit" block>
-                  {isEditing ? "Update" : "Submit"}
-                </Button>
-              </form>
+                </Form.Item>
+                <Form.Item
+                  label="Description"
+                  validateStatus={
+                    errors.description !== undefined ? "error" : undefined
+                  }
+                  help={
+                    errors.description !== undefined
+                      ? errors.description.message
+                      : undefined
+                  }
+                >
+                  <Input
+                    name="description"
+                    onChange={(ev) => setValue("description", ev.target.value)}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(event) =>
+                      getBase64(event.file.originFileObj as Blob)
+                    }
+                  >
+                    <img
+                      src={image ? image : noImage}
+                      alt="avatar"
+                      style={{ width: "100%" }}
+                    />
+                  </Upload>
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={handleSubmit(handleProject)}
+                    disabled={isSubmitting}
+                    block
+                  >
+                    {isEditing ? "Update" : "Submit"}
+                  </Button>
+                </Form.Item>
+              </Form>
             </Col>
           </Row>
         </div>
