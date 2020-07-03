@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
 import { Button, Spin, Typography } from "antd";
@@ -10,8 +10,13 @@ import IRemoteData, {
   fromLoaded,
   fromLoading,
 } from "../../../core/IRemoteData";
-import { FeatureDTO, FeatureResourceApi } from "cloudsourced-api";
+import {
+  FeatureDTO,
+  FeatureResourceApi,
+  ImplementationDTO,
+} from "cloudsourced-api";
 import { api } from "../../../core/api";
+import DataContext from "../../../core/DataContext";
 
 const { Title, Paragraph } = Typography;
 
@@ -32,9 +37,16 @@ export interface IMockFeature {
 }
 
 const FeaturePage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
   const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
+  const [implementations, setImplementations] = useState<
+    IRemoteData<Array<ImplementationDTO>, null>
+  >(fromLoading());
 
   const { projectId, featureId } = useMemo(() => {
     return {
@@ -53,6 +65,8 @@ const FeaturePage: React.FC<IProps> = (props) => {
       setFeature(fromLoaded(result));
     })();
   }, [featureId]);
+
+  useEffect(() => {}, [feature]);
 
   return (
     <DefaultLayout>
