@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface ImplementationRepository extends JpaRepository<Implementation, Long> {
-    @Query(value ="select imp from Implementation imp where imp.feature.id =:id AND imp.feature.project.user.id=:userId")
+    @Query(value ="select imp from Implementation imp where imp.feature.id =:id AND imp.feature.project.user.id=:userId or imp.user.id=:userId")
     public List<Implementation> getImplementationsFromFeature(@Param("id") long id, @Param("userId") long userId);
 }
