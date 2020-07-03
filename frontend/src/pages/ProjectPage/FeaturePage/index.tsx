@@ -2,7 +2,7 @@ import * as React from "react";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { Button, Spin, Typography } from "antd";
+import { Button, Spin, Typography, Statistic, PageHeader } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import IRemoteData, {
@@ -14,6 +14,7 @@ import { FeatureDTO, ImplementationDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import DataContext from "../../../core/DataContext";
 import ImplementationCard from "../../../components/implementation/ImplementationCard";
+import { DollarOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -76,8 +77,19 @@ const FeaturePage: React.FC<IProps> = (props) => {
         ) : feature.state === EState.Loaded &&
           implementations.state === EState.Loaded ? (
           <div>
-            <Title level={2}>{feature.data!.name}</Title>
-            <Paragraph strong>Points: {feature.data!.points}</Paragraph>
+            <PageHeader
+              title={feature.data!.name}
+              extra={
+                <Statistic
+                  value={feature.data!.points}
+                  precision={0}
+                  valueStyle={{ color: "green" }}
+                  prefix={<DollarOutlined />}
+                  suffix=""
+                />
+              }
+            />
+
             <Paragraph>{feature.data!.description}</Paragraph>
             <SyntaxHighlighter
               language={feature.data!.codeLanguage}
