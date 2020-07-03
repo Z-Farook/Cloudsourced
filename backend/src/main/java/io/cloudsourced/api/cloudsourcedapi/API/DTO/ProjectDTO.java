@@ -11,6 +11,7 @@ public class ProjectDTO {
     private String name;
     private String description;
     private String image;
+    private Instant finishedAt;
     private Instant createdAt;
     private Instant updatedAt;
 }

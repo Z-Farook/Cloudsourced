@@ -1,34 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import {
-  Row,
-  Col,
-  Divider,
-  Spin,
-  Button,
-  Card,
-  Typography,
-  message,
-  BackTop,
-  Descriptions,
-} from "antd";
+import { Row, Col, Spin, Typography, BackTop, Descriptions } from "antd";
 import noImage from "../../assets/noimage.png";
-import FeatureCard from "../../components/feature/FeatureCard";
 import IRemoteData, {
   fromLoaded,
   fromLoading,
   EState,
 } from "../../core/IRemoteData";
 import {
-  ProjectDetailDTO,
   ProjectResourceApi,
   UserResourceApi,
   User,
   ProjectDTO,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
-import AuthStore from "../../stores/AuthStore";
 import "./index.scss";
 import ProjectCard from "../ProjectPage/ProjectCard";
 const { Title } = Typography;
@@ -51,27 +37,7 @@ const ProfilePage: React.FC<IProps> = (props) => {
       ).getUserProfileInfoUsingGET({ id: Number(props.match.params.id) });
       setUser(fromLoaded(result));
     })();
-  }, []);
-
-  const sort = (value: string) => {
-    if (value === "Ascending") {
-      setProjects(
-        fromLoaded(
-          projects.data!.sort((a, b) => {
-            return a.createdAt!.getTime() - b.createdAt!.getTime();
-          })
-        )
-      );
-    } else {
-      setProjects(
-        fromLoaded(
-          projects.data!.sort((a, b) => {
-            return b.createdAt!.getTime() - a.createdAt!.getTime();
-          })
-        )
-      );
-    }
-  };
+  }, [props.match.params.id]);
 
   useEffect(() => {
     (async () => {
@@ -81,7 +47,7 @@ const ProfilePage: React.FC<IProps> = (props) => {
 
       setProjects(fromLoaded(result));
     })();
-  }, []);
+  }, [props.match.params.id]);
 
   return (
     <DefaultLayout>

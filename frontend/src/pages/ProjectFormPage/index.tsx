@@ -7,11 +7,11 @@ import {
   ProjectResourceApi,
   ProjectDTO,
   UpdateUsingPUT2Request,
-  AddUsingPOSTRequest,
+  CreateNewUsingPOST2Request,
 } from "cloudsourced-api";
 import { api } from "../../core/api";
 import { RouteComponentProps } from "react-router";
-import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
+// import IRemoteData, { fromLoaded, fromLoading } from "../../core/IRemoteData";
 
 import noImage from "../../assets/noimage.png";
 
@@ -36,9 +36,9 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
 
   const projectId = Number(props.match.params.projectId);
 
-  const [project, setProject] = useState<IRemoteData<ProjectDTO, null>>(
-    fromLoading()
-  );
+  // const [project, setProject] = useState<IRemoteData<ProjectDTO, null>>(
+  //   fromLoading()
+  // );
 
   useEffect(() => {
     if (isEditing) {
@@ -51,9 +51,10 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
         if (result.name) setValue("projectName", result.name!);
         if (result.description) setValue("description", result.description!);
         if (result.image) setImage(result.image!);
-        setProject(fromLoaded(result));
+        // setProject(fromLoaded(result));
       })();
     }
+    // eslint-disable-next-line
   }, [projectId]);
 
   const { control, handleSubmit, errors, setValue } = useForm<Inputs>();
@@ -99,19 +100,15 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
       image: await postImage(image),
     };
     if (!isEditing) {
-      const params: AddUsingPOSTRequest = {
+      const params: CreateNewUsingPOST2Request = {
         projectDTO: project,
       };
-      message.loading({ content: "Saving project...", key: "updatableKey" });
+      loadMessage();
       try {
-        const response = await new ProjectResourceApi(api.config).addUsingPOST(
-          params
-        );
-        message.success({
-          content: "Project is created succesfully!",
-          key: "updatableKey",
-          duration: 2,
-        });
+        const response = await new ProjectResourceApi(
+          api.config
+        ).createNewUsingPOST2(params);
+        successMessage();
         props.history.push(`/projects/${response.id}`);
       } catch (error) {
         errorMessage();
@@ -211,7 +208,6 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
                     style={{ width: "100%" }}
                   />
                 </Upload>
-
                 <Button type="primary" htmlType="submit" block>
                   {isEditing ? "Update" : "Submit"}
                 </Button>

@@ -38,7 +38,7 @@ public class BaseResource<Entity,DTO, S extends BaseService<Entity, P>, P extend
 
     @Override
     @GetMapping("")
-    public List<DTO> All() {
+    public List<DTO> all() {
         return mapper.entityListToDtoList(service.getAll());
     }
 
