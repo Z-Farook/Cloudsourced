@@ -28,7 +28,7 @@ const LoginPage: React.FC<IProps> = (props) => {
   const dataContext = useMemo(() => createDataContext(api.config), [
     createDataContext,
   ]);
-  const { auth, setAuth } = AuthStore.useContainer();
+  const { setAuth } = AuthStore.useContainer();
 
   const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,

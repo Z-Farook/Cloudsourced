@@ -179,7 +179,6 @@ const Dashboard: React.FC<IProps> = (props) => {
         },
         finishedAt: p.finishedAt ? p.finishedAt : undefined,
       }));
-      console.log(featureData);
       featureData.sort((a, b) => {
         return b.feature.createdAt!.getTime() - a.feature.createdAt!.getTime();
       });
@@ -204,12 +203,12 @@ const Dashboard: React.FC<IProps> = (props) => {
       setProjectsFinished(
         Math.floor(
           (data.filter((p, i) =>
-            p.finishedAt !== undefined && p.project.archivedAt == undefined
+            p.finishedAt !== undefined && p.project.archivedAt === undefined
               ? p
               : undefined
           ).length /
             data.filter((p, i) =>
-              p.project.archivedAt == undefined ? p : undefined
+              p.project.archivedAt === undefined ? p : undefined
             ).length) *
             100
         )
@@ -217,12 +216,12 @@ const Dashboard: React.FC<IProps> = (props) => {
       setFeaturesFinished(
         Math.floor(
           (userFeatureData.filter((p, i) =>
-            p.finishedAt !== undefined && p.archivedAt == undefined
+            p.finishedAt !== undefined && p.archivedAt === undefined
               ? p
               : undefined
           ).length /
             userFeatureData.filter((p, i) =>
-              p.archivedAt == undefined ? p : undefined
+              p.archivedAt === undefined ? p : undefined
             ).length) *
             100
         )
@@ -231,7 +230,7 @@ const Dashboard: React.FC<IProps> = (props) => {
       setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
     })();
-  }, [dataContext.project, dataContext.transaction]);
+  }, [dataContext.project, dataContext.transaction, dataContext.feature]);
   return (
     <>
       <Row justify="center" gutter={[24, 24]}>
@@ -291,7 +290,7 @@ const Dashboard: React.FC<IProps> = (props) => {
                   <Progress
                     percent={projects.data ? projectsFinished : 100}
                     status={
-                      (projects.data ? projectsFinished : 100) == 100
+                      (projects.data ? projectsFinished : 100) === 100
                         ? "success"
                         : "active"
                     }
@@ -302,7 +301,7 @@ const Dashboard: React.FC<IProps> = (props) => {
                   <Progress
                     percent={features.data ? featuresFinished : 100}
                     status={
-                      (features.data ? featuresFinished : 100) == 100
+                      (features.data ? featuresFinished : 100) === 100
                         ? "success"
                         : "active"
                     }

@@ -17,5 +17,5 @@ public class FeatureDTO {
     private Instant finishedAt;
     private Instant archivedAt;
     private Instant createdAt;
-   private ProjectDTO project;
+    private ProjectDTO project;
 }
