@@ -48,7 +48,13 @@ const Header: React.FC<IProps> = (props) => {
       }}
     >
       {/*<Layout.Header style={{ display: "flex", alignItems: "center" }}>*/}
-      <div className="logo">
+      <div
+        className="logo"
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          props.history.push("/home");
+        }}
+      >
         <Typography.Title level={4} style={{ margin: 0, color: "white" }}>
           CloudSourced
         </Typography.Title>
