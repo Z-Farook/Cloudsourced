@@ -28,6 +28,12 @@ import {
 export interface FeatureDTO {
     /**
      * 
+     * @type {Date}
+     * @memberof FeatureDTO
+     */
+    archivedAt?: Date;
+    /**
+     * 
      * @type {string}
      * @memberof FeatureDTO
      */
@@ -44,6 +50,12 @@ export interface FeatureDTO {
      * @memberof FeatureDTO
      */
     description?: string;
+    /**
+     * 
+     * @type {Date}
+     * @memberof FeatureDTO
+     */
+    finishedAt?: Date;
     /**
      * 
      * @type {number}
@@ -80,9 +92,11 @@ export function FeatureDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
+        'archivedAt': !exists(json, 'archivedAt') ? undefined : (new Date(json['archivedAt'])),
         'codeLanguage': !exists(json, 'codeLanguage') ? undefined : json['codeLanguage'],
         'codePreview': !exists(json, 'codePreview') ? undefined : json['codePreview'],
         'description': !exists(json, 'description') ? undefined : json['description'],
+        'finishedAt': !exists(json, 'finishedAt') ? undefined : (new Date(json['finishedAt'])),
         'id': !exists(json, 'id') ? undefined : json['id'],
         'implementations': !exists(json, 'implementations') ? undefined : ((json['implementations'] as Array<any>).map(ImplementationDTOFromJSON)),
         'name': !exists(json, 'name') ? undefined : json['name'],
@@ -99,9 +113,11 @@ export function FeatureDTOToJSON(value?: FeatureDTO | null): any {
     }
     return {
         
+        'archivedAt': value.archivedAt === undefined ? undefined : (value.archivedAt.toISOString()),
         'codeLanguage': value.codeLanguage,
         'codePreview': value.codePreview,
         'description': value.description,
+        'finishedAt': value.finishedAt === undefined ? undefined : (value.finishedAt.toISOString()),
         'id': value.id,
         'implementations': value.implementations === undefined ? undefined : ((value.implementations as Array<any>).map(ImplementationDTOToJSON)),
         'name': value.name,

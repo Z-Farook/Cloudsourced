@@ -63,11 +63,13 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   const finishProject = async () => {
     try {
-      await new ProjectResourceApi(api.config).finishProjectUsingPOST({
+      const result = await new ProjectResourceApi(
+        api.config
+      ).finishProjectUsingPOST({
         projectId,
       });
       successMessage();
-      props.history.push("/account");
+      setProject(fromLoaded(result));
     } catch (error) {
       errorMessage();
     }
@@ -75,11 +77,13 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   const archiveProject = async () => {
     try {
-      await new ProjectResourceApi(api.config).archiveProjectUsingPOST({
+      const result = await new ProjectResourceApi(
+        api.config
+      ).archiveProjectUsingPOST({
         projectId,
       });
       successMessage();
-      props.history.push("/account");
+      setProject(fromLoaded(result));
     } catch (error) {
       errorMessage();
     }

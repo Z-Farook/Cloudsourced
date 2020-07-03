@@ -133,11 +133,12 @@ const Dashboard: React.FC<IProps> = (props) => {
     IRemoteData<projectData, null>
   >(fromLoading());
   const [projectsFinished, setProjectsFinished] = useState<number>(0);
-
+  const [featuresFinished, setFeaturesFinished] = useState<number>(0);
   useEffect(() => {
     (async () => {
       const result = await dataContext.project.getProjectsByAuthenticatedUser();
       const userTransactionData = await dataContext.transaction.getTransactionsByAuthenticatedUser();
+      const userFeatureData = await dataContext.feature.getFeaturesByUser();
       const data: projectData[] = result.map((p, i) => ({
         key: i.toString(),
         number: i,
@@ -166,10 +167,34 @@ const Dashboard: React.FC<IProps> = (props) => {
               .map((a) => a.points)
               .reduce((a, b) => a! + b!, 0) as number)
           : 0;
-      const fp: projectData[] = data.filter((p, i) =>
-        p.finishedAt ? p.finishedAt : undefined
+
+      setProjectsFinished(
+        Math.floor(
+          (data.filter((p, i) =>
+            p.finishedAt !== undefined && p.project.archivedAt == undefined
+              ? p
+              : undefined
+          ).length /
+            data.filter((p, i) =>
+              p.project.archivedAt == undefined ? p : undefined
+            ).length) *
+            100
+        )
       );
-      setProjectsFinished(fp.length);
+      setFeaturesFinished(
+        Math.floor(
+          (userFeatureData.filter((p, i) =>
+            p.finishedAt !== undefined && p.archivedAt == undefined
+              ? p
+              : undefined
+          ).length /
+            userFeatureData.filter((p, i) =>
+              p.archivedAt == undefined ? p : undefined
+            ).length) *
+            100
+        )
+      );
+
       setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
     })();
@@ -228,27 +253,34 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <div>
                   <Title level={4}>Finished projects</Title>
                   <Progress
-                    percent={
-                      projects.data
-                        ? Math.floor(
-                            (projectsFinished / projects.data?.length) * 100
-                          )
-                        : 100
-                    }
+                    percent={projects.data ? projectsFinished : 100}
                     status={
-                      (projects.data
-                        ? Math.floor(
-                            (projectsFinished / projects.data?.length) * 100
-                          )
-                        : 100) == 100
+                      (projects.data ? projectsFinished : 100) == 100
                         ? "success"
                         : "active"
                     }
                   />
                 </div>
                 <div>
-                  <Title level={4}>Finished tasks</Title>
-                  <Progress percent={70} status="active" />
+                  <Title level={4}>Finished features</Title>
+                  <Progress
+                    percent={
+                      projects.data
+                        ? Math.floor(
+                            (featuresFinished / projects.data?.length) * 100
+                          )
+                        : 100
+                    }
+                    status={
+                      (projects.data
+                        ? Math.floor(
+                            (featuresFinished / projects.data?.length) * 100
+                          )
+                        : 100) == 100
+                        ? "success"
+                        : "active"
+                    }
+                  />
                 </div>
                 <div>
                   <Title level={4}>Received points</Title>
