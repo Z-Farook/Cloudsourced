@@ -27,6 +27,7 @@ import {
   EditOutlined,
   CheckOutlined,
   ExclamationOutlined,
+  FileDoneOutlined,
 } from "@ant-design/icons";
 const { Title, Text, Paragraph } = Typography;
 
@@ -59,19 +60,38 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       await new ProjectResourceApi(api.config).finishProjectUsingPOST({
         projectId,
       });
-      message.success({
-        content: "Project is finished",
-        key: "updatableKey",
-        duration: 2,
-      });
+      successMessage();
       props.history.push("/account");
     } catch (error) {
-      message.success({
-        content: "Something went wrong",
-        key: "updatableKey",
-        duration: 2,
-      });
+      errorMessage();
     }
+  };
+
+  const archiveProject = async () => {
+    try {
+      await new ProjectResourceApi(api.config).archiveProjectUsingPOST({
+        projectId,
+      });
+      successMessage();
+    } catch (error) {
+      errorMessage();
+    }
+  };
+
+  const successMessage = () => {
+    message.success({
+      content: "Something went wrong",
+      key: "updatableKey",
+      duration: 2,
+    });
+  };
+
+  const errorMessage = () => {
+    message.error({
+      content: "Something went wrong",
+      key: "updatableKey",
+      duration: 2,
+    });
   };
 
   useEffect(() => {
@@ -141,6 +161,22 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 onConfirm={() => finishProject()}
                               >
                                 <CheckOutlined />
+                              </Popconfirm>
+                            </Tooltip>,
+                            <Tooltip key="archive" title="Archive project">
+                              <Popconfirm
+                                title="Do you want to archive this project?"
+                                okText="Yes"
+                                cancelText="No"
+                                placement="bottom"
+                                icon={
+                                  <ExclamationOutlined
+                                    style={{ color: "red" }}
+                                  />
+                                }
+                                onConfirm={() => archiveProject()}
+                              >
+                                <FileDoneOutlined />
                               </Popconfirm>
                             </Tooltip>,
                           ]
