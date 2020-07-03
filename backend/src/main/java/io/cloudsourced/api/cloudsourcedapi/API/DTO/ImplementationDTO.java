@@ -9,4 +9,5 @@ public class ImplementationDTO {
     private Long id;
     private String code;
     private List<ReviewDTO> reviews;
+    private UserDTO user;
 }
