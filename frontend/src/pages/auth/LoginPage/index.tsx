@@ -28,7 +28,7 @@ const LoginPage: React.FC<IProps> = (props) => {
   const dataContext = useMemo(() => createDataContext(api.config), [
     createDataContext,
   ]);
-  const { setAuth } = AuthStore.useContainer();
+  const { auth, setAuth } = AuthStore.useContainer();
 
   const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,
@@ -43,7 +43,6 @@ const LoginPage: React.FC<IProps> = (props) => {
         password: values.password,
       });
       setAuth(result.authentication);
-      props.history.push(`/account`);
     } catch (err) {
       message.error("Email or password is incorrect.");
     }

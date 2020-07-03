@@ -50,7 +50,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
       });
       setFeature(fromLoaded(result.feature));
     })();
-  }, [featureId, dataContext.feature.getOneById]);
+  }, [featureId, dataContext.feature.getOneById, dataContext.feature]);
 
   useEffect(() => {
     (async () => {
@@ -61,7 +61,11 @@ const FeaturePage: React.FC<IProps> = (props) => {
       );
       setImplementations(fromLoaded(result.implementations));
     })();
-  }, [featureId, dataContext.implementation.getImplementationsFromFeature]);
+  }, [
+    featureId,
+    dataContext.implementation,
+    dataContext.implementation.getImplementationsFromFeature,
+  ]);
 
   return (
     <DefaultLayout>

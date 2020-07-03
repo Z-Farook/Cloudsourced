@@ -60,7 +60,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
     validationSchema,
   });
 
-  const { isSubmitting, isValid } = formState;
+  const { isSubmitting } = formState;
 
   const [image, setImage] = useState("");
 

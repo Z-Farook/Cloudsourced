@@ -5,7 +5,6 @@ import { Button } from "antd";
 import homeImage from "../../assets/home.jpg";
 import Title from "antd/lib/typography/Title";
 import Text from "antd/lib/typography/Text";
-import authentication from "../../core/DataContext/authentication";
 import AuthStore from "../../stores/AuthStore";
 interface IProps extends RouteComponentProps {}
 
