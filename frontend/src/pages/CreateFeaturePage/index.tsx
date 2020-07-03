@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Row, Col, Select, message } from "antd";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import Title from "antd/lib/typography/Title";
@@ -29,7 +29,6 @@ const layout = {
 const CreateFeaturePage: React.FC<IProps> = (props) => {
   const projectId = +props.match.params.projectId;
   const handleSubmit = async (values: Store) => {
-    console.log(values);
     const params: AddFeatureToProjectUsingPOSTRequest = {
       projectId: projectId,
       featureDTO: {

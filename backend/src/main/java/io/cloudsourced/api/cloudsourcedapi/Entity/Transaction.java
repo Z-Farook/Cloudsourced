@@ -10,9 +10,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tbl_transation")
 public class Transaction extends BaseEntity{
-
     private long points;
-
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Implementation implementation;
 }

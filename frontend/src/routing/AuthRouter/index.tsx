@@ -9,6 +9,7 @@ import LoginPage from "../../pages/auth/LoginPage";
 import RegisterPage from "../../pages/auth/RegisterPage";
 import home from "../../pages/HomePage";
 import MainRouter from "../MainRouter";
+import ProjectPage from "../../pages/ProjectPage";
 interface IProps extends RouteComponentProps {}
 
 const AuthRouter: React.FC<IProps> = (props) => {
@@ -23,6 +24,7 @@ const AuthRouter: React.FC<IProps> = (props) => {
         />
         <Route exact path="/account" component={MainRouter} />
         <Route exact path="/home" component={home} />
+        <Route exact path="/projects" component={ProjectPage} />
       </Switch>
     </Router>
   );
