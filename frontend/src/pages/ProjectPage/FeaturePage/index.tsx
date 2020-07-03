@@ -57,16 +57,23 @@ const FeaturePage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await new FeatureResourceApi(
-        api.config
-      ).getOneByIdUsingGET({
+      const result = await dataContext.feature.getOneById({
         id: featureId,
       });
-      setFeature(fromLoaded(result));
+      setFeature(fromLoaded(result.feature));
     })();
-  }, [featureId]);
+  }, [featureId, dataContext.feature.getOneById]);
 
-  useEffect(() => {}, [feature]);
+  useEffect(() => {
+    (async () => {
+      const result = await dataContext.implementation.getImplementationsFromFeature(
+        {
+          featureId,
+        }
+      );
+      setImplementations(fromLoaded(result.implementations));
+    })();
+  }, [featureId, dataContext.implementation.getImplementationsFromFeature]);
 
   return (
     <DefaultLayout>
