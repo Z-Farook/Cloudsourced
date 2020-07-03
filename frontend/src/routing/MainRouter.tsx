@@ -33,30 +33,23 @@ export const MainSwitch = () => {
           authStore.auth !== null ? AccountPage : () => <Redirect to="/home" />
         }
       />
-      <Route
-        path="/auth"
-        component={
-          authStore.auth === null ? AuthRouter : () => <Redirect to="/home" />
-        }
-      />
+      <Route path="/auth" component={AuthRouter} />
       <Route
         exact
         path="/user/project/create"
         component={
-          ProjectFormPage
-          // authStore.auth !== null
-          //   ? ProjectFormPage
-          //   : () => <Redirect to="/auth/login" />
+          authStore.auth !== null
+            ? ProjectFormPage
+            : () => <Redirect to="/auth/login" />
         }
       />
       <Route
         exact
         path="/projects/:projectId/edit"
         component={
-          ProjectFormPage
-          // authStore.auth !== null
-          //   ? ProjectFormPage
-          //   : () => <Redirect to="/auth/login" />
+          authStore.auth !== null
+            ? ProjectFormPage
+            : () => <Redirect to="/auth/login" />
         }
       />
       <Route exact path="/projects/:projectId" component={ProjectDetailPage} />
@@ -64,10 +57,9 @@ export const MainSwitch = () => {
         exact
         path="/projects/:projectId/feature/add"
         component={
-          CreateFeaturePage
-          // authStore.auth !== null
-          //   ? CreateFeaturePage
-          //   : () => <Redirect to="/auth/login" />
+          authStore.auth !== null
+            ? CreateFeaturePage
+            : () => <Redirect to="/auth/login" />
         }
       />
       <Route
@@ -79,10 +71,9 @@ export const MainSwitch = () => {
         exact
         path="/projects/:projectId/features/:featureId/implementation"
         component={
-          FeatureImplPage
-          // authStore.auth !== null
-          //   ? FeatureImplPage
-          //   : () => <Redirect to="/auth/login" />
+          authStore.auth !== null
+            ? FeatureImplPage
+            : () => <Redirect to="/auth/login" />
         }
       />
       <Route exact path="/user/:id" component={ProfilePage} />
