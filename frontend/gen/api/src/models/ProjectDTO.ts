@@ -24,6 +24,12 @@ export interface ProjectDTO {
      * @type {Date}
      * @memberof ProjectDTO
      */
+    archivedAt?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof ProjectDTO
+     */
     createdAt?: Date;
     /**
      * 
@@ -73,6 +79,7 @@ export function ProjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
+        'archivedAt': !exists(json, 'archivedAt') ? undefined : (new Date(json['archivedAt'])),
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'finishedAt': !exists(json, 'finishedAt') ? undefined : (new Date(json['finishedAt'])),
@@ -92,6 +99,7 @@ export function ProjectDTOToJSON(value?: ProjectDTO | null): any {
     }
     return {
         
+        'archivedAt': value.archivedAt === undefined ? undefined : (value.archivedAt.toISOString()),
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'description': value.description,
         'finishedAt': value.finishedAt === undefined ? undefined : (value.finishedAt.toISOString()),
