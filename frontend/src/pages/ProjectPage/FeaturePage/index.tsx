@@ -17,6 +17,7 @@ import {
 } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import DataContext from "../../../core/DataContext";
+import ImplementationCard from "../../../components/implementation/ImplementationCard";
 
 const { Title, Paragraph } = Typography;
 
@@ -81,9 +82,11 @@ const FeaturePage: React.FC<IProps> = (props) => {
       {/*<div>Feature ID: {featureId}</div>*/}
 
       <div style={{ padding: 50 }}>
-        {feature.state === EState.Loading ? (
+        {feature.state === EState.Loading ||
+        implementations.state === EState.Loading ? (
           <Spin />
-        ) : feature.state === EState.Loaded ? (
+        ) : feature.state === EState.Loaded &&
+          implementations.state === EState.Loaded ? (
           <div>
             <Title level={2}>{feature.data!.name}</Title>
             {/* TODO: points */}
@@ -106,6 +109,21 @@ const FeaturePage: React.FC<IProps> = (props) => {
             >
               Provide implementation
             </Button>
+
+            <div style={{ marginTop: 20 }}>
+              {implementations.data!.map((impl, i) => {
+                return (
+                  <div
+                    key={impl.id}
+                    style={{
+                      marginBottom: i === implementations.data!.length ? 0 : 20,
+                    }}
+                  >
+                    <ImplementationCard impl={impl} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ) : (
           <div>Whoops!</div>
