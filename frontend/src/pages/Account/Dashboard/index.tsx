@@ -14,13 +14,18 @@ import IRemoteData, {
   fromLoading,
   fromLoaded,
 } from "../../../core/IRemoteData";
-import { ProjectDTO } from "cloudsourced-api";
+import {
+  ProjectDTO,
+  FeatureDTO,
+  ProjectDetailDTOFromJSON,
+} from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 import { UserDTO } from "../../../../gen/api/src/models";
 import DataContext from "../../../core/DataContext";
 import { finished } from "stream";
 import project from "../../../core/DataContext/project";
+import feature from "../../../core/DataContext/feature";
 
 interface IProps extends RouteComponentProps {}
 const now = new Date();
@@ -31,36 +36,7 @@ const mondayThisWeek = monthDay - weekDay;
 const startOfThisWeek = new Date(+now);
 startOfThisWeek.setDate(mondayThisWeek);
 startOfThisWeek.setHours(0, 0, 0, 0);
-const dataSourceTasks = [
-  {
-    key: "1",
-    number: 1,
-    project: "test task",
-  },
-  {
-    key: "2",
-    number: 2,
-    project: "test task",
-  },
-  {
-    key: "3",
-    number: 3,
-    project: "test task",
-  },
-];
 
-const columnsTasks = [
-  {
-    title: "#",
-    dataIndex: "number",
-    key: "number",
-  },
-  {
-    title: "Current Tasks",
-    dataIndex: "project",
-    key: "project",
-  },
-];
 const columnsTransactions = [
   {
     title: "#",
@@ -85,6 +61,15 @@ interface projectData {
   projectName: string;
   id: number;
   finishedAt?: Date;
+}
+interface featureData {
+  key: string;
+  number: number;
+  feature: FeatureDTO;
+  featureName: string;
+  id: number;
+  finishedAt?: Date;
+  ids: { id: number; projectId: number };
 }
 interface UserTransaction {
   id?: number;
@@ -122,7 +107,42 @@ const Dashboard: React.FC<IProps> = (props) => {
       ),
     },
   ];
+  const columnsTasks = [
+    {
+      title: "#",
+      dataIndex: "number",
+      key: "number",
+    },
+    {
+      title: "Current Features",
+      dataIndex: "feature",
+      key: "feature",
+    },
+    {
+      title: "",
+      dataIndex: "ids",
+      key: "ids",
+      render: (ids: { id: number; projectId: number }) => (
+        <Button
+          shape="circle"
+          onClick={() =>
+            props.history.push(
+              "/projects/" +
+                ids.projectId.toString() +
+                "/features/" +
+                ids.id.toString()
+            )
+          }
+        >
+          <RightOutlined />
+        </Button>
+      ),
+    },
+  ];
   const [projects, setProjects] = useState<IRemoteData<projectData[], null>>(
+    fromLoading()
+  );
+  const [features, setFeatures] = useState<IRemoteData<FeatureDTO[], null>>(
     fromLoading()
   );
   const [transactions, setTransactions] = useState<
@@ -152,6 +172,25 @@ const Dashboard: React.FC<IProps> = (props) => {
         return b.project.createdAt!.getTime() - a.project.createdAt!.getTime();
       });
       setProjects(fromLoaded(data));
+
+      const featureData: featureData[] = userFeatureData.map((p, i) => ({
+        key: i.toString(),
+        number: i,
+        feature: p,
+        featureName: p.name ? p.name : "",
+        id: p.id ? p.id : 0,
+        ids: {
+          id: p.id ? p.id : 0,
+          projectId: p.project?.id ? p.project.id : 0,
+        },
+        finishedAt: p.finishedAt ? p.finishedAt : undefined,
+      }));
+
+      featureData.sort((a, b) => {
+        return b.feature.createdAt!.getTime() - a.feature.createdAt!.getTime();
+      });
+      setFeatures(fromLoaded(featureData));
+
       const userTransactions: UserTransaction[] = userTransactionData.map(
         (p, i) => ({
           key: i.toString(),
@@ -264,19 +303,9 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <div>
                   <Title level={4}>Finished features</Title>
                   <Progress
-                    percent={
-                      projects.data
-                        ? Math.floor(
-                            (featuresFinished / projects.data?.length) * 100
-                          )
-                        : 100
-                    }
+                    percent={features.data ? featuresFinished : 100}
                     status={
-                      (projects.data
-                        ? Math.floor(
-                            (featuresFinished / projects.data?.length) * 100
-                          )
-                        : 100) == 100
+                      (features.data ? featuresFinished : 100) == 100
                         ? "success"
                         : "active"
                     }
@@ -329,7 +358,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={dataSourceTasks}
+              dataSource={features.data ? features.data : []}
               columns={columnsTasks}
             />
           </Card>

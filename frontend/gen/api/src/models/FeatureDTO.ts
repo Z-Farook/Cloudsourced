@@ -18,6 +18,10 @@ import {
     ImplementationDTOFromJSON,
     ImplementationDTOFromJSONTyped,
     ImplementationDTOToJSON,
+    ProjectDTO,
+    ProjectDTOFromJSON,
+    ProjectDTOFromJSONTyped,
+    ProjectDTOToJSON,
 } from './';
 
 /**
@@ -44,6 +48,12 @@ export interface FeatureDTO {
      * @memberof FeatureDTO
      */
     codePreview?: string;
+    /**
+     * 
+     * @type {Date}
+     * @memberof FeatureDTO
+     */
+    createdAt?: Date;
     /**
      * 
      * @type {string}
@@ -80,6 +90,12 @@ export interface FeatureDTO {
      * @memberof FeatureDTO
      */
     points?: number;
+    /**
+     * 
+     * @type {ProjectDTO}
+     * @memberof FeatureDTO
+     */
+    project?: ProjectDTO;
 }
 
 export function FeatureDTOFromJSON(json: any): FeatureDTO {
@@ -95,12 +111,14 @@ export function FeatureDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'archivedAt': !exists(json, 'archivedAt') ? undefined : (new Date(json['archivedAt'])),
         'codeLanguage': !exists(json, 'codeLanguage') ? undefined : json['codeLanguage'],
         'codePreview': !exists(json, 'codePreview') ? undefined : json['codePreview'],
+        'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'finishedAt': !exists(json, 'finishedAt') ? undefined : (new Date(json['finishedAt'])),
         'id': !exists(json, 'id') ? undefined : json['id'],
         'implementations': !exists(json, 'implementations') ? undefined : ((json['implementations'] as Array<any>).map(ImplementationDTOFromJSON)),
         'name': !exists(json, 'name') ? undefined : json['name'],
         'points': !exists(json, 'points') ? undefined : json['points'],
+        'project': !exists(json, 'project') ? undefined : ProjectDTOFromJSON(json['project']),
     };
 }
 
@@ -116,12 +134,14 @@ export function FeatureDTOToJSON(value?: FeatureDTO | null): any {
         'archivedAt': value.archivedAt === undefined ? undefined : (value.archivedAt.toISOString()),
         'codeLanguage': value.codeLanguage,
         'codePreview': value.codePreview,
+        'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'description': value.description,
         'finishedAt': value.finishedAt === undefined ? undefined : (value.finishedAt.toISOString()),
         'id': value.id,
         'implementations': value.implementations === undefined ? undefined : ((value.implementations as Array<any>).map(ImplementationDTOToJSON)),
         'name': value.name,
         'points': value.points,
+        'project': ProjectDTOToJSON(value.project),
     };
 }
 

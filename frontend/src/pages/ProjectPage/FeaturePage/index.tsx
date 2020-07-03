@@ -6,7 +6,6 @@ import {
   Button,
   Spin,
   Typography,
-  Statistic,
   PageHeader,
   Tooltip,
   Popconfirm,
@@ -57,7 +56,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
     };
   }, [props.match.params]);
   const archiveFeature = async () => {
-    const result = await dataContext.feature.archiveFeature({
+    const result = await dataContext.feature.finishOneById({
       featureId: featureId,
     });
 

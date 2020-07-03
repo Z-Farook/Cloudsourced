@@ -16,4 +16,6 @@ public class FeatureDTO {
     private List<ImplementationDTO> implementations;
     private Instant finishedAt;
     private Instant archivedAt;
+    private Instant createdAt;
+    private ProjectDTO project;
 }
