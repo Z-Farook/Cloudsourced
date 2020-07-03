@@ -34,7 +34,7 @@ export class TransactionResourceApi extends runtime.BaseAPI {
     const headerParameters: runtime.HTTPHeaders = {};
 
     const response = await this.request({
-      path: `/transaction`,
+      path: `/transaction/user`,
       method: "GET",
       headers: headerParameters,
       query: queryParameters,
