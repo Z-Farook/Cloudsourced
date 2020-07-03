@@ -27,10 +27,8 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 const CreateFeaturePage: React.FC<IProps> = (props) => {
-  const [userClicked, setUserClicked] = useState(false);
   const projectId = +props.match.params.projectId;
   const handleSubmit = async (values: Store) => {
-    setUserClicked(true);
     const params: AddFeatureToProjectUsingPOSTRequest = {
       projectId: projectId,
       featureDTO: {
@@ -53,7 +51,6 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
       })
       .catch(() => {
         errorMessage();
-        setUserClicked(false);
       });
   };
 
@@ -127,11 +124,7 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    disabled={userClicked}
-                  >
+                  <Button type="primary" htmlType="submit">
                     Create
                   </Button>
                 </Form.Item>
