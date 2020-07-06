@@ -28,7 +28,8 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
 
     public Project getProjectDetailById(long id){
         var project = repository.findById(id).orElseThrow(NotFoundException::new);
-        if(project.getArchivedAt() != null){
+        User user = authenticatedUserProvider.getUser();
+        if(project.getArchivedAt() != null && user != project.getUser() ) {
             throw new NotFoundException();
         }else{
             return project;

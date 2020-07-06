@@ -40,4 +40,5 @@ public class FeatureResource extends BaseResource<Feature, FeatureDTO, FeatureSe
         service.archiveFeature(feature);
         return mapper.entityToDTO(feature);
     }
+
 }

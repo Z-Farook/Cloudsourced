@@ -9,7 +9,7 @@ import {
   PageHeader,
   Tooltip,
   Popconfirm,
-  Divider,
+  Divider, Statistic,
 } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
@@ -56,13 +56,8 @@ const FeaturePage: React.FC<IProps> = (props) => {
       featureId: Number(props.match.params.featureId),
     };
   }, [props.match.params]);
-  const archiveFeature = async () => {
-    const result = await dataContext.feature.finishOneById({
-      featureId: featureId,
-    });
 
-    setFeature(fromLoaded(result));
-  };
+
   useEffect(() => {
     (async () => {
       const result = await dataContext.feature.getOneById({
@@ -99,38 +94,15 @@ const FeaturePage: React.FC<IProps> = (props) => {
             <PageHeader
               title={feature.data!.name}
               extra={[
-                <DollarOutlined style={{ color: "green" }} />,
-                <div style={{ color: "green" }}> {feature.data!.points}</div>,
-                feature.data?.archivedAt ? (
-                  <Tooltip key="" title="This project is archived">
-                    <FileExclamationTwoTone
-                      twoToneColor="red"
-                      style={{
-                        cursor: "pointer",
-                      }}
-                    />
-                  </Tooltip>
-                ) : (
-                  <Tooltip key="archive" title="Archive project">
-                    <Popconfirm
-                      title="Do you want to archive this project?"
-                      okText="Yes"
-                      cancelText="No"
-                      placement="bottom"
-                      icon={
-                        <ExclamationOutlined
-                          style={{
-                            color: "grey",
-                            cursor: "pointer",
-                          }}
-                        />
-                      }
-                      onConfirm={archiveFeature}
-                    >
-                      <FileExclamationOutlined />
-                    </Popconfirm>
-                  </Tooltip>
-                ),
+                <Statistic
+                    value={
+                      feature.data!.points
+                    }
+                    precision={0}
+                    valueStyle={{ color: "green" }}
+                    prefix={<DollarOutlined />}
+                    suffix=""
+                />
               ]}
             />
 
