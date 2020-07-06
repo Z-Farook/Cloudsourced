@@ -25,12 +25,20 @@ export interface AddFeatureToProjectUsingPOSTRequest {
     featureDTO: FeatureDTO;
 }
 
+export interface ArchiveFeatureUsingPOSTRequest {
+    featureId: number;
+}
+
 export interface CreateNewUsingPOSTRequest {
     dto: FeatureDTO;
 }
 
 export interface DeleteUsingDELETERequest {
     id?: number;
+}
+
+export interface FinishFeatureUsingPOSTRequest {
+    featureId: number;
 }
 
 export interface GetOneByIdUsingGETRequest {
@@ -111,6 +119,36 @@ export class FeatureResourceApi extends runtime.BaseAPI {
     }
 
     /**
+     * archiveFeature
+     */
+    async archiveFeatureUsingPOSTRaw(requestParameters: ArchiveFeatureUsingPOSTRequest): Promise<runtime.ApiResponse<FeatureDTO>> {
+        if (requestParameters.featureId === null || requestParameters.featureId === undefined) {
+            throw new runtime.RequiredError('featureId','Required parameter requestParameters.featureId was null or undefined when calling archiveFeatureUsingPOST.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/feature/archive/{featureId}`.replace(`{${"featureId"}}`, encodeURIComponent(String(requestParameters.featureId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FeatureDTOFromJSON(jsonValue));
+    }
+
+    /**
+     * archiveFeature
+     */
+    async archiveFeatureUsingPOST(requestParameters: ArchiveFeatureUsingPOSTRequest): Promise<FeatureDTO> {
+        const response = await this.archiveFeatureUsingPOSTRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * createNew
      */
     async createNewUsingPOSTRaw(requestParameters: CreateNewUsingPOSTRequest): Promise<runtime.ApiResponse<FeatureDTO>> {
@@ -170,6 +208,62 @@ export class FeatureResourceApi extends runtime.BaseAPI {
      */
     async deleteUsingDELETE(requestParameters: DeleteUsingDELETERequest): Promise<void> {
         await this.deleteUsingDELETERaw(requestParameters);
+    }
+
+    /**
+     * finishFeature
+     */
+    async finishFeatureUsingPOSTRaw(requestParameters: FinishFeatureUsingPOSTRequest): Promise<runtime.ApiResponse<FeatureDTO>> {
+        if (requestParameters.featureId === null || requestParameters.featureId === undefined) {
+            throw new runtime.RequiredError('featureId','Required parameter requestParameters.featureId was null or undefined when calling finishFeatureUsingPOST.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/feature/finish/{featureId}`.replace(`{${"featureId"}}`, encodeURIComponent(String(requestParameters.featureId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FeatureDTOFromJSON(jsonValue));
+    }
+
+    /**
+     * finishFeature
+     */
+    async finishFeatureUsingPOST(requestParameters: FinishFeatureUsingPOSTRequest): Promise<FeatureDTO> {
+        const response = await this.finishFeatureUsingPOSTRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * getFeaturesByUser
+     */
+    async getFeaturesByUserUsingGETRaw(): Promise<runtime.ApiResponse<Array<FeatureDTO>>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/feature/user`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(FeatureDTOFromJSON));
+    }
+
+    /**
+     * getFeaturesByUser
+     */
+    async getFeaturesByUserUsingGET(): Promise<Array<FeatureDTO>> {
+        const response = await this.getFeaturesByUserUsingGETRaw();
+        return await response.value();
     }
 
     /**

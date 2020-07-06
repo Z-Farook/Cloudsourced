@@ -109,7 +109,7 @@ const FeatureImplPage: React.FC<IProps> = (props) => {
 
       setValue("code", result.feature.codePreview!);
     })();
-  }, [featureId, setValue, dataContext.implementation]);
+  }, [featureId, setValue, dataContext.implementation, dataContext.feature]);
 
   const options = useMemo(
     () => ({

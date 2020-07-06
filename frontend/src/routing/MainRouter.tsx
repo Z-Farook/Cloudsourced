@@ -33,23 +33,34 @@ export const MainSwitch = () => {
           authStore.auth !== null ? AccountPage : () => <Redirect to="/home" />
         }
       />
+      <Route path="/auth" component={AuthRouter} />
       <Route
-        path="/auth"
+        exact
+        path="/user/project/create"
         component={
-          authStore.auth === null ? AuthRouter : () => <Redirect to="/home" />
+          authStore.auth !== null
+            ? ProjectFormPage
+            : () => <Redirect to="/auth/login" />
         }
       />
-      <Route exact path="/user/project/create" component={ProjectFormPage} />
       <Route
         exact
         path="/projects/:projectId/edit"
-        component={ProjectFormPage}
+        component={
+          authStore.auth !== null
+            ? ProjectFormPage
+            : () => <Redirect to="/auth/login" />
+        }
       />
       <Route exact path="/projects/:projectId" component={ProjectDetailPage} />
       <Route
         exact
         path="/projects/:projectId/feature/add"
-        component={CreateFeaturePage}
+        component={
+          authStore.auth !== null
+            ? CreateFeaturePage
+            : () => <Redirect to="/auth/login" />
+        }
       />
       <Route
         exact
@@ -59,7 +70,11 @@ export const MainSwitch = () => {
       <Route
         exact
         path="/projects/:projectId/features/:featureId/implementation"
-        component={FeatureImplPage}
+        component={
+          authStore.auth !== null
+            ? FeatureImplPage
+            : () => <Redirect to="/auth/login" />
+        }
       />
       <Route exact path="/user/:id" component={ProfilePage} />
       <Route component={NotFoundPage} />

@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
 import { Card, Avatar, Tooltip } from "antd";
-import { CheckCircleTwoTone, InfoCircleOutlined } from "@ant-design/icons";
+import { CheckCircleTwoTone, InfoCircleTwoTone } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { ProjectDTO } from "cloudsourced-api";
@@ -25,7 +25,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
   const ArchivedPrompt = () => {
     return (
       <Tooltip title="This project is archived">
-        <InfoCircleOutlined />
+        <InfoCircleTwoTone twoToneColor="red" />
       </Tooltip>
     );
   };

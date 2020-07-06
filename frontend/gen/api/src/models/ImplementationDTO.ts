@@ -18,6 +18,10 @@ import {
     ReviewDTOFromJSON,
     ReviewDTOFromJSONTyped,
     ReviewDTOToJSON,
+    UserDTO,
+    UserDTOFromJSON,
+    UserDTOFromJSONTyped,
+    UserDTOToJSON,
 } from './';
 
 /**
@@ -44,6 +48,12 @@ export interface ImplementationDTO {
      * @memberof ImplementationDTO
      */
     reviews?: Array<ReviewDTO>;
+    /**
+     * 
+     * @type {UserDTO}
+     * @memberof ImplementationDTO
+     */
+    user?: UserDTO;
 }
 
 export function ImplementationDTOFromJSON(json: any): ImplementationDTO {
@@ -59,6 +69,7 @@ export function ImplementationDTOFromJSONTyped(json: any, ignoreDiscriminator: b
         'code': !exists(json, 'code') ? undefined : json['code'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'reviews': !exists(json, 'reviews') ? undefined : ((json['reviews'] as Array<any>).map(ReviewDTOFromJSON)),
+        'user': !exists(json, 'user') ? undefined : UserDTOFromJSON(json['user']),
     };
 }
 
@@ -74,6 +85,7 @@ export function ImplementationDTOToJSON(value?: ImplementationDTO | null): any {
         'code': value.code,
         'id': value.id,
         'reviews': value.reviews === undefined ? undefined : ((value.reviews as Array<any>).map(ReviewDTOToJSON)),
+        'user': UserDTOToJSON(value.user),
     };
 }
 

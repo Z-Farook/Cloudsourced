@@ -1,5 +1,5 @@
 import React from "react";
-import { Configuration } from "cloudsourced-api";
+import {Authentication, Configuration} from "cloudsourced-api";
 import DataContext, { IResources } from "../../core/DataContext";
 import project, {
   IProjectDetailParams,
@@ -11,6 +11,7 @@ import AuthStore from "../../stores/AuthStore";
 import { Router } from "react-router";
 import { MainSwitch } from "../../routing/MainRouter";
 import { act } from "react-dom/test-utils";
+import authentication, {IAuthenticateUserParams, IAuthenticateUserResult} from "../../core/DataContext/authentication";
 
 const setObject = () => {
   Object.defineProperty(window, "matchMedia", {
@@ -42,7 +43,28 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         };
       },
     } as any,
+    authentication: {
+      authenticateUser: async (
+          params: IAuthenticateUserParams
+      ): Promise<IAuthenticateUserResult> => {
+        return {
+          authentication: {
+            id: 1,
+            createdAt: new Date("2020-06-26T18:31:26.078551Z"),
+            token: "rvCVnB28FTKS3sYm0hIAAcDBnQleQgIgcoeOUHGD",
+            expireDate: new Date("2090-07-03T18:45:17.050748Z"),
+            userId: 1,
+          },
+        };
+      },
+    } as any,
   };
+};
+const initialAuthState = {
+  auth: dataContextCreator().authentication?.authenticateUser({
+    email: "test@email.com",
+    password: "hengel",
+  }) as Authentication,
 };
 describe("projecDetailPage", () => {
   it("Should pass", async () => {
@@ -52,7 +74,7 @@ describe("projecDetailPage", () => {
       history.push("projects/1");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider>
+          <AuthStore.Provider initialState={initialAuthState}>
             <Router history={history}>
               <MainSwitch />
             </Router>
@@ -72,12 +94,12 @@ describe("projecDetailPage", () => {
   });
   it("Should pass and navigate", async () => {
     await act(async () => {
-      setObject();
+      setObject()
       const history = createMemoryHistory();
       history.push("projects/1");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
-          <AuthStore.Provider>
+          <AuthStore.Provider initialState={initialAuthState}>
             <Router history={history}>
               <MainSwitch />
             </Router>
