@@ -41,7 +41,9 @@ interface IRouterParams {
 export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
   const createDataContext = useContext(DataContext);
-  const dataContext = useMemo(() => createDataContext(api.config), []);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
 
   const projectId = Number(props.match.params.projectId);
 
@@ -63,11 +65,13 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   const finishProject = async () => {
     try {
-      await new ProjectResourceApi(api.config).finishProjectUsingPOST({
+      const result = await new ProjectResourceApi(
+        api.config
+      ).finishProjectUsingPOST({
         projectId,
       });
       successMessage();
-      props.history.push("/account");
+      setProject(fromLoaded(result));
     } catch (error) {
       errorMessage();
     }
@@ -75,11 +79,13 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   const archiveProject = async () => {
     try {
-      await new ProjectResourceApi(api.config).archiveProjectUsingPOST({
+      const result = await new ProjectResourceApi(
+        api.config
+      ).archiveProjectUsingPOST({
         projectId,
       });
       successMessage();
-      props.history.push("/account");
+      setProject(fromLoaded(result));
     } catch (error) {
       errorMessage();
     }
@@ -106,7 +112,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       const result = await dataContext.project.getProjectDetail({ projectId });
       setProject(fromLoaded(result.project));
     })();
-  }, []);
+  }, [projectId, dataContext.project]);
 
   const {
     description,
@@ -160,7 +166,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 key="isfinish"
                                 title="This project is finished"
                               >
-                                <CheckCircleTwoTone twoToneColor="#52c41a" />
+                                <CheckCircleTwoTone
+                                  style={{ cursor: "pointer" }}
+                                  twoToneColor="#52c41a"
+                                />
                               </Tooltip>
                             ) : (
                               <Tooltip key="finish" title="Finish project">
@@ -171,7 +180,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                   placement="bottom"
                                   icon={
                                     <ExclamationOutlined
-                                      style={{ color: "red" }}
+                                      style={{
+                                        color: "grey",
+                                        cursor: "pointer",
+                                      }}
                                     />
                                   }
                                   onConfirm={() => finishProject()}
@@ -185,7 +197,12 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 key="isfinish"
                                 title="This project is archived"
                               >
-                                <FileExclamationTwoTone twoToneColor="#52c41a" />
+                                <FileExclamationTwoTone
+                                  twoToneColor="red"
+                                  style={{
+                                    cursor: "pointer",
+                                  }}
+                                />
                               </Tooltip>
                             ) : (
                               <Tooltip key="archive" title="Archive project">
@@ -196,7 +213,10 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                   placement="bottom"
                                   icon={
                                     <ExclamationOutlined
-                                      style={{ color: "red" }}
+                                      style={{
+                                        color: "grey",
+                                        cursor: "pointer",
+                                      }}
                                     />
                                   }
                                   onConfirm={() => archiveProject()}

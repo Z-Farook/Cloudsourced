@@ -2,6 +2,7 @@ export * from './AuthenticationResourceApi';
 export * from './BasicErrorControllerApi';
 export * from './FeatureResourceApi';
 export * from './ImplementationResourceApi';
+export * from './PaymentResourceApi';
 export * from './ProjectResourceApi';
 export * from './ReviewResourceApi';
 export * from './TransactionResourceApi';

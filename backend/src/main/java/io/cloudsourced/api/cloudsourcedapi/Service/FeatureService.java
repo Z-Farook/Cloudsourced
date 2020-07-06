@@ -7,6 +7,7 @@ import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.FeatureRepository;
 
+import java.time.Instant;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -27,6 +28,18 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
 
         feature.setProject(project);
 
+        return repository.save(feature);
+    }
+    public List<Feature> getFeaturesByUser() {
+        User user = authenticatedUserProvider.GetUser();
+        return repository.findByProjectUser(user.getId());
+    }
+    public Feature finishFeature(Feature feature) {
+        feature.setFinishedAt(Instant.now());
+        return repository.save(feature);
+    }
+    public Feature archiveFeature(Feature feature) {
+        feature.setArchivedAt(Instant.now());
         return repository.save(feature);
     }
 }
