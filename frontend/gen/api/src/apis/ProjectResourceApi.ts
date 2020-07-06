@@ -23,6 +23,10 @@ import {
     ProjectDetailDTOToJSON,
 } from '../models';
 
+export interface ArchiveProjectUsingPOSTRequest {
+    projectId: number;
+}
+
 export interface CreateNewUsingPOST2Request {
     projectDTO: ProjectDTO;
 }
@@ -84,6 +88,36 @@ export class ProjectResourceApi extends runtime.BaseAPI {
      */
     async allUsingGET2(): Promise<Array<ProjectDTO>> {
         const response = await this.allUsingGET2Raw();
+        return await response.value();
+    }
+
+    /**
+     * archiveProject
+     */
+    async archiveProjectUsingPOSTRaw(requestParameters: ArchiveProjectUsingPOSTRequest): Promise<runtime.ApiResponse<ProjectDetailDTO>> {
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling archiveProjectUsingPOST.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/project/archive/{projectId}`.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ProjectDetailDTOFromJSON(jsonValue));
+    }
+
+    /**
+     * archiveProject
+     */
+    async archiveProjectUsingPOST(requestParameters: ArchiveProjectUsingPOSTRequest): Promise<ProjectDetailDTO> {
+        const response = await this.archiveProjectUsingPOSTRaw(requestParameters);
         return await response.value();
     }
 
