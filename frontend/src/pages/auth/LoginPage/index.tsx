@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { api } from "../../../core/api";
 import AuthStore from "../../../stores/AuthStore";
 import DataContext from "../../../core/DataContext";
+import {Configuration} from "cloudsourced-api";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -43,6 +44,7 @@ const LoginPage: React.FC<IProps> = (props) => {
         password: values.password,
       });
       setAuth(result.authentication);
+
       // Nodig voor asynchroniteit
       const dc = createDataContext(api.config);
       const user = await dc.user.getUserInfo();

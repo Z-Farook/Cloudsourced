@@ -5,17 +5,19 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import { Route } from "react-router-dom";
+import {Route} from "react-router-dom";
 import LoginPage from "../../pages/auth/LoginPage";
 import RegisterPage from "../../pages/auth/RegisterPage";
 import home from "../../pages/HomePage";
 import MainRouter from "../MainRouter";
 import ProjectPage from "../../pages/ProjectPage";
 import AuthStore from "../../stores/AuthStore";
-interface IProps extends RouteComponentProps {}
+
+interface IProps extends RouteComponentProps {
+}
 
 const AuthRouter: React.FC<IProps> = (props) => {
-  const authStore = AuthStore.useContainer();
+  // const authStore = AuthStore.useContainer();
   return (
     <Router>
       <Switch>
@@ -23,23 +25,19 @@ const AuthRouter: React.FC<IProps> = (props) => {
           exact
           path={`${props.match.path}/login`}
           component={
-            authStore.auth === null
-              ? LoginPage
-              : () => <Redirect to="/account" />
+            LoginPage
           }
         />
         <Route
           exact
           path={`${props.match.path}/register`}
           component={
-            authStore.auth === null
-              ? RegisterPage
-              : () => <Redirect to="/account" />
+            RegisterPage
           }
         />
-        <Route exact path="/account" component={MainRouter} />
-        <Route exact path="/home" component={home} />
-        <Route exact path="/projects" component={ProjectPage} />
+        <Route exact path="/account" component={MainRouter}/>
+        <Route exact path="/home" component={home}/>
+        <Route exact path="/projects" component={ProjectPage}/>
       </Switch>
     </Router>
   );

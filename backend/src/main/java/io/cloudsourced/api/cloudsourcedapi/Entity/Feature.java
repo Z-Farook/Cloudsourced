@@ -26,6 +26,6 @@ public class Feature extends BaseEntity {
 
 //    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "feature")
 //    private List<Implementation> implementations;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Project project;
 }

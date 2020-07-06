@@ -55,7 +55,7 @@ public class ImplementationService extends BaseService<Implementation, Implement
 
         implementation.setApproved(true);
 
-        transactionService.createTransaction(user, implementation, feature.getPoints());
+        transactionService.createTransaction(implementation.getUser(), implementation, feature.getPoints());
 
         return repository.save(implementation);
     }
