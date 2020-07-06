@@ -23,6 +23,8 @@ import ImplementationCard from "../../../components/implementation/Implementatio
 import {
   DollarOutlined,
 } from "@ant-design/icons";
+import AuthStore from "../../../stores/AuthStore";
+import {ProjectDetailDTO} from "../../../../gen/api/src/models";
 
 const { Paragraph } = Typography;
 
@@ -33,6 +35,7 @@ interface IRouteParams {
 
 interface IProps extends RouteComponentProps<IRouteParams> {}
 const FeaturePage: React.FC<IProps> = (props) => {
+  const { auth } = AuthStore.useContainer();
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
     createDataContext,
@@ -40,17 +43,40 @@ const FeaturePage: React.FC<IProps> = (props) => {
   const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
+  const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
+      fromLoading()
+  );
   const [implementations, setImplementations] = useState<
     IRemoteData<Array<ImplementationDTO>, null>
   >(fromLoading());
-
+  const [isOwner, setIsOwner] = useState<Boolean>(
+      false
+  );
   const { projectId, featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
       featureId: Number(props.match.params.featureId),
     };
   }, [props.match.params]);
+  useEffect(() => {
+    (async () => {
+      try{const result = await dataContext.project.getProjectDetail({ projectId });
+        await setProject(fromLoaded(result.project));
+        setIsOwner(auth?.userId === result.project!.user!.id);
 
+
+      }
+      catch (error) {
+        if(error.status === 404){
+          props.history.push("/projects");
+        }else{
+         props.history.push("/error");
+        }
+
+      }
+
+    })();
+  }, [projectId, dataContext.project, props.history, project.data, auth]);
 
   useEffect(() => {
     (async () => {
@@ -110,7 +136,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
             >
               {feature.data!.codePreview}
             </SyntaxHighlighter>
-
+            { !isOwner ?
             <Button
               style={{ marginTop: 10 }}
               onClick={() => {
@@ -120,7 +146,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
               }}
             >
               Provide implementation
-            </Button>
+            </Button> : "" }
 
             {implementations.data!.length !== 0 && (
               <>
