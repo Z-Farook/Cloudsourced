@@ -1,5 +1,5 @@
 import React from "react";
-import {Authentication, Configuration} from "cloudsourced-api";
+import { Authentication, Configuration } from "cloudsourced-api";
 import DataContext, { IResources } from "../../core/DataContext";
 import project, {
   IProjectDetailParams,
@@ -11,7 +11,10 @@ import AuthStore from "../../stores/AuthStore";
 import { Router } from "react-router";
 import { MainSwitch } from "../../routing/MainRouter";
 import { act } from "react-dom/test-utils";
-import authentication, {IAuthenticateUserParams, IAuthenticateUserResult} from "../../core/DataContext/authentication";
+import {
+  IAuthenticateUserParams,
+  IAuthenticateUserResult,
+} from "../../core/DataContext/authentication";
 
 const setObject = () => {
   Object.defineProperty(window, "matchMedia", {
@@ -36,7 +39,22 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
           project: {
             name: "piet",
             id: 1,
-            features: [],
+            features: [
+              {
+                name: "Login",
+                description: "I want a login system",
+                codePreview: "{like this}",
+                codeLanguage: ".tsx",
+                points: 69,
+              },
+              {
+                name: "Payment",
+                description: "I want a payment system",
+                codePreview: "[like so]",
+                codeLanguage: ".cpp",
+                points: 420,
+              },
+            ],
             description: "test",
             image: "../../noimage.png",
           },
@@ -45,7 +63,7 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
     } as any,
     authentication: {
       authenticateUser: async (
-          params: IAuthenticateUserParams
+        params: IAuthenticateUserParams
       ): Promise<IAuthenticateUserResult> => {
         return {
           authentication: {
@@ -62,11 +80,31 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
 };
 const initialAuthState = {
   auth: dataContextCreator().authentication?.authenticateUser({
-    email: "test@email.com",
+    email: "joost.stam@gmail.com",
     password: "hengel",
   }) as Authentication,
 };
 describe("projecDetailPage", () => {
+  it("Should render two feature cards", async () => {
+    await act(async () => {
+      setObject();
+      const history = createMemoryHistory();
+      history.push("projects/1");
+      const wrapper = mount(
+        <DataContext.Provider value={dataContextCreator as any}>
+          <AuthStore.Provider initialState={initialAuthState}>
+            <Router history={history}>
+              <MainSwitch />
+            </Router>
+          </AuthStore.Provider>
+        </DataContext.Provider>
+      );
+      await new Promise((resolve) => setImmediate(resolve));
+
+      const featureCards = wrapper.update().find(".ant-card");
+      expect(featureCards.length).toBe(2);
+    });
+  });
   it("Should pass", async () => {
     await act(async () => {
       setObject();
@@ -94,7 +132,7 @@ describe("projecDetailPage", () => {
   });
   it("Should pass and navigate", async () => {
     await act(async () => {
-      setObject()
+      setObject();
       const history = createMemoryHistory();
       history.push("projects/1");
       const wrapper = mount(
