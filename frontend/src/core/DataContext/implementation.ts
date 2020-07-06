@@ -27,6 +27,14 @@ export interface IGetImplementationsFromFeatureResult {
   implementations: Array<ImplementationDTO>;
 }
 
+export interface IAcceptImplementationParams {
+  implementationId: number;
+}
+
+export interface IAcceptImplementationResult {
+  implementation: ImplementationDTO;
+}
+
 export interface IImplementationResource {
   addImplementationToFeature: (
     params: IAddImplementationToFeatureParams
@@ -37,6 +45,7 @@ export interface IImplementationResource {
   getImplementationsFromFeature: (
     params: IGetImplementationsFromFeatureParams
   ) => Promise<IGetImplementationsFromFeatureResult>;
+  acceptImplementation: (params: IAcceptImplementationParams) => Promise<IAcceptImplementationResult>;
 }
 export interface IGetOneByIdUsingParams {
   id: number;
@@ -87,6 +96,14 @@ const implementation = (config?: Configuration): IImplementationResource => {
       });
 
       return { implementations: result };
+    },
+    acceptImplementation: async (params: IAcceptImplementationParams): Promise<IAcceptImplementationResult> => {
+      const result = await new ImplementationResourceApi(api.config).acceptImplementationUsingPOST({
+        implementationId: params.implementationId,
+      });
+      return {
+        implementation: result,
+      };
     },
   };
 };

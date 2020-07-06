@@ -28,4 +28,9 @@ public class ImplementationResource extends BaseResource<Implementation, Impleme
     public List<ImplementationDTO> getImplementationFromFeature(@PathVariable Long featureId) {
         return service.getImplementationFromFeature(featureId).stream().map(mapper::entityToDTO).collect(Collectors.toList());
     }
+
+    @PostMapping("/{implementationId}/accept")
+    public ImplementationDTO acceptImplementation(@PathVariable Long implementationId) throws Exception {
+        return mapper.entityToDTO(service.acceptImplementation(implementationId));
+    }
 }

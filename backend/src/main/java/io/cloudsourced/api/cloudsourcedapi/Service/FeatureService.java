@@ -1,7 +1,6 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
 import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
-import io.cloudsourced.api.cloudsourcedapi.Default.Exception.UnauthorizedException;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
@@ -19,7 +18,7 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
     }
 
     public Feature addFeatureToProject(Long id, Feature feature) {
-        User user = authenticatedUserProvider.GetUser();
+        User user = authenticatedUserProvider.getUser();
         Project project = projectService.getOneById(id);
 
         List<Feature> features = project.getFeatures();
@@ -31,7 +30,7 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
         return repository.save(feature);
     }
     public List<Feature> getFeaturesByUser() {
-        User user = authenticatedUserProvider.GetUser();
+        User user = authenticatedUserProvider.getUser();
         return repository.findByProjectUser(user.getId());
     }
     public Feature finishFeature(Feature feature) {

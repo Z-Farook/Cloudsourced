@@ -2,6 +2,7 @@ package io.cloudsourced.api.cloudsourcedapi.Service;
 
 import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Default.Exception.NotFoundException;
+import io.cloudsourced.api.cloudsourcedapi.Entity.Implementation;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Transaction;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.TransactionRepository;
@@ -31,5 +32,14 @@ public class TransactionService extends BaseService<Transaction, TransactionRepo
      */
     public long getPointsByUser(Long userId) {
         return repository.findPoints(userId);
+    }
+
+    public Transaction createTransaction(User user, Implementation implementation, long points) {
+        Transaction transaction = new Transaction();
+        transaction.setUser(user);
+        transaction.setImplementation(implementation);
+        transaction.setPoints(points);
+
+        return this.save(transaction);
     }
 }

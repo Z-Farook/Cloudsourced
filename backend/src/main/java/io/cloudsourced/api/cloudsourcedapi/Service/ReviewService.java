@@ -17,7 +17,7 @@ public class ReviewService extends BaseService<Review, ReviewRepository> {
     }
 
     public Review addReviewToImplementation(Long id, Review review) {
-        User user = authenticatedUserProvider.GetUser();
+        User user = authenticatedUserProvider.getUser();
         Implementation implementation = implementationService.getOneById(id);
 
         List<Review> reviews = implementation.getReviews();
@@ -31,7 +31,7 @@ public class ReviewService extends BaseService<Review, ReviewRepository> {
     }
 
     public List<Review> getReviewFromImplementation(Long id) {
-        User user = authenticatedUserProvider.GetUser();
+        User user = authenticatedUserProvider.getUser();
 
         return repository.getReviewFromImplementation(id, user.getId());
     }

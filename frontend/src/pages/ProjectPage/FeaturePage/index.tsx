@@ -9,6 +9,7 @@ import {
   PageHeader,
   Tooltip,
   Popconfirm,
+  Divider,
 } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
@@ -152,20 +153,27 @@ const FeaturePage: React.FC<IProps> = (props) => {
               Provide implementation
             </Button>
 
-            <div style={{ marginTop: 20 }}>
-              {implementations.data!.map((impl, i) => {
-                return (
-                  <div
-                    key={impl.id}
-                    style={{
-                      marginBottom: i === implementations.data!.length ? 0 : 20,
-                    }}
-                  >
-                    <ImplementationCard impl={impl} />
-                  </div>
-                );
-              })}
-            </div>
+            {implementations.data!.length !== 0 && (
+              <>
+                <Divider/>
+                <h2 style={{ marginTop: 20 }}>Implementations</h2>
+
+                <div style={{ marginTop: 20 }}>
+                  {implementations.data!.map((impl, i) => {
+                    return (
+                      <div
+                        key={impl.id}
+                        style={{
+                          marginBottom: i === implementations.data!.length ? 0 : 20,
+                        }}
+                      >
+                        <ImplementationCard impl={impl} codeLanguage={feature.data!.codeLanguage!} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </div>
         ) : (
           <div>Whoops!</div>

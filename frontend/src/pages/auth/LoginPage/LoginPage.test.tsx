@@ -4,7 +4,7 @@ import { createMemoryHistory } from "history";
 import AuthStore from "../../../stores/AuthStore";
 import { MainSwitch } from "../../../routing/MainRouter";
 import DataContext, { IResources } from "../../../core/DataContext";
-import {Configuration, FeatureDTO, FeatureResourceApi} from "cloudsourced-api";
+import {Configuration, FeatureDTO} from "cloudsourced-api";
 import {
   IAuthenticateUserParams,
   IAuthenticateUserResult,
@@ -15,10 +15,9 @@ import { IGetProjectsByAuthenticatedUserResult } from "../../../core/DataContext
 import { IGettransactionsByAuthenticatedUserResult } from "../../../core/DataContext/transaction";
 import {
   IArchiveFeatureParams,
-  IFinishFeatureParams,
-  IGetOneByIdParams,
   IGetOneByIdResult
 } from "../../../core/DataContext/feature";
+import {UserDTO} from "../../../../gen/api/src/models";
 
 const fillForm = async (
   wrapper: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
@@ -65,7 +64,14 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         };
       },
     } as any,
-    project: {
+    user:{
+      getUserInfo: async () : Promise<UserDTO> => {
+        return  {
+          id: 1
+        }
+      }
+    },
+      project: {
       getProjectsByAuthenticatedUser: async (): Promise<
         Array<IGetProjectsByAuthenticatedUserResult>
       > => {
