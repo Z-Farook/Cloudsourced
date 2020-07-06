@@ -4,17 +4,18 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Row, Col, Table, Card, Statistic, Progress, Button } from "antd";
 
 import {
-  ArrowUpOutlined,
   DollarOutlined,
   PlusOutlined,
   RightOutlined,
+  ApiOutlined,
+  ClusterOutlined,
 } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import IRemoteData, {
   fromLoading,
   fromLoaded,
 } from "../../../core/IRemoteData";
-import { ProjectDTO } from "cloudsourced-api";
+import { ProjectDTO, FeatureDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 import { UserDTO } from "../../../../gen/api/src/models";
@@ -29,36 +30,7 @@ const mondayThisWeek = monthDay - weekDay;
 const startOfThisWeek = new Date(+now);
 startOfThisWeek.setDate(mondayThisWeek);
 startOfThisWeek.setHours(0, 0, 0, 0);
-const dataSourceTasks = [
-  {
-    key: "1",
-    number: 1,
-    project: "test task",
-  },
-  {
-    key: "2",
-    number: 2,
-    project: "test task",
-  },
-  {
-    key: "3",
-    number: 3,
-    project: "test task",
-  },
-];
 
-const columnsTasks = [
-  {
-    title: "#",
-    dataIndex: "number",
-    key: "number",
-  },
-  {
-    title: "Current Tasks",
-    dataIndex: "project",
-    key: "project",
-  },
-];
 const columnsTransactions = [
   {
     title: "#",
@@ -82,6 +54,16 @@ interface projectData {
   project: ProjectDTO;
   projectName: string;
   id: number;
+  finishedAt?: Date;
+}
+interface featureData {
+  key: string;
+  number: number;
+  feature: FeatureDTO;
+  featureName: string;
+  id: number;
+  finishedAt?: Date;
+  ids: { id: number; projectId: number };
 }
 interface UserTransaction {
   id?: number;
@@ -119,7 +101,42 @@ const Dashboard: React.FC<IProps> = (props) => {
       ),
     },
   ];
+  const columnsTasks = [
+    {
+      title: "#",
+      dataIndex: "number",
+      key: "number",
+    },
+    {
+      title: "Current Features",
+      dataIndex: "feature",
+      key: "feature",
+    },
+    {
+      title: "",
+      dataIndex: "ids",
+      key: "ids",
+      render: (ids: { id: number; projectId: number }) => (
+        <Button
+          shape="circle"
+          onClick={() =>
+            props.history.push(
+              "/projects/" +
+                ids.projectId.toString() +
+                "/features/" +
+                ids.id.toString()
+            )
+          }
+        >
+          <RightOutlined />
+        </Button>
+      ),
+    },
+  ];
   const [projects, setProjects] = useState<IRemoteData<projectData[], null>>(
+    fromLoading()
+  );
+  const [features, setFeatures] = useState<IRemoteData<FeatureDTO[], null>>(
     fromLoading()
   );
   const [transactions, setTransactions] = useState<
@@ -129,23 +146,44 @@ const Dashboard: React.FC<IProps> = (props) => {
   const [latestProject, setLatestProjects] = useState<
     IRemoteData<projectData, null>
   >(fromLoading());
-
+  const [projectsFinished, setProjectsFinished] = useState<number>(0);
+  const [featuresFinished, setFeaturesFinished] = useState<number>(0);
   useEffect(() => {
     (async () => {
       const result = await dataContext.project.getProjectsByAuthenticatedUser();
       const userTransactionData = await dataContext.transaction.getTransactionsByAuthenticatedUser();
+      const userFeatureData = await dataContext.feature.getFeaturesByUser();
       const data: projectData[] = result.map((p, i) => ({
         key: i.toString(),
         number: i,
         project: p,
         projectName: p.name ? p.name : "",
         id: p.id ? p.id : 0,
+        finishedAt: p.finishedAt ? p.finishedAt : undefined,
       }));
 
       data.sort((a, b) => {
         return b.project.createdAt!.getTime() - a.project.createdAt!.getTime();
       });
       setProjects(fromLoaded(data));
+
+      const featureData: featureData[] = userFeatureData.map((p, i) => ({
+        key: i.toString(),
+        number: i,
+        feature: p,
+        featureName: p.name ? p.name : "",
+        id: p.id ? p.id : 0,
+        ids: {
+          id: p.id ? p.id : 0,
+          projectId: p.project?.id ? p.project.id : 0,
+        },
+        finishedAt: p.finishedAt ? p.finishedAt : undefined,
+      }));
+      featureData.sort((a, b) => {
+        return b.feature.createdAt!.getTime() - a.feature.createdAt!.getTime();
+      });
+      setFeatures(fromLoaded(featureData));
+
       const userTransactions: UserTransaction[] = userTransactionData.map(
         (p, i) => ({
           key: i.toString(),
@@ -162,10 +200,37 @@ const Dashboard: React.FC<IProps> = (props) => {
               .reduce((a, b) => a! + b!, 0) as number)
           : 0;
 
+      setProjectsFinished(
+        Math.floor(
+          (data.filter((p, i) =>
+            p.finishedAt !== undefined && p.project.archivedAt === undefined
+              ? p
+              : undefined
+          ).length /
+            data.filter((p, i) =>
+              p.project.archivedAt === undefined ? p : undefined
+            ).length) *
+            100
+        )
+      );
+      setFeaturesFinished(
+        Math.floor(
+          (userFeatureData.filter((p, i) =>
+            p.finishedAt !== undefined && p.archivedAt === undefined
+              ? p
+              : undefined
+          ).length /
+            userFeatureData.filter((p, i) =>
+              p.archivedAt === undefined ? p : undefined
+            ).length) *
+            100
+        )
+      );
+
       setPoints(fromLoaded(points));
       setLatestProjects(fromLoaded(data[0]));
     })();
-  }, [dataContext.project, dataContext.transaction]);
+  }, [dataContext.project, dataContext.transaction, dataContext.feature]);
   return (
     <>
       <Row justify="center" gutter={[24, 24]}>
@@ -182,7 +247,22 @@ const Dashboard: React.FC<IProps> = (props) => {
                   }
                   precision={0}
                   valueStyle={{ color: "#3f8600" }}
-                  prefix={<ArrowUpOutlined />}
+                  prefix={<ClusterOutlined />}
+                  suffix=""
+                />
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card>
+                <Statistic
+                  title="Features this week"
+                  value={
+                    features.data?.filter((p) => p.createdAt! > startOfThisWeek)
+                      .length
+                  }
+                  precision={0}
+                  valueStyle={{ color: "#3f8600" }}
+                  prefix={<ApiOutlined />}
                   suffix=""
                 />
               </Card>
@@ -193,21 +273,9 @@ const Dashboard: React.FC<IProps> = (props) => {
                   title="Your points"
                   value={points.data ? (points.data as number) : 0}
                   precision={0}
-                  valueStyle={{ color: "#1890ff" }}
+                  valueStyle={{ color: "#3f8600" }}
                   prefix={<DollarOutlined />}
                   suffix=""
-                />
-              </Card>
-            </Col>
-            <Col span={8}>
-              <Card>
-                <Statistic
-                  title="Points this week"
-                  value={11.28}
-                  precision={2}
-                  valueStyle={{ color: "#3f8600" }}
-                  prefix={<ArrowUpOutlined />}
-                  suffix="%"
                 />
               </Card>
             </Col>
@@ -219,11 +287,25 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <br />
                 <div>
                   <Title level={4}>Finished projects</Title>
-                  <Progress percent={50} status="active" />
+                  <Progress
+                    percent={projects.data ? projectsFinished : 100}
+                    status={
+                      (projects.data ? projectsFinished : 100) === 100
+                        ? "success"
+                        : "active"
+                    }
+                  />
                 </div>
                 <div>
-                  <Title level={4}>Finished tasks</Title>
-                  <Progress percent={70} status="active" />
+                  <Title level={4}>Finished features</Title>
+                  <Progress
+                    percent={features.data ? featuresFinished : 100}
+                    status={
+                      (features.data ? featuresFinished : 100) === 100
+                        ? "success"
+                        : "active"
+                    }
+                  />
                 </div>
                 <div>
                   <Title level={4}>Received points</Title>
@@ -272,7 +354,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={dataSourceTasks}
+              dataSource={features.data ? features.data : []}
               columns={columnsTasks}
             />
           </Card>

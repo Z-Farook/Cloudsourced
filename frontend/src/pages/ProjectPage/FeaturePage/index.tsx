@@ -2,7 +2,15 @@ import * as React from "react";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import {Button, Divider, Spin, Typography} from "antd";
+import {
+  Button,
+  Spin,
+  Typography,
+  PageHeader,
+  Tooltip,
+  Popconfirm,
+  Divider,
+} from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import IRemoteData, {
@@ -14,8 +22,14 @@ import { FeatureDTO, ImplementationDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import DataContext from "../../../core/DataContext";
 import ImplementationCard from "../../../components/implementation/ImplementationCard";
+import {
+  DollarOutlined,
+  FileExclamationTwoTone,
+  ExclamationOutlined,
+  FileExclamationOutlined,
+} from "@ant-design/icons";
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 interface IRouteParams {
   projectId: string;
@@ -42,7 +56,13 @@ const FeaturePage: React.FC<IProps> = (props) => {
       featureId: Number(props.match.params.featureId),
     };
   }, [props.match.params]);
+  const archiveFeature = async () => {
+    const result = await dataContext.feature.finishOneById({
+      featureId: featureId,
+    });
 
+    setFeature(fromLoaded(result));
+  };
   useEffect(() => {
     (async () => {
       const result = await dataContext.feature.getOneById({
@@ -50,7 +70,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
       });
       setFeature(fromLoaded(result.feature));
     })();
-  }, [featureId, dataContext.feature.getOneById]);
+  }, [featureId, dataContext.feature.getOneById, dataContext.feature]);
 
   useEffect(() => {
     (async () => {
@@ -61,7 +81,11 @@ const FeaturePage: React.FC<IProps> = (props) => {
       );
       setImplementations(fromLoaded(result.implementations));
     })();
-  }, [featureId, dataContext.implementation.getImplementationsFromFeature]);
+  }, [
+    featureId,
+    dataContext.implementation,
+    dataContext.implementation.getImplementationsFromFeature,
+  ]);
 
   return (
     <DefaultLayout>
@@ -72,8 +96,44 @@ const FeaturePage: React.FC<IProps> = (props) => {
         ) : feature.state === EState.Loaded &&
           implementations.state === EState.Loaded ? (
           <div>
-            <Title level={2}>{feature.data!.name}</Title>
-            <Paragraph strong>Points: {feature.data!.points}</Paragraph>
+            <PageHeader
+              title={feature.data!.name}
+              extra={[
+                <DollarOutlined style={{ color: "green" }} />,
+                <div style={{ color: "green" }}> {feature.data!.points}</div>,
+                feature.data?.archivedAt ? (
+                  <Tooltip key="" title="This project is archived">
+                    <FileExclamationTwoTone
+                      twoToneColor="red"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    />
+                  </Tooltip>
+                ) : (
+                  <Tooltip key="archive" title="Archive project">
+                    <Popconfirm
+                      title="Do you want to archive this project?"
+                      okText="Yes"
+                      cancelText="No"
+                      placement="bottom"
+                      icon={
+                        <ExclamationOutlined
+                          style={{
+                            color: "grey",
+                            cursor: "pointer",
+                          }}
+                        />
+                      }
+                      onConfirm={archiveFeature}
+                    >
+                      <FileExclamationOutlined />
+                    </Popconfirm>
+                  </Tooltip>
+                ),
+              ]}
+            />
+
             <Paragraph>{feature.data!.description}</Paragraph>
             <SyntaxHighlighter
               language={feature.data!.codeLanguage}
