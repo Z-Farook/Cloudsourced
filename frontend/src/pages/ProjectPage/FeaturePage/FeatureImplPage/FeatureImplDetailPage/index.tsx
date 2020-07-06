@@ -4,13 +4,14 @@ import {RouteComponentProps} from "react-router";
 import DataContext from "../../../../../core/DataContext";
 import {api} from "../../../../../core/api";
 import IRemoteData, {EState, fromLoaded, fromLoading} from "../../../../../core/IRemoteData";
-import {FeatureDTO, ImplementationDTO, ReviewDTO} from "cloudsourced-api";
-import {Button, Card, Divider, Spin} from "antd";
+import {FeatureDTO, ImplementationDTO, ProjectDetailDTO, ReviewDTO} from "cloudsourced-api";
+import {Button, Card, Spin} from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {docco} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import {Link} from "react-router-dom";
 import {formatUser} from "../../../../../formatters/user";
 import TextArea from "antd/lib/input/TextArea";
+import AuthStore from "../../../../../stores/AuthStore";
 
 export interface IRouteParams {
   projectId: string;
@@ -22,10 +23,15 @@ interface IProps extends RouteComponentProps<IRouteParams> {
 }
 
 const FeatureImplDetailPage: React.FC<IProps> = (props) => {
+  const { user } = AuthStore.useContainer();
+
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
     createDataContext,
   ]);
+  const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
+    fromLoading()
+  );
   const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
@@ -37,6 +43,7 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
   );
   const [message, setMessage] = useState('');
   const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [isAcceptingImplementation, setIsAcceptingImplementation] = useState(false);
 
   const projectId = useMemo<number | null>(
     () =>
@@ -61,6 +68,19 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
   );
 
   useEffect(() => {
+    if (projectId === null) {
+      return;
+    }
+
+    (async () => {
+      const result = await dataContext.project.getProjectDetail({
+        projectId,
+      });
+      setProject(fromLoaded(result.project));
+    })();
+  }, [projectId, dataContext.project, dataContext.project.getProjectDetail]);
+
+  useEffect(() => {
     if (featureId === null) {
       return;
     }
@@ -71,7 +91,7 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
       });
       setFeature(fromLoaded(result.feature));
     })();
-  }, [featureId, dataContext.feature]);
+  }, [featureId, dataContext.feature, dataContext.feature.getOneById]);
 
   useEffect(() => {
     if (implementationId === null) {
@@ -84,7 +104,7 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
       });
       setImplementation(fromLoaded(result));
     })();
-  }, [implementationId, dataContext.implementation.getOneById]);
+  }, [implementationId, dataContext.implementation, dataContext.implementation.getOneById]);
 
   useEffect(() => {
     if (implementationId === null) {
@@ -97,11 +117,11 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
       });
       setReviews(fromLoaded(result.reviews));
     })();
-  }, [implementationId, dataContext.review.getReviewsFromImplementation]);
+  }, [implementationId, dataContext.review, dataContext.review.getReviewsFromImplementation]);
 
   return (
     <DefaultLayout>
-      {feature.state !== EState.Loaded || implementation.state !== EState.Loaded ? (
+      {feature.state !== EState.Loaded || implementation.state !== EState.Loaded  || project.state !== EState.Loaded ? (
         <div style={{
           display: "flex",
           alignItems: "center",
@@ -128,13 +148,23 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
               <div style={{flex: 1}}/>
 
               <div>
-                <Button
-                  onClick={() => {
-                    alert('TODO');
-                  }}
-                >
-                  Accept Implementation
-                </Button>
+                {!implementation.data!.approved && project.data!.user!.id === user!.id ? (
+                  <Button
+                    disabled={isAcceptingImplementation}
+                    onClick={async () => {
+                      setIsAcceptingImplementation(true);
+                      const result = await dataContext.implementation.acceptImplementation({
+                        implementationId: implementationId!,
+                      });
+                      setImplementation(fromLoaded(result.implementation));
+                      setIsAcceptingImplementation(false);
+                    }}
+                  >
+                    Accept Implementation
+                  </Button>
+                ) : implementation.data!.approved ? (
+                  <span>Implementation has been approved.</span>
+                ) : null}
               </div>
             </div>
           </Card>

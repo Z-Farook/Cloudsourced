@@ -2,6 +2,8 @@ package io.cloudsourced.api.cloudsourcedapi.Entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
@@ -13,15 +15,17 @@ import java.util.List;
 public class Feature extends BaseEntity {
 
     private String name;
+    @Length(max = 50000)
     private String description;
+    @Length(max = 50000)
     private String codePreview;
     private String codeLanguage;
     private Long points;
     private Instant finishedAt;
     private Instant archivedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feature")
-    private List<Implementation> implementations;
+//    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "feature")
+//    private List<Implementation> implementations;
     @ManyToOne(cascade = CascadeType.ALL)
     private Project project;
 }

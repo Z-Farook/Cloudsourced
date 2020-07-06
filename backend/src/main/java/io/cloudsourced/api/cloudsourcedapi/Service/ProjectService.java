@@ -1,6 +1,5 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
-import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDTO;
 import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Default.Exception.NotFoundException;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
@@ -9,8 +8,6 @@ import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class ProjectService extends BaseService<Project, ProjectRepository>{
@@ -24,7 +21,7 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     }
 
     public Project saveWithUser(Project project) {
-        User user = authenticatedUserProvider.GetUser();
+        User user = authenticatedUserProvider.getUser();
         project.setUser(user);
         return repository.save(project);
     }
@@ -39,7 +36,7 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     }
 
     public List<Project> getProjectsByUser() {
-        User user = authenticatedUserProvider.GetUser();
+        User user = authenticatedUserProvider.getUser();
         return repository.findByUser(user);
     }
 

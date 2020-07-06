@@ -10,4 +10,5 @@ public class ImplementationDTO {
     private String code;
     private List<ReviewDTO> reviews;
     private UserDTO user;
+    private Boolean approved;
 }

@@ -22,7 +22,7 @@ public class PaymentService extends BaseService<Payment, PaymentRepository> {
 
     @Transactional
     public Payment paymentOfPoints(Payment payment) {
-        User user = authenticatedUserProvider.GetUser();
+        User user = authenticatedUserProvider.getUser();
 
         if (user == null) {
             throw new NotFoundException("User is Not found");

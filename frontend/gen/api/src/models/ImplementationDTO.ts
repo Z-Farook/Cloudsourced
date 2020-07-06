@@ -32,6 +32,12 @@ import {
 export interface ImplementationDTO {
     /**
      * 
+     * @type {boolean}
+     * @memberof ImplementationDTO
+     */
+    approved?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof ImplementationDTO
      */
@@ -66,6 +72,7 @@ export function ImplementationDTOFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
+        'approved': !exists(json, 'approved') ? undefined : json['approved'],
         'code': !exists(json, 'code') ? undefined : json['code'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'reviews': !exists(json, 'reviews') ? undefined : ((json['reviews'] as Array<any>).map(ReviewDTOFromJSON)),
@@ -82,6 +89,7 @@ export function ImplementationDTOToJSON(value?: ImplementationDTO | null): any {
     }
     return {
         
+        'approved': value.approved,
         'code': value.code,
         'id': value.id,
         'reviews': value.reviews === undefined ? undefined : ((value.reviews as Array<any>).map(ReviewDTOToJSON)),
