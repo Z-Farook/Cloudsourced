@@ -27,7 +27,12 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     }
 
     public Project getProjectDetailById(long id){
-        return repository.findById(id).orElseThrow(NotFoundException::new);
+        var project = repository.findById(id).orElseThrow(NotFoundException::new);
+        if(project.getArchivedAt() != null){
+            throw new NotFoundException();
+        }else{
+            return project;
+        }
     }
 
     @Override
