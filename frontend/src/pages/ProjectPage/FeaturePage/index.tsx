@@ -7,8 +7,6 @@ import {
   Spin,
   Typography,
   PageHeader,
-  Tooltip,
-  Popconfirm,
   Divider, Statistic,
 } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -24,9 +22,6 @@ import DataContext from "../../../core/DataContext";
 import ImplementationCard from "../../../components/implementation/ImplementationCard";
 import {
   DollarOutlined,
-  FileExclamationTwoTone,
-  ExclamationOutlined,
-  FileExclamationOutlined,
 } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
