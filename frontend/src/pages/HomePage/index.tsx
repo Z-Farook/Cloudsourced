@@ -5,9 +5,12 @@ import { Button } from "antd";
 import homeImage from "../../assets/home.jpg";
 import Title from "antd/lib/typography/Title";
 import Text from "antd/lib/typography/Text";
+import authentication from "../../core/DataContext/authentication";
+import AuthStore from "../../stores/AuthStore";
 interface IProps extends RouteComponentProps {}
 
 const HomePage: React.FC<IProps> = (props) => {
+  const authStore = AuthStore.useContainer();
   return (
     <DefaultLayout>
       <Title style={{ marginTop: "3em", textAlign: "center" }}>
@@ -25,17 +28,29 @@ const HomePage: React.FC<IProps> = (props) => {
         alt={""}
         style={{ marginLeft: "27%", width: "50%" }}
       />
-
-      <Button
-        type="primary"
-        shape="round"
-        style={{ marginLeft: "auto", marginRight: "auto", width: "12em" }}
-        onClick={() => {
-          props.history.push(`/auth/register`);
-        }}
-      >
-        Sign Up
-      </Button>
+      {authStore.auth !== null ? (
+        <Button
+          type="primary"
+          shape="round"
+          style={{ marginLeft: "auto", marginRight: "auto", width: "12em" }}
+          onClick={() => {
+            props.history.push(`/account`);
+          }}
+        >
+          Start
+        </Button>
+      ) : (
+        <Button
+          type="primary"
+          shape="round"
+          style={{ marginLeft: "auto", marginRight: "auto", width: "12em" }}
+          onClick={() => {
+            props.history.push(`/auth/register`);
+          }}
+        >
+          Sign Up
+        </Button>
+      )}
     </DefaultLayout>
   );
 };

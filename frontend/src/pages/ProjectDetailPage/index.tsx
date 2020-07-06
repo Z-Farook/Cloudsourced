@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import {
@@ -27,7 +27,11 @@ import {
   EditOutlined,
   CheckOutlined,
   ExclamationOutlined,
+  CheckCircleTwoTone,
+  FileExclamationTwoTone,
+  FileExclamationOutlined,
 } from "@ant-design/icons";
+import DataContext from "../../core/DataContext";
 const { Title, Text, Paragraph } = Typography;
 
 interface IRouterParams {
@@ -36,6 +40,9 @@ interface IRouterParams {
 
 export interface IProps extends RouteComponentProps<IRouterParams> {}
 const ProjectDetailPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), []);
+
   const projectId = Number(props.match.params.projectId);
 
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
@@ -59,35 +66,56 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
       await new ProjectResourceApi(api.config).finishProjectUsingPOST({
         projectId,
       });
-      message.success({
-        content: "Project is finished",
-        key: "updatableKey",
-        duration: 2,
-      });
+      successMessage();
       props.history.push("/account");
     } catch (error) {
-      message.success({
-        content: "Something went wrong",
-        key: "updatableKey",
-        duration: 2,
-      });
+      errorMessage();
     }
+  };
+
+  const archiveProject = async () => {
+    try {
+      await new ProjectResourceApi(api.config).archiveProjectUsingPOST({
+        projectId,
+      });
+      successMessage();
+      props.history.push("/account");
+    } catch (error) {
+      errorMessage();
+    }
+  };
+
+  const successMessage = () => {
+    message.success({
+      content: "Project is updated succesfully!",
+      key: "updatableKey",
+      duration: 2,
+    });
+  };
+
+  const errorMessage = () => {
+    message.error({
+      content: "Something went wrong",
+      key: "updatableKey",
+      duration: 2,
+    });
   };
 
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi(
-        api.config
-      ).getProjectDetailByIdUsingGET({
-        id: projectId,
-      });
-      console.log(result);
-
-      setProject(fromLoaded(result));
+      const result = await dataContext.project.getProjectDetail({ projectId });
+      setProject(fromLoaded(result.project));
     })();
-  }, [projectId]);
+  }, []);
 
-  const { description, image, name: projectName, user } = project.data || {};
+  const {
+    description,
+    image,
+    name: projectName,
+    user,
+    finishedAt,
+    archivedAt,
+  } = project.data || {};
 
   return (
     <DefaultLayout>
@@ -127,22 +155,56 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                                 }
                               />
                             </Tooltip>,
-                            <Tooltip key="finish" title="Finish project">
-                              <Popconfirm
-                                title="Do you want to finish this project?"
-                                okText="Yes"
-                                cancelText="No"
-                                placement="bottom"
-                                icon={
-                                  <ExclamationOutlined
-                                    style={{ color: "red" }}
-                                  />
-                                }
-                                onConfirm={() => finishProject()}
+                            finishedAt ? (
+                              <Tooltip
+                                key="isfinish"
+                                title="This project is finished"
                               >
-                                <CheckOutlined />
-                              </Popconfirm>
-                            </Tooltip>,
+                                <CheckCircleTwoTone twoToneColor="#52c41a" />
+                              </Tooltip>
+                            ) : (
+                              <Tooltip key="finish" title="Finish project">
+                                <Popconfirm
+                                  title="Do you want to finish this project?"
+                                  okText="Yes"
+                                  cancelText="No"
+                                  placement="bottom"
+                                  icon={
+                                    <ExclamationOutlined
+                                      style={{ color: "red" }}
+                                    />
+                                  }
+                                  onConfirm={() => finishProject()}
+                                >
+                                  <CheckOutlined />
+                                </Popconfirm>
+                              </Tooltip>
+                            ),
+                            archivedAt ? (
+                              <Tooltip
+                                key="isfinish"
+                                title="This project is archived"
+                              >
+                                <FileExclamationTwoTone twoToneColor="#52c41a" />
+                              </Tooltip>
+                            ) : (
+                              <Tooltip key="archive" title="Archive project">
+                                <Popconfirm
+                                  title="Do you want to archive this project?"
+                                  okText="Yes"
+                                  cancelText="No"
+                                  placement="bottom"
+                                  icon={
+                                    <ExclamationOutlined
+                                      style={{ color: "red" }}
+                                    />
+                                  }
+                                  onConfirm={() => archiveProject()}
+                                >
+                                  <FileExclamationOutlined />
+                                </Popconfirm>
+                              </Tooltip>
+                            ),
                           ]
                         : ""
                     }

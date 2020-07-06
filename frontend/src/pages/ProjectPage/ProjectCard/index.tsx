@@ -1,7 +1,7 @@
 import React from "react";
 import "./index.scss";
 import { Card, Avatar, Tooltip } from "antd";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+import { CheckCircleTwoTone, InfoCircleOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { ProjectDTO } from "cloudsourced-api";
@@ -12,12 +12,20 @@ export interface IProps {
 
 const ProjectCard: React.FC<IProps> = (props) => {
   const { project } = props;
-  const { description, image, name, id, finishedAt } = project;
+  const { description, image, name, id, finishedAt, archivedAt } = project;
 
   const FinishedPrompt = () => {
     return (
       <Tooltip title="This project is finished">
         <CheckCircleTwoTone twoToneColor="#52c41a" />
+      </Tooltip>
+    );
+  };
+
+  const ArchivedPrompt = () => {
+    return (
+      <Tooltip title="This project is archived">
+        <InfoCircleOutlined />
       </Tooltip>
     );
   };
@@ -29,15 +37,11 @@ const ProjectCard: React.FC<IProps> = (props) => {
         cover={
           <img alt="example" className="image" src={image ? image : noImage} />
         }
-        // actions={
-        //   [
-        //     <HeartFilled key="favorite" />,
-        //     <ShareAltOutlined key="share" />,
-        //     <DownOutlined key="ellipsis" />,
-        //   ]
-        // }
         title={name}
-        extra={finishedAt ? <FinishedPrompt /> : ""}
+        extra={[
+          finishedAt ? <FinishedPrompt /> : "",
+          archivedAt ? <ArchivedPrompt /> : "",
+        ]}
       >
         <Meta
           avatar={

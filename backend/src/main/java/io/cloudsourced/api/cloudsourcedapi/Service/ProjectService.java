@@ -52,4 +52,9 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
         project.setFinishedAt(Instant.now());
         return repository.save(project);
     }
+
+    public Project archiveProject(Project project) {
+        project.setArchivedAt(Instant.now());
+        return repository.save(project);
+    }
 }
