@@ -4,7 +4,6 @@ import { Card, Button } from "antd";
 import { formatUser } from "../../../formatters/user";
 import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 
 interface IProps extends RouteComponentProps {

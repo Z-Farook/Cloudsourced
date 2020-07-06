@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { api } from "../../../core/api";
 import AuthStore from "../../../stores/AuthStore";
 import DataContext from "../../../core/DataContext";
-import {Configuration} from "cloudsourced-api";
+
 
 const validationSchema = yup.object().shape({
   email: yup
