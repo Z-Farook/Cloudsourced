@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Table(name = "tbl_implementation")
 public class Implementation extends BaseEntity {
-
+    private Boolean approved;
     private String code;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementation", fetch = FetchType.LAZY)

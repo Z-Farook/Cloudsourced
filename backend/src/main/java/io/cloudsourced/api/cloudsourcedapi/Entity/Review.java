@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Data
 @Table(name="tbl_review")
 public class Review extends BaseEntity {
-    private Boolean approved;
     private String message;
 
     @ManyToOne(cascade = CascadeType.ALL)
