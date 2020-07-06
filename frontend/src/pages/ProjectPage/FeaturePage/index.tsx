@@ -23,6 +23,8 @@ import ImplementationCard from "../../../components/implementation/Implementatio
 import {
   DollarOutlined,
 } from "@ant-design/icons";
+import authentication from "../../../core/DataContext/authentication";
+import AuthStore from "../../../stores/AuthStore";
 
 const { Paragraph } = Typography;
 
@@ -32,7 +34,7 @@ interface IRouteParams {
 }
 
 interface IProps extends RouteComponentProps<IRouteParams> {}
-
+const authStore = AuthStore.useContainer();
 const FeaturePage: React.FC<IProps> = (props) => {
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
@@ -58,6 +60,9 @@ const FeaturePage: React.FC<IProps> = (props) => {
       const result = await dataContext.feature.getOneById({
         id: featureId,
       });
+      if(result.feature.project?.archivedAt != null){
+        props.history.push("/error")
+      }
       setFeature(fromLoaded(result.feature));
     })();
   }, [featureId, dataContext.feature.getOneById, dataContext.feature]);

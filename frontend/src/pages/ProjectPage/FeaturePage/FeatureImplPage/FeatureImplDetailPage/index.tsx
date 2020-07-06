@@ -76,6 +76,9 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
       const result = await dataContext.project.getProjectDetail({
         projectId,
       });
+      if(result.project.archivedAt != null){
+        props.history.push("/error")
+      }
       setProject(fromLoaded(result.project));
     })();
   }, [projectId, dataContext.project, dataContext.project.getProjectDetail]);
