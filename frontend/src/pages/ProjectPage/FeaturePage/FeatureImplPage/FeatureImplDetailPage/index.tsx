@@ -81,7 +81,7 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
       }
       setProject(fromLoaded(result.project));
     })();
-  }, [projectId, dataContext.project, dataContext.project.getProjectDetail]);
+  }, [projectId, dataContext.project, dataContext.project.getProjectDetail, props.history]);
 
   useEffect(() => {
     if (featureId === null) {
