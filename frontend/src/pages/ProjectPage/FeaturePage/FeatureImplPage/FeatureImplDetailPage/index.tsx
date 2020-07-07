@@ -31,7 +31,7 @@ export interface IRouteParams {
 interface IProps extends RouteComponentProps<IRouteParams> {}
 
 const FeatureImplDetailPage: React.FC<IProps> = (props) => {
-  const { user } = AuthStore.useContainer();
+  const { auth } = AuthStore.useContainer();
 
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
@@ -120,7 +120,7 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
       const result = await dataContext.implementation.getOneById({
         id: implementationId,
       });
-      setImplementation(fromLoaded(result));
+      setImplementation(fromLoaded(result.implementation));
     })();
   }, [
     implementationId,
@@ -182,7 +182,7 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
 
               <div>
                 {!implementation.data!.approved &&
-                project.data!.user!.id === user!.id ? (
+                project.data?.user?.id === auth?.userId ? (
                   <Button
                     disabled={isAcceptingImplementation}
                     onClick={async () => {
@@ -225,6 +225,7 @@ const FeatureImplDetailPage: React.FC<IProps> = (props) => {
                     return (
                       <div
                         key={review.id}
+                        className="reviewObject"
                         style={{
                           display: "flex",
                           flexDirection: "column",
