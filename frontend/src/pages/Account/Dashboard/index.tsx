@@ -38,11 +38,6 @@ const columnsTransactions = [
     key: "number",
   },
   {
-    title: "Transactions by user",
-    dataIndex: "user",
-    key: "user",
-  },
-  {
     title: "Points",
     dataIndex: "points",
     key: "points",
@@ -68,7 +63,6 @@ interface featureData {
 interface UserTransaction {
   id?: number;
   points?: number;
-  user?: UserDTO;
 }
 
 const Dashboard: React.FC<IProps> = (props) => {
@@ -189,7 +183,6 @@ const Dashboard: React.FC<IProps> = (props) => {
           key: i.toString(),
           id: p.id,
           points: p.points,
-          user: p.user,
         })
       );
       setTransactions(fromLoaded(userTransactions));
@@ -283,33 +276,29 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Row justify="center" gutter={[24, 24]}>
             <Col span={24}>
               <Card>
-                <Title>Progress</Title>
-                <br />
-                <div>
+                <Title style={{marginBottom: "1.2em"}}>Progress</Title>
+
+                <div style={{marginBottom: "2em"}}>
                   <Title level={4}>Finished projects</Title>
                   <Progress
-                    percent={projects.data ? projectsFinished : 100}
+                    percent={projects.data ? projectsFinished : 0}
                     status={
-                      (projects.data ? projectsFinished : 100) === 100
+                      (projects.data ? projectsFinished : 0) === 100
                         ? "success"
                         : "active"
                     }
                   />
                 </div>
-                <div>
+                <div style={{marginBottom: "2em"}}>
                   <Title level={4}>Finished features</Title>
                   <Progress
-                    percent={features.data ? featuresFinished : 100}
+                    percent={features.data ? featuresFinished : 0}
                     status={
-                      (features.data ? featuresFinished : 100) === 100
+                      (features.data ? featuresFinished : 0) === 100
                         ? "success"
                         : "active"
                     }
                   />
-                </div>
-                <div>
-                  <Title level={4}>Received points</Title>
-                  <Progress percent={100} />
                 </div>
               </Card>
             </Col>
