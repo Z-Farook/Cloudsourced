@@ -19,7 +19,7 @@ import {
 import { RouteComponentProps } from "react-router";
 import { Store } from "antd/lib/form/interface";
 import { api } from "../../core/api";
-import {languages} from "./languages";
+import {languages} from "../../core/languages";
 
 interface IRouterParams {
   projectId: string;
