@@ -1,6 +1,7 @@
 package io.cloudsourced.api.cloudsourcedapi.Service;
 
 import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
+import io.cloudsourced.api.cloudsourcedapi.Default.Exception.UnauthorizedException;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
@@ -20,6 +21,10 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
     public Feature addFeatureToProject(Long id, Feature feature) {
         User user = authenticatedUserProvider.getUser();
         Project project = projectService.getOneById(id);
+
+        if (!project.getUser().getId().equals(user.getId())) {
+            throw new UnauthorizedException();
+        }
 
         List<Feature> features = project.getFeatures();
         features.add(feature);
