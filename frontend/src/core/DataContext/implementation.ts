@@ -45,21 +45,15 @@ export interface IImplementationResource {
   getImplementationsFromFeature: (
     params: IGetImplementationsFromFeatureParams
   ) => Promise<IGetImplementationsFromFeatureResult>;
-  acceptImplementation: (params: IAcceptImplementationParams) => Promise<IAcceptImplementationResult>;
+  acceptImplementation: (
+    params: IAcceptImplementationParams
+  ) => Promise<IAcceptImplementationResult>;
 }
 export interface IGetOneByIdUsingParams {
   id: number;
 }
 export interface IGetOneByIdUsingResult {
-  codeLanguage?: string;
-
-  codePreview?: string;
-
-  description?: string;
-
-  id?: number;
-
-  name?: string;
+  implementation: ImplementationDTO;
 }
 const implementation = (config?: Configuration): IImplementationResource => {
   return {
@@ -84,7 +78,7 @@ const implementation = (config?: Configuration): IImplementationResource => {
       ).getOneByIdUsingGET1({
         id: params.id,
       });
-      return result;
+      return { implementation: result };
     },
     getImplementationsFromFeature: async (
       params: IGetImplementationsFromFeatureParams
@@ -97,8 +91,12 @@ const implementation = (config?: Configuration): IImplementationResource => {
 
       return { implementations: result };
     },
-    acceptImplementation: async (params: IAcceptImplementationParams): Promise<IAcceptImplementationResult> => {
-      const result = await new ImplementationResourceApi(api.config).acceptImplementationUsingPOST({
+    acceptImplementation: async (
+      params: IAcceptImplementationParams
+    ): Promise<IAcceptImplementationResult> => {
+      const result = await new ImplementationResourceApi(
+        api.config
+      ).acceptImplementationUsingPOST({
         implementationId: params.implementationId,
       });
       return {
