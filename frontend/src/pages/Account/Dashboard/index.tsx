@@ -19,6 +19,7 @@ import { ProjectDTO, FeatureDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
 import DataContext from "../../../core/DataContext";
+import {languages} from "../../../core/languages";
 
 interface IProps extends RouteComponentProps {}
 const now = new Date();
@@ -106,6 +107,11 @@ const Dashboard: React.FC<IProps> = (props) => {
       key: "feature",
     },
     {
+      title: "Language",
+      dataIndex: "language",
+      key: "lang",
+    },
+    {
       title: "",
       dataIndex: "ids",
       key: "ids",
@@ -166,6 +172,9 @@ const Dashboard: React.FC<IProps> = (props) => {
         feature: p,
         featureName: p.name ? p.name : "",
         id: p.id ? p.id : 0,
+        language: <i className={'devicon-' +Object.keys(languages).find(
+            key => Object.keys(languages).indexOf(key) === Object.values(languages).indexOf( p.codeLanguage as languages ))
+        + '-plain colored'}/>,
         ids: {
           id: p.id ? p.id : 0,
           projectId: p.project?.id ? p.project.id : 0,
