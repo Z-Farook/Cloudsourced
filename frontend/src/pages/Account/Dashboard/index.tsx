@@ -345,7 +345,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={projects.data ? projects.data : []}
+              dataSource={projects.data ? projects.data.slice(0,3) : []}
               columns={columns}
             />
           </Card>
@@ -354,7 +354,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={features.data ? features.data : []}
+              dataSource={features.data ? features.data.slice(0,3) : []}
               columns={columnsTasks}
             />
           </Card>
@@ -363,7 +363,7 @@ const Dashboard: React.FC<IProps> = (props) => {
           <Card>
             <Table
               pagination={false}
-              dataSource={transactions.data !== null ? transactions.data : []}
+              dataSource={transactions.data !== null ? transactions.data.slice(0,3) : []}
               columns={columnsTransactions}
             />
           </Card>
