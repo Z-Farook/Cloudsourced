@@ -19,9 +19,12 @@ import {
 import { RouteComponentProps } from "react-router";
 import { Store } from "antd/lib/form/interface";
 import { api } from "../../core/api";
+import {languages} from "./languages";
+
 interface IRouterParams {
   projectId: string;
 }
+
 interface IProps extends RouteComponentProps<IRouterParams> {}
 
 const { Option } = Select;
@@ -121,9 +124,13 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
                     placeholder="Select a option and change input text above"
                     allowClear
                   >
-                    <Option value="typescript">TypeScript</Option>
-                    <Option value="csharp">C#</Option>
+
+                    {Object.values(languages).map(lang =>
+                       <Option  value={lang}> {lang} </Option>
+                    )}
+
                   </Select>
+
                 </Form.Item>
 
                 <Form.Item
