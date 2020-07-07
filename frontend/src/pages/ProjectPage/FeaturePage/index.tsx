@@ -2,13 +2,7 @@ import * as React from "react";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import {
-  Button,
-  Spin,
-  Typography,
-  PageHeader,
-  Divider, Statistic,
-} from "antd";
+import { Button, Spin, Typography, PageHeader, Divider, Statistic } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import IRemoteData, {
@@ -20,11 +14,9 @@ import { FeatureDTO, ImplementationDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import DataContext from "../../../core/DataContext";
 import ImplementationCard from "../../../components/implementation/ImplementationCard";
-import {
-  DollarOutlined,
-} from "@ant-design/icons";
+import { DollarOutlined } from "@ant-design/icons";
 import AuthStore from "../../../stores/AuthStore";
-import {ProjectDetailDTO} from "../../../../gen/api/src/models";
+import { ProjectDetailDTO } from "../../../../gen/api/src/models";
 
 const { Paragraph } = Typography;
 
@@ -44,14 +36,12 @@ const FeaturePage: React.FC<IProps> = (props) => {
     fromLoading()
   );
   const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
-      fromLoading()
+    fromLoading()
   );
   const [implementations, setImplementations] = useState<
     IRemoteData<Array<ImplementationDTO>, null>
   >(fromLoading());
-  const [isOwner, setIsOwner] = useState<Boolean>(
-      false
-  );
+  const [isOwner, setIsOwner] = useState<Boolean>(false);
   const { projectId, featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
@@ -60,35 +50,45 @@ const FeaturePage: React.FC<IProps> = (props) => {
   }, [props.match.params]);
   useEffect(() => {
     (async () => {
-      try{const result = await dataContext.project.getProjectDetail({ projectId });
-        await setProject(fromLoaded(result.project));
-        setIsOwner(auth?.userId === result.project!.user!.id);
-
-
-      }
-      catch (error) {
-        if(error.status === 404){
+      try {
+        const result = await dataContext.project.getProjectDetail({
+          projectId,
+        });
+        setProject(fromLoaded(result.project));
+      } catch (error) {
+        if (error.status === 404) {
           props.history.push("/projects");
-        }else{
-         props.history.push("/error");
+        } else {
+          props.history.push("/error");
         }
-
       }
-
     })();
-  }, [projectId, dataContext.project, props.history, project.data, auth]);
+  }, [projectId, dataContext.project, props.history, auth]);
+
+  useEffect(() => {
+    (async () => {
+      if (auth?.userId === project.data?.user?.id) {
+        setIsOwner(true);
+      }
+    })();
+  });
 
   useEffect(() => {
     (async () => {
       const result = await dataContext.feature.getOneById({
         id: featureId,
       });
-      if(result.feature.project?.archivedAt != null){
-        props.history.push("/error")
+      if (result.feature.project?.archivedAt != null) {
+        props.history.push("/error");
       }
       setFeature(fromLoaded(result.feature));
     })();
-  }, [featureId, dataContext.feature.getOneById, dataContext.feature, props.history]);
+  }, [
+    featureId,
+    dataContext.feature.getOneById,
+    dataContext.feature,
+    props.history,
+  ]);
 
   useEffect(() => {
     (async () => {
@@ -118,14 +118,12 @@ const FeaturePage: React.FC<IProps> = (props) => {
               title={feature.data!.name}
               extra={[
                 <Statistic
-                    value={
-                      feature.data!.points
-                    }
-                    precision={0}
-                    valueStyle={{ color: "green" }}
-                    prefix={<DollarOutlined />}
-                    suffix=""
-                />
+                  value={feature.data!.points}
+                  precision={0}
+                  valueStyle={{ color: "green" }}
+                  prefix={<DollarOutlined />}
+                  suffix=""
+                />,
               ]}
             />
 
@@ -136,21 +134,24 @@ const FeaturePage: React.FC<IProps> = (props) => {
             >
               {feature.data!.codePreview}
             </SyntaxHighlighter>
-            { !isOwner ?
-            <Button
-              style={{ marginTop: 10 }}
-              onClick={() => {
-                props.history.push(
-                  `/projects/${projectId}/features/${featureId}/implementation`
-                );
-              }}
-            >
-              Provide implementation
-            </Button> : "" }
+            {!isOwner ? (
+              <Button
+                style={{ marginTop: 10 }}
+                onClick={() => {
+                  props.history.push(
+                    `/projects/${projectId}/features/${featureId}/implementation`
+                  );
+                }}
+              >
+                Provide implementation
+              </Button>
+            ) : (
+              ""
+            )}
 
             {implementations.data!.length !== 0 && (
               <>
-                <Divider/>
+                <Divider />
                 <h2 style={{ marginTop: 20 }}>Implementations</h2>
 
                 <div style={{ marginTop: 20 }}>
@@ -159,10 +160,14 @@ const FeaturePage: React.FC<IProps> = (props) => {
                       <div
                         key={impl.id}
                         style={{
-                          marginBottom: i === implementations.data!.length ? 0 : 20,
+                          marginBottom:
+                            i === implementations.data!.length ? 0 : 20,
                         }}
                       >
-                        <ImplementationCard impl={impl} codeLanguage={feature.data!.codeLanguage!} />
+                        <ImplementationCard
+                          impl={impl}
+                          codeLanguage={feature.data!.codeLanguage!}
+                        />
                       </div>
                     );
                   })}
