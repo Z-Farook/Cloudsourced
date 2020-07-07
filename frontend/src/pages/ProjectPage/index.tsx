@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../components/layout/DefaultLayout";
 import { Col, Row, Spin, Select, PageHeader } from "antd";
-import { ProjectDTO, ProjectResourceApi } from "cloudsourced-api";
+import { ProjectDTO } from "cloudsourced-api";
 import IRemoteData, {
   EState,
   fromLoaded,
@@ -11,10 +11,15 @@ import IRemoteData, {
 
 import ProjectCard from "./ProjectCard";
 import { api } from "../../core/api";
+import DataContext from "../../core/DataContext";
 
 interface IProps extends RouteComponentProps {}
 
 const ProjectPage: React.FC<IProps> = (props) => {
+  const createDataContext = useContext(DataContext);
+  const dataContext = useMemo(() => createDataContext(api.config), [
+    createDataContext,
+  ]);
   const [projects, setProjects] = useState<IRemoteData<ProjectDTO[], null>>(
     fromLoading()
   );
@@ -40,9 +45,8 @@ const ProjectPage: React.FC<IProps> = (props) => {
   const { Option } = Select;
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi(api.config).allUsingGET2();
-      console.log(result);
-      setProjects(fromLoaded(result));
+      const result = await dataContext.project.getAllProjects();
+      setProjects(fromLoaded(result.projects));
     })();
   }, []);
 
