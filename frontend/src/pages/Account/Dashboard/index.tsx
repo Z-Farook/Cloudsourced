@@ -18,7 +18,6 @@ import IRemoteData, {
 import { ProjectDTO, FeatureDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import ProjectCard from "../../ProjectPage/ProjectCard";
-import { UserDTO } from "../../../../gen/api/src/models";
 import DataContext from "../../../core/DataContext";
 
 interface IProps extends RouteComponentProps {}
@@ -34,8 +33,8 @@ startOfThisWeek.setHours(0, 0, 0, 0);
 const columnsTransactions = [
   {
     title: "#",
-    dataIndex: "number",
-    key: "number",
+    dataIndex: "id",
+    key: "id",
   },
   {
     title: "Points",
