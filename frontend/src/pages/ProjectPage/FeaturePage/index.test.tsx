@@ -118,11 +118,7 @@ describe("Feature page", () => {
           </AuthStore.Provider>
         </DataContext.Provider>
       );
-      console.log(history.location.pathname);
       await new Promise((resolve) => setImmediate(resolve));
-      wrapper.update();
-
-      console.log(wrapper.debug());
 
       const implementationCards = wrapper.update().find(".ant-card-body");
       expect(implementationCards.length).toBe(2);
