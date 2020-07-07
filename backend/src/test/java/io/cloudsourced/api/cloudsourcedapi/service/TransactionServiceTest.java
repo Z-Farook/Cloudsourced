@@ -42,7 +42,7 @@ public class TransactionServiceTest {
         assertEquals(transaction, savedTransaction);
         assertEquals(transaction.getPoints(), savedTransaction.getPoints());
         assertEquals(transaction.getUser().getName(), savedTransaction.getUser().getName());
-//        assertEquals("Jhon Doe", savedTransaction.getUser().getName());
+        assertEquals("Jhon Doe", savedTransaction.getUser().getName());
     }
 
     @Test

@@ -55,16 +55,14 @@ public class FeatureServiceTest {
         feature.setCodeLanguage("JAVA");
         feature.setCodePreview("Good");
         feature.setDescription("Feature Description");
-        //TODO when the Field "points" is added to dev the next line will be uncommented
-        //        feature.setPoints(12L);
+        feature.setPoints(12L);
         feature.setProject(project);
 
         //mocking the data returned from service
         when(featureRepository.save(feature)).thenReturn(feature);
         Feature savedFeature = featureService.save(feature);
         assertEquals(feature, savedFeature);
-        //TODO when the Field "points" is added to dev the next line will be uncommented
-        //        assertEquals(feature.getPoints(), savedFeature.getPoints());
+        assertEquals(feature.getPoints(), savedFeature.getPoints());
         assertEquals("JAVA", savedFeature.getCodeLanguage());
         assertEquals(feature.getName(), savedFeature.getName());
         assertEquals(feature.getProject().getName(), savedFeature.getProject().getName());
