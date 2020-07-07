@@ -1,10 +1,10 @@
-import {Configuration, ReviewDTO, ReviewResourceApi} from "cloudsourced-api";
+import { Configuration, ReviewDTO, ReviewResourceApi } from "cloudsourced-api";
 
 export interface IGetReviewsFromImplementationParams {
   implementationId: number;
 }
 
-interface IGetReviewsFromImplementationResult {
+export interface IGetReviewsFromImplementationResult {
   reviews: ReviewDTO[];
 }
 
@@ -18,13 +18,19 @@ export interface IAddReviewToImplementationResult {
 }
 
 export interface IReviewResource {
-  getReviewsFromImplementation: (params: IGetReviewsFromImplementationParams) => Promise<IGetReviewsFromImplementationResult>;
-  addReviewToImplementation: (params: IAddReviewToImplementationParams) => Promise<IAddReviewToImplementationResult>;
+  getReviewsFromImplementation: (
+    params: IGetReviewsFromImplementationParams
+  ) => Promise<IGetReviewsFromImplementationResult>;
+  addReviewToImplementation: (
+    params: IAddReviewToImplementationParams
+  ) => Promise<IAddReviewToImplementationResult>;
 }
 
 export const review = (config?: Configuration): IReviewResource => {
   return {
-    getReviewsFromImplementation: async (params: IGetReviewsFromImplementationParams): Promise<IGetReviewsFromImplementationResult> => {
+    getReviewsFromImplementation: async (
+      params: IGetReviewsFromImplementationParams
+    ): Promise<IGetReviewsFromImplementationResult> => {
       const resource = new ReviewResourceApi(config);
       const result = await resource.getReviewFromImplementationUsingGET({
         implementationId: params.implementationId,
@@ -33,11 +39,13 @@ export const review = (config?: Configuration): IReviewResource => {
         reviews: result,
       };
     },
-    addReviewToImplementation: async (params: IAddReviewToImplementationParams): Promise<IAddReviewToImplementationResult> => {
+    addReviewToImplementation: async (
+      params: IAddReviewToImplementationParams
+    ): Promise<IAddReviewToImplementationResult> => {
       const resource = new ReviewResourceApi(config);
       const result = await resource.addReviewToImplementationUsingPOST({
         implementationId: params.implementationId,
-        reviewDTO: params.review
+        reviewDTO: params.review,
       });
       return {
         review: result,
