@@ -17,6 +17,7 @@ import ImplementationCard from "../../../components/implementation/Implementatio
 import { DollarOutlined } from "@ant-design/icons";
 import AuthStore from "../../../stores/AuthStore";
 import { ProjectDetailDTO } from "../../../../gen/api/src/models";
+import {languages} from "../../../core/languages";
 
 const { Paragraph } = Typography;
 
@@ -115,7 +116,9 @@ const FeaturePage: React.FC<IProps> = (props) => {
           implementations.state === EState.Loaded ? (
           <div>
             <PageHeader
-              title={feature.data!.name}
+              title={<>{feature.data!.name} <i className={'devicon-' +Object.keys(languages).find(
+                  key => Object.keys(languages).indexOf(key) === Object.values(languages).indexOf( feature.data!.codeLanguage as languages ))
+              + '-plain colored'}/></>}
               extra={[
                 <Statistic
                   key="dollar"

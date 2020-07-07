@@ -1,0 +1,16 @@
+export enum languages{
+    typescript = "TypeScript",
+    rust = "Rust",
+    csharp = "C#",
+    javascript = "JavaScript",
+    python = "Python",
+    java = "Java",
+    c ="C",
+    cplusplus = "C++",
+    swift = "Swift",
+    html5 = "HTML",
+    css3 = "CSS",
+    sass = "Sass",
+    less = "Less",
+    ruby = "Ruby",
+}
