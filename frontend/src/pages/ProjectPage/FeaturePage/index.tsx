@@ -118,6 +118,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
               title={feature.data!.name}
               extra={[
                 <Statistic
+                  key="dollar"
                   value={feature.data!.points}
                   precision={0}
                   valueStyle={{ color: "green" }}
