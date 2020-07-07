@@ -9,6 +9,8 @@ import AuthStore from "../../../stores/AuthStore";
 import { Router } from "react-router";
 import { MainSwitch } from "../../../routing/MainRouter";
 import { IGetImplementationsFromFeatureResult } from "../../../core/DataContext/implementation";
+import { IGetOneByIdResult } from "../../../core/DataContext/feature";
+import { IProjectDetailResult } from "../../../core/DataContext/project";
 
 const setObject = () => {
   Object.defineProperty(window, "matchMedia", {
@@ -27,10 +29,25 @@ const setObject = () => {
 };
 const dataContextCreator = (config?: Configuration): Partial<IResources> => {
   return {
+    project: {
+      getProjectDetail: async (params: 3): Promise<IProjectDetailResult> => {
+        return {
+          project: {
+            name: "Project 1",
+            description: "Cash machine",
+            image: "https://picsum.photos/200",
+            user: {
+              id: 1,
+              name: "freek",
+            },
+          },
+        };
+      },
+    } as any,
     implementation: {
-      getImplementationsFromFeature: async (
-        params: 3
-      ): Promise<IGetImplementationsFromFeatureResult> => {
+      getImplementationsFromFeature: async (): Promise<
+        IGetImplementationsFromFeatureResult
+      > => {
         return {
           implementations: [
             {
@@ -51,15 +68,28 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         };
       },
     } as any,
+    feature: {
+      getOneById: async (params: 3): Promise<IGetOneByIdResult> => {
+        return {
+          feature: {
+            name: "Login",
+            description: "I want a login system",
+            codePreview: "{like this}",
+            codeLanguage: ".tsx",
+            points: 69,
+          },
+        };
+      },
+    } as any,
     authentication: {
       authenticateUser: async (): Promise<IAuthenticateUserResult> => {
         return {
           authentication: {
             id: 1,
-            createdAt: new Date("2020-06-26T18:31:26.078551Z"),
-            token: "rvCVnB28FTKS3sYm0hIAAcDBnQleQgIgcoeOUHGD",
-            expireDate: new Date("2090-07-03T18:45:17.050748Z"),
-            userId: 2,
+            createdAt: new Date("2020-07-07T09:32:05.968967Z"),
+            token: "1MpmTbJySJAyNPOocb7Gqwvsc2YEwT4UsVx88CJc",
+            expireDate: new Date("2020-07-14T09:32:12.229863Z"),
+            userId: 1,
           },
         };
       },
@@ -78,7 +108,7 @@ describe("Feature page", () => {
     await act(async () => {
       setObject();
       const history = createMemoryHistory();
-      history.push("projects/3/features/3");
+      history.push("/projects/3/features/3");
       const wrapper = mount(
         <DataContext.Provider value={dataContextCreator as any}>
           <AuthStore.Provider initialState={initialAuthState}>
@@ -88,12 +118,14 @@ describe("Feature page", () => {
           </AuthStore.Provider>
         </DataContext.Provider>
       );
+      console.log(history.location.pathname);
       await new Promise((resolve) => setImmediate(resolve));
+      wrapper.update();
 
       console.log(wrapper.debug());
 
       const implementationCards = wrapper.update().find(".ant-card-body");
-      //   expect(implementationCards.length).toBe(2);
+      expect(implementationCards.length).toBe(2);
     });
   });
 });
