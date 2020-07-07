@@ -87,16 +87,9 @@ describe("Project page", () => {
         </DataContext.Provider>
       );
       await new Promise((resolve) => setImmediate(resolve));
-      wrapper.update();
-      wrapper.update();
-      wrapper.update();
-      wrapper.update();
-      wrapper.update();
-      wrapper.update();
 
       const projectCards = wrapper.update().find(".ant-card-head-title");
-      console.log(wrapper.update().debug());
-      //   expect(projectCards.length).toBe(2);
+      expect(projectCards.length).toBe(2);
     });
   });
 });
