@@ -22,7 +22,7 @@ public class UserService extends BaseService<User, UserRepository> {
     public User save(User user){
         Optional<User> foundByEmail = repository.findTopByEmail(user.getEmail());
 
-        if(foundByEmail.isEmpty()){
+        if(!foundByEmail.isPresent()){
             return repository.save(encodePassword(user));
         }
         throw new BadRequestException("User with this email already exists");

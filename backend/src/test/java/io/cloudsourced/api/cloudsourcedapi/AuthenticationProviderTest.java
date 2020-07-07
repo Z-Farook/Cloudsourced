@@ -27,6 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.naming.NameNotFoundException;
+import javax.swing.text.StyledEditorKit;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -55,9 +56,9 @@ public class AuthenticationProviderTest {
     @Test
     void GivenAnInvalidToken_WhenValidateToken_ShouldReturnFalse(){
         // given
-        final var token = "";
+        final String token = "";
         // when
-        final var actual = authenticationProvider.validateToken(token);
+        final Boolean actual = authenticationProvider.validateToken(token);
         // then
         assertEquals(false, actual);
 
@@ -73,7 +74,7 @@ public class AuthenticationProviderTest {
 
         when(authenticationRepository.findTopByToken(token)).thenReturn(Optional.of(authentication));
         // when
-        final var actual = authenticationProvider.validateToken(token);
+        final Boolean actual = authenticationProvider.validateToken(token);
         // then
         assertEquals(true, actual);
     }
@@ -111,7 +112,7 @@ public class AuthenticationProviderTest {
 
         when(userRepository.findTopByEmail("test@test.test")).thenReturn(Optional.of(user));
 
-        var actual = authenticationProvider.getAuthenticationByEmailAndPassword("test@test.test", "test");
+        Authentication actual = authenticationProvider.getAuthenticationByEmailAndPassword("test@test.test", "test");
         assertEquals(authentication, actual);
     }
 
@@ -151,7 +152,7 @@ public class AuthenticationProviderTest {
         when(authenticationRepository.findTopByToken("123-test-token")).thenReturn(Optional.of(authentication));
         when(userRepository.findTopByAuthentication(authentication)).thenReturn(Optional.of(user));
 
-        var actual = authenticationProvider.getUserByToken("123-test-token");
+        User actual = authenticationProvider.getUserByToken("123-test-token");
         assertEquals(user, actual);
 
     }
