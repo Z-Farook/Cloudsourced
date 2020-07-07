@@ -109,7 +109,7 @@ const Dashboard: React.FC<IProps> = (props) => {
     },
     {
       title: "Current Features",
-      dataIndex: "feature",
+      dataIndex: "featureName",
       key: "feature",
     },
     {
