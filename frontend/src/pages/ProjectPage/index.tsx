@@ -48,7 +48,7 @@ const ProjectPage: React.FC<IProps> = (props) => {
       const result = await dataContext.project.getAllProjects();
       setProjects(fromLoaded(result.projects));
     })();
-  }, []);
+  }, [dataContext.project]);
 
   return (
     <DefaultLayout>
