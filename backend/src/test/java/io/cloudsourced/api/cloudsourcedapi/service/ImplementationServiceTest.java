@@ -49,7 +49,7 @@ public class ImplementationServiceTest {
         feature.setCodeLanguage("JAVA");
         feature.setCodePreview("Good");
         feature.setDescription("Feature Description");
-//        feature.setPoints(12L);
+        feature.setPoints(12L);
 
         implementation.setFeature(feature);
         implementation.setUser(user);
@@ -75,7 +75,7 @@ public class ImplementationServiceTest {
         feature.setCodeLanguage("JAVA");
         feature.setCodePreview("Good");
         feature.setDescription("Feature Description");
-//        feature.setPoints(12L);
+        feature.setPoints(12L);
 
         Implementation implementation1 = new Implementation();
         implementation1.setCode("<br>Ram</br>");
@@ -110,7 +110,7 @@ public class ImplementationServiceTest {
         feature.setCodeLanguage("JAVA");
         feature.setCodePreview("Good");
         feature.setDescription("Feature Description");
-//        feature.setPoints(12L);
+        feature.setPoints(12L);
 
         Implementation implementation = new Implementation();
         implementation.setCode("<br>Ram</br>");
@@ -134,7 +134,7 @@ public class ImplementationServiceTest {
         existingFeature.setCodeLanguage("PHP");
         existingFeature.setCodePreview("Good");
         existingFeature.setDescription("Feature Description");
-//        existingFeature.setPoints(12L);
+        existingFeature.setPoints(12L);
 
         Implementation existingImplementation = new Implementation();
         existingImplementation.setCode("<p>Hello</p>");
@@ -148,7 +148,7 @@ public class ImplementationServiceTest {
         feature.setCodeLanguage("JAVA");
         feature.setCodePreview("Good");
         feature.setDescription("Feature Description");
-//        feature.setPoints(12L);
+        feature.setPoints(12L);
 //        feature.setImplementations(exiting);
 
         Implementation implementation = new Implementation();
