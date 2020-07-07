@@ -7,7 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticatedUserBean {
 
-    public User GetUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+    public User getUser() {
+        // TODO: getCredentials returns a string after creating an user and navigating to the
+        // dashboard page.
+        Object data = SecurityContextHolder.getContext().getAuthentication().getCredentials();
+//        if (data instanceof String) {
+//            return null;
+//        }
+        return (User) data;
     }
 }

@@ -160,7 +160,7 @@ public class FeatureServiceTest {
         feature.setDescription("Feature Description");
         feature.setProject(project);
 
-        when(authenticatedUserProvider.GetUser()).thenReturn(user);
+        when(authenticatedUserProvider.getUser()).thenReturn(user);
         when(featureRepository.save(feature)).thenReturn(feature);
         when(projectService.getOneById(user.getId())).thenReturn(project);
 

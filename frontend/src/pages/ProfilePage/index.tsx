@@ -17,6 +17,7 @@ import {
 import { api } from "../../core/api";
 import "./index.scss";
 import ProjectCard from "../ProjectPage/ProjectCard";
+import { formatUser } from "../../formatters/user";
 const { Title } = Typography;
 
 interface IRouterParams {
@@ -74,10 +75,7 @@ const ProfilePage: React.FC<IProps> = (props) => {
                   <img alt="example" className="detailImage" src={noImage} />
                 </Col>
                 <Col span={12}>
-                  <Title level={2}>
-                    {user.data!.name!}
-                    {user.data!.infix!} {user.data!.lastName!}
-                  </Title>
+                  <Title level={2}>{formatUser(user.data!)}</Title>
                   <Descriptions>
                     <Descriptions.Item span={16} label="Country">
                       {user.data?.country}

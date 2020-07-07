@@ -8,6 +8,7 @@ import { api } from "../../../core/api";
 import AuthStore from "../../../stores/AuthStore";
 import DataContext from "../../../core/DataContext";
 
+
 const validationSchema = yup.object().shape({
   email: yup
     .string()
@@ -28,7 +29,7 @@ const LoginPage: React.FC<IProps> = (props) => {
   const dataContext = useMemo(() => createDataContext(api.config), [
     createDataContext,
   ]);
-  const { setAuth } = AuthStore.useContainer();
+  const { setAuth, setUser } = AuthStore.useContainer();
 
   const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,
@@ -43,7 +44,12 @@ const LoginPage: React.FC<IProps> = (props) => {
         password: values.password,
       });
       setAuth(result.authentication);
-      props.history.push("/account");
+
+      // Nodig voor asynchroniteit
+      const dc = createDataContext(api.config);
+      const user = await dc.user.getUserInfo();
+      setUser(user);
+      props.history.push(`/account`);
     } catch (err) {
       message.error("Email or password is incorrect.");
     }

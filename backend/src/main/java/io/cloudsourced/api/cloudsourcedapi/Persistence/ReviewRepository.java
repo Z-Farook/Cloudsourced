@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    @Query(value ="select rev from Review rev where rev.implementation.id =:id AND rev.implementation.feature.project.user.id=:userId or rev.implementation.user.id=:userId")
+    @Query(value ="select rev from Review rev where rev.implementation.id = :id AND (rev.implementation.feature.project.user.id=:userId OR rev.implementation.user.id=:userId)")
     public List<Review> getReviewFromImplementation(@Param("id") long id, @Param("userId") long userId);
 }

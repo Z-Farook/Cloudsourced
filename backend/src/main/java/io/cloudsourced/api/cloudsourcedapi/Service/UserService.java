@@ -35,7 +35,7 @@ public class UserService extends BaseService<User, UserRepository> {
     }
 
     public User getAuthenticatedUserInfo(){
-        return authenticatedUserProvider.GetUser();
+        return authenticatedUserProvider.getUser();
     }
     public User getUserInfo(long id){
         return repository.getOne(id);

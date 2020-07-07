@@ -109,10 +109,18 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const result = await dataContext.project.getProjectDetail({ projectId });
-      setProject(fromLoaded(result.project));
+      try{const result = await dataContext.project.getProjectDetail({ projectId });
+      setProject(fromLoaded(result.project));}
+      catch (error) {
+       if(error.status === 404){
+         props.history.push("/projects");
+       }else{
+         props.history.push("/error");
+       }
+
+      }
     })();
-  }, [projectId, dataContext.project]);
+  }, [projectId, dataContext.project, props.history]);
 
   const {
     description,

@@ -20,6 +20,10 @@ import {
     ImplementationDTOToJSON,
 } from '../models';
 
+export interface AcceptImplementationUsingPOSTRequest {
+    implementationId: number;
+}
+
 export interface AddImplementationToFeatureUsingPOSTRequest {
     featureId: number;
     implementationDTO: ImplementationDTO;
@@ -50,6 +54,36 @@ export interface UpdateUsingPUT1Request {
  * 
  */
 export class ImplementationResourceApi extends runtime.BaseAPI {
+
+    /**
+     * acceptImplementation
+     */
+    async acceptImplementationUsingPOSTRaw(requestParameters: AcceptImplementationUsingPOSTRequest): Promise<runtime.ApiResponse<ImplementationDTO>> {
+        if (requestParameters.implementationId === null || requestParameters.implementationId === undefined) {
+            throw new runtime.RequiredError('implementationId','Required parameter requestParameters.implementationId was null or undefined when calling acceptImplementationUsingPOST.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/implementation/{implementationId}/accept`.replace(`{${"implementationId"}}`, encodeURIComponent(String(requestParameters.implementationId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ImplementationDTOFromJSON(jsonValue));
+    }
+
+    /**
+     * acceptImplementation
+     */
+    async acceptImplementationUsingPOST(requestParameters: AcceptImplementationUsingPOSTRequest): Promise<ImplementationDTO> {
+        const response = await this.acceptImplementationUsingPOSTRaw(requestParameters);
+        return await response.value();
+    }
 
     /**
      * addImplementationToFeature

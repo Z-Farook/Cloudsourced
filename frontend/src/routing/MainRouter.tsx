@@ -17,6 +17,7 @@ import CreateFeaturePage from "../pages/CreateFeaturePage";
 import FeatureImplPage from "../pages/ProjectPage/FeaturePage/FeatureImplPage";
 import AuthRouter from "./AuthRouter";
 import AuthStore from "../stores/AuthStore";
+import FeatureImplDetailPage from "../pages/ProjectPage/FeaturePage/FeatureImplPage/FeatureImplDetailPage";
 
 interface IProps {}
 export const MainSwitch = () => {
@@ -76,7 +77,16 @@ export const MainSwitch = () => {
             : () => <Redirect to="/auth/login" />
         }
       />
-      <Route exact path="/user/:id" component={ProfilePage} />
+      <Route
+        exact
+        path="/projects/:projectId/features/:featureId/implementations/:implementationId"
+        component={
+          authStore.auth !== null
+            ? FeatureImplDetailPage
+            : () => <Redirect to="/auth/login" />
+        }
+    />
+  <Route exact path="/user/:id" component={ProfilePage} />
       <Route component={NotFoundPage} />
     </Switch>
   );
