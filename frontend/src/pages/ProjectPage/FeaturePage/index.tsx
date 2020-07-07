@@ -7,9 +7,7 @@ import {
   Spin,
   Typography,
   PageHeader,
-  Tooltip,
-  Popconfirm,
-  Divider,
+  Divider, Statistic,
 } from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
@@ -24,10 +22,9 @@ import DataContext from "../../../core/DataContext";
 import ImplementationCard from "../../../components/implementation/ImplementationCard";
 import {
   DollarOutlined,
-  FileExclamationTwoTone,
-  ExclamationOutlined,
-  FileExclamationOutlined,
 } from "@ant-design/icons";
+import AuthStore from "../../../stores/AuthStore";
+import {ProjectDetailDTO} from "../../../../gen/api/src/models";
 
 const { Paragraph } = Typography;
 
@@ -37,8 +34,8 @@ interface IRouteParams {
 }
 
 interface IProps extends RouteComponentProps<IRouteParams> {}
-
 const FeaturePage: React.FC<IProps> = (props) => {
+  const { auth } = AuthStore.useContainer();
   const createDataContext = useContext(DataContext);
   const dataContext = useMemo(() => createDataContext(api.config), [
     createDataContext,
@@ -46,31 +43,52 @@ const FeaturePage: React.FC<IProps> = (props) => {
   const [feature, setFeature] = useState<IRemoteData<FeatureDTO, null>>(
     fromLoading()
   );
+  const [project, setProject] = useState<IRemoteData<ProjectDetailDTO, null>>(
+      fromLoading()
+  );
   const [implementations, setImplementations] = useState<
     IRemoteData<Array<ImplementationDTO>, null>
   >(fromLoading());
-
+  const [isOwner, setIsOwner] = useState<Boolean>(
+      false
+  );
   const { projectId, featureId } = useMemo(() => {
     return {
       projectId: Number(props.match.params.projectId),
       featureId: Number(props.match.params.featureId),
     };
   }, [props.match.params]);
-  const archiveFeature = async () => {
-    const result = await dataContext.feature.finishOneById({
-      featureId: featureId,
-    });
+  useEffect(() => {
+    (async () => {
+      try{const result = await dataContext.project.getProjectDetail({ projectId });
+        await setProject(fromLoaded(result.project));
+        setIsOwner(auth?.userId === result.project!.user!.id);
 
-    setFeature(fromLoaded(result));
-  };
+
+      }
+      catch (error) {
+        if(error.status === 404){
+          props.history.push("/projects");
+        }else{
+         props.history.push("/error");
+        }
+
+      }
+
+    })();
+  }, [projectId, dataContext.project, props.history, project.data, auth]);
+
   useEffect(() => {
     (async () => {
       const result = await dataContext.feature.getOneById({
         id: featureId,
       });
+      if(result.feature.project?.archivedAt != null){
+        props.history.push("/error")
+      }
       setFeature(fromLoaded(result.feature));
     })();
-  }, [featureId, dataContext.feature.getOneById, dataContext.feature]);
+  }, [featureId, dataContext.feature.getOneById, dataContext.feature, props.history]);
 
   useEffect(() => {
     (async () => {
@@ -99,38 +117,15 @@ const FeaturePage: React.FC<IProps> = (props) => {
             <PageHeader
               title={feature.data!.name}
               extra={[
-                <DollarOutlined style={{ color: "green" }} />,
-                <div style={{ color: "green" }}> {feature.data!.points}</div>,
-                feature.data?.archivedAt ? (
-                  <Tooltip key="" title="This project is archived">
-                    <FileExclamationTwoTone
-                      twoToneColor="red"
-                      style={{
-                        cursor: "pointer",
-                      }}
-                    />
-                  </Tooltip>
-                ) : (
-                  <Tooltip key="archive" title="Archive project">
-                    <Popconfirm
-                      title="Do you want to archive this project?"
-                      okText="Yes"
-                      cancelText="No"
-                      placement="bottom"
-                      icon={
-                        <ExclamationOutlined
-                          style={{
-                            color: "grey",
-                            cursor: "pointer",
-                          }}
-                        />
-                      }
-                      onConfirm={archiveFeature}
-                    >
-                      <FileExclamationOutlined />
-                    </Popconfirm>
-                  </Tooltip>
-                ),
+                <Statistic
+                    value={
+                      feature.data!.points
+                    }
+                    precision={0}
+                    valueStyle={{ color: "green" }}
+                    prefix={<DollarOutlined />}
+                    suffix=""
+                />
               ]}
             />
 
@@ -141,7 +136,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
             >
               {feature.data!.codePreview}
             </SyntaxHighlighter>
-
+            { !isOwner ?
             <Button
               style={{ marginTop: 10 }}
               onClick={() => {
@@ -151,7 +146,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
               }}
             >
               Provide implementation
-            </Button>
+            </Button> : "" }
 
             {implementations.data!.length !== 0 && (
               <>
