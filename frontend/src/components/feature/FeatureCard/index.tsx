@@ -6,7 +6,6 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { FeatureDTO } from "cloudsourced-api";
 import { DollarOutlined } from "@ant-design/icons";
 import {languages} from "../../../core/languages";
-import feature from "../../../core/DataContext/feature";
 import {CheckOutlined} from "@ant-design/icons/lib";
 
 interface IProps extends RouteComponentProps {
