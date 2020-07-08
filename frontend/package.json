@@ -38,7 +38,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --collectCoverageFrom=src/**/*tsx --collectCoverageFrom=!src/core/DataContext",
     "eject": "react-scripts eject",
     "generate-swagger-client": "shx rm -rf gen/api && openapi-generator generate -i http://localhost:8080/v2/api-docs --generator-name typescript-fetch -o gen/api --config api.json --additional-properties=typescriptThreePlus=true && cd gen/api && npm i"
   },
@@ -67,4 +67,6 @@
     "shx": "^0.3.2",
     "cloudsourced-api": "file:./gen/api"
   }
-}
+  }
+
+
