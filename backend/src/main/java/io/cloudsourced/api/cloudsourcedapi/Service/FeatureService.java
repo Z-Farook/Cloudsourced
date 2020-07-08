@@ -36,6 +36,10 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
         return repository.save(feature);
     }
     public List<Feature> getFeaturesByAuthenticatedUser() {
+        if(authenticatedUserProvider.getUser() == null){
+            throw new UnauthorizedException("NO_AUTHORIZED_USER_FOUND");
+        }
+
         User user = authenticatedUserProvider.getUser();
         return repository.findByProjectUser(user.getId());
     }
