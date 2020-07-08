@@ -11,6 +11,5 @@ export enum languages{
     html5 = "HTML",
     css3 = "CSS",
     sass = "Sass",
-    less = "Less",
     ruby = "Ruby",
 }
