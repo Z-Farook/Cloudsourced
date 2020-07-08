@@ -67,37 +67,8 @@ const RegisterPage: React.FC<IProps> = (props) => {
     });
     reader.readAsDataURL(image);
   };
-  const errorMessage = () => {
-    message.error({
-      content: "Something went wrong",
-      key: "updatableKey",
-      duration: 2,
-    });
-  };
-  const postImage = async (image: string): Promise<string> => {
-    image = image.split("base64,")[1];
-    const url = "https://api.imgur.com/3/image";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Client-ID 2b1eae61348c066",
-      },
-      body: JSON.stringify({
-        image,
-        type: "base64",
-      }),
-    };
-    try {
-      const response = await fetch(url, requestOptions);
-      const data = await response.json();
-      console.log(data)
-      return data!.data!.link;
-    } catch (e) {
-      errorMessage();
-      return "";
-    }
-  };
+
+
   const onSubmit = async (data: any) => {
     const values = data as IValues;
 
@@ -113,7 +84,7 @@ const RegisterPage: React.FC<IProps> = (props) => {
         languages: values.languages,
         email: values.email,
         password: values.password,
-        image: await postImage(image),
+        image: await dataContext.authentication.postImage(image),
       });
       message.success("Your account has been created. you can now login!");
       props.history.push(`/auth/login`);

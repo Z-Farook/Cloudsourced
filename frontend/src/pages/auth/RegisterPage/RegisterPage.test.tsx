@@ -91,6 +91,9 @@ describe("registerPage", () => {
                 },
               };
             },
+            postImage: async (params: string): Promise<string> => {
+              return ""
+            },
           } as any,
         };
       };
@@ -129,7 +132,7 @@ describe("registerPage", () => {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
-
+      console.log(wrapper.debug())
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(
         false
       );
@@ -159,7 +162,6 @@ describe("registerPage", () => {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
-
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(true);
       expect(history.location.pathname).toEqual("/auth/register");
     });
