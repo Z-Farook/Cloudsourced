@@ -75,7 +75,8 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         return {}
       },
       archiveFeature: async (params: IArchiveFeatureParams): Promise<FeatureDTO> => {return {}
-      }
+      },
+
     }
 
   };

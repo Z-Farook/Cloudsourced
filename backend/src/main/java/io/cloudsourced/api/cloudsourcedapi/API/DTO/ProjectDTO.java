@@ -15,5 +15,6 @@ public class ProjectDTO {
     private Instant archivedAt;
     private Instant createdAt;
     private Instant updatedAt;
+    private String userImage;
 }
 

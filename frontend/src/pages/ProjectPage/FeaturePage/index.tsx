@@ -200,6 +200,8 @@ const finishFeature = async() => {
                       >
                         <ImplementationCard
                           impl={impl}
+                          projectId={projectId}
+                          featureId={featureId}
                           codeLanguage={feature.data!.codeLanguage!}
                         />
                       </div>

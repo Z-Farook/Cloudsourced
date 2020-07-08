@@ -9,8 +9,6 @@ import AuthStore from "../../../../../stores/AuthStore";
 import { Router } from "react-router";
 import { MainSwitch } from "../../../../../routing/MainRouter";
 import {
-  IGetImplementationsFromFeatureResult,
-  IGetOneByIdUsingParams,
   IGetOneByIdUsingResult,
 } from "../../../../../core/DataContext/implementation";
 import { IGetOneByIdResult } from "../../../../../core/DataContext/feature";
@@ -19,7 +17,6 @@ import {
   IGetReviewsFromImplementationParams,
   IGetReviewsFromImplementationResult,
 } from "../../../../../core/DataContext/review";
-import { wrap } from "module";
 
 const setObject = () => {
   Object.defineProperty(window, "matchMedia", {

@@ -13,4 +13,5 @@ public class UserDTO {
     private String telephone;
     private String street;
     private String streetNumber;
+    private String image;
 }

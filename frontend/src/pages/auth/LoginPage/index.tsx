@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { Form, Input, Button, Checkbox, Card, Row, Col, message } from "antd";
+import { Form, Input, Button, Card, Row, Col, message } from "antd";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { api } from "../../../core/api";
@@ -100,10 +100,6 @@ const LoginPage: React.FC<IProps> = (props) => {
                   name="password"
                   onChange={(ev) => setValue("password", ev.target.value)}
                 />
-              </Form.Item>
-
-              <Form.Item name="remember" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
               </Form.Item>
 
               <Form.Item>

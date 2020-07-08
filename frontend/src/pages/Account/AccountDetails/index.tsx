@@ -57,9 +57,6 @@ const AccountDetails: React.FC<IProps> = (props) => {
                       <Descriptions.Item span={16} label="Lastname">
                         {user.data!.lastName!}
                       </Descriptions.Item>
-                      <Descriptions.Item span={16} label="Languages">
-                        {user.data!.languages!}
-                      </Descriptions.Item>
                       <Descriptions.Item span={16} label="Country">
                         {user.data!.country!}
                       </Descriptions.Item>

@@ -110,7 +110,8 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
   useEffect(() => {
     (async () => {
       try{const result = await dataContext.project.getProjectDetail({ projectId });
-      setProject(fromLoaded(result.project));}
+      setProject(fromLoaded(result.project));
+      }
       catch (error) {
        if(error.status === 404){
          props.history.push("/projects");
@@ -273,7 +274,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                   ></FeatureCard>
                 );
               })}
-              {isOwner ? (
+              {isOwner && archivedAt == null && finishedAt == null ? (
                 <Button
                   onClick={() =>
                     props.history.push(`/projects/${projectId}/feature/add`)

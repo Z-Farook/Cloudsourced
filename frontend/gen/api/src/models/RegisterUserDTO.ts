@@ -36,6 +36,12 @@ export interface RegisterUserDTO {
      * @type {string}
      * @memberof RegisterUserDTO
      */
+    image?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterUserDTO
+     */
     infix?: string;
     /**
      * 
@@ -93,6 +99,7 @@ export function RegisterUserDTOFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'country': !exists(json, 'country') ? undefined : json['country'],
         'email': !exists(json, 'email') ? undefined : json['email'],
+        'image': !exists(json, 'image') ? undefined : json['image'],
         'infix': !exists(json, 'infix') ? undefined : json['infix'],
         'languages': !exists(json, 'languages') ? undefined : json['languages'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
@@ -115,6 +122,7 @@ export function RegisterUserDTOToJSON(value?: RegisterUserDTO | null): any {
         
         'country': value.country,
         'email': value.email,
+        'image': value.image,
         'infix': value.infix,
         'languages': value.languages,
         'lastName': value.lastName,
