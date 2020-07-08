@@ -1,4 +1,4 @@
-package io.cloudsourced.api.cloudsourcedapi;
+package io.cloudsourced.api.cloudsourcedapi.service;
 
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
