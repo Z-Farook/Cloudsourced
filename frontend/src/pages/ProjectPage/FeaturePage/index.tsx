@@ -2,7 +2,7 @@ import * as React from "react";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { Button, Spin, Typography, PageHeader, Divider, Statistic } from "antd";
+import {Button, Spin, Typography, PageHeader, Divider, Statistic, Popconfirm, Tooltip} from "antd";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import IRemoteData, {
@@ -18,6 +18,7 @@ import { DollarOutlined } from "@ant-design/icons";
 import AuthStore from "../../../stores/AuthStore";
 import { ProjectDetailDTO } from "../../../../gen/api/src/models";
 import {languages} from "../../../core/languages";
+import {CheckOutlined, ExclamationOutlined} from "@ant-design/icons/lib";
 
 const { Paragraph } = Typography;
 
@@ -79,9 +80,6 @@ const FeaturePage: React.FC<IProps> = (props) => {
       const result = await dataContext.feature.getOneById({
         id: featureId,
       });
-      if (result.feature.project?.archivedAt != null) {
-        props.history.push("/error");
-      }
       setFeature(fromLoaded(result.feature));
     })();
   }, [
@@ -90,7 +88,17 @@ const FeaturePage: React.FC<IProps> = (props) => {
     dataContext.feature,
     props.history,
   ]);
+const finishFeature = async() => {
 
+    const result = await dataContext.feature.finishOneById(
+        {
+          featureId,
+        }
+    );
+    setFeature(fromLoaded(result))
+
+
+}
   useEffect(() => {
     (async () => {
       const result = await dataContext.implementation.getImplementationsFromFeature(
@@ -106,6 +114,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
     dataContext.implementation.getImplementationsFromFeature,
   ]);
 
+
   return (
     <DefaultLayout>
       <div style={{ padding: 50 }}>
@@ -119,15 +128,19 @@ const FeaturePage: React.FC<IProps> = (props) => {
               title={<>{feature.data!.name} <i className={'devicon-' +Object.keys(languages).find(
                   key => Object.keys(languages).indexOf(key) === Object.values(languages).indexOf( feature.data!.codeLanguage as languages ))
               + '-plain colored'}/></>}
-              extra={[
-                <Statistic
-                  key="dollar"
-                  value={feature.data!.points}
-                  precision={0}
-                  valueStyle={{ color: "green" }}
-                  prefix={<DollarOutlined />}
-                  suffix=""
-                />,
+              extra={ feature.data!.finishedAt ? [
+                <Tooltip key="finish" title="This feature is finished!">
+                  <CheckOutlined  style={{fontSize: "2em", color: "green"}}/>
+                </Tooltip>
+
+              ]:[ <Statistic
+                key="dollar"
+                value={feature.data!.points}
+                precision={0}
+                valueStyle={{ color: "green" }}
+                prefix={<DollarOutlined />}
+                suffix=""
+                />
               ]}
             />
 
@@ -138,7 +151,7 @@ const FeaturePage: React.FC<IProps> = (props) => {
             >
               {feature.data!.codePreview}
             </SyntaxHighlighter>
-            {!isOwner ? (
+            {!isOwner && feature.data!.finishedAt == null ? (
               <Button
                 style={{ marginTop: 10 }}
                 onClick={() => {
@@ -149,9 +162,26 @@ const FeaturePage: React.FC<IProps> = (props) => {
               >
                 Provide implementation
               </Button>
-            ) : (
-              ""
-            )}
+            ) : isOwner && feature.data!.finishedAt == null? (
+
+                      <Popconfirm
+                          title="Do you want to finish this feature?"
+                          okText="Yes"
+                          cancelText="No"
+                          placement="bottom"
+                          icon={
+                            <ExclamationOutlined
+                                style={{
+                                  color: "grey",
+                                  cursor: "pointer",
+                                }}
+                            />
+                          }
+                          onConfirm={() => finishFeature()}
+                      >
+                        <Button> Finish feature</Button>
+                      </Popconfirm>
+            ) : ""}
 
             {implementations.data!.length !== 0 && (
               <>
