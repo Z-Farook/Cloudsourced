@@ -7,7 +7,8 @@ import { MainSwitch } from "../../../../routing/MainRouter";
 import DataContext, { IResources } from "../../../../core/DataContext";
 import {
   Authentication,
-  Configuration, FeatureDTO,
+  Configuration,
+  FeatureDTO,
   ImplementationResourceApi,
 } from "../../../../../gen/api/dist";
 
@@ -18,10 +19,16 @@ import {
   IGetOneByIdUsingResult,
 } from "../../../../core/DataContext/implementation";
 import { api } from "../../../../core/api";
-import {IAuthenticateUserParams, IAuthenticateUserResult} from "../../../../core/DataContext/authentication";
-import {IArchiveFeatureParams, IGetOneByIdResult} from "../../../../core/DataContext/feature";
-import {act} from "react-dom/test-utils";
-import {mount} from "enzyme";
+import {
+  IAuthenticateUserParams,
+  IAuthenticateUserResult,
+} from "../../../../core/DataContext/authentication";
+import {
+  IArchiveFeatureParams,
+  IGetOneByIdResult,
+} from "../../../../core/DataContext/feature";
+import { act } from "react-dom/test-utils";
+import { mount } from "enzyme";
 const setObject = () => {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
@@ -62,7 +69,7 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
     } as any,
     authentication: {
       authenticateUser: async (
-          params: IAuthenticateUserParams
+        params: IAuthenticateUserParams
       ): Promise<IAuthenticateUserResult> => {
         return {
           authentication: {
@@ -75,21 +82,25 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         };
       },
     } as any,
-    feature:{
-      getFeaturesByUser: async(): Promise<Array<FeatureDTO>> => {
-        return [{name: "test feature"}];
+    feature: {
+      getFeaturesByUser: async (): Promise<Array<FeatureDTO>> => {
+        return [{ name: "test feature" }];
       },
-      getOneById: async():Promise<IGetOneByIdResult> => {return {feature:{id:1, name: "test feature"}}},
+      getOneById: async (): Promise<IGetOneByIdResult> => {
+        return { feature: { id: 1, name: "test feature" } };
+      },
 
-      finishOneById: async (
-          params: { featureId: number }
+      finishOneById: async (params: {
+        featureId: number;
+      }): Promise<FeatureDTO> => {
+        return {};
+      },
+      archiveFeature: async (
+        params: IArchiveFeatureParams
       ): Promise<FeatureDTO> => {
-        return {}
+        return {};
       },
-      archiveFeature: async (params: IArchiveFeatureParams): Promise<FeatureDTO> => {return {}
-      }
-    }
-
+    },
   };
 };
 const initialAuthState = {
@@ -101,55 +112,53 @@ const initialAuthState = {
 describe("implementationPage", () => {
   it("should display feature name", async () => {
     await act(async () => {
-      setObject()
-    const history = createMemoryHistory();
-    history.push("projects/1/features/1/implementation");
-    // const { container } =
+      setObject();
+      const history = createMemoryHistory();
+      history.push("projects/1/features/1/implementation");
       const container = mount(
-      <DataContext.Provider value={dataContextCreator as any}>
-        <AuthStore.Provider  initialState={initialAuthState}>
-          <Router history={history}>
-            <MainSwitch />
-          </Router>
-        </AuthStore.Provider>
-      </DataContext.Provider>
-    );
+        <DataContext.Provider value={dataContextCreator as any}>
+          <AuthStore.Provider initialState={initialAuthState}>
+            <Router history={history}>
+              <MainSwitch />
+            </Router>
+          </AuthStore.Provider>
+        </DataContext.Provider>
+      );
       await new Promise((resolve) => setImmediate(resolve));
-    expect(container.update().getDOMNode()).toHaveTextContent("test feature");
+      expect(container.update().getDOMNode()).toHaveTextContent("test feature");
+    });
   });
-  });
-  it("Should fail because wrong project ID", async() => {
+  it("Should fail because wrong project ID", async () => {
     await act(async () => {
       const history = createMemoryHistory();
       history.push("projects/BAD_ID/features/1/implementation");
-      const {container} = render(
-          <DataContext.Provider value={dataContextCreator as any}>
-            <AuthStore.Provider initialState={initialAuthState}>
-              <Router history={history}>
-                <MainSwitch/>
-              </Router>
-            </AuthStore.Provider>
-          </DataContext.Provider>
+      const { container } = render(
+        <DataContext.Provider value={dataContextCreator as any}>
+          <AuthStore.Provider initialState={initialAuthState}>
+            <Router history={history}>
+              <MainSwitch />
+            </Router>
+          </AuthStore.Provider>
+        </DataContext.Provider>
       );
       expect(container).toHaveTextContent("Whoops");
-
     });
   });
 
-  it("Should fail because wrong feature ID", async() => {
+  it("Should fail because wrong feature ID", async () => {
     await act(async () => {
-    const history = createMemoryHistory();
-    history.push("projects/1/features/BAD_ID/implementation");
-    const { container } = render(
-      <DataContext.Provider value={dataContextCreator as any}>
-        <AuthStore.Provider initialState={initialAuthState}>
-          <Router history={history}>
-            <MainSwitch />
-          </Router>
-        </AuthStore.Provider>
-      </DataContext.Provider>
-    );
-    expect(container).toHaveTextContent("Whoops");
-  });
+      const history = createMemoryHistory();
+      history.push("projects/1/features/BAD_ID/implementation");
+      const { container } = render(
+        <DataContext.Provider value={dataContextCreator as any}>
+          <AuthStore.Provider initialState={initialAuthState}>
+            <Router history={history}>
+              <MainSwitch />
+            </Router>
+          </AuthStore.Provider>
+        </DataContext.Provider>
+      );
+      expect(container).toHaveTextContent("Whoops");
+    });
   });
 });
