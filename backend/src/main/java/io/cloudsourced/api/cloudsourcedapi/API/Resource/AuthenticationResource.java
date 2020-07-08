@@ -25,7 +25,7 @@ public class AuthenticationResource {
 
     private final AuthenticationProvider service;
     private final UserService userService;
-    public final RegisterUserMapper mapper;
+    public final RegisterUserMapper registerUserMapper;
 
     @PostMapping("")
     Authentication authenticateUser(@RequestBody AuthenticationUserDTO authenticationUserDTO) {
@@ -38,7 +38,7 @@ public class AuthenticationResource {
     @PostMapping("/register")
     User registerNewUser(@RequestBody RegisterUserDTO registerUserDTO){
         return userService.save(
-                mapper.DTOToEntity(registerUserDTO)
+                registerUserMapper.DTOToEntity(registerUserDTO)
         );
     }
 

@@ -23,6 +23,7 @@ public class ProjectService extends BaseService<Project, ProjectRepository>{
     public Project saveWithUser(Project project) {
         User user = authenticatedUserProvider.getUser();
         project.setUser(user);
+        project.setUserImage(user.getImage());
         return repository.save(project);
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Table(name="tbl_user")
 public class User extends BaseEntity{
-
+    private String image;
     private String name;
     private String infix;
     private String lastName;
@@ -24,6 +24,7 @@ public class User extends BaseEntity{
     private String telephone;
     private String street;
     private String streetNumber;
+
 
     @OneToOne(cascade = CascadeType.ALL)
     private Authentication authentication;
