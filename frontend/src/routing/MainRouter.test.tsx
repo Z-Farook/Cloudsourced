@@ -19,34 +19,7 @@ import {IArchiveFeatureParams, IGetOneByIdResult} from "../core/DataContext/feat
 import {IGetProjectsByAuthenticatedUserResult} from "../core/DataContext/project";
 import {IGettransactionsByAuthenticatedUserResult} from "../core/DataContext/transaction";
 
-test("landing on a bad page shows the NotFoundPage with 'Whoops!' on it", () => {
-  const history = createMemoryHistory();
-  history.push("/some/bad/route");
-  const { container } = render(
-    <DataContext.Provider value={{} as any}>
-      <AuthStore.Provider>
-        <Router history={history}>
-          <MainSwitch />
-        </Router>
-      </AuthStore.Provider>
-    </DataContext.Provider>
-  );
-  expect(container).toHaveTextContent("Whoops");
-});
-test("Without auth redirect to home", () => {
-  const history = createMemoryHistory();
-  history.push("/user/project/create");
-  const { container } = render(
-      <DataContext.Provider value={{} as any}>
-        <AuthStore.Provider>
-          <Router history={history}>
-            <MainSwitch />
-          </Router>
-        </AuthStore.Provider>
-      </DataContext.Provider>
-  );
-  expect(container).toHaveTextContent("In need of software components?");
-});
+
 const dataContextCreator = (config?: Configuration): Partial<IResources> => {
     return {
         authentication: {
@@ -87,6 +60,36 @@ const initialAuthState = {
         password: "hengel",
     }) as Authentication,
 };
+test("landing on a bad page shows the NotFoundPage with 'Whoops!' on it", () => {
+    setObject()
+    const history = createMemoryHistory();
+    history.push("/some/bad/route");
+    const { container } = render(
+        <DataContext.Provider value={{} as any}>
+            <AuthStore.Provider>
+                <Router history={history}>
+                    <MainSwitch />
+                </Router>
+            </AuthStore.Provider>
+        </DataContext.Provider>
+    );
+    expect(container).toHaveTextContent("Whoops");
+});
+test("Without auth redirect to login", () => {
+    setObject()
+    const history = createMemoryHistory();
+    history.push("/user/project/create");
+    const { container } = render(
+        <DataContext.Provider value={dataContextCreator as any}>
+            <AuthStore.Provider>
+                <Router history={history}>
+                    <MainSwitch />
+                </Router>
+            </AuthStore.Provider>
+        </DataContext.Provider>
+    );
+    expect(container).toHaveTextContent("Login");
+});
 test("With auth redirect to new route", () => {
     setObject();
     const history = createMemoryHistory();
