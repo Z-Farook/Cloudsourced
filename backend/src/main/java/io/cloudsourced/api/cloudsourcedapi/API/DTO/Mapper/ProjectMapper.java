@@ -6,6 +6,4 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @org.mapstruct.Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface ProjectMapper extends Mapper<Project, ProjectDTO> {
-   // ProjectMapper INSTANCE = Mappers.getMapper(ProjectMapper.class);
-}
+public interface ProjectMapper extends Mapper<Project, ProjectDTO> { }
