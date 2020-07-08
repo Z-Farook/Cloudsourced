@@ -1,0 +1,54 @@
+[{
+  "email": "joost.stam@gmail.com",
+  "pass" : "hengel",
+  "name": "Super project",
+  "description": "Cash machine",
+  "image": "https://i.pinimg.com/originals/60/27/9e/60279e36883f59dc5c89c204a65c6a63.jpg"
+},
+{  "email": "joost.stam@gmail.com",
+  "pass" : "hengel",
+    "name": "Widget-tick",
+    "description": "This project combines widgets with time!",
+    "image": "https://i.imgur.com/qeHFs2f.png"
+},
+{  "email": "joost.stam@gmail.com",
+  "pass" : "hengel",
+    "name": "Scrum master",
+    "description": "The best planningboard out there",
+    "image": "https://i.imgur.com/E6nuPho.jpeg"
+},
+  {  "email": "joost.stam@gmail.com",
+    "pass" : "hengel",
+    "name": "Web of trust",
+    "description": "WOT makes greate websites with diffrent animals",
+    "image": "https://i.imgur.com/dfW7L5Q.jpeg"
+  },
+  {
+    "email": "jjori82@hotmail.com",
+    "pass" : "hengel",
+    "name": "Rainy days",
+    "description": "Dreaming back makes rainy days sound like the future",
+    "image": "https://i.imgur.com/cH0kPRp.jpg"
+  },
+  {
+    "email": "jjori82@hotmail.com",
+    "pass" : "hengel",
+    "name": "Screenr",
+    "description": "Instant screencast in just a few seconds are here!",
+    "image": "https://i.imgur.com/Qg1i9Pe.png"
+  },
+  {
+    "email": "jjori82@hotmail.com",
+    "pass" : "hengel",
+    "name": "Udacityr",
+    "description": "Receiving a ideal job is getting faster",
+    "image": "https://i.imgur.com/92mS5HX.jpg"
+  },
+  {
+    "email": "jjori82@hotmail.com",
+    "pass" : "hengel",
+    "name": "StockPile",
+    "description": "StockPhotos for a real price!",
+    "image": "https://i.imgur.com/bX2Uk7C.jpeg"
+  }
+]
