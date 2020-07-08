@@ -9,6 +9,8 @@ import { docco } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 interface IProps extends RouteComponentProps {
   codeLanguage: string;
   impl: ImplementationDTO;
+  projectId: number;
+  featureId:number
 }
 
 const ImplementationCard: React.FC<IProps> = (props) => {
@@ -32,7 +34,7 @@ const ImplementationCard: React.FC<IProps> = (props) => {
           <Button
             onClick={() => {
               props.history.push(
-                `/projects/1/features/1/implementations/${props.impl.id}`
+                `/projects/${props.projectId}/features/${props.featureId}/implementations/${props.impl.id}`
               );
             }}
           >
