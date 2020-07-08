@@ -135,7 +135,7 @@ const Dashboard: React.FC<IProps> = (props) => {
   const [projects, setProjects] = useState<IRemoteData<projectData[], null>>(
     fromLoading()
   );
-  const [features, setFeatures] = useState<IRemoteData<FeatureDTO[], null>>(
+  const [features, setFeatures] = useState<IRemoteData<featureData[], null>>(
     fromLoading()
   );
   const [transactions, setTransactions] = useState<
@@ -258,7 +258,7 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <Statistic
                   title="Features this week"
                   value={
-                    features.data?.filter((p) => p.createdAt! > startOfThisWeek)
+                    features.data?.filter((p) =>  p.feature.createdAt! > startOfThisWeek)
                       .length
                   }
                   precision={0}
