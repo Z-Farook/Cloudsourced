@@ -3,6 +3,7 @@ package io.cloudsourced.api.cloudsourcedapi;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ProjectRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.ProjectService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
@@ -20,28 +21,29 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ProjectServiceTests {
-
+    Project newProject;
+    List<Project> projectList;
     @InjectMocks
     private ProjectService projectService;
 
     @Mock
     private ProjectRepository projectRepository;
 
-    @Test
-    public void SearchProjectTestShouldFail(){
-        String name = "failedProject";
-        boolean failed = false;
-
-        Project newProject = new Project();
-        newProject.setName(name);
+    @BeforeEach
+    public void init(){
+        newProject = new Project();
+        newProject.setName("ProjectName");
         newProject.setDescription("testDescription");
         newProject.setImage("image");
         newProject.setFeatures(null);
-        List<Project> projectList = new ArrayList();
+        projectList = new ArrayList();
         projectList.add(newProject);
-
-        when(projectRepository.findByNameContainsIgnoreCase(name)).thenReturn(projectList);
-        List<Project> savedProjects = projectService.searchProjectName(name);
+    }
+    @Test
+    public void SearchProjectTestShouldFail(){
+        boolean failed = false;
+        when(projectRepository.findByNameContainsIgnoreCase("ProjectName")).thenReturn(projectList);
+        List<Project> savedProjects = projectService.searchProjectName("ProjectName");
         try {
             // allow test case to execute
             assertEquals(savedProjects.size(), 0);
@@ -53,17 +55,8 @@ public class ProjectServiceTests {
 
     @Test
     public void SearchProjectTest(){
-        String name = "newProject";
-        Project newProject = new Project();
-        newProject.setName(name);
-        newProject.setDescription("testDescription");
-        newProject.setImage("image");
-        newProject.setFeatures(null);
-        List<Project> projectList = new ArrayList();
-        projectList.add(newProject);
-
-        when(projectRepository.findByNameContainsIgnoreCase(name)).thenReturn(projectList);
-        List<Project> savedProjects = projectService.searchProjectName(name);
+        when(projectRepository.findByNameContainsIgnoreCase("ProjectName")).thenReturn(projectList);
+        List<Project> savedProjects = projectService.searchProjectName("ProjectName");
         assertEquals(savedProjects.size(), 1);
         Project foundProject = savedProjects.get(0);
         assertSame(foundProject, newProject);
