@@ -12,44 +12,52 @@ const HomePage: React.FC<IProps> = (props) => {
   const authStore = AuthStore.useContainer();
   return (
     <DefaultLayout>
-      <Title style={{ marginTop: "3em", textAlign: "center" }}>
-        In need of software components?
-      </Title>
-      <Text style={{ textAlign: "center" }}>
-        Look no further, we offer a great network of developers to help you!
-        <br />
-        Now you probably think where is the catch? Well there is none, our
-        services are free to use.
-      </Text>
+        <div style={{display: "flex", flexDirection:"row"}}>
+        <div style={{marginLeft: "200px",}}>
+      <Title style={{ marginTop: "3em",  fontSize:"60px", fontWeight:700 }}>
+      Redistribute to <br/>Expand.
 
+      </Title>
+      <Text style={{   fontSize:"20px", fontWeight:400 }}>
+       Build innovative software components, tests and
+          <br/>projects with a great and vast network of
+        <br />
+         motivated software developers.
+
+
+      </Text>
+            <br/>
+            {authStore.auth !== null ? (
+                <Button
+                    type="primary"
+                    shape="round"
+                    style={{  marginTop:"50px", width: "12em" }}
+                    onClick={() => {
+                        props.history.push(`/account`);
+                    }}
+                >
+                    Start
+                </Button>
+            ) : (
+                <Button
+                    type="primary"
+                    shape="round"
+                    style={{ marginTop:"50px", width: "12em" }}
+                    onClick={() => {
+                        props.history.push(`/auth/register`);
+                    }}
+                >
+                    Sign Up
+                </Button>
+            )}
+        </div>
       <img
         src={homeImage}
         alt={""}
-        style={{ marginLeft: "27%", width: "50%" }}
+        style={{ marginLeft: "200px", marginTop:"150px", width: "50%" }}
       />
-      {authStore.auth !== null ? (
-        <Button
-          type="primary"
-          shape="round"
-          style={{ marginLeft: "auto", marginRight: "auto", width: "12em" }}
-          onClick={() => {
-            props.history.push(`/account`);
-          }}
-        >
-          Start
-        </Button>
-      ) : (
-        <Button
-          type="primary"
-          shape="round"
-          style={{ marginLeft: "auto", marginRight: "auto", width: "12em" }}
-          onClick={() => {
-            props.history.push(`/auth/register`);
-          }}
-        >
-          Sign Up
-        </Button>
-      )}
+        </div>
+
     </DefaultLayout>
   );
 };
