@@ -87,7 +87,7 @@ const ProfilePage: React.FC<IProps> = (props) => {
                   </Descriptions>
                 </Col>
               </Row>
-              <Title level={2}>Unfished Projects</Title>
+              <Title level={2}>Unfinished Projects</Title>
               {projects.state === EState.Loading ? (
                 <Spin />
               ) : (
