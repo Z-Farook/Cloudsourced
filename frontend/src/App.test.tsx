@@ -18,7 +18,7 @@ test("Should run and show homepage", () => {
         </AuthStore.Provider>
       </DataContext.Provider>
   );
-  expect(container).toHaveTextContent("In need of software components?");
+  expect(container).toHaveTextContent("Redistribute to Expand.");
 });
 
 
