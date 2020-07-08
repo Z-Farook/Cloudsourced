@@ -20,6 +20,7 @@ export interface IRegisterNewUserParams {
   street?: string;
   streetNumber?: string;
   telephone?: string;
+  image?: string;
 }
 
 export interface IAuthenticateUserResult {

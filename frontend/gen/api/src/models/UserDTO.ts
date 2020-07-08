@@ -42,6 +42,12 @@ export interface UserDTO {
      * @type {string}
      * @memberof UserDTO
      */
+    image?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDTO
+     */
     infix?: string;
     /**
      * 
@@ -94,6 +100,7 @@ export function UserDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean): U
         'country': !exists(json, 'country') ? undefined : json['country'],
         'email': !exists(json, 'email') ? undefined : json['email'],
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'image': !exists(json, 'image') ? undefined : json['image'],
         'infix': !exists(json, 'infix') ? undefined : json['infix'],
         'languages': !exists(json, 'languages') ? undefined : json['languages'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
@@ -116,6 +123,7 @@ export function UserDTOToJSON(value?: UserDTO | null): any {
         'country': value.country,
         'email': value.email,
         'id': value.id,
+        'image': value.image,
         'infix': value.infix,
         'languages': value.languages,
         'lastName': value.lastName,

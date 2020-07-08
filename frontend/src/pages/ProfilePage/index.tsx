@@ -37,6 +37,7 @@ const ProfilePage: React.FC<IProps> = (props) => {
         api.config
       ).getUserProfileInfoUsingGET({ id: Number(props.match.params.id) });
       setUser(fromLoaded(result));
+      console.log(result)
     })();
   }, [props.match.params.id]);
 
@@ -72,7 +73,7 @@ const ProfilePage: React.FC<IProps> = (props) => {
             >
               <Row className="project-info">
                 <Col span={8}>
-                  <img alt="example" className="detailImage" src={noImage} />
+                  <img alt="example" className="detailImage" src={user.data!.image ? user.data!.image : noImage} />
                 </Col>
                 <Col span={12}>
                   <Title level={2}>{formatUser(user.data!)}</Title>
@@ -86,7 +87,7 @@ const ProfilePage: React.FC<IProps> = (props) => {
                   </Descriptions>
                 </Col>
               </Row>
-              <Title level={2}>Projects</Title>
+              <Title level={2}>Unfished Projects</Title>
               {projects.state === EState.Loading ? (
                 <Spin />
               ) : (

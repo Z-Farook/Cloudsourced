@@ -100,7 +100,7 @@ const ProjectFormPage: React.FC<IProps> = (props) => {
     const project: ProjectDTO = {
       description: data.description,
       name: data.projectName,
-      image: "", //await postImage(image),
+      image: await postImage(image),
     };
     if (!isEditing) {
       const params: CreateNewUsingPOST2Request = {

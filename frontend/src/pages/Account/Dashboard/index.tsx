@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 
-import { Row, Col, Table, Card, Statistic, Progress, Button } from "antd";
+import {Row, Col, Table, Card, Statistic, Progress, Button, Tooltip} from "antd";
 
 import {
   DollarOutlined,
@@ -287,7 +287,9 @@ const Dashboard: React.FC<IProps> = (props) => {
                 <Title style={{marginBottom: "1.2em"}}>Progress</Title>
 
                 <div style={{marginBottom: "2em"}}>
+                  <Tooltip key="finished" title="Counted without archived items">
                   <Title level={4}>Finished projects</Title>
+                  </Tooltip>
                   <Progress
                     percent={projects.data ? projectsFinished : 0}
                     status={
