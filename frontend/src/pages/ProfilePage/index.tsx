@@ -75,13 +75,13 @@ const ProfilePage: React.FC<IProps> = (props) => {
                 <Col span={8}>
                   <img alt="example" className="detailImage" src={user.data!.image ? user.data!.image : noImage} />
                 </Col>
-                <Col span={12}>
+                <Col span={16}>
                   <Title level={2}>{formatUser(user.data!)}</Title>
                   <Descriptions>
-                    <Descriptions.Item span={16} label="Country">
+                    <Descriptions.Item span={3}label="Country">
                       {user.data?.country}
                     </Descriptions.Item>
-                    <Descriptions.Item span={16} label="Email">
+                    <Descriptions.Item  label="Email">
                       {user.data?.email}
                     </Descriptions.Item>
                   </Descriptions>

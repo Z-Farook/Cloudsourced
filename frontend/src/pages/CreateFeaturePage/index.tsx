@@ -126,7 +126,7 @@ const CreateFeaturePage: React.FC<IProps> = (props) => {
                   >
 
                     {Object.values(languages).map(lang =>
-                       <Option  value={lang}> {lang} </Option>
+                       <Option key={lang} value={lang}> {lang} </Option>
                     )}
 
                   </Select>
