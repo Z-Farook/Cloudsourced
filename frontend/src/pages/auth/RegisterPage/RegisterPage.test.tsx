@@ -132,7 +132,7 @@ describe("registerPage", () => {
         preventDefault() {},
       });
       await new Promise((resolve) => setImmediate(resolve));
-      console.log(wrapper.debug())
+
       expect(wrapper.update().exists(".ant-form-item-has-error")).toEqual(
         false
       );
