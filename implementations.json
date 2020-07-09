@@ -1,0 +1,32 @@
+[
+  {
+    "email": "joost2.stam@gmail.com",
+    "pass": "hengel",
+    "id": "1",
+    "code": ".detailImage {max-width: calc(100% - 2px);height: 230px;}.subtitle {margin-left: 10px;color: rgba(0, 0, 0, 0.45);span {text-decoration: underline;cursor: pointer;}}"
+  },
+  {
+    "email": "martin@gmail.com",
+    "pass": "hengel",
+    "id": "2",
+    "code": "const testfiles() => { var project = {name: `hello`}}"
+  },
+  {
+    "email": "bart@gmail.com",
+    "pass": "hengel",
+    "id": "3",
+    "code": "<html><body> <h1>a new main page</h1><div><table><tr>hello</tr></table></div></body></html>}"
+  },
+  {
+    "email": "jjori82@hotmail.com",
+    "pass": "hengel",
+    "id": "4",
+    "code": "for(c = n-1, d = 0; c >= 0; c--, d++)b[d] = a[c];for(d = n-1, e = 0; c >= 0; e--, d++)a[e] = d[e];"
+  },
+  {
+    "email": "dennis@hotmail.com",
+    "pass": "hengel",
+    "id": "5",
+    "code": "int foo() // this is a definition for function foo{return 5;}int foo() // compile error: duplicate definition{return 5;}int main(){std::cout << foo();return 0;}"
+  }
+]

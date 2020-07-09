@@ -1,5 +1,5 @@
 [{
-  "email": "joost2.stam@gmail.com",
+  "email": "michelle@gmail.com",
   "pass" : "hengel",
   "name": "Super project",
   "description": "Cash machine",
@@ -61,7 +61,7 @@
     "image": "https://i.imgur.com/cH0kPRp.jpg"
   },
   {
-    "email": "gerrit@hotmail.com",
+    "email": "gerrit@gmail.com",
     "pass" : "hengel",
     "name": "Book organiser",
     "description": "Create a book organiser for my 1000 books.",
@@ -95,7 +95,7 @@
     "image": "https://i.imgur.com/Qg1i9Pe.png"
   },
   {
-    "email": "gerrit@hotmail.com",
+    "email": "gerrit@gmail.com",
     "pass" : "hengel",
     "name": "Android vs apple",
     "description": "An app to show the diffrences between these platforms",
@@ -115,7 +115,7 @@
     "image": "https://i.imgur.com/E6nuPho.jpeg"
 },
   {
-    "email": "jjori82@hotmail.com",
+    "email": "bart@gmail.com",
     "pass" : "hengel",
     "name": "Udacityr",
     "description": "Receiving a ideal job is getting faster",
@@ -126,6 +126,6 @@
     "name": "Web of trust",
     "description": "WOT makes greate websites with diffrent animals",
     "image": "https://i.imgur.com/dfW7L5Q.jpeg"
-  },
+  }
 
 ]
