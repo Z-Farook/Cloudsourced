@@ -2,10 +2,7 @@ package io.cloudsourced.api.cloudsourcedapi.API.Resource;
 
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.FeatureDTO;
 import io.cloudsourced.api.cloudsourcedapi.API.DTO.Mapper.FeatureMapper;
-import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDTO;
-import io.cloudsourced.api.cloudsourcedapi.API.DTO.ProjectDetailDTO;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
-import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.FeatureRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.FeatureService;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +24,7 @@ public class FeatureResource extends BaseResource<Feature, FeatureDTO, FeatureSe
     }
     @GetMapping("/user")
     public List<FeatureDTO> getFeaturesByUser(){
-        return service.getFeaturesByUser().stream().map(mapper::entityToDTO).collect(Collectors.toList());
+        return service.getFeaturesByAuthenticatedUser().stream().map(mapper::entityToDTO).collect(Collectors.toList());
     }
     @PostMapping("/finish/{featureId}")
     public FeatureDTO finishFeature(@PathVariable Long featureId) {

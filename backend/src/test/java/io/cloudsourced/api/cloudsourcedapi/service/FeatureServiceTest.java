@@ -1,11 +1,11 @@
 package io.cloudsourced.api.cloudsourcedapi.service;
 
 import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
+import io.cloudsourced.api.cloudsourcedapi.Default.Exception.UnauthorizedException;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.FeatureRepository;
-import io.cloudsourced.api.cloudsourcedapi.Persistence.UserRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.FeatureService;
 import io.cloudsourced.api.cloudsourcedapi.Service.ProjectService;
 import org.junit.jupiter.api.Test;
@@ -14,12 +14,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,13 +34,11 @@ public class FeatureServiceTest {
     private ProjectService projectService;
 
     @Mock
-    AuthenticatedUserBean authenticatedUserProvider;
+    private AuthenticatedUserBean authenticatedUserProvider;
 
     @Mock
     private FeatureRepository featureRepository;
 
-    @Mock
-    private UserRepository userRepository;
 
     @Test
     public void createNewFeature() {
@@ -169,4 +170,32 @@ public class FeatureServiceTest {
         assertEquals(feature.getProject().getName(), savedFeature.getProject().getName());
         assertEquals("PHP", feature.getProject().getFeatures().get(0).getCodeLanguage());
     }
+    @Test
+    public void givenUserNotAuthenticated_getFeaturesByAuthenticatedUser_throwError() {
+
+        when(authenticatedUserProvider.getUser()).thenReturn(null);
+
+        Throwable exception = assertThrows(UnauthorizedException.class,
+                () -> featureService.getFeaturesByAuthenticatedUser());
+        assertEquals("NO_AUTHORIZED_USER_FOUND", exception.getMessage());
+
+    }
+
+    @Test
+    public void givenUserAuthenticated_getFeaturesByAuthenticatedUser_returnList() {
+
+        final User user = mock(User.class);;
+        List<Feature> FeatList = new ArrayList<>();
+        Feature featMock = new Feature();
+        FeatList.add(featMock);
+
+        when(authenticatedUserProvider.getUser()).thenReturn(user);
+        when(user.getId()).thenReturn(1L);
+        when(featureRepository.findByProjectUser(user.getId())).thenReturn(FeatList);
+        final List<Feature> result = featureService.getFeaturesByAuthenticatedUser();
+
+        assertEquals(FeatList, FeatList);
+
+    }
+
 }

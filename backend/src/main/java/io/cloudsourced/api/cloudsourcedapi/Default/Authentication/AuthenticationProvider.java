@@ -71,7 +71,9 @@ public class AuthenticationProvider {
         }
 
         Authentication authentication = user.get().getAuthentication();
-        authentication.setUserId(user.get().getId());
+        if(user.get().getId() != null){
+            authentication.setUserId(user.get().getId());
+        }
 
         if (authentication == null) {
             throw new UnauthorizedException("AUTH_NOT_FOUND");

@@ -1,4 +1,4 @@
-({
+[{
   "email": "michelle@gmail.com",
   "pass": "hengel",
   "id": "1",
@@ -226,4 +226,4 @@ fi",
   .green  { color: #3ea; }",
   "codeLanuguage": "CSS",
   "points": "400",
-},)
+}]
