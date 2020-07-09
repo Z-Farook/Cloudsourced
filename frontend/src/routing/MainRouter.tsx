@@ -53,7 +53,8 @@ export const MainSwitch = () => {
             : () => <Redirect to="/auth/login" />
         }
       />
-      <Route exact path="/projects/:projectId" component={ProjectDetailPage} />
+      <Route exact path="/projects/:projectId" component={authStore.auth !== null
+          ?ProjectDetailPage: () => <Redirect to="/auth/login" />} />
       <Route
         exact
         path="/projects/:projectId/feature/add"
@@ -66,7 +67,8 @@ export const MainSwitch = () => {
       <Route
         exact
         path="/projects/:projectId/features/:featureId"
-        component={FeaturePage}
+        component={ authStore.auth !== null
+            ?FeaturePage: () => <Redirect to="/auth/login" />}
       />
       <Route
         exact
@@ -86,7 +88,8 @@ export const MainSwitch = () => {
             : () => <Redirect to="/auth/login" />
         }
     />
-  <Route exact path="/user/:id" component={ProfilePage} />
+  <Route exact path="/user/:id" component={authStore.auth !== null
+      ?ProfilePage : () => <Redirect to="/auth/login" />} />
       <Route component={NotFoundPage} />
     </Switch>
   );
