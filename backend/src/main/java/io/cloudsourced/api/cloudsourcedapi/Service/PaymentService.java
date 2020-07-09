@@ -2,6 +2,7 @@ package io.cloudsourced.api.cloudsourcedapi.Service;
 
 import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Default.Exception.NotFoundException;
+import io.cloudsourced.api.cloudsourcedapi.Default.Exception.UnauthorizedException;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Payment;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.PaymentRepository;
@@ -25,7 +26,7 @@ public class PaymentService extends BaseService<Payment, PaymentRepository> {
         User user = authenticatedUserProvider.getUser();
 
         if (user == null) {
-            throw new NotFoundException("User is Not found");
+            throw new UnauthorizedException();
         }
 
         long totalPoints = transactionService.getPointsByUser(user.getId());

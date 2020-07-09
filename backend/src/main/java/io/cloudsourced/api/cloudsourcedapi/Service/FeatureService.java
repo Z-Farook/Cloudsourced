@@ -13,6 +13,7 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class FeatureService extends BaseService<Feature, FeatureRepository> {
     private final ProjectService projectService;
+
     public FeatureService(FeatureRepository repository, AuthenticatedUserBean authenticatedUserProvider, ProjectService projectService) {
         super(repository, authenticatedUserProvider);
         this.projectService = projectService;
@@ -22,7 +23,7 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
         User user = authenticatedUserProvider.getUser();
         Project project = projectService.getOneById(id);
 
-        if (!project.getUser().getId().equals(user.getId())) {
+        if (!project.getUser().equals(user)) {
             throw new UnauthorizedException();
         }
 
@@ -34,7 +35,11 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
 
         return repository.save(feature);
     }
-    public List<Feature> getFeaturesByUser() {
+    public List<Feature> getFeaturesByAuthenticatedUser() {
+        if(authenticatedUserProvider.getUser() == null){
+            throw new UnauthorizedException("NO_AUTHORIZED_USER_FOUND");
+        }
+
         User user = authenticatedUserProvider.getUser();
         return repository.findByProjectUser(user.getId());
     }
