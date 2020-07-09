@@ -46,27 +46,27 @@ const AccountDetails: React.FC<IProps> = (props) => {
                 />
                 <Row>
                   <Col span={4}></Col>
-                  <Col span={16}>
+                  <Col span={20}>
                     <Descriptions title={formatUser(user.data!)}>
-                      <Descriptions.Item span={16} label="Name">
+                      <Descriptions.Item span={3} label="Name">
                         {user.data!.name!}
                       </Descriptions.Item>
-                      <Descriptions.Item span={16} label="Infix">
+                      <Descriptions.Item span={3} label="Infix">
                         {user.data!.infix!}
                       </Descriptions.Item>
-                      <Descriptions.Item span={16} label="Lastname">
+                      <Descriptions.Item span={3} label="Lastname">
                         {user.data!.lastName!}
                       </Descriptions.Item>
-                      <Descriptions.Item span={16} label="Country">
+                      <Descriptions.Item span={3} label="Country">
                         {user.data!.country!}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Street">
+                      <Descriptions.Item  label="Street">
                         {user.data!.street!}
                       </Descriptions.Item>
                       <Descriptions.Item label="Streetnumber">
                         {user.data!.streetNumber!}
                       </Descriptions.Item>
-                      <Descriptions.Item span={16} label="Telephone">
+                      <Descriptions.Item  label="Telephone">
                         {user.data!.telephone!}
                       </Descriptions.Item>
                     </Descriptions>
@@ -81,24 +81,15 @@ const AccountDetails: React.FC<IProps> = (props) => {
                 <PageHeader
                   className="site-page-header"
                   title="Account settings"
-                  //   extra={[
-                  //     <Button
-                  //       type="primary"
-                  //       onClick={() => props.history.push("/user/project/create")}
-                  //       icon={<EditOutlined />}
-                  //     >
-                  //       Edit
-                  //     </Button>,
-                  //   ]}
                 />
                 <Row>
                   <Col span={4}></Col>
                   <Col span={16}>
                     <Descriptions>
-                      <Descriptions.Item span={16} label="Email">
+                      <Descriptions.Item span={3} label="Email">
                         {user.data?.email}
                       </Descriptions.Item>
-                      <Descriptions.Item span={16} label="Password">
+                      <Descriptions.Item span={3} label="Password">
                         ******
                       </Descriptions.Item>
                     </Descriptions>
