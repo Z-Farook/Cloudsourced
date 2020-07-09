@@ -9,6 +9,7 @@ import IRemoteData, {
 import { User, UserResourceApi } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import { formatUser } from "../../../formatters/user";
+import noImage from "../../../assets/noimage.png";
 interface IProps extends RouteComponentProps {}
 
 const AccountDetails: React.FC<IProps> = (props) => {
@@ -34,18 +35,11 @@ const AccountDetails: React.FC<IProps> = (props) => {
                 <PageHeader
                   className="site-page-header"
                   title="Personal details"
-                  //   extra={[
-                  //     <Button
-                  //       type="primary"
-                  //       onClick={() => props.history.push("/user/project/create")}
-                  //       icon={<EditOutlined />}
-                  //     >
-                  //       Edit
-                  //     </Button>,
-                  //   ]}
                 />
                 <Row>
-                  <Col span={4}></Col>
+                  <Col span={4}>
+                    <img alt={user.data!.name!} className="detailImage" src={user.data!.image ? user.data!.image : noImage} />
+                  </Col>
                   <Col span={20}>
                     <Descriptions title={formatUser(user.data!)}>
                       <Descriptions.Item span={3} label="Name">
