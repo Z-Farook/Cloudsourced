@@ -3,10 +3,14 @@ package io.cloudsourced.api.cloudsourcedapi.service;
 import io.cloudsourced.api.cloudsourcedapi.Default.Authentication.AuthenticatedUserBean;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Feature;
 import io.cloudsourced.api.cloudsourcedapi.Entity.Implementation;
+import io.cloudsourced.api.cloudsourcedapi.Entity.Project;
 import io.cloudsourced.api.cloudsourcedapi.Entity.User;
 import io.cloudsourced.api.cloudsourcedapi.Persistence.ImplementationRepository;
 import io.cloudsourced.api.cloudsourcedapi.Service.FeatureService;
 import io.cloudsourced.api.cloudsourcedapi.Service.ImplementationService;
+import io.cloudsourced.api.cloudsourcedapi.Service.TransactionService;
+import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +23,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +40,9 @@ public class ImplementationServiceTest {
 
     @Mock
     FeatureService featureService;
+
+    @Mock
+    TransactionService transactionService;
 
     @Test
     public void createNewImplementation() {
@@ -167,6 +175,57 @@ public class ImplementationServiceTest {
         assertEquals(implementation.getFeature().getCodeLanguage(), savedImplementation.getFeature().getCodeLanguage());
 //        assertEquals(implementation.getFeature().getImplementations().get(0).getCode(), savedImplementation.getFeature().getImplementations().get(0).getCode());
 //        assertEquals("PHP", savedImplementation.getFeature().getImplementations().get(0).getFeature().getCodeLanguage());
+
+    }
+
+    @Test
+    public void givenImplementationAccepterd_acceptImplementation() {
+        final User authenticatedUser = mock(User.class);
+        when(authenticatedUserProvider.getUser()).thenReturn(authenticatedUser);
+        when(authenticatedUserProvider.getUser().getId()).thenReturn(1L);
+
+
+        Implementation implementation = mock(Implementation.class);
+        when(implementationRepository.getOne(1L)).thenReturn(implementation);
+        when(implementation.getId()).thenReturn(1L);
+        Feature feature = mock(Feature.class);
+        when(implementation.getFeature()).thenReturn(feature);
+        Project project = mock(Project.class);
+        when(feature.getProject()).thenReturn(project);
+        User projectUser = mock(User.class);
+        when(project.getUser()).thenReturn(projectUser);
+        when(projectUser.getId()).thenReturn(1L);
+        when(implementation.getApproved()).thenReturn(false);
+
+        when(implementation.getUser()).thenReturn(new User());
+        when(feature.getPoints()).thenReturn(100L);
+        when(transactionService.createTransaction(implementation.getUser(), implementation, feature.getPoints())).thenReturn(null);
+
+        when(implementationRepository.save(implementation)).thenReturn(implementation);
+
+        assertEquals(implementation, implementationService.acceptImplementation(1L));
+
+    }
+
+    @Test
+    public void givenImplementationNotAccepterd_acceptImplementation() {
+
+        final User authenticatedUser = mock(User.class);
+        when(authenticatedUserProvider.getUser()).thenReturn(authenticatedUser);
+        when(authenticatedUserProvider.getUser().getId()).thenReturn(1L);
+
+
+        Implementation implementation = mock(Implementation.class);
+        when(implementationRepository.getOne(1L)).thenReturn(implementation);
+        when(implementation.getId()).thenReturn(1L);
+        Feature feature = mock(Feature.class);
+        when(implementation.getFeature()).thenReturn(feature);
+        Project project = mock(Project.class);
+        when(feature.getProject()).thenReturn(project);
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            implementationService.acceptImplementation(1L);
+        });
 
     }
 
