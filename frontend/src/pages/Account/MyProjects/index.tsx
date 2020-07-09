@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext, useMemo} from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Button, PageHeader, BackTop, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -11,10 +11,15 @@ import IRemoteData, {
   fromLoading,
 } from "../../../core/IRemoteData";
 import ProjectCard from "../../ProjectPage/ProjectCard/";
+import DataContext from "../../../core/DataContext";
 
 interface IProps extends RouteComponentProps {}
 
 const MyProjects: React.FC<IProps> = (props) => {
+    const createDataContext = useContext(DataContext);
+    const dataContext = useMemo(() => createDataContext(api.config), [
+        createDataContext,
+    ]);
   const [projects, setProjects] = useState<IRemoteData<ProjectDTO[], null>>(
     fromLoading()
   );
@@ -40,9 +45,8 @@ const MyProjects: React.FC<IProps> = (props) => {
   const { Option } = Select;
   useEffect(() => {
     (async () => {
-      const result = await new ProjectResourceApi(
-        api.config
-      ).getProjectsByUserUsingGET();
+      const result = await dataContext.project.getProjectsByAuthenticatedUser(
+      )
 
       setProjects(fromLoaded(result));
     })();

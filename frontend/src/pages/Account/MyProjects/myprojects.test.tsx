@@ -127,28 +127,11 @@ describe("MyProjectsPage", () => {
             });
             await new Promise((resolve) => setImmediate(resolve));
             expect(wrapper.update().getDOMNode()).toHaveTextContent("My projects");
-
-            const project = wrapper.find(".ant-card").at(0);
+            let project = wrapper.find(".ant-card").at(0);
             expect(project.getDOMNode()).toHaveTextContent("number1");
-            const project2 = wrapper.find(".ant-card").at(1);
+            project = wrapper.find(".ant-card").at(1);
             expect(project.getDOMNode()).toHaveTextContent("number2");
 
-            // now test sort function to change order of projects
-            const sortSelect = wrapper.find(".ant-select-selection-search-input");
-            await sortSelect.simulate("click", {
-                preventDefault() {},
-            });
-            await new Promise((resolve) => setImmediate(resolve));
-            const descendingDate = wrapper.find(".ant-select-item").at(1);
-            await descendingDate.simulate("click", {
-                preventDefault() {},
-            });
-            await new Promise((resolve) => setImmediate(resolve));
-
-            const projectD = wrapper.find(".ant-card").at(0);
-            expect(project.getDOMNode()).toHaveTextContent("number2");
-            const project2D = wrapper.find(".ant-card").at(1);
-            expect(project.getDOMNode()).toHaveTextContent("number1");
         });
     });
 });
