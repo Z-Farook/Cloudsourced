@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Button, PageHeader, BackTop, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Col, Row, Spin } from "antd";
-import { ProjectDTO, ProjectResourceApi } from "cloudsourced-api";
+import { ProjectDTO } from "cloudsourced-api";
 import { api } from "../../../core/api";
 import IRemoteData, {
   EState,
@@ -50,7 +50,7 @@ const MyProjects: React.FC<IProps> = (props) => {
 
       setProjects(fromLoaded(result));
     })();
-  }, []);
+  }, [dataContext.project]);
 
   return (
     <div style={{ overflow: "hidden" }}>
