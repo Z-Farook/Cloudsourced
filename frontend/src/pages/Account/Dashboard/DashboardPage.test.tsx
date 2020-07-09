@@ -75,7 +75,8 @@ const dataContextCreator = (config?: Configuration): Partial<IResources> => {
         return {}
       },
       archiveFeature: async (params: IArchiveFeatureParams): Promise<FeatureDTO> => {return {}
-      }
+      },
+
     }
 
   };
@@ -102,7 +103,7 @@ const setObject = () => {
   });
 };
 describe("DashboardPage", () => {
-  it("Should pass with auth and have 50 points", async () => {
+  it("Should pass and have 50 points after map reduce", async () => {
     await act(async () => {
       setObject();
       const history = createMemoryHistory();

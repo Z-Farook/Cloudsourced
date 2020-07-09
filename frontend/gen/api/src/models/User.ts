@@ -61,6 +61,12 @@ export interface User {
      * @type {string}
      * @memberof User
      */
+    image?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
     infix?: string;
     /**
      * 
@@ -127,6 +133,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
         'email': !exists(json, 'email') ? undefined : json['email'],
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'image': !exists(json, 'image') ? undefined : json['image'],
         'infix': !exists(json, 'infix') ? undefined : json['infix'],
         'languages': !exists(json, 'languages') ? undefined : json['languages'],
         'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
@@ -153,6 +160,7 @@ export function UserToJSON(value?: User | null): any {
         'createdAt': value.createdAt === undefined ? undefined : (value.createdAt.toISOString()),
         'email': value.email,
         'id': value.id,
+        'image': value.image,
         'infix': value.infix,
         'languages': value.languages,
         'lastName': value.lastName,

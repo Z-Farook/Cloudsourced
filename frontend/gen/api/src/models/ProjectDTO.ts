@@ -67,6 +67,12 @@ export interface ProjectDTO {
      * @memberof ProjectDTO
      */
     updatedAt?: Date;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDTO
+     */
+    userImage?: string;
 }
 
 export function ProjectDTOFromJSON(json: any): ProjectDTO {
@@ -87,6 +93,7 @@ export function ProjectDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'image': !exists(json, 'image') ? undefined : json['image'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'updatedAt': !exists(json, 'updatedAt') ? undefined : (new Date(json['updatedAt'])),
+        'userImage': !exists(json, 'userImage') ? undefined : json['userImage'],
     };
 }
 
@@ -107,6 +114,7 @@ export function ProjectDTOToJSON(value?: ProjectDTO | null): any {
         'image': value.image,
         'name': value.name,
         'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt.toISOString()),
+        'userImage': value.userImage,
     };
 }
 

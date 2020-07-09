@@ -8,6 +8,4 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 @org.mapstruct.Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
-public interface RegisterUserMapper extends Mapper<User, RegisterUserDTO> {
-    RegisterUserMapper INSTANCE = Mappers.getMapper(RegisterUserMapper.class);
-}
+public interface RegisterUserMapper extends Mapper<User, RegisterUserDTO> { }

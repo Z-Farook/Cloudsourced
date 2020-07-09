@@ -1,7 +1,7 @@
-import React, { useEffect, useContext, useMemo } from "react";
+import React, {useEffect, useContext, useMemo, useState} from "react";
 import { RouteComponentProps } from "react-router";
 import DefaultLayout from "../../../components/layout/DefaultLayout";
-import { Form, Input, Button, Card, Row, Col, message } from "antd";
+import {Form, Input, Button, Card, Row, Col, message, Upload} from "antd";
 import {
   UserOutlined,
   MailOutlined,
@@ -19,6 +19,7 @@ import * as yup from "yup";
 
 import "./style.scss";
 import DataContext from "../../../core/DataContext";
+import noImage from "../../../assets/noimage.png";
 interface IProps extends RouteComponentProps {}
 
 const validationSchema = yup.object().shape({
@@ -57,12 +58,22 @@ const RegisterPage: React.FC<IProps> = (props) => {
   const { handleSubmit, errors, setValue, register } = useForm({
     validationSchema,
   });
+  const [image, setImage] = useState("");
+
+  const getBase64 = (image: Blob) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setImage(reader.result as string);
+    });
+    reader.readAsDataURL(image);
+  };
+
 
   const onSubmit = async (data: any) => {
     const values = data as IValues;
 
     try {
-      await dataContext.authentication.registerNewUser({
+     await dataContext.authentication.registerNewUser({
         name: values.name,
         infix: values.infix,
         lastName: values.lastname,
@@ -73,6 +84,7 @@ const RegisterPage: React.FC<IProps> = (props) => {
         languages: values.languages,
         email: values.email,
         password: values.password,
+        image: await dataContext.authentication.postImage(image),
       });
       message.success("Your account has been created. you can now login!");
       props.history.push(`/auth/login`);
@@ -102,6 +114,24 @@ const RegisterPage: React.FC<IProps> = (props) => {
         <Col xs={12}>
           <Card title="Register">
             <Form className="register_form">
+              <Form.Item>
+                <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    accept=".jpg, .jpeg, .png"
+                    onChange={(event) =>
+                        getBase64(event.file.originFileObj as Blob)
+                    }
+                >
+                  <img
+                      src={image ? image : noImage}
+                      alt="avatar"
+                      style={{ width: "100%" }}
+                  />
+                </Upload>
+              </Form.Item>
               <Form.Item
                 validateStatus={errors.name !== undefined ? "error" : undefined}
                 help={

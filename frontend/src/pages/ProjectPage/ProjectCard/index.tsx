@@ -4,15 +4,15 @@ import { Card, Avatar, Tooltip } from "antd";
 import { CheckCircleTwoTone, InfoCircleTwoTone } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
-import { ProjectDTO } from "cloudsourced-api";
+import {ProjectDTO} from "cloudsourced-api";
 import noImage from "../../../assets/noimage.png";
 export interface IProps {
   project: ProjectDTO;
 }
 
 const ProjectCard: React.FC<IProps> = (props) => {
-  const { project } = props;
-  const { description, image, name, id, finishedAt, archivedAt } = project;
+  const { project} = props;
+  const { description, image, name, id, finishedAt, archivedAt, userImage } = project;
 
   const FinishedPrompt = () => {
     return (
@@ -46,7 +46,7 @@ const ProjectCard: React.FC<IProps> = (props) => {
         <Meta
           avatar={
             <Avatar
-              src={"https://source.unsplash.com/100x100/?person,avatar"}
+              src={userImage ? userImage : noImage}
             />
           }
           title={name ? name : "This project has no name"}
