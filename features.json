@@ -1,17 +1,12 @@
 [
   {
     "email": "michelle@gmail.com",
-    "pass" : "hengel",
-    "id" : "1",
+    "pass": "hengel",
+    "id": "1",
     "name": "Design",
-  "description": "Design my home page",
-  "codePreview": ".header{}, .main{}, .footer{}",
-  "codeLanguage": "CSS",
-  "points" : "500"}
-
-
-
-
-
-
+    "description": "Design my home page",
+    "codePreview": ".header{}, .main{}, .footer{}",
+    "codeLanguage": "CSS",
+    "points": "500"
+  }
 ]
