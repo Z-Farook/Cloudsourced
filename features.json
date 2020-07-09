@@ -16,7 +16,7 @@
     "name": "Tire pressure calculator",
     "description": "Calculate the correct tire preassure",
     "codePreview": "const tirePressure = 0; const atmPressure = 1; const tireGauge = 18;",
-    "codeLanuguage": "JavaScript",
+    "codeLanguage": "JavaScript",
     "points": "150"
   },
   {
@@ -26,7 +26,7 @@
     "name": "Overclocking Guide Downloader",
     "description": "A download section to download the guide",
     "codePreview": "<a href={}>",
-    "codeLanuguage": "HTML",
+    "codeLanguage": "HTML",
     "points": "200"
   },
   {
@@ -36,7 +36,7 @@
     "name": "Auto formatter for prices",
     "description": "Makes pretty formatted prices",
     "codePreview": "for(c = n-1, d = 0; c >= 0; c--, d++) b[d] = a[c];",
-    "codeLanuguage": "C",
+    "codeLanguage": "C",
     "points": "230"
   },
   {
@@ -46,7 +46,7 @@
     "name": "Photo upscaler",
     "description": "Upscales the images for higher retail price",
     "codePreview": "int ScaleRatio = ui->spinBox_ScaleRatio_image->value();",
-    "codeLanuguage": "C++",
+    "codeLanguage": "C++",
     "points": "500"
   },
   {
@@ -56,7 +56,7 @@
     "name": "Game startup engine",
     "description": "The entry point of the program",
     "codePreview": "if [[ 'OSTYPE' == 'darwin' ]] ; then LIB_EXTENSION='dylib' fi",
-    "codeLanuguage": "Python",
+    "codeLanguage": "Python",
     "points": "400"
   },
   {
@@ -66,7 +66,7 @@
     "name": "Payment system",
     "description": "A system to make people pay",
     "codePreview": "private final TransactionService transactionService;",
-    "codeLanuguage": "Java",
+    "codeLanguage": "Java",
     "points": "200"
   },
   {
@@ -76,7 +76,7 @@
     "name": "Ticket distribution",
     "description": "Automated ticket distributor",
     "codePreview": "class Analytics { }",
-    "codeLanuguage": "Swift",
+    "codeLanguage": "Swift",
     "points": "350"
   },
   {
@@ -86,7 +86,7 @@
     "name": "Rain drop generator",
     "description": "Display generated raindrops on screen",
     "codePreview": "for (int i=0 ; i < 10 ; i++) {}",
-    "codeLanuguage": "C++",
+    "codeLanguage": "C++",
     "points": "495"
   },
   {
@@ -96,7 +96,7 @@
     "name": "Book search",
     "description": "Search books based on titles",
     "codePreview": "if (str.search(re) == -1 ) { }",
-    "codeLanuguage": "TypeScript",
+    "codeLanguage": "TypeScript",
     "points": "300"
   },
   {
@@ -106,7 +106,7 @@
     "name": "Like button",
     "description": "Enable users to like the vlog",
     "codePreview": "var x = new Boolean(false);",
-    "codeLanuguage": "JavaScript",
+    "codeLanguage": "JavaScript",
     "points": "250"
   },
   {
@@ -116,7 +116,7 @@
     "name": "Clock widget",
     "description": "A widget that displays time",
     "codePreview": "@function even($number){@return $number;}",
-    "codeLanuguage": "Sass",
+    "codeLanguage": "Sass",
     "points": "300"
   },
   {
@@ -126,7 +126,7 @@
     "name": "GBA emulator",
     "description": "Initialize emulator",
     "codePreview": "static void _unLz77(struct GBA* gba, int width);",
-    "codeLanuguage": "C",
+    "codeLanguage": "C",
     "points": "700"
   },
   {
@@ -136,7 +136,7 @@
     "name": "Buttons",
     "description": "Design the buttons",
     "codePreview": ".button {}",
-    "codeLanuguage": "CSS",
+    "codeLanguage": "CSS",
     "points": "200"
   },
   {
@@ -146,7 +146,7 @@
     "name": "Apple performance",
     "description": "Grap for iOS performance",
     "codePreview": "private func createLayers(viewport: CGRect) {}",
-    "codeLanuguage": "Swift",
+    "codeLanguage": "Swift",
     "points": "700"
   },
   {
@@ -156,7 +156,7 @@
     "name": "Display the movie cover",
     "description": "Show the image on screen",
     "codePreview": "div::before {}",
-    "codeLanuguage": "CSS",
+    "codeLanguage": "CSS",
     "points": "150"
   },
   {
@@ -166,7 +166,7 @@
     "name": "Drag and drop",
     "description": "drag and drop cards",
     "codePreview": "var myGrid = new GridList(items, { });",
-    "codeLanuguage": "JavaScript",
+    "codeLanguage": "JavaScript",
     "points": "230"
   },
   {
@@ -176,7 +176,7 @@
     "name": "Login system",
     "description": "Create the authentication part",
     "codePreview": "User user = authenticatedUserProvider.getUser();",
-    "codeLanuguage": "Java",
+    "codeLanguage": "Java",
     "points": "300"
   },
   {
@@ -186,7 +186,7 @@
     "name": "Logo themer",
     "description": "Apply different themes for logo's",
     "codePreview": ".black  { color: #346 }",
-    "codeLanuguage": "CSS",
+    "codeLanguage": "CSS",
     "points": "400"
   }
 ]
