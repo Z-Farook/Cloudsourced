@@ -90,7 +90,6 @@ const authentication = (config?: Configuration): IAuthenticationResource => {
       try {
         const response = await fetch(url, requestOptions);
         const data = await response.json();
-        console.log(data)
         return data!.data!.link;
       } catch (e) {
         errorMessage();

@@ -23,7 +23,7 @@ public class FeatureService extends BaseService<Feature, FeatureRepository> {
         User user = authenticatedUserProvider.getUser();
         Project project = projectService.getOneById(id);
 
-        if (!project.getUser().equals(user)) {
+        if (!project.getUser().getId().equals(user.getId())) {
             throw new UnauthorizedException();
         }
 

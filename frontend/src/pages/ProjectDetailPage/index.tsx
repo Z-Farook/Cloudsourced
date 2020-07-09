@@ -203,7 +203,7 @@ const ProjectDetailPage: React.FC<IProps> = (props) => {
                             ),
                             archivedAt ? (
                               <Tooltip
-                                key="isfinish"
+                                key="isarchive"
                                 title="This project is archived"
                               >
                                 <FileExclamationTwoTone

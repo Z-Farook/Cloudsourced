@@ -133,8 +133,9 @@ public class FeatureServiceTest {
 
     @Test
     public void addFeatureToProject() {
-        User user = new User();
-        user.setName("Test");
+        User user = mock(User.class);
+        when(user.getId()).thenReturn(1L);
+
 
         Feature existingFeature = new Feature();
         existingFeature.setName("Feature Exist");

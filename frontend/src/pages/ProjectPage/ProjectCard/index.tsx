@@ -39,8 +39,8 @@ const ProjectCard: React.FC<IProps> = (props) => {
         }
         title={name}
         extra={[
-          finishedAt ? <FinishedPrompt /> : "",
-          archivedAt ? <ArchivedPrompt /> : "",
+          finishedAt ? <FinishedPrompt key={1} /> : "",
+          archivedAt ? <ArchivedPrompt key={2}/> : "",
         ]}
       >
         <Meta
