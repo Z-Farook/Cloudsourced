@@ -1,0 +1,229 @@
+({
+  "email": "michelle@gmail.com",
+  "pass": "hengel",
+  "id": "1",
+  "name": "Design",
+  "description": "Design my home page",
+  "codePreview": ".header{}, .main{}, .footer{}",
+  "codeLanguage": "CSS",
+  "points": "500"
+},
+{
+  "email": "gavin@hotmail.com",
+  "pass": "hengel",
+  "id": "2",
+  "name": "Tire pressure calculator",
+  "description": "Calculate the correct tire preassure",
+  "codePreview": "const tirePressure = 0; const atmPressure = 1; const tireGauge = 18;",
+  "codeLanuguage": "JavaScript",
+  "points": "150",
+},{
+  "email": "dennis@hotmail.com",
+  "pass": "hengel",
+  "id": "3",
+  "name": "Overclocking Guide Downloader",
+  "description": "A download section to download the guide",
+  "codePreview": "<a href=\"\">",
+  "codeLanuguage": "HTML",
+  "points": "200",
+},{
+  "email": "martin@gmail.com",
+  "pass": "hengel",
+  "id": "4",
+  "name": "Auto formatter for prices",
+  "description": "Makes pretty formatted prices",
+  "codePreview": "for(c = n-1, d = 0; c >= 0; c--, d++)
+  b[d] = a[c];",
+  "codeLanuguage": "C",
+  "points": "230",
+},{
+  "email": "jjori82@hotmail.com",
+  "pass": "hengel",
+  "id": "5",
+  "name": "Photo upscaler",
+  "description": "Upscales the images for higher retail price",
+  "codePreview": "int ScaleRatio = ui->spinBox_ScaleRatio_image->value();",
+  "codeLanuguage": "C++",
+  "points": "",
+},{
+  "email": "bart@gmail.com",
+  "pass": "hengel",
+  "id": "6",
+  "name": "Game startup engine",
+  "description": "The entry point of the program",
+  "codePreview": "if [[ "$OSTYPE" == "darwin"* ]] ; then
+  LIB_EXTENSION="dylib"
+fi",
+  "codeLanuguage": "Python",
+  "points": "400",
+},{
+  "email": "zahid@hotmail.com",
+  "pass": "hengel",
+  "id": "7",
+  "name": "Payment system",
+  "description": "A system to make people pay",
+  "codePreview": "private final TransactionService transactionService;",
+  "codeLanuguage": "Java",
+  "points": "200",
+},{
+  "email": "michelle@gmail.com",
+  "pass": "hengel",
+  "id": "8",
+  "name": "Ticket distribution",
+  "description": "Automated ticket distributor",
+  "codePreview": "class Analytics {
+
+    static let shared = Analytics()
+    }",
+  "codeLanuguage": "Swift",
+  "points": "350",
+},{
+  "email": "jjori82@hotmail.com",
+  "pass": "hengel",
+  "id": "9",
+  "name": "Rain drop generator",
+  "description": "Display generated raindrops on screen",
+  "codePreview": "	for (int i=0 ; i < 10 ; i++)
+	{
+		cout << setw(5) << i+1 << setw(8) << Figures[i] << setw(6);
+		DrawAsterisk(Figures[i]);
+		cout << endl;
+	}",
+  "codeLanuguage": "C++",
+  "points": "495",
+},{
+  "email": "gerrit@gmail.com",
+  "pass": "hengel",
+  "id": "10",
+  "name": "Book search",
+  "description": "Search books based on titles",
+  "codePreview": "if (str.search(re) == -1 ) { 
+    console.log("Does not contain Apples" ); 
+ } else { 
+    console.log("Contains Apples" ); 
+ } ",
+  "codeLanuguage": "TypeScript",
+  "points": "300",
+},{
+  "email": "dennis@hotmail.com",
+  "pass": "hengel",
+  "id": "11",
+  "name": "Like button",
+  "description": "Enable users to like the vlog",
+  "codePreview": "var x = new Boolean(false);
+  if (x) {
+    // this code is executed
+  }",
+  "codeLanuguage": "JavaScript",
+  "points": "250",
+},{
+  "email": "joost2.stam@gmail.com",
+  "pass": "hengel",
+  "id": "12",
+  "name": "Clock widget",
+  "description": "A widget that displays time",
+  "codePreview": "@function even($number){
+    $number: round($number);
+    @if strip-units($number)%2 != 0{
+        $number: $number + 1;
+    }
+    @return $number;
+}",
+  "codeLanuguage": "Sass",
+  "points": "300",
+},{
+  "email": "zahid@hotmail.com",
+  "pass": "hengel",
+  "id": "13",
+  "name": "GBA emulator",
+  "description": "Initialize emulator",
+  "codePreview": "static void _unLz77(struct GBA* gba, int width);
+  static void _unHuffman(struct GBA* gba);
+  static void _unRl(struct GBA* gba, int width);
+  static void _unFilter(struct GBA* gba, int inwidth, int outwidth);
+  static void _unBitPack(struct GBA* gba);",
+  "codeLanuguage": "C",
+  "points": "700",
+},{
+  "email": "jjori82@hotmail.com",
+  "pass": "hengel",
+  "id": "14",
+  "name": "Buttons",
+  "description": "Design the buttons",
+  "codePreview": ".button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }",
+  "codeLanuguage": "CSS",
+  "points": "200",
+},{
+  "email": "gerrit@gmail.com",
+  "pass": "hengel",
+  "id": "15",
+  "name": "Apple performance",
+  "description": "Grap for iOS performance",
+  "codePreview": "    private func createLayers(viewport: CGRect) {
+    dataPointLayer = DotDrawingLayer(
+        frame: viewport,
+        fillColor: dataPointFillColor,
+        dataPointType: dataPointType,
+        dataPointSize: dataPointSize,
+        customDataPointPath: customDataPointPath)
+
+    dataPointLayer?.owner = self
+}",
+  "codeLanuguage": "Swift",
+  "points": "700",
+},{
+  "email": "gavin@hotmail.com",
+  "pass": "hengel",
+  "id": "16",
+  "name": "Display the movie cover",
+  "description": "Show the image on screen",
+  "codePreview": "div::before {
+    content: url(image.jpg);
+  }",
+  "codeLanuguage": "CSS",
+  "points": "150",
+},{
+  "email": "joost2.stam@gmail.com",
+  "pass": "hengel",
+  "id": "17",
+  "name": "Drag and drop",
+  "description": "drag and drop cards",
+  "codePreview": "var myGrid = new GridList(items, {
+    direction: 'horizontal',
+    lanes: 3
+  });",
+  "codeLanuguage": "JavaScript",
+  "points": "230",
+},{
+  "email": "bart@gmail.com",
+  "pass": "hengel",
+  "id": "18",
+  "name": "Login system",
+  "description": "Create the authentication part",
+  "codePreview": "User user = authenticatedUserProvider.getUser();",
+  "codeLanuguage": "Java",
+  "points": "300",
+},{
+  "email": "joost2.stam@gmail.com",
+  "pass": "hengel",
+  "id": "19",
+  "name": "Logo themer",
+  "description": "Apply different themes for logo's",
+  "codePreview": ".black  { color: #346 }
+  .white  { color :#fff }
+  .cyan   { color: #0df; }
+  .pink   { color: #f7b; }
+  .yellow { color: #fe1; }
+  .green  { color: #3ea; }",
+  "codeLanuguage": "CSS",
+  "points": "400",
+},)
